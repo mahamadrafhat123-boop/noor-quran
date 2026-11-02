@@ -484,7 +484,7 @@ header.topbar {
       </div>
     </header>
 
-    <!-- VIEW 1: HOME (سەرەتا) - Search is REMOVED completely here -->
+    <!-- VIEW 1: HOME (سەرەتا) -->
     <div id="view-home" class="page-view active">
       <section class="hero-banner">
         <div class="hero-text">
@@ -528,7 +528,7 @@ header.topbar {
         </div>
       </section>
 
-      <!-- Professional Features Grid (Recent & Favorites Opening Dedicated Views) -->
+      <!-- Professional Features Grid -->
       <div class="extra-features-grid">
         <div class="extra-card" onclick="switchView('view-recent')">
           <h5>🕒 دواین گوێبیستبوون</h5>
@@ -553,7 +553,7 @@ header.topbar {
       </div>
     </div>
 
-    <!-- VIEW 3: RECITERS (قارییەکان) - WITH POWERFUL SEARCH -->
+    <!-- VIEW 3: RECITERS (قارییەکان) - WITH SEARCH -->
     <div id="view-reciters" class="page-view">
       <div class="card-section">
         <div class="section-header">
@@ -575,7 +575,7 @@ header.topbar {
       </div>
     </div>
 
-    <!-- VIEW 4: QURAN READING (قورئان خوێندن) - WITH POWERFUL SEARCH -->
+    <!-- VIEW 4: QURAN READING (قورئان خوێندن) - WITH SEARCH -->
     <div id="view-reading" class="page-view">
       <div class="card-section" id="readingListContainer">
         <div class="section-header" style="margin-bottom: 12px;">
@@ -668,9 +668,7 @@ header.topbar {
           </h3>
           <button onclick="switchView('view-home')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
-        <div class="surahs-grid" id="favoritesGridContainer" style="margin-top: 15px;">
-          <!-- Favorites dynamic content -->
-        </div>
+        <div class="surahs-grid" id="favoritesGridContainer" style="margin-top: 15px;"></div>
       </div>
     </div>
 
@@ -683,9 +681,7 @@ header.topbar {
           </h3>
           <button onclick="switchView('view-home')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
-        <div class="surahs-grid" id="recentGridContainer" style="margin-top: 15px;">
-          <!-- Recent dynamic content -->
-        </div>
+        <div class="surahs-grid" id="recentGridContainer" style="margin-top: 15px;"></div>
       </div>
     </div>
 
@@ -1094,7 +1090,6 @@ function playSurahAudio(id, name) {
 
   localStorage.setItem('noor_last_surah', name);
   
-  // Add to recent list (avoid duplicates, keep top 10)
   recentList = recentList.filter(item => item.id !== id);
   recentList.unshift({ id, name });
   if(recentList.length > 10) recentList.pop();
@@ -1167,8 +1162,10 @@ function playAmbient(type) {
   const ambAudio = document.getElementById('ambientAudio');
   ambAudio.src = natureAudioFiles[type];
   ambAudio.style.display = 'block';
+  
+  // Safe Play for Mobile with Error Catching
   ambAudio.play().catch(() => {
-    alert('هەڵەیەک ڕوویدا لە لێدانی دەنگەکە.');
+    console.warn("دەنگی سروشتی لەسەر مۆبایل پێویستی بە کرتەکردنی دووەم هەیە یان پەیوەندی هێڵ پچڕاوە.");
   });
 
   if(natureSoundFiles[type]) {
@@ -1188,6 +1185,7 @@ function playHandrenTafseer() {
   tafseerAudioElement.play().then(() => {
     // Playing 85784.mp3 successfully
   }).catch(() => {
+    // Silent catch to prevent mobile alert popup errors if file is missing locally
     if(wasPlaying) {
       audioElement.play().catch(()=>{});
       document.getElementById('mainPlayBtn').textContent = '⏸️';
