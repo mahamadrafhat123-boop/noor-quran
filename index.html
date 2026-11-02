@@ -192,9 +192,9 @@ header.topbar {
   transform: translateX(30px);
 }
 
-/* Global Search Box */
-.global-search-container {
-  margin: 15px 0;
+/* Search Box Container */
+.search-container-box {
+  margin-bottom: 15px;
   width: 100%;
 }
 .reciter-search-box { position: relative; width: 100%; }
@@ -206,7 +206,7 @@ header.topbar {
 .reciter-search-box input:focus { border-color: var(--gold); }
 .reciter-search-box span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
 
-/* Hero Banner & Player Layout (Fixed & Clean) */
+/* Hero Banner & Player Layout */
 .hero-banner {
   margin-top: 10px; border-radius: 20px;
   background: var(--glass-bg);
@@ -253,12 +253,29 @@ header.topbar {
   -webkit-appearance: none; appearance: none; width: 12px; height: 12px;
   border-radius: 50%; background: var(--gold); cursor: pointer;
 }
-.player-buttons { display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 5px; }
+.player-buttons { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 5px; }
 .player-buttons .btn-play-main {
   width: 44px; height: 44px; background: linear-gradient(135deg, #e6ca83, #b48c43);
   color: #0a1825; display: grid; place-items: center; border-radius: 50%; font-size: 18px;
   box-shadow: 0 4px 12px rgba(216,182,106,0.3);
 }
+.speed-select {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--gold2);
+  border-radius: 8px; padding: 4px 8px; font-size: 11px; outline: none; cursor: pointer;
+}
+
+/* Professional Extra Cards (Recent & Favorites) */
+.extra-features-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; width: 100%;
+}
+.extra-card {
+  background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  cursor: pointer; transition: 0.2s;
+}
+.extra-card:hover { border-color: var(--gold); background: rgba(216, 182, 106, 0.1); }
+.extra-card h5 { margin: 0 0 8px; font-size: 13px; color: var(--gold2); font-family: 'Amiri', serif; display: flex; align-items: center; gap: 6px; }
+.extra-card p { margin: 0; font-size: 11px; color: var(--muted); }
 
 /* Content Grid */
 .card-section {
@@ -305,11 +322,15 @@ header.topbar {
 .surah-card {
   background: var(--glass-bg); border: 1px solid var(--glass-border);
   border-radius: 16px; padding: 14px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s;
-  width: 100%;
+  width: 100%; position: relative;
 }
 .surah-card:hover, .surah-card.active { border-color: var(--gold); background: rgba(216, 182, 106, 0.12); }
 .surah-card h5 { margin: 0; font-size: 14px; color: var(--gold2); font-family: 'Amiri', serif; }
 .surah-card small { color: var(--muted); font-size: 10px; }
+.btn-fav {
+  position: absolute; top: 8px; left: 8px; background: none; border: none; font-size: 14px; cursor: pointer; color: var(--muted);
+}
+.btn-fav.active { color: #ff4757; }
 
 .reciters-list { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; width: 100%; }
 .reciter-item {
@@ -402,6 +423,7 @@ header.topbar {
   .surahs-grid { grid-template-columns: repeat(2, 1fr); max-height: 450px; }
   .nature-sounds-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .nature-sound-item[style*="grid-column"] { grid-column: span 2 !important; }
+  .extra-features-grid { grid-template-columns: 1fr; }
 }
 
 @media(max-width: 480px) {
@@ -462,15 +484,7 @@ header.topbar {
       </div>
     </header>
 
-    <!-- Global Search Box -->
-    <div class="global-search-container">
-      <div class="reciter-search-box">
-        <span>🔍</span>
-        <input type="text" id="globalSearchInput" placeholder="گەڕان بەدوای سوورەت، قاری یان بابەت...">
-      </div>
-    </div>
-
-    <!-- VIEW 1: HOME (سەرەتا) -->
+    <!-- VIEW 1: HOME (سەرەتا) - Search is REMOVED completely here -->
     <div id="view-home" class="page-view active">
       <section class="hero-banner">
         <div class="hero-text">
@@ -500,11 +514,31 @@ header.topbar {
             
             <div class="player-buttons">
               <button class="btn-play-main" id="mainPlayBtn" onclick="togglePlay()">▶</button>
+              <select id="playbackSpeed" class="speed-select" onchange="changeSpeed(this)">
+                <option value="1">1.0x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2.0x</option>
+              </select>
             </div>
           </div>
+
           <audio id="audioElement" preload="none"></audio>
+          <audio id="tafseerAudioElement" preload="none" style="display:none;"></audio>
         </div>
       </section>
+
+      <!-- Professional Features Grid (Recent & Favorites Opening Dedicated Views) -->
+      <div class="extra-features-grid">
+        <div class="extra-card" onclick="switchView('view-recent')">
+          <h5>🕒 دواین گوێبیستبوون</h5>
+          <p id="recentPlayedTxt">هیچ سوورەتێک لێنەدراوە</p>
+        </div>
+        <div class="extra-card" onclick="switchView('view-favorites')">
+          <h5>❤️ سوورەتە دڵخوازەکان</h5>
+          <p id="favListTxt">هیچ سوورەتێک نەکراوەتە دڵخواز</p>
+        </div>
+      </div>
     </div>
 
     <!-- VIEW 2: SURAHS (سوورەتەکان) -->
@@ -519,7 +553,7 @@ header.topbar {
       </div>
     </div>
 
-    <!-- VIEW 3: RECITERS (قارییەکان) -->
+    <!-- VIEW 3: RECITERS (قارییەکان) - WITH POWERFUL SEARCH -->
     <div id="view-reciters" class="page-view">
       <div class="card-section">
         <div class="section-header">
@@ -528,22 +562,10 @@ header.topbar {
           </h3>
         </div>
 
-        <div class="country-section-box">
-          <div class="country-section-header">
-            <span class="country-title">من كازاخستان</span>
-            <button class="btn-view-all" onclick="openCountryModal('کاخستان')">عرض الكل</button>
-          </div>
-          <div class="country-reciters-row">
-            <div class="country-reciter-card">
-              <div class="country-reciter-avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80');"></div>
-              <h6>إركيبك شوكي</h6>
-              <small>قاری</small>
-            </div>
-            <div class="country-reciter-card">
-              <div class="country-reciter-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80');"></div>
-              <h6>إخلاص صالح</h6>
-              <small>قاری</small>
-            </div>
+        <div class="search-container-box">
+          <div class="reciter-search-box">
+            <span>🔍</span>
+            <input type="text" id="reciterSearchInput" placeholder="گەڕان بەدوای ناوی قاری...">
           </div>
         </div>
 
@@ -553,13 +575,20 @@ header.topbar {
       </div>
     </div>
 
-    <!-- VIEW 4: QURAN READING (قورئان خوێندن) -->
+    <!-- VIEW 4: QURAN READING (قورئان خوێندن) - WITH POWERFUL SEARCH -->
     <div id="view-reading" class="page-view">
       <div class="card-section" id="readingListContainer">
         <div class="section-header" style="margin-bottom: 12px;">
           <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">
             <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="width:22px; height:22px;" /> قورئان خوێندن
           </h3>
+        </div>
+
+        <div class="search-container-box">
+          <div class="reciter-search-box">
+            <span>🔍</span>
+            <input type="text" id="readingSearchInput" placeholder="گەڕان بەدوای سوورەت بۆ خوێندنەوە...">
+          </div>
         </div>
 
         <div class="surahs-grid" id="readingSurahGrid">
@@ -590,8 +619,6 @@ header.topbar {
     <!-- VIEW 5: SOUNDS (دەنگە سروشتییەکان) -->
     <div id="view-sounds" class="page-view">
       <div class="card-section" style="padding: 25px;">
-        
-        <!-- Nature Sounds Section -->
         <div class="nature-sounds-section">
           <h4 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 22px; margin: 0 0 5px; text-align: center;">دەنگە سروشتییەکان</h4>
           <p style="text-align: center; color: var(--muted); font-size: 12px; margin: 0 0 20px;">گوێ لە دەنگە ئارامبەرەکانی سروشت بگرە</p>
@@ -629,7 +656,36 @@ header.topbar {
           </div>
           <audio id="ambientAudio" controls loop style="width:100%; margin-top:20px; display:none;"></audio>
         </div>
+      </div>
+    </div>
 
+    <!-- VIEW 6: FAVORITES DEDICATED PAGE -->
+    <div id="view-favorites" class="page-view">
+      <div class="card-section">
+        <div class="section-header">
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">
+            ❤️ سوورەتە دڵخوازەکانم
+          </h3>
+          <button onclick="switchView('view-home')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
+        </div>
+        <div class="surahs-grid" id="favoritesGridContainer" style="margin-top: 15px;">
+          <!-- Favorites dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 7: RECENT PLAYED DEDICATED PAGE -->
+    <div id="view-recent" class="page-view">
+      <div class="card-section">
+        <div class="section-header">
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">
+            🕒 دواین گوێبیستەکان
+          </h3>
+          <button onclick="switchView('view-home')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
+        </div>
+        <div class="surahs-grid" id="recentGridContainer" style="margin-top: 15px;">
+          <!-- Recent dynamic content -->
+        </div>
       </div>
     </div>
 
@@ -675,7 +731,8 @@ let recitersData = [];
 let selectedMoshaf = null;
 let currentSurahId = 1;
 const audioElement = document.getElementById('audioElement');
-audioElement.volume = 0.25; // Set Quran volume lower so nature and rain sounds are balanced and clear
+const tafseerAudioElement = document.getElementById('tafseerAudioElement');
+audioElement.volume = 0.25; 
 const seekSlider = document.getElementById('seekSlider');
 const pad = n => String(n).padStart(3, '0');
 
@@ -684,6 +741,8 @@ let currentReadingPage = 1;
 const ayahsPerPage = 8;
 let currentReadingSurahName = '';
 let currentSurahNumber = 1;
+let favorites = JSON.parse(localStorage.getItem('noor_favorites') || '[]');
+let recentList = JSON.parse(localStorage.getItem('noor_recent_list') || '[]');
 
 function toggleThemeCheckbox(checkbox) {
   const htmlRoot = document.getElementById('htmlRoot');
@@ -716,6 +775,10 @@ function switchView(viewId) {
   } else if(viewId === 'view-sounds') {
     document.getElementById('navBtnSounds').classList.add('active');
     document.getElementById('menuSounds').classList.add('active');
+  } else if(viewId === 'view-favorites') {
+    renderFavoritesPage();
+  } else if(viewId === 'view-recent') {
+    renderRecentPage();
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -735,6 +798,7 @@ async function loadData() {
     renderSurahs(surahsData);
     renderReadingSurahsList(surahsData);
     renderUniqueReciters(recitersData);
+    updateHomeExtraInfo();
   } catch (err) {
     console.error(err);
   }
@@ -747,10 +811,12 @@ function renderSurahs(items) {
     const id = Number(s.id || s.surah_id);
     const name = s.name || s.surah_name || `سوورەت ${id}`;
     const count = s.ayahs || s.ayah_count || 0;
+    const isFav = favorites.includes(id);
 
     const div = document.createElement('div');
     div.className = 'surah-card';
     div.innerHTML = `
+      <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, ${id}, '${name}')">♥</button>
       <h5>${name}</h5>
       <small>${name} ${count ? count : ''}</small>
     `;
@@ -760,6 +826,87 @@ function renderSurahs(items) {
     });
     container.appendChild(div);
   });
+}
+
+function toggleFavorite(event, id, name) {
+  event.stopPropagation();
+  const index = favorites.indexOf(id);
+  if(index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.setItem('noor_favorites', JSON.stringify(favorites));
+  renderSurahs(surahsData);
+  if(document.getElementById('view-favorites').classList.contains('active')) {
+    renderFavoritesPage();
+  }
+  updateHomeExtraInfo();
+}
+
+function renderFavoritesPage() {
+  const container = document.getElementById('favoritesGridContainer');
+  container.innerHTML = '';
+  const favSurahs = surahsData.filter(s => favorites.includes(Number(s.id || s.surah_id)));
+
+  if(favSurahs.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted); font-size:12px; text-align:center; padding:25px; grid-column:span 3;">هیچ سوورەتێک نەکراوەتە دڵخواز</div>';
+    return;
+  }
+
+  favSurahs.forEach(s => {
+    const id = Number(s.id || s.surah_id);
+    const name = s.name || s.surah_name || `سوورەت ${id}`;
+    const count = s.ayahs || s.ayah_count || 0;
+
+    const div = document.createElement('div');
+    div.className = 'surah-card';
+    div.innerHTML = `
+      <button class="btn-fav active" onclick="toggleFavorite(event, ${id}, '${name}')">♥</button>
+      <h5>${name}</h5>
+      <small>${name} ${count ? count : ''}</small>
+    `;
+    div.addEventListener('click', () => {
+      playSurahAudio(id, name);
+      switchView('view-home');
+    });
+    container.appendChild(div);
+  });
+}
+
+function renderRecentPage() {
+  const container = document.getElementById('recentGridContainer');
+  container.innerHTML = '';
+
+  if(recentList.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted); font-size:12px; text-align:center; padding:25px; grid-column:span 3;">هیچ سوورەتێک لێنەدراوە</div>';
+    return;
+  }
+
+  recentList.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'surah-card';
+    div.innerHTML = `
+      <h5>${item.name}</h5>
+      <small>گوێبیستبوون</small>
+    `;
+    div.addEventListener('click', () => {
+      playSurahAudio(item.id, item.name);
+      switchView('view-home');
+    });
+    container.appendChild(div);
+  });
+}
+
+function updateHomeExtraInfo() {
+  const lastPlayed = localStorage.getItem('noor_last_surah') || 'هیچ سوورەتێک لێنەدراوە';
+  document.getElementById('recentPlayedTxt').textContent = lastPlayed;
+  
+  if(favorites.length > 0) {
+    document.getElementById('favListTxt').textContent = `${favorites.length} سوورەت خەزن کراوە`;
+  } else {
+    document.getElementById('favListTxt').textContent = 'هیچ سوورەتێک نەکراوەتە دڵخواز';
+  }
 }
 
 function renderReadingSurahsList(items) {
@@ -798,7 +945,7 @@ async function openSurahReader(surahId, surahName) {
     const data = await res.json();
     if(data.code === 200) {
       currentAyahs = data.data.ayahs;
-      currentReadingPage = 1;
+      currentReadingPage = Number(localStorage.getItem(`reading_page_${surahId}`)) || 1;
       renderReadingPageContent();
     } else {
       contentEl.innerHTML = 'هەڵەیەک ڕوویدا لە بارکردنی دەقەکە.';
@@ -831,6 +978,8 @@ function renderReadingPageContent() {
   
   document.getElementById('prevPageBtn').style.visibility = currentReadingPage === 1 ? 'hidden' : 'visible';
   document.getElementById('nextPageBtn').style.visibility = currentReadingPage >= totalPages ? 'hidden' : 'visible';
+
+  localStorage.setItem(`reading_page_${currentSurahNumber}`, currentReadingPage);
 }
 
 function nextReadingPage() {
@@ -868,6 +1017,7 @@ function renderUniqueReciters(reciters) {
     }
   });
 
+  window.allValidReciters = validReciters;
   displayRecitersList(validReciters);
 
   const savedReciterName = localStorage.getItem('noor_reciter_name');
@@ -939,7 +1089,18 @@ function playSurahAudio(id, name) {
   audioElement.src = selectedMoshaf.server + pad(id) + '.mp3';
   audioElement.play().then(() => {
     document.getElementById('mainPlayBtn').textContent = '⏸️';
+    playHandrenTafseer();
   }).catch(() => {});
+
+  localStorage.setItem('noor_last_surah', name);
+  
+  // Add to recent list (avoid duplicates, keep top 10)
+  recentList = recentList.filter(item => item.id !== id);
+  recentList.unshift({ id, name });
+  if(recentList.length > 10) recentList.pop();
+  localStorage.setItem('noor_recent_list', JSON.stringify(recentList));
+
+  updateHomeExtraInfo();
 }
 
 function togglePlay() {
@@ -954,6 +1115,10 @@ function togglePlay() {
     audioElement.pause();
     document.getElementById('mainPlayBtn').textContent = '▶';
   }
+}
+
+function changeSpeed(select) {
+  audioElement.playbackRate = parseFloat(select.value);
 }
 
 audioElement.addEventListener('timeupdate', () => {
@@ -982,10 +1147,6 @@ function formatTime(secs) {
 }
 function padZero(n) { return n < 10 ? '0' + n : n; }
 
-function openCountryModal(countryName) {
-  alert(`نیشاندانی هەموو قورئانخوێنانی وڵاتی: ${countryName}`);
-}
-
 const natureSoundFiles = {
   fire: 'https://images.unsplash.com/photo-1508873696983-2df5c92063c7?auto=format&fit=crop&w=1600&q=80',
   river: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
@@ -995,11 +1156,11 @@ const natureSoundFiles = {
 };
 
 const natureAudioFiles = {
-  fire: 'https://actions.google.com/sounds/v1/ambiences/campfire.ogg',
-  river: 'https://actions.google.com/sounds/v1/water/gentle_stream.ogg',
-  rain: 'https://actions.google.com/sounds/v1/weather/rain_heavy.ogg',
-  wind: 'https://actions.google.com/sounds/v1/weather/wind_heavy.ogg',
-  thunder: 'https://actions.google.com/sounds/v1/weather/thunderstorm.ogg'
+  fire: 'https://archive.org/download/campfire-crackling-sound-effect/Campfire%20Crackling%20Sound%20Effect.mp3',
+  river: 'https://archive.org/download/gentle-river-stream-water-sound-effect/Gentle%20River%20Stream%20Water%20Sound%20Effect.mp3',
+  rain: 'https://archive.org/download/heavy-rain-sound-effect/Heavy%20Rain%20Sound%20Effect.mp3',
+  wind: 'https://archive.org/download/wind-sound-effect-free/Wind%20Sound%20Effect.mp3',
+  thunder: 'https://archive.org/download/thunderstorm-sound-effect/Thunderstorm%20Sound%20Effect.mp3'
 };
 
 function playAmbient(type) {
@@ -1015,28 +1176,47 @@ function playAmbient(type) {
   }
 }
 
-document.getElementById('globalSearchInput').addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase();
+function playHandrenTafseer() {
+  const wasPlaying = !audioElement.paused;
+  if(wasPlaying) {
+    audioElement.pause();
+    document.getElementById('mainPlayBtn').textContent = '▶';
+  }
+
+  tafseerAudioElement.src = '85784.mp3';
   
-  const filteredSurahs = surahsData.filter(s => 
+  tafseerAudioElement.play().then(() => {
+    // Playing 85784.mp3 successfully
+  }).catch(() => {
+    if(wasPlaying) {
+      audioElement.play().catch(()=>{});
+      document.getElementById('mainPlayBtn').textContent = '⏸️';
+    }
+  });
+
+  tafseerAudioElement.onended = () => {
+    if(wasPlaying) {
+      audioElement.play().catch(()=>{});
+      document.getElementById('mainPlayBtn').textContent = '⏸️';
+    }
+  };
+}
+
+// Powerful Reciter Search
+document.getElementById('reciterSearchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const filtered = (window.allValidReciters || []).filter(r => r.name.toLowerCase().includes(query));
+  displayRecitersList(filtered);
+});
+
+// Powerful Reading/Surah Search
+document.getElementById('readingSearchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const filtered = surahsData.filter(s => 
     (s.name || '').toLowerCase().includes(query) || 
     String(s.id).includes(query)
   );
-  renderSurahs(filteredSurahs);
-  renderReadingSurahsList(filteredSurahs);
-
-  const seenNames = new Set();
-  let validReciters = [];
-  recitersData.forEach(reciter => {
-    if (!seenNames.has(reciter.name)) {
-      seenNames.add(reciter.name);
-      if (reciter.moshaf && reciter.moshaf.length > 0) {
-        validReciters.push(reciter);
-      }
-    }
-  });
-  const filteredReciters = validReciters.filter(r => r.name.toLowerCase().includes(query));
-  displayRecitersList(filteredReciters);
+  renderReadingSurahsList(filtered);
 });
 
 loadData();
