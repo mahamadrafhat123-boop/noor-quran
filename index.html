@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
+<!-- LocalForage Library for better IndexedDB handling on mobile -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
 
@@ -357,31 +360,12 @@ header.topbar {
 .btn-play-sound { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--gold2); padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-play-sound:hover { background: var(--gold); color: #0a1825; }
 
-/* Bottom Navigation Stack */
-.bottom-nav-container { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 95; width: 94%; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
-.floating-player-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 12px 20px; border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); width: 100%; direction: ltr; cursor: pointer; transition: 0.3s ease; }
-.floating-player-bar:hover { border-color: var(--gold); transform: translateY(-3px); }
-.fp-left-controls { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.fp-icon-btn { background: none; border: none; color: #ffffff; padding: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s ease; }
-.fp-icon-btn:hover { transform: scale(1.15); opacity: 0.85; }
-.fp-icon-btn svg { width: 24px; height: 24px; fill: currentColor; }
-.speed-select { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; border-radius: 99px; padding: 3px 8px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer; }
-.speed-select option { background: #050a10; color: #fff; }
-.fp-right-details { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; direction: rtl; }
-.fp-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.fp-meta-row h4 { margin: 0; color: #ffffff; font-size: 15px; font-weight: 700; font-family: 'Amiri', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fp-meta-row small { color: var(--gold2); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fp-timeline-row { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.65); direction: ltr; }
-.timeline-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 5px; background: rgba(255, 255, 255, 0.25); border-radius: 99px; outline: none; cursor: pointer; width: 100%; }
-.timeline-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); cursor: pointer; box-shadow: 0 0 6px rgba(240, 213, 140, 0.8); }
-
-.bottom-nav-bar { display: flex; justify-content: space-around; align-items: center; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); width: 100%; }
-.bottom-nav-item { position: relative; cursor: pointer; padding: 7px 14px; border-radius: 30px; background: transparent; border: 1px solid transparent; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: rgba(255, 255, 255, 0.75); min-width: 65px; }
-.bottom-nav-item img, .bottom-nav-item svg { width: 22px; height: 22px; display: block; filter: brightness(1); transition: 0.3s; }
-.bottom-nav-label { font-size: 11px; font-weight: 600; color: #ffffff; white-space: nowrap; transition: 0.3s; opacity: 0.85; }
-.bottom-nav-item:hover, .bottom-nav-item.active { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.38); box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.35); }
-.bottom-nav-item.active img, .bottom-nav-item.active svg { filter: brightness(1) invert(0.2) sepia(1) saturate(5) hue-rotate(15deg); }
-.bottom-nav-item.active .bottom-nav-label { opacity: 1; color: var(--gold2); }
+/* Card Actions for Play & Delete */
+.card-actions-row { display: flex; gap: 8px; margin-top: 10px; width: 100%; justify-content: center; flex-wrap: wrap; }
+.btn-card-action { background: rgba(240, 213, 140, 0.15); border: 1px solid var(--gold); color: var(--gold2); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-card-action:hover { background: var(--gold); color: #050a10; }
+.btn-card-delete { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-card-delete:hover { background: rgba(255,255,255,0.3); color: #000; }
 
 /* Hidden Admin Panel Styles */
 #secretAdminPanel {
@@ -403,6 +387,33 @@ header.topbar {
 .btn-del { background: rgba(255,50,50,0.2); color: #ffcccc; border: 1px solid rgba(255,50,50,0.5); }
 .btn-close { background: rgba(255,255,255,0.1); color: #fff; border: none; }
 
+/* Bottom Navigation Stack */
+.bottom-nav-container { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 95; width: 94%; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
+.floating-player-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 12px 20px; border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); width: 100%; direction: ltr; cursor: pointer; transition: 0.3s ease; }
+.floating-player-bar:hover { border-color: var(--gold); transform: translateY(-3px); }
+.fp-left-controls { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.fp-icon-btn { background: none; border: none; color: #ffffff; padding: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s ease; }
+.fp-icon-btn:hover { transform: scale(1.15); opacity: 0.85; }
+.fp-icon-btn svg { width: 24px; height: 24px; fill: currentColor; }
+.speed-select { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; border-radius: 99px; padding: 3px 8px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer; }
+.speed-select option { background: #050a10; color: #fff; }
+.fp-right-details { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; direction: rtl; }
+.fp-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.fp-meta-row h4 { margin: 0; color: #ffffff; font-size: 15px; font-weight: 700; font-family: 'Amiri', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fp-meta-row small { color: var(--gold2); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fp-timeline-row { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.7); direction: ltr; }
+.timeline-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 5px; background: rgba(255, 255, 255, 0.25); border-radius: 99px; outline: none; cursor: pointer; width: 100%; }
+.timeline-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); cursor: pointer; box-shadow: 0 0 6px rgba(240, 213, 140, 0.8); }
+
+/* Bottom Nav */
+.bottom-nav-bar { display: flex; justify-content: space-around; align-items: center; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); width: 100%; }
+.bottom-nav-item { position: relative; cursor: pointer; padding: 7px 14px; border-radius: 30px; background: transparent; border: 1px solid transparent; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: rgba(255, 255, 255, 0.75); min-width: 65px; }
+.bottom-nav-item img, .bottom-nav-item svg { width: 22px; height: 22px; display: block; filter: brightness(1); transition: 0.3s; }
+.bottom-nav-label { font-size: 11px; font-weight: 600; color: #ffffff; white-space: nowrap; transition: 0.3s; opacity: 0.85; }
+.bottom-nav-item:hover, .bottom-nav-item.active { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.38); box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.35); }
+.bottom-nav-item.active img, .bottom-nav-item.active svg { filter: brightness(1) invert(0.2) sepia(1) saturate(5) hue-rotate(15deg); }
+.bottom-nav-item.active .bottom-nav-label { opacity: 1; color: var(--gold2); }
+
 /* Responsive Adjustments */
 @media(max-width: 900px) {
   .app-layout { flex-direction: column; width: 100%; }
@@ -412,7 +423,6 @@ header.topbar {
   .nature-sounds-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .nature-sound-item[style*="grid-column"] { grid-column: span 2 !important; }
 }
-
 @media(max-width: 480px) {
   .topbar-btn .tb-text { display: none; }
   .topbar-btn { padding: 6px; border-radius: 50%; width: 34px; height: 34px; justify-content: center; }
@@ -439,7 +449,7 @@ header.topbar {
 </div>
 <div class="bg-overlay"></div>
 
-<!-- HIDDEN CUSTOM MP3 MANAGER -->
+<!-- HIDDEN CUSTOM MP3 MANAGER (Works on Mobile now via LocalForage) -->
 <div id="secretAdminPanel">
   <h3>بەڕێوەبردنی دەنگەکان (تایبەت)</h3>
   <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت.</p>
@@ -459,10 +469,8 @@ header.topbar {
   <aside class="sidebar">
     <div>
       <div class="sidebar-brand">
-        <!-- Secret click trigger on the moon logo -->
         <div class="mark" onclick="handleSecretClick()" title="Logo">☾</div>
         <div>
-          <!-- Secret click trigger on the text -->
           <h1 onclick="handleSecretClick()">NOOR QURAN</h1>
           <small id="subBrandTxt">نووری قورئان · ئارامی بۆ دڵ</small>
         </div>
@@ -491,7 +499,7 @@ header.topbar {
   <!-- Main Content -->
   <main class="main-content">
     
-    <!-- Topbar with mobile NOOR QURAN text for secret trigger -->
+    <!-- Topbar -->
     <header class="topbar" style="justify-content: space-between;">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
@@ -511,7 +519,6 @@ header.topbar {
               بەڕاستی خودا حاڵی هیچ گەل و کۆمەڵێک ناگۆڕێت، تاوەکو ئەوان خۆیان ناخی خۆیان نەگۆڕن. چونکە گەورەترین گۆڕانکاری و خۆبنیادنان بۆ دروستکردنی ژیانێکی باشتر، لە ناخی مرۆڤ خۆیەوە سەرچاوە دەگرێت.
             </div>
           </div>
-          
           <div class="quote-slide">
             <div class="quran-ayah">﴿وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا﴾</div>
             <div class="quote-meaning">
@@ -903,66 +910,37 @@ header.topbar {
 
 <script>
 /* ========================================================
-   IndexedDB Local Audio Management (Secret Panel Logic)
+   LocalForage File Manager (Secret Panel Logic)
+   - Using localForage to properly save MP3 Blob files on Mobile
    ======================================================== */
-// ڕێگەی شاراوە بۆ بەکارهێنانی فایلە دەنگییەکان: سەرەتا دەبێت بکرێن بە Base64 پاشان خەزن بکرێن
-let db;
-const dbReq = indexedDB.open("NoorQuranDB_v2", 1);
-dbReq.onupgradeneeded = (e) => {
-    db = e.target.result;
-    if (!db.objectStoreNames.contains('customAudioStore')) {
-        db.createObjectStore('customAudioStore', { keyPath: 'id' });
-    }
-};
-dbReq.onsuccess = (e) => { db = e.target.result; };
+const customAudioStore = localforage.createInstance({
+  name: "NoorQuranFiles",
+  storeName: "CustomAudios"
+});
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-async function saveCustomAudio(reciterName, surahId, fileBlob) {
-    if (!db) return alert("سێرڤەری لۆکاڵی ئامادە نییە");
-    
-    // Convert Blob to Base64 String so it stays permanently in IndexedDB
-    const base64Audio = await getBase64(fileBlob);
-    
-    const tx = db.transaction("customAudioStore", "readwrite");
-    const store = tx.objectStore("customAudioStore");
-    store.put({ id: `${reciterName}_${surahId}`, audioData: base64Audio });
-    
-    tx.oncomplete = () => alert("فایلەکە بە سەرکەوتوویی پاشەکەوت کرا و دەتوانیت کاری پێبکەیت!");
-    tx.onerror = () => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن");
+function saveCustomAudio(reciterName, surahId, fileBlob) {
+    customAudioStore.setItem(`${reciterName}_${surahId}`, fileBlob)
+      .then(() => alert("فایلەکە بە سەرکەوتوویی پاشەکەوت کرا و دەتوانیت کاری پێبکەیت!"))
+      .catch(err => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err));
 }
 
 function getCustomAudio(reciterName, surahId, callback) {
-    if (!db) { callback(null); return; }
-    const tx = db.transaction("customAudioStore", "readonly");
-    const store = tx.objectStore("customAudioStore");
-    const req = store.get(`${reciterName}_${surahId}`);
-    
-    req.onsuccess = () => {
-        if (req.result && req.result.audioData) {
-            callback(req.result.audioData); // Returns Base64 Data URL directly
-        } else {
+    customAudioStore.getItem(`${reciterName}_${surahId}`)
+      .then(blob => {
+         if(blob) {
+            callback(URL.createObjectURL(blob));
+         } else {
             callback(null);
-        }
-    };
-    req.onerror = () => callback(null);
+         }
+      })
+      .catch(() => callback(null));
 }
 
 function removeSecretAudio() {
-    if(!db) return;
     const reciterName = document.getElementById('secretReciter').value;
     const surahId = document.getElementById('secretSurah').value;
-    const tx = db.transaction("customAudioStore", "readwrite");
-    const store = tx.objectStore("customAudioStore");
-    store.delete(`${reciterName}_${surahId}`);
-    tx.oncomplete = () => alert("فایلە شاراوەکە بە سەرکەوتوویی سڕرایەوە");
+    customAudioStore.removeItem(`${reciterName}_${surahId}`)
+      .then(() => alert("فایلە شاراوەکە بە سەرکەوتوویی سڕرایەوە"));
 }
 
 function saveSecretAudio() {
@@ -1027,7 +1005,7 @@ const customReciters = [
 ];
 
 let selectedMoshaf = null;
-let selectedReciterName = ""; // Track reciter name for IndexedDB
+let selectedReciterName = ""; 
 let currentSurahId = 1;
 
 const audioElement = document.getElementById('audioElement');
@@ -1783,14 +1761,6 @@ function renderReadingSurahsList(items) {
   });
 }
 
-/* Feature: Resize font */
-function changeFontSize(amount) {
-  currentFontSize += amount;
-  if(currentFontSize < 16) currentFontSize = 16;
-  if(currentFontSize > 40) currentFontSize = 40;
-  document.getElementById('mushafContent').style.fontSize = currentFontSize + 'px';
-}
-
 /* Feature: Toggle Kurdish Translation */
 function toggleTranslation() {
   showTranslation = !showTranslation;
@@ -1857,7 +1827,6 @@ function renderReadingPageContent() {
         text = text.replace(bismillahRegex, '').trim();
     }
     
-    // وەرگێڕانی کوردی ئەگەر هەڵکرابێت
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
        kurdishHtml = `<div class="mushaf-translation">${pageKurdishAyahs[index].text}</div>`;
@@ -1874,7 +1843,6 @@ function renderReadingPageContent() {
   document.getElementById('sidePrevBtn').style.visibility = currentReadingPage === 1 ? 'hidden' : 'visible';
   document.getElementById('sideNextBtn').style.visibility = currentReadingPage >= totalPages ? 'hidden' : 'visible';
 
-  // Bookmark specific Surah Page
   localStorage.setItem(`reading_page_${currentSurahNumber}`, currentReadingPage);
 }
 
@@ -1970,7 +1938,6 @@ function displayRecitersList(recitersList) {
     container.appendChild(item);
   });
   
-  // Set default reciter initially
   if(!selectedMoshaf && recitersList.length > 0) {
      selectedMoshaf = recitersList[0].moshaf[0];
      selectedReciterName = recitersList[0].name;
