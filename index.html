@@ -201,7 +201,7 @@ header.topbar {
 .reciter-search-box input:focus { border-color: var(--gold); }
 .reciter-search-box span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
 
-/* Hero Banner */
+/* Hero Banner (Dynamic Quote Slider) */
 .hero-banner {
   margin-top: 15px; border-radius: 28px;
   background: var(--glass-bg); border: 1px solid var(--glass-border);
@@ -371,7 +371,7 @@ header.topbar {
 .fp-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .fp-meta-row h4 { margin: 0; color: #ffffff; font-size: 15px; font-weight: 700; font-family: 'Amiri', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fp-meta-row small { color: var(--gold2); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fp-timeline-row { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.7); direction: ltr; }
+.fp-timeline-row { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 500; color: rgba(255, 255, 255, 0.65); direction: ltr; }
 .timeline-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 5px; background: rgba(255, 255, 255, 0.25); border-radius: 99px; outline: none; cursor: pointer; width: 100%; }
 .timeline-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); cursor: pointer; box-shadow: 0 0 6px rgba(240, 213, 140, 0.8); }
 
@@ -412,6 +412,7 @@ header.topbar {
   .nature-sounds-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .nature-sound-item[style*="grid-column"] { grid-column: span 2 !important; }
 }
+
 @media(max-width: 480px) {
   .topbar-btn .tb-text { display: none; }
   .topbar-btn { padding: 6px; border-radius: 50%; width: 34px; height: 34px; justify-content: center; }
@@ -431,7 +432,7 @@ header.topbar {
 </head>
 <body>
 
-<!-- Dynamic Background Slider (Fades every 3 seconds) -->
+<!-- Dynamic Background Slider -->
 <div id="mainBackgroundSlider">
   <div class="bg-slide active" style="background-image: url('98767.png');"></div>
   <div class="bg-slide" style="background-image: url('58751.png');"></div>
@@ -441,7 +442,7 @@ header.topbar {
 <!-- HIDDEN CUSTOM MP3 MANAGER -->
 <div id="secretAdminPanel">
   <h3>بەڕێوەبردنی دەنگەکان (تایبەت)</h3>
-  <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت. فایلەکە لۆکاڵی خەزن دەبێت.</p>
+  <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت.</p>
   
   <select id="secretReciter"></select>
   <select id="secretSurah"></select>
@@ -510,6 +511,7 @@ header.topbar {
               بەڕاستی خودا حاڵی هیچ گەل و کۆمەڵێک ناگۆڕێت، تاوەکو ئەوان خۆیان ناخی خۆیان نەگۆڕن. چونکە گەورەترین گۆڕانکاری و خۆبنیادنان بۆ دروستکردنی ژیانێکی باشتر، لە ناخی مرۆڤ خۆیەوە سەرچاوە دەگرێت.
             </div>
           </div>
+          
           <div class="quote-slide">
             <div class="quran-ayah">﴿وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا﴾</div>
             <div class="quote-meaning">
@@ -903,33 +905,49 @@ header.topbar {
 /* ========================================================
    IndexedDB Local Audio Management (Secret Panel Logic)
    ======================================================== */
+// ڕێگەی شاراوە بۆ بەکارهێنانی فایلە دەنگییەکان: سەرەتا دەبێت بکرێن بە Base64 پاشان خەزن بکرێن
 let db;
-const dbReq = indexedDB.open("NoorQuranDB", 1);
+const dbReq = indexedDB.open("NoorQuranDB_v2", 1);
 dbReq.onupgradeneeded = (e) => {
     db = e.target.result;
-    if (!db.objectStoreNames.contains('customAudio')) {
-        db.createObjectStore('customAudio', { keyPath: 'id' });
+    if (!db.objectStoreNames.contains('customAudioStore')) {
+        db.createObjectStore('customAudioStore', { keyPath: 'id' });
     }
 };
 dbReq.onsuccess = (e) => { db = e.target.result; };
 
-function saveCustomAudio(reciterName, surahId, fileBlob) {
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+async function saveCustomAudio(reciterName, surahId, fileBlob) {
     if (!db) return alert("سێرڤەری لۆکاڵی ئامادە نییە");
-    const tx = db.transaction("customAudio", "readwrite");
-    const store = tx.objectStore("customAudio");
-    store.put({ id: `${reciterName}_${surahId}`, audioBlob: fileBlob });
-    tx.oncomplete = () => alert("بە سەرکەوتوویی پاشەکەوت کرا!");
+    
+    // Convert Blob to Base64 String so it stays permanently in IndexedDB
+    const base64Audio = await getBase64(fileBlob);
+    
+    const tx = db.transaction("customAudioStore", "readwrite");
+    const store = tx.objectStore("customAudioStore");
+    store.put({ id: `${reciterName}_${surahId}`, audioData: base64Audio });
+    
+    tx.oncomplete = () => alert("فایلەکە بە سەرکەوتوویی پاشەکەوت کرا و دەتوانیت کاری پێبکەیت!");
     tx.onerror = () => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن");
 }
 
 function getCustomAudio(reciterName, surahId, callback) {
     if (!db) { callback(null); return; }
-    const tx = db.transaction("customAudio", "readonly");
-    const store = tx.objectStore("customAudio");
+    const tx = db.transaction("customAudioStore", "readonly");
+    const store = tx.objectStore("customAudioStore");
     const req = store.get(`${reciterName}_${surahId}`);
+    
     req.onsuccess = () => {
-        if (req.result && req.result.audioBlob) {
-            callback(URL.createObjectURL(req.result.audioBlob));
+        if (req.result && req.result.audioData) {
+            callback(req.result.audioData); // Returns Base64 Data URL directly
         } else {
             callback(null);
         }
@@ -941,8 +959,8 @@ function removeSecretAudio() {
     if(!db) return;
     const reciterName = document.getElementById('secretReciter').value;
     const surahId = document.getElementById('secretSurah').value;
-    const tx = db.transaction("customAudio", "readwrite");
-    const store = tx.objectStore("customAudio");
+    const tx = db.transaction("customAudioStore", "readwrite");
+    const store = tx.objectStore("customAudioStore");
     store.delete(`${reciterName}_${surahId}`);
     tx.oncomplete = () => alert("فایلە شاراوەکە بە سەرکەوتوویی سڕرایەوە");
 }
@@ -1036,8 +1054,6 @@ function toArabicNumbers(num) {
 }
 
 let currentAyahs = [];
-let currentKurdishAyahs = [];
-let showTranslation = false;
 let currentReadingPage = 1;
 let currentFontSize = 26;
 const ayahsPerPage = 8;
@@ -1824,6 +1840,7 @@ function renderReadingPageContent() {
   const pageKurdishAyahs = currentKurdishAyahs.slice(start, end);
 
   let bismillahHeader = '';
+  // پێشاندانی بسم الله تەنیا بۆ پەڕەی یەکەم
   if (currentReadingPage === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
     bismillahHeader = `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
   }
@@ -1835,10 +1852,12 @@ function renderReadingPageContent() {
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
     
+    // سڕینەوەی بسم الله لە ئایەتی یەکەم بەبێ جێهێشتنی بۆشایی
     if (ayah.numberInSurah === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = text.replace(bismillahRegex, '').trim();
     }
     
+    // وەرگێڕانی کوردی ئەگەر هەڵکرابێت
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
        kurdishHtml = `<div class="mushaf-translation">${pageKurdishAyahs[index].text}</div>`;
@@ -1855,25 +1874,8 @@ function renderReadingPageContent() {
   document.getElementById('sidePrevBtn').style.visibility = currentReadingPage === 1 ? 'hidden' : 'visible';
   document.getElementById('sideNextBtn').style.visibility = currentReadingPage >= totalPages ? 'hidden' : 'visible';
 
+  // Bookmark specific Surah Page
   localStorage.setItem(`reading_page_${currentSurahNumber}`, currentReadingPage);
-}
-
-function nextReadingSurah() {
-  if(!surahsData || surahsData.length === 0) return;
-  let nextId = currentSurahNumber < 114 ? currentSurahNumber + 1 : 1;
-  const found = surahsData.find(s => Number(s.id || s.surah_id) === nextId);
-  if(found) {
-    openSurahReader(nextId, found.name || found.surah_name);
-  }
-}
-
-function prevReadingSurah() {
-  if(!surahsData || surahsData.length === 0) return;
-  let prevId = currentSurahNumber > 1 ? currentSurahNumber - 1 : 114;
-  const found = surahsData.find(s => Number(s.id || s.surah_id) === prevId);
-  if(found) {
-    openSurahReader(prevId, found.name || found.surah_name);
-  }
 }
 
 function nextReadingPage() {
@@ -1968,6 +1970,7 @@ function displayRecitersList(recitersList) {
     container.appendChild(item);
   });
   
+  // Set default reciter initially
   if(!selectedMoshaf && recitersList.length > 0) {
      selectedMoshaf = recitersList[0].moshaf[0];
      selectedReciterName = recitersList[0].name;
