@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
-<!-- LocalForage Library for better IndexedDB handling on mobile -->
+<!-- LocalForage Library for correct MP3 storage -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
 
 <style>
@@ -367,6 +367,15 @@ header.topbar {
 .btn-card-delete { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-card-delete:hover { background: rgba(255,255,255,0.3); color: #000; }
 
+/* Upload Box Style */
+.upload-box {
+  background: var(--glass-bg); border: 2px dashed var(--gold); border-radius: 18px;
+  padding: 18px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: 0.3s;
+}
+.upload-box:hover { background: rgba(255, 255, 255, 0.1); }
+.upload-box input { display: none; }
+.upload-box label { cursor: pointer; color: var(--gold2); font-size: 13px; display: block; font-weight: 700; }
+
 /* Hidden Admin Panel Styles */
 #secretAdminPanel {
   display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -382,7 +391,7 @@ header.topbar {
   background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
 }
 #secretAdminPanel select option { background: #000; color: #fff; }
-#secretAdminPanel button { width: 100%; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; }
+#secretAdminPanel button { width: 100%; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; cursor: pointer;}
 .btn-save { background: var(--gold); color: #000; border: none; }
 .btn-del { background: rgba(255,50,50,0.2); color: #ffcccc; border: 1px solid rgba(255,50,50,0.5); }
 .btn-close { background: rgba(255,255,255,0.1); color: #fff; border: none; }
@@ -423,6 +432,7 @@ header.topbar {
   .nature-sounds-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .nature-sound-item[style*="grid-column"] { grid-column: span 2 !important; }
 }
+
 @media(max-width: 480px) {
   .topbar-btn .tb-text { display: none; }
   .topbar-btn { padding: 6px; border-radius: 50%; width: 34px; height: 34px; justify-content: center; }
@@ -449,10 +459,10 @@ header.topbar {
 </div>
 <div class="bg-overlay"></div>
 
-<!-- HIDDEN CUSTOM MP3 MANAGER (Works on Mobile now via LocalForage) -->
+<!-- HIDDEN CUSTOM MP3 MANAGER -->
 <div id="secretAdminPanel">
   <h3>بەڕێوەبردنی دەنگەکان (تایبەت)</h3>
-  <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت.</p>
+  <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت. فایلەکە لۆکاڵی خەزن دەبێت و وەک قارییەکی ئاسایی لێیدەداتەوە.</p>
   
   <select id="secretReciter"></select>
   <select id="secretSurah"></select>
@@ -469,8 +479,10 @@ header.topbar {
   <aside class="sidebar">
     <div>
       <div class="sidebar-brand">
+        <!-- Secret click trigger on the moon logo -->
         <div class="mark" onclick="handleSecretClick()" title="Logo">☾</div>
         <div>
+          <!-- Secret click trigger on the text -->
           <h1 onclick="handleSecretClick()">NOOR QURAN</h1>
           <small id="subBrandTxt">نووری قورئان · ئارامی بۆ دڵ</small>
         </div>
@@ -499,7 +511,7 @@ header.topbar {
   <!-- Main Content -->
   <main class="main-content">
     
-    <!-- Topbar -->
+    <!-- Topbar with mobile NOOR QURAN text for secret trigger -->
     <header class="topbar" style="justify-content: space-between;">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
@@ -911,29 +923,44 @@ header.topbar {
 <script>
 /* ========================================================
    LocalForage File Manager (Secret Panel Logic)
-   - Using localForage to properly save MP3 Blob files on Mobile
+   - Store Audio File as Native Blob for proper Mobile streaming
    ======================================================== */
 const customAudioStore = localforage.createInstance({
   name: "NoorQuranFiles",
-  storeName: "CustomAudios"
+  storeName: "CustomAudiosBlob"
 });
 
-function saveCustomAudio(reciterName, surahId, fileBlob) {
-    customAudioStore.setItem(`${reciterName}_${surahId}`, fileBlob)
-      .then(() => alert("فایلەکە بە سەرکەوتوویی پاشەکەوت کرا و دەتوانیت کاری پێبکەیت!"))
-      .catch(err => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err));
+function saveSecretAudio() {
+    const reciterName = document.getElementById('secretReciter').value;
+    const surahId = document.getElementById('secretSurah').value;
+    const fileInput = document.getElementById('secretFileInput');
+    
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        
+        // خەزنکردنی فایلەکە ڕاستەوخۆ وەک Blob
+        customAudioStore.setItem(`${reciterName}_${surahId}`, file)
+          .then(() => {
+              alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
+              fileInput.value = ''; // سڕینەوەی فایلەکە لە ئینپوتەکە دوای خەزنکردن
+          })
+          .catch(err => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err));
+    } else {
+        alert("تکایە سەرەتا فایلێکی دەنگی هەڵبژێرە");
+    }
 }
 
 function getCustomAudio(reciterName, surahId, callback) {
     customAudioStore.getItem(`${reciterName}_${surahId}`)
       .then(blob => {
          if(blob) {
-            callback(URL.createObjectURL(blob));
+            // دروستکردنی لینکێکی ناوخۆیی بۆ پەڕگەکە بۆ ئەوەی بە ئاسانی لێیبدرێت
+            callback(URL.createObjectURL(blob), true);
          } else {
-            callback(null);
+            callback(null, false);
          }
       })
-      .catch(() => callback(null));
+      .catch(() => callback(null, false));
 }
 
 function removeSecretAudio() {
@@ -943,18 +970,7 @@ function removeSecretAudio() {
       .then(() => alert("فایلە شاراوەکە بە سەرکەوتوویی سڕرایەوە"));
 }
 
-function saveSecretAudio() {
-    const reciterName = document.getElementById('secretReciter').value;
-    const surahId = document.getElementById('secretSurah').value;
-    const fileInput = document.getElementById('secretFileInput');
-    if (fileInput.files.length > 0) {
-        saveCustomAudio(reciterName, surahId, fileInput.files[0]);
-    } else {
-        alert("تکایە سەرەتا فایلێکی دەنگی هەڵبژێرە");
-    }
-}
-
-// Secret Panel Click Logic (Triple Click)
+// سێ کلیک بۆ کردنەوەی پەنجەرە شاراوەکە
 let clickCount = 0;
 let clickTimeout;
 function handleSecretClick() {
@@ -994,7 +1010,7 @@ function populateSecretPanel() {
 const API = 'https://mp3quran.net/api/v3';
 let surahsData = [];
 
-// ڕەعد محەممەد کوردی گەڕێنرایەوە سەر سێرڤەری سەرەکی خۆی بۆ ئەوەی بێ کێشە کار بکات
+// لیستی قارییەکان
 const customReciters = [
   { name: "محمد رعد الكردي", moshaf: [{ name: "قورئان خوێندن بە تەجوید و دەنگی خۆش", server: "https://server6.mp3quran.net/raad/" }] },
   { name: "پێشەوا قادر الکردی", moshaf: [{ name: "قورئان خوێندن بە تەجوید و دەنگی خۆش", server: "https://server11.mp3quran.net/peshawa/" }] },
@@ -1015,7 +1031,6 @@ const tallPlayerBox = document.getElementById('tallPlayerBox');
 const tallVideoMask = document.getElementById('tallVideoMask');
 const ambientToggleBtn = document.getElementById('ambientToggleBtn');
 
-// Volumes 50% for Reciter, 50% for Ambient Sound
 let currentReciterVolume = 0.50;
 let currentVolumeLevel = 0.50;
 audioElement.volume = currentReciterVolume;
@@ -1032,6 +1047,8 @@ function toArabicNumbers(num) {
 }
 
 let currentAyahs = [];
+let currentKurdishAyahs = [];
+let showTranslation = false;
 let currentReadingPage = 1;
 let currentFontSize = 26;
 const ayahsPerPage = 8;
@@ -1216,7 +1233,6 @@ function startLiveNatureCanvas(type) {
 
   if(animFrameId) cancelAnimationFrame(animFrameId);
 
-  // Disable canvas for video-only themes to let the video shine
   if(type === 'fire' || type === 'river') {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1500,7 +1516,7 @@ function stopAmbientSound() {
   tallPlayerBgVideo.pause();
   tallPlayerBgVideo.muted = true;
   tallPlayerBgVideo.style.display = 'none';
-  tallPlayerBox.style.backgroundColor = '#000000'; // Make sure it's pitch black
+  tallPlayerBox.style.backgroundColor = '#000000'; 
 
   stopLiveNatureCanvas();
 
@@ -1510,32 +1526,6 @@ function stopAmbientSound() {
   if(badge) {
     badge.textContent = 'دەنگی سروشت: ناچالاک';
   }
-}
-
-/* Handle User Video/Audio Upload and Add Card with Delete Button */
-function handleUserVideoUpload(event, type) {
-  const file = event.target.files[0];
-  if(!file) return;
-  const fileURL = URL.createObjectURL(file);
-  const fileName = file.name;
-
-  const containerId = type + 'GridContainer';
-  const container = document.getElementById(containerId);
-
-  const card = document.createElement('div');
-  card.className = 'surah-card';
-  card.style.padding = '15px';
-  card.innerHTML = `
-    <h5>${fileName}</h5>
-    <small>فایلی بارکراو</small>
-    <div class="card-actions-row">
-      <button class="btn-card-action" onclick="playAmbientVideoManual('${fileURL}', '${type}')">لێدان ▶</button>
-      <button class="btn-card-close" onclick="stopAmbientSound()">ڕاگرتن ⏹</button>
-      <button class="btn-card-delete" onclick="this.closest('.surah-card').remove()">سڕینەوە 🗑</button>
-    </div>
-  `;
-  container.appendChild(card);
-  playAmbientVideoManual(fileURL, type);
 }
 
 function setPlayIcon(isPlaying) {
@@ -1583,7 +1573,7 @@ function initBgSlider() {
     slides.forEach(s => s.classList.remove('active'));
     currentSlide = (currentSlide + 1) % slides.length;
     slides[currentSlide].classList.add('active');
-  }, 3000); // 3 seconds interval
+  }, 3000); 
 }
 
 let quoteInterval; 
@@ -1607,7 +1597,6 @@ function switchView(viewId) {
         startQuoteSlider();
     }
     
-    // If opening full player, ensure it starts black if nothing is active
     if(viewId === 'view-full-player' && ambientAudio.paused && synthNodes.length === 0) {
         tallPlayerBox.style.backgroundColor = '#000000';
     }
@@ -1624,7 +1613,6 @@ function switchView(viewId) {
   } else if(viewId === 'view-reading') {
     document.getElementById('navBtnReading').classList.add('active');
     document.getElementById('menuReading').classList.add('active');
-    // Ensure reader opens at the last read surah if clicked directly
     if (currentReadingSurahName === '') openSurahReader(1, 'سُورَةُ الفَاتِحَة');
   } else if(viewId.startsWith('view-sounds') || viewId.includes('-select')) {
     document.getElementById('navBtnSounds').classList.add('active');
@@ -1761,6 +1749,14 @@ function renderReadingSurahsList(items) {
   });
 }
 
+/* Feature: Resize font */
+function changeFontSize(amount) {
+  currentFontSize += amount;
+  if(currentFontSize < 16) currentFontSize = 16;
+  if(currentFontSize > 40) currentFontSize = 40;
+  document.getElementById('mushafContent').style.fontSize = currentFontSize + 'px';
+}
+
 /* Feature: Toggle Kurdish Translation */
 function toggleTranslation() {
   showTranslation = !showTranslation;
@@ -1810,7 +1806,6 @@ function renderReadingPageContent() {
   const pageKurdishAyahs = currentKurdishAyahs.slice(start, end);
 
   let bismillahHeader = '';
-  // پێشاندانی بسم الله تەنیا بۆ پەڕەی یەکەم
   if (currentReadingPage === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
     bismillahHeader = `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
   }
@@ -1822,7 +1817,6 @@ function renderReadingPageContent() {
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
     
-    // سڕینەوەی بسم الله لە ئایەتی یەکەم بەبێ جێهێشتنی بۆشایی
     if (ayah.numberInSurah === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = text.replace(bismillahRegex, '').trim();
     }
@@ -1917,19 +1911,16 @@ function displayRecitersList(recitersList) {
         const currentTime = audioElement.currentTime;
         audioElement.volume = currentReciterVolume;
         
-        getCustomAudio(selectedReciterName, currentSurahId, (customUrl) => {
-            let audioUrl = customUrl;
-            if(!audioUrl) {
-                audioUrl = selectedMoshaf.server + pad(currentSurahId) + '.mp3';
-            }
+        getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
+            let audioUrl = hasCustom ? customUrl : selectedMoshaf.server + pad(currentSurahId) + '.mp3';
             audioElement.src = audioUrl;
             document.getElementById('downloadBtn').href = audioUrl;
             audioElement.currentTime = currentTime;
             audioElement.play().catch(()=>{});
         });
       } else {
-        getCustomAudio(selectedReciterName, currentSurahId, (customUrl) => {
-            document.getElementById('downloadBtn').href = customUrl || selectedMoshaf.server + pad(currentSurahId) + '.mp3';
+        getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
+            document.getElementById('downloadBtn').href = hasCustom ? customUrl : selectedMoshaf.server + pad(currentSurahId) + '.mp3';
         });
       }
       switchView('view-full-player');
@@ -1942,8 +1933,8 @@ function displayRecitersList(recitersList) {
      selectedMoshaf = recitersList[0].moshaf[0];
      selectedReciterName = recitersList[0].name;
      syncPlayerLabels(null, recitersList[0].name);
-     getCustomAudio(selectedReciterName, currentSurahId, (customUrl) => {
-         document.getElementById('downloadBtn').href = customUrl || selectedMoshaf.server + pad(currentSurahId) + '.mp3';
+     getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
+         document.getElementById('downloadBtn').href = hasCustom ? customUrl : selectedMoshaf.server + pad(currentSurahId) + '.mp3';
      });
   }
 }
@@ -1962,29 +1953,26 @@ function playSurahAudio(id, name) {
   seekSlider.value = 0;
   fullSeekSlider.value = 0;
 
-  getCustomAudio(selectedReciterName, id, (customUrl) => {
-      let audioUrl = customUrl;
-      if(!audioUrl) {
-          audioUrl = selectedMoshaf.server + pad(id) + '.mp3';
-      }
+  getCustomAudio(selectedReciterName, id, (customUrl, hasCustom) => {
+      let audioUrl = hasCustom ? customUrl : selectedMoshaf.server + pad(id) + '.mp3';
       
       audioElement.src = audioUrl;
       document.getElementById('downloadBtn').href = audioUrl;
+      if (hasCustom) {
+         document.getElementById('downloadBtn').download = `${selectedReciterName}_${name}.mp3`;
+      } else {
+         document.getElementById('downloadBtn').removeAttribute('download');
+      }
 
       audioElement.play().then(() => {
         setPlayIcon(true);
       }).catch((error) => {
         console.error("Error playing audio:", error);
-        alert('کێشەیەک هەیە لە لێدانی ئەم سوورەتە یان هێڵی ئینتەرنێتەکەت لاوازە.');
+        alert('کێشەیەک هەیە لە لێدانی ئەم سوورەتە، تکایە دڵنیابە لە هێڵی ئینتەرنێت.');
         setPlayIcon(false);
       });
 
       localStorage.setItem('noor_last_surah', name);
-      
-      recentList = recentList.filter(item => item.id !== id);
-      recentList.unshift({ id, name });
-      if(recentList.length > 10) recentList.pop();
-      localStorage.setItem('noor_recent_list', JSON.stringify(recentList));
   });
 }
 
@@ -2011,8 +1999,7 @@ function togglePlay() {
       return;
     }
     audioElement.volume = currentReciterVolume;
-    audioElement.play();
-    setPlayIcon(true);
+    audioElement.play().then(() => setPlayIcon(true)).catch(() => setPlayIcon(false));
   } else {
     audioElement.pause();
     setPlayIcon(false);
