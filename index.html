@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#1a150b">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
-<!-- LocalForage Library -->
+<!-- LocalForage Library for correct MP3 storage -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
 
-/* Dynamic Background Variables */
+/* Dynamic Background Variables - Golden Glassmorphism Theme */
 :root {
-  --glass-bg: linear-gradient(135deg, rgba(15, 20, 25, 0.75) 0%, rgba(5, 10, 15, 0.85) 100%);
-  --glass-solid: rgba(10, 15, 20, 0.9);
-  --glass-border: rgba(255, 255, 255, 0.12);
+  --main-bg-gradient: linear-gradient(135deg, #1c150b 0%, #2e2211 50%, #151007 100%);
+  --glass-bg: rgba(30, 22, 10, 0.65);
+  --glass-solid: rgba(20, 15, 7, 0.9);
+  --glass-border: rgba(240, 213, 140, 0.15);
   --gold: #d8b66a;
   --gold2: #f0d99b;
   --text: #f8fafc;
-  --muted: #a9b9ad;
-  --line: rgba(255, 255, 255, 0.1);
-  --nav-bg: rgba(5, 8, 12, 0.92);
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  --muted: #b8a68a;
+  --line: rgba(240, 213, 140, 0.12);
+  --nav-bg: rgba(20, 15, 7, 0.85);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 *{box-sizing:border-box}
@@ -35,7 +36,17 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
-  background-color: #000;
+  background: var(--main-bg-gradient);
+}
+
+/* Glassmorphism Overlay on the whole body */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 0%, rgba(216, 182, 106, 0.1) 0%, transparent 60%);
+  z-index: -3;
+  pointer-events: none;
 }
 
 #mainBackgroundSlider {
@@ -45,7 +56,7 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: -5;
-  background-color: #000;
+  background-color: #151007;
 }
 .bg-slide {
   position: absolute;
@@ -60,7 +71,7 @@ body {
   transition: opacity 1.5s ease-in-out;
 }
 .bg-slide.active {
-  opacity: 1;
+  opacity: 0.35; 
 }
 .bg-overlay {
   position: fixed;
@@ -69,7 +80,9 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: -4;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(15, 10, 5, 0.75); 
+  backdrop-filter: blur(15px); 
+  -webkit-backdrop-filter: blur(15px);
 }
 
 button,select,input{font:inherit}
@@ -81,8 +94,8 @@ button{cursor:pointer}
 aside.sidebar {
   width: 260px;
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border-left: 1px solid var(--glass-border);
   padding: 20px 15px;
   display: flex;
@@ -134,14 +147,27 @@ aside.sidebar {
 /* Main Content */
 .main-content {
   flex: 1; padding: 20px 25px 195px; width: 100%; min-width: 0;
+  position: relative; 
 }
 
-/* Views Management */
-.page-view { display: none; width: 100%; opacity: 0; }
-.page-view.active { display: block; opacity: 1; animation: fadeIn 0.4s ease forwards; }
-@keyframes fadeIn { 
-  from { opacity: 0; transform: translateY(10px); } 
-  to { opacity: 1; transform: translateY(0); } 
+/* Views Management with New Smooth Fade Transition */
+.page-view { 
+  display: none; 
+  width: 100%; 
+  opacity: 0;
+  position: absolute; 
+  top: 20px;
+  left: 25px;
+  right: 25px;
+  transition: opacity 0.4s ease-in-out;
+  pointer-events: none; 
+}
+.page-view.active { 
+  display: block; 
+  opacity: 1; 
+  position: relative; 
+  top: 0; left: 0; right: 0;
+  pointer-events: auto;
 }
 
 /* Topbar */
@@ -198,27 +224,47 @@ header.topbar {
 .reciter-search-box input {
   width: 100%; background: var(--glass-bg); border: 1px solid var(--glass-border);
   border-radius: 14px; padding: 12px 15px 12px 40px; color: var(--text); font-size: 13px; outline: none;
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: var(--card-shadow);
+  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: var(--card-shadow);
 }
 .reciter-search-box input::placeholder { color: var(--muted); }
 .reciter-search-box input:focus { border-color: var(--gold); }
 .reciter-search-box span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
 
-/* Hero Banner (Dynamic Quote Slider) */
+/* Current Reciter Box (Home Page) */
+.current-reciter-box {
+  background: var(--glass-bg); 
+  backdrop-filter: blur(25px); 
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--glass-border); 
+  border-radius: 24px; 
+  padding: 20px 25px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  box-shadow: var(--card-shadow);
+  transition: 0.3s ease;
+  margin-bottom: 15px;
+}
+.current-reciter-box:hover { border-color: var(--gold); }
+.cr-info { text-align: right; flex: 1; }
+.cr-info h4 { margin: 0; color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+.cr-info p { margin: 5px 0 0; color: var(--text); font-size: 14px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+.cr-image {
+  width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--gold);
+  overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.05);
+  display: grid; place-items: center; margin-right: 20px;
+}
+.cr-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Hero Banner (Quranic Ayahs Slider) */
 .hero-banner {
-  margin-top: 15px; border-radius: 28px;
+  border-radius: 28px;
   background: var(--glass-bg); border: 1px solid var(--glass-border);
   padding: 40px 35px; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center;
-  text-align: center;
-  box-shadow: var(--card-shadow);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; box-shadow: var(--card-shadow);
   backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); 
-  width: 100%;
-  position: relative;
-  min-height: 220px;
+  width: 100%; position: relative; min-height: 180px;
 }
 .hero-text-content { width: 100%; position: relative; }
 
@@ -226,19 +272,12 @@ header.topbar {
 .quote-slide.active { display: block; }
 @keyframes slideFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-.quran-ayah { font-family: 'Amiri Quran', serif; font-size: 28px; color: var(--gold2); line-height: 1.8; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+.quran-ayah { font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--gold2); line-height: 1.8; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 .quote-meaning { font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--text); line-height: 2; font-weight: 400; max-width: 90%; margin: 0 auto; opacity: 0.95; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
-
-.motivational-quote-box {
-  margin-top: 15px; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; text-align: center; box-shadow: var(--card-shadow);
-  font-family: 'Amiri', serif; font-size: 19px; color: var(--text); line-height: 1.9; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-}
-.motivational-quote-box .quote-marks { color: var(--gold2); font-size: 26px; margin: 0 4px; }
 
 /* Content Grid */
 .card-section {
-  background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--glass-border); border-radius: 24px; padding: 25px;
   box-shadow: var(--card-shadow); width: 100%;
 }
@@ -252,14 +291,48 @@ header.topbar {
   border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px;
 }
 .reader-container-wrapper { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+
+/* --- Fixed height Quran Page layout with border frame --- */
 .reader-box {
-  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; 
-  padding: 30px 45px; min-height: 420px; box-shadow: var(--card-shadow); flex: 1;
-  perspective: 1200px; overflow: hidden; margin: 0 50px; transition: font-size 0.3s ease;
+  background: rgba(20, 15, 7, 0.95); 
+  border: 1px solid var(--gold); 
+  border-radius: 12px; 
+  padding: 35px 25px; 
+  height: 62vh; /* FIXED HEIGHT SO ARROWS DONT MOVE */
+  overflow-y: auto; 
+  box-shadow: inset 0 0 0 4px rgba(20, 15, 7, 0.95), inset 0 0 0 5px rgba(216, 182, 106, 0.5), var(--card-shadow); 
+  flex: 1;
+  margin: 0 50px; 
+  transition: font-size 0.3s ease;
 }
-.mushaf-page-container { width: 100%; height: 100%; transform-style: preserve-3d; }
-.mushaf-page { width: 100%; font-family: 'Amiri Quran', serif; font-size: 24px; color: var(--text); line-height: 2.8; text-align: justify; direction: rtl; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-.mushaf-translation { display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--muted); line-height: 2; margin-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; }
+
+/* Custom Scrollbar for the Mushaf */
+.reader-box::-webkit-scrollbar { width: 5px; }
+.reader-box::-webkit-scrollbar-track { background: transparent; }
+.reader-box::-webkit-scrollbar-thumb { background: rgba(216, 182, 106, 0.4); border-radius: 10px; }
+
+.mushaf-page-container { width: 100%; min-height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.mushaf-page { 
+  width: 100%; font-family: 'Amiri Quran', serif; font-size: 26px; color: var(--text); 
+  line-height: 2.8; text-align: justify; text-align-last: center; direction: rtl; text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
+}
+.mushaf-translation { display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--muted); line-height: 2; margin-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; text-align-last: right;}
+
+/* Waqf Tajweed Colored Classes */
+.waqf-qala { color: #ff6b6b; font-weight: bold; font-size: 1.1em; } 
+.waqf-sila { color: #2ed573; font-weight: bold; font-size: 1.1em;} 
+.waqf-jeem { color: #f39c12; font-weight: bold; font-size: 1.1em;} 
+.waqf-meem { color: #e84118; font-weight: 900; font-size: 1.1em;} 
+.waqf-la { color: #70a1ff; font-weight: bold; font-size: 1.1em;} 
+.waqf-dots { color: #9b59b6; font-weight: bold; font-size: 1.1em;} 
+.allah-word { color: var(--gold2); font-weight: bold; }
+
+.tajweed-legend {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; font-size: 12px; 
+  margin-top: 20px; padding: 12px; border-top: 1px solid var(--line); 
+  background: rgba(0,0,0,0.25); border-radius: 12px; color: #fff;
+}
+.tajweed-legend div { display: flex; align-items: center; gap: 5px; }
 
 /* Arrows */
 .side-nav-arrow {
@@ -271,8 +344,12 @@ header.topbar {
 .side-nav-arrow:hover { background: var(--gold); color: #000; border-color: var(--gold); transform: translateY(-50%) scale(1.1); }
 .right-arrow { right: 0; } .left-arrow { left: 0; } 
 
-@keyframes flipPageNext { 0% { transform: rotateY(0deg); opacity: 1; } 50% { transform: rotateY(90deg); opacity: 0; } 51% { transform: rotateY(-90deg); opacity: 0; } 100% { transform: rotateY(0deg); opacity: 1; } }
-@keyframes flipPagePrev { 0% { transform: rotateY(0deg); opacity: 1; } 50% { transform: rotateY(-90deg); opacity: 0; } 51% { transform: rotateY(90deg); opacity: 0; } 100% { transform: rotateY(0deg); opacity: 1; } }
+/* New Fade Animation for Page Change */
+@keyframes fadeOutIn { 
+  0% { opacity: 1; transform: scale(1); } 
+  50% { opacity: 0; transform: scale(0.98); } 
+  100% { opacity: 1; transform: scale(1); } 
+}
 
 /* =========================================================
    TALL FULL-SCREEN PLAYER PAGE 
@@ -281,14 +358,14 @@ header.topbar {
   position: relative; width: 100%; max-width: 520px; min-height: 78vh; margin: 10px auto 0;
   border-radius: 32px; overflow: hidden; border: 1px solid rgba(255,255,255,0.16);
   background-position: center; background-size: cover; background-repeat: no-repeat;
-  background-color: #000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(20, 15, 7, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255,255,255,0.1);
   display: flex; flex-direction: column; justify-content: space-between; padding: 24px 22px 30px;
   z-index: 1; transition: background-image 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease;
 }
 .tall-player-wrapper::before {
   content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 120%; height: 120%; background: radial-gradient(circle, rgba(0, 150, 255, 0.25) 0%, rgba(0, 50, 200, 0.1) 40%, transparent 70%);
+  width: 120%; height: 120%; background: radial-gradient(circle, rgba(216, 182, 106, 0.15) 0%, rgba(30, 20, 10, 0.1) 40%, transparent 70%);
   z-index: -3; pointer-events: none; animation: blueGlowPulse 4s infinite alternate ease-in-out;
 }
 @keyframes blueGlowPulse { 0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
@@ -333,7 +410,7 @@ header.topbar {
 
 /* Surahs Card Grid */
 .surahs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-height: 520px; overflow-y: auto; padding-left: 5px; width: 100%; }
-.surah-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 12px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; width: 100%; position: relative; box-shadow: var(--card-shadow); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.surah-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 12px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; width: 100%; position: relative; box-shadow: var(--card-shadow); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); }
 .surah-card:hover, .surah-card.active { border-color: var(--gold); background: rgba(216, 182, 106, 0.12); transform: translateY(-3px); }
 .surah-card h5 { margin: 0; font-size: 14px; font-weight: 700; color: var(--gold2); font-family: 'Amiri', serif; }
 .surah-card small { color: var(--muted); font-size: 11px; }
@@ -343,7 +420,7 @@ header.topbar {
 
 /* Reciters */
 .reciters-list { display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; width: 100%; }
-.reciter-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); width: 100%; box-shadow: var(--card-shadow); }
+.reciter-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.3s; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); width: 100%; box-shadow: var(--card-shadow); }
 .reciter-item:hover, .reciter-item.active { border-color: var(--gold); background: rgba(216, 182, 106, 0.15); transform: translateX(-4px); }
 .reciter-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .reciter-avatar-icon { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1.5px solid var(--gold); display: grid; place-items: center; color: var(--gold2); font-size: 18px; flex-shrink: 0; }
@@ -353,43 +430,65 @@ header.topbar {
 /* Sounds Section */
 .nature-sounds-section { padding-top: 10px; width: 100%; }
 .nature-sounds-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; width: 100%; }
-.nature-sound-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; backdrop-filter: blur(20px); transition: 0.3s; width: 100%; cursor: pointer; box-shadow: var(--card-shadow); }
+.nature-sound-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; backdrop-filter: blur(25px); transition: 0.3s; width: 100%; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item:hover { border-color: var(--gold); background: rgba(216, 182, 106, 0.1); transform: translateY(-4px); }
-.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: invert(0.8) sepia(1) saturate(3) hue-rotate(10deg); }
+.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: brightness(0) invert(1); }
 .nature-sound-item h6 { margin: 0; font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
 .btn-play-sound { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--gold2); padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-play-sound:hover { background: var(--gold); color: #0a1825; }
 
+/* Card Actions for Play & Delete */
+.card-actions-row { display: flex; gap: 8px; margin-top: 10px; width: 100%; justify-content: center; flex-wrap: wrap; }
+.btn-card-action { background: rgba(240, 213, 140, 0.15); border: 1px solid var(--gold); color: var(--gold2); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-card-action:hover { background: var(--gold); color: #050a10; }
+.btn-card-delete { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-card-delete:hover { background: rgba(255,255,255,0.3); color: #000; }
+
+/* Upload Box Style */
+.upload-box {
+  background: var(--glass-bg); border: 2px dashed var(--gold); border-radius: 18px;
+  padding: 18px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: 0.3s;
+}
+.upload-box:hover { background: rgba(255, 255, 255, 0.1); }
+.upload-box input { display: none; }
+.upload-box label { cursor: pointer; color: var(--gold2); font-size: 13px; display: block; font-weight: 700; }
+
 /* Hidden Admin Panel Styles */
 #secretAdminPanel {
   display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  background: rgba(10, 15, 20, 0.95); border: 2px solid var(--gold); border-radius: 20px;
+  background: rgba(20, 15, 7, 0.95); border: 2px solid var(--gold); border-radius: 20px;
   padding: 30px; z-index: 9999; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   width: 90%; max-width: 400px; color: #fff; direction: rtl; text-align: center;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px); max-height: 85vh; overflow-y: auto;
 }
-#secretAdminPanel h3 { margin-top: 0; color: var(--gold2); font-family: 'Amiri', serif; font-size: 22px; }
+#secretAdminPanel h3 { margin-top: 0; color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; }
 #secretAdminPanel p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
 #secretAdminPanel select, #secretAdminPanel input {
   width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 10px;
   background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;
 }
-#secretAdminPanel select option { background: #000; color: #fff; }
+#secretAdminPanel select option { background: #151007; color: #fff; }
 #secretAdminPanel button { width: 100%; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; cursor: pointer;}
 .btn-save { background: var(--gold); color: #000; border: none; }
 .btn-del { background: rgba(255,50,50,0.2); color: #ffcccc; border: 1px solid rgba(255,50,50,0.5); }
 .btn-close { background: rgba(255,255,255,0.1); color: #fff; border: none; }
 
+.add-reciter-box {
+  background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;
+  margin-bottom: 20px; border: 1px dashed var(--gold2); text-align: right;
+}
+.add-reciter-box h4 { margin: 0 0 10px; color: var(--gold2); font-size: 14px; text-align: center;}
+
 /* Bottom Navigation Stack */
 .bottom-nav-container { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 95; width: 94%; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
-.floating-player-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 12px 20px; border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); width: 100%; direction: ltr; cursor: pointer; transition: 0.3s ease; }
+.floating-player-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--nav-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding: 12px 20px; border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); width: 100%; direction: ltr; cursor: pointer; transition: 0.3s ease; }
 .floating-player-bar:hover { border-color: var(--gold); transform: translateY(-3px); }
 .fp-left-controls { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .fp-icon-btn { background: none; border: none; color: #ffffff; padding: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s ease; }
 .fp-icon-btn:hover { transform: scale(1.15); opacity: 0.85; }
 .fp-icon-btn svg { width: 24px; height: 24px; fill: currentColor; }
 .speed-select { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; border-radius: 99px; padding: 3px 8px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer; }
-.speed-select option { background: #050a10; color: #fff; }
+.speed-select option { background: #151007; color: #fff; }
 .fp-right-details { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; direction: rtl; }
 .fp-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .fp-meta-row h4 { margin: 0; color: #ffffff; font-size: 15px; font-weight: 700; font-family: 'Amiri', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -399,12 +498,12 @@ header.topbar {
 .timeline-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); cursor: pointer; box-shadow: 0 0 6px rgba(240, 213, 140, 0.8); }
 
 /* Bottom Nav */
-.bottom-nav-bar { display: flex; justify-content: space-around; align-items: center; background: var(--nav-bg); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); width: 100%; }
+.bottom-nav-bar { display: flex; justify-content: space-around; align-items: center; background: var(--nav-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding: 8px 12px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); width: 100%; }
 .bottom-nav-item { position: relative; cursor: pointer; padding: 7px 14px; border-radius: 30px; background: transparent; border: 1px solid transparent; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: rgba(255, 255, 255, 0.75); min-width: 65px; }
-.bottom-nav-item img, .bottom-nav-item svg { width: 22px; height: 22px; display: block; filter: brightness(1); transition: 0.3s; }
+.bottom-nav-item img, .bottom-nav-item svg { width: 22px; height: 22px; display: block; filter: brightness(0) invert(1); transition: 0.3s; }
 .bottom-nav-label { font-size: 11px; font-weight: 600; color: #ffffff; white-space: nowrap; transition: 0.3s; opacity: 0.85; }
 .bottom-nav-item:hover, .bottom-nav-item.active { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.38); box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.35); }
-.bottom-nav-item.active img, .bottom-nav-item.active svg { filter: brightness(1) invert(0.2) sepia(1) saturate(5) hue-rotate(15deg); }
+.bottom-nav-item.active img, .bottom-nav-item.active svg { filter: brightness(0) saturate(100%) invert(86%) sepia(13%) saturate(1312%) hue-rotate(344deg) brightness(98%) contrast(92%); } 
 .bottom-nav-item.active .bottom-nav-label { opacity: 1; color: var(--gold2); }
 
 /* Responsive Adjustments */
@@ -424,7 +523,7 @@ header.topbar {
   .quote-meaning { font-size: 12px; }
   .motivational-quote-box { font-size: 15px; }
   .surahs-grid { grid-template-columns: 1fr; }
-  .reader-box { margin: 0 40px; padding: 25px 15px; } 
+  .reader-box { margin: 0 40px; padding: 25px 15px; height: 60vh; } 
   .side-nav-arrow { width: 34px; height: 34px; font-size: 16px; }
   .bottom-nav-bar { padding: 8px 10px; }
   .bottom-nav-item { padding: 6px 10px; min-width: 55px; }
@@ -443,18 +542,26 @@ header.topbar {
 </div>
 <div class="bg-overlay"></div>
 
-<!-- HIDDEN CUSTOM MP3 MANAGER (Using Base64 encoding to fix mobile browser limitations) -->
+<!-- HIDDEN CUSTOM MP3 MANAGER -->
 <div id="secretAdminPanel">
   <h3>بەڕێوەبردنی دەنگەکان (تایبەت)</h3>
-  <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت. فایلەکە لۆکاڵی خەزن دەبێت و وەک قارییەکی ئاسایی لێیدەداتەوە.</p>
+  <p>لێرە دەتوانیت قاریئ زیاد بکەیت یان فایلی دەنگی لۆکاڵی بۆ هەر سوورەتێک دابنێیت.</p>
   
+  <div class="add-reciter-box">
+    <h4>زیادکردنی قاریئی نوێ</h4>
+    <input type="text" id="newReciterName" placeholder="ناوی قاریئ لێرە بنووسە...">
+    <button class="btn-save" onclick="addNewReciter()">زیادکردن ➕</button>
+  </div>
+
   <select id="secretReciter"></select>
+  <button class="btn-del" onclick="deleteSelectedReciter()" style="margin-top: -5px; margin-bottom: 20px; padding: 8px; font-size: 12px;">سڕینەوەی قاریئی دیاریکراو ❌</button>
+  
   <select id="secretSurah"></select>
   
   <input type="file" id="secretFileInput" accept="audio/*">
   
-  <button class="btn-save" onclick="saveSecretAudio()">پاشەکەوتکردنی فایل 💾</button>
-  <button class="btn-del" onclick="removeSecretAudio()">سڕینەوەی ئەم فایلە شاراوەیە 🗑</button>
+  <button class="btn-save" onclick="saveSecretAudio()">پاشەکەوتکردنی دەنگ 💾</button>
+  <button class="btn-del" onclick="removeSecretAudio()">سڕینەوەی دەنگی شاراوە 🗑</button>
   <button class="btn-close" onclick="document.getElementById('secretAdminPanel').style.display='none'">داخستن ✖</button>
 </div>
 
@@ -463,10 +570,8 @@ header.topbar {
   <aside class="sidebar">
     <div>
       <div class="sidebar-brand">
-        <!-- Secret click trigger on the moon logo -->
         <div class="mark" onclick="handleSecretClick()" title="Logo">☾</div>
         <div>
-          <!-- Secret click trigger on the text -->
           <h1 onclick="handleSecretClick()">NOOR QURAN</h1>
           <small id="subBrandTxt">نووری قورئان · ئارامی بۆ دڵ</small>
         </div>
@@ -474,16 +579,16 @@ header.topbar {
       <ul class="side-menu">
         <li><a onclick="switchView('view-home')" class="active" id="menuHome">🏠 سەرەتا</a></li>
         <li><a onclick="switchView('view-surahs')" id="menuSurahs">
-          <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" style="width:18px; height:18px;" /> سوورەتەکان
+          <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" style="width:18px; height:18px; filter: brightness(0) invert(1);" /> سوورەتەکان
         </a></li>
         <li><a onclick="switchView('view-reciters')" id="menuReciters">
-          <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" style="width:18px; height:18px;" /> قارییەکان
+          <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" style="width:18px; height:18px; filter: brightness(0) invert(1);" /> قارییەکان
         </a></li>
         <li><a onclick="switchView('view-reading')" id="menuReading">
-          <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="width:18px; height:18px;" /> قورئان خوێندن
+          <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="width:18px; height:18px; filter: brightness(0) invert(1);" /> قورئان خوێندن
         </a></li>
         <li><a onclick="switchView('view-sounds')" id="menuSounds">
-          <img src="https://iconvault.site/api/icon/mdi/voice?color=%23FFFFFF&width=48&height=48" alt="voice" style="width:18px; height:18px;" /> ڤیدیۆکانی سروشت
+          <img src="https://iconvault.site/api/icon/mdi/voice?color=%23FFFFFF&width=48&height=48" alt="voice" style="width:18px; height:18px; filter: brightness(0) invert(1);" /> دەنگەکان
         </a></li>
       </ul>
     </div>
@@ -507,7 +612,18 @@ header.topbar {
 
     <!-- VIEW 1: HOME -->
     <div id="view-home" class="page-view active">
-      <section class="hero-banner">
+      <div class="current-reciter-box">
+         <div class="cr-info">
+             <h4>قاریئی هەڵبژێردراو</h4>
+             <p id="homeReciterName">محمد رعد الكردي</p>
+         </div>
+         <div class="cr-image">
+             <img id="homeReciterImg" src="default-avatar.png" onerror="this.src='https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF'">
+         </div>
+      </div>
+      
+      <!-- Quranic Ayahs Slider -->
+      <section class="hero-banner" style="margin-top: 20px;">
         <div class="hero-text-content">
           <div class="quote-slide active">
             <div class="quran-ayah">﴿إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ﴾</div>
@@ -523,12 +639,6 @@ header.topbar {
           </div>
         </div>
       </section>
-
-      <div class="motivational-quote-box">
-        <span class="quote-marks">«</span>
-        خۆت بنیاد بنێ، بەردەوام بە لە تێکۆشان لە هیچ شکستی مەترسە و هەمیشە پشت بە خودا ببەستە چونکە گەورەترین گۆڕانکاری لە ناخی خۆتەوە دەست پێدەکات
-        <span class="quote-marks">»</span>
-      </div>
     </div>
 
     <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE -->
@@ -551,7 +661,7 @@ header.topbar {
              <!-- Menu -->
              <div id="tallSoundsMenu" class="tall-sounds-menu">
                 <div onclick="quickPlayAmbient('fire')">🔥 ئاگر</div>
-                <div onclick="quickPlayAmbient('river')">🌊 شەلال</div>
+                <div onclick="quickPlayAmbient('river')">🌊 ڕووبار</div>
                 <div onclick="quickPlayAmbient('rain')">🌧️ باران</div>
                 <div onclick="quickPlayAmbient('wind')">💨 با</div>
                 <div onclick="quickPlayAmbient('thunder')">⚡ بروسکە</div>
@@ -605,7 +715,7 @@ header.topbar {
       <div class="card-section">
         <div class="section-header">
           <h3 id="surahsHeaderTitle" style="display:inline-flex; align-items:center; gap:8px;">
-            <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" style="width:22px; height:22px;" /> سوورەتەکان
+            <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" style="width:22px; height:22px; filter: brightness(0) invert(1);" /> سوورەتەکان
           </h3>
         </div>
         <div class="surahs-grid" id="surahList"></div>
@@ -617,7 +727,7 @@ header.topbar {
       <div class="card-section">
         <div class="section-header">
           <h3 id="recitersHeaderTitle" style="display:inline-flex; align-items:center; gap:8px;">
-            <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" style="width:22px; height:22px;" /> قارییەکان
+            <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" style="width:22px; height:22px; filter: brightness(0) invert(1);" /> قارییەکان
           </h3>
         </div>
         <div class="search-container-box">
@@ -637,7 +747,7 @@ header.topbar {
       <div class="card-section" id="readingListContainer">
         <div class="section-header" style="margin-bottom: 12px;">
           <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">
-            <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="width:22px; height:22px;" /> قورئان خوێندن
+            <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="width:22px; height:22px; filter: brightness(0) invert(1);" /> قورئان خوێندن
           </h3>
         </div>
         <div class="search-container-box">
@@ -652,7 +762,7 @@ header.topbar {
       </div>
 
       <div class="card-section" id="readingReaderContainer" style="display: none; padding: 15px; border:none; background:transparent; box-shadow:none;">
-        <div class="reader-header-nav" style="background: var(--glass-bg); padding:15px; border-radius:15px; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); margin-bottom: 25px;">
+        <div class="reader-header-nav" style="background: var(--glass-bg); padding:15px; border-radius:15px; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); margin-bottom: 10px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button onclick="backToReadingList()" class="btn-primary" style="padding: 6px 14px; font-size: 12px;">← گەڕانەوە</button>
             <span id="readerPageIndicator" style="color: var(--muted); font-size: 12px; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">پەڕەی 1 لە 1</span>
@@ -669,8 +779,18 @@ header.topbar {
           </div>
         </div>
         
+        <!-- Tajweed Legend -->
+        <div class="tajweed-legend" id="tajweedLegendBox">
+           <div><span class="waqf-qala">ۗ</span> وەستان باشترە</div>
+           <div><span class="waqf-sila">ۖ</span> بەردەوامبوون باشترە</div>
+           <div><span class="waqf-jeem">ۚ</span> وەستان ڕێپێدراوە</div>
+           <div><span class="waqf-meem">ۘ</span> وەستانی پێویست</div>
+           <div><span class="waqf-la">ۙ</span> مەوەستە</div>
+           <div><span class="waqf-dots">ۛ</span> لە یەکێکیان بوەستە</div>
+        </div>
+        
         <!-- Box for Reading Page with Arrows Fixed Outside -->
-        <div class="reader-container-wrapper">
+        <div class="reader-container-wrapper" style="margin-top:20px;">
           <button onclick="nextReadingPage()" id="sideNextBtn" class="side-nav-arrow right-arrow" title="پەڕەی داهاتوو">❯</button>
           
           <div class="reader-box">
@@ -690,7 +810,7 @@ header.topbar {
     <div id="view-sounds" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="nature-sounds-section">
-          <h4 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 22px; margin: 0 0 5px; text-align: center;">ڤیدیۆ و دەنگەکانی سروشت</h4>
+          <h4 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 22px; margin: 0 0 5px; text-align: center;">دەنگەکانی سروشت</h4>
           <p style="text-align: center; color: var(--muted); font-size: 12px; margin: 0 0 20px;">هەر دەنگێک هەڵبژێریت باکگراوندە درێژەکە ئۆتۆماتیکی دەگۆڕێت بۆ دیمەنی زیندووی ئەو دەنگە</p>
           
           <div class="nature-sounds-grid">
@@ -701,7 +821,7 @@ header.topbar {
             </div>
             <div class="nature-sound-item" onclick="switchView('view-river-select')">
               <span class="nature-sound-icon" style="background-image: url('https://iconvault.site/api/icon/icon-park/water-level?color=%23FFFFFF');"></span>
-              <h6>شەلال</h6>
+              <h6>ڕووبار</h6>
               <button class="btn-play-sound">هەڵبژاردن 🌊</button>
             </div>
             <div class="nature-sound-item" onclick="switchView('view-rain-select')">
@@ -728,7 +848,7 @@ header.topbar {
     <div id="view-rain-select" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="section-header">
-          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🌧️ ڤیدیۆکانی باران</h3>
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🌧️ دەنگەکانی باران</h3>
           <button onclick="switchView('view-sounds')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
         <div class="surahs-grid" id="rainGridContainer">
@@ -751,12 +871,12 @@ header.topbar {
     <div id="view-fire-select" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="section-header">
-          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🔥 ڤیدیۆکانی ئاگر</h3>
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🔥 دەنگەکانی ئاگر</h3>
           <button onclick="switchView('view-sounds')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
         <div class="surahs-grid" id="fireGridContainer">
           <div class="surah-card">
-            <h5>ئاگری دارستان (ڤیدیۆ)</h5>
+            <h5>ئاگری دارستان</h5>
             <div class="card-actions-row">
               <button class="btn-card-action" onclick="playAmbientVideo('87654.mp4', 'fire')">لێدان ▶</button>
             </div>
@@ -768,12 +888,12 @@ header.topbar {
     <div id="view-river-select" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="section-header">
-          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🌊 ڤیدیۆکانی شەلال/ڕووبار</h3>
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">🌊 دەنگەکانی ڕووبار</h3>
           <button onclick="switchView('view-sounds')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
         <div class="surahs-grid" id="riverGridContainer">
           <div class="surah-card">
-            <h5>ڕووباری سروشتی (ڤیدیۆ)</h5>
+            <h5>ڕووباری سروشتی</h5>
             <div class="card-actions-row">
               <button class="btn-card-action" onclick="playAmbientVideo('12634.png', 'river')">لێدان ▶</button>
             </div>
@@ -785,7 +905,7 @@ header.topbar {
     <div id="view-wind-select" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="section-header">
-          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">💨 ڤیدیۆکانی با</h3>
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">💨 دەنگەکانی با</h3>
           <button onclick="switchView('view-sounds')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
         <div class="surahs-grid" id="windGridContainer">
@@ -802,7 +922,7 @@ header.topbar {
     <div id="view-thunder-select" class="page-view">
       <div class="card-section" style="padding: 25px;">
         <div class="section-header">
-          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">⚡ ڤیدیۆکانی هەورەبروسکە</h3>
+          <h3 style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; display: inline-flex; align-items: center; gap: 8px; margin: 0;">⚡ دەنگەکانی هەورەبروسکە</h3>
           <button onclick="switchView('view-sounds')" class="btn-primary" style="padding: 6px 14px; font-size: 11px;">← گەڕانەوە</button>
         </div>
         <div class="surahs-grid" id="thunderGridContainer">
@@ -883,23 +1003,23 @@ header.topbar {
     </a>
 
     <a onclick="switchView('view-reciters')" class="bottom-nav-item" id="navBtnReciters">
-      <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" />
+      <img src="https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF&width=48&height=48" alt="people" style="filter: brightness(0) invert(1);" />
       <span class="bottom-nav-label">قارییەکان</span>
     </a>
 
     <a onclick="switchView('view-surahs')" class="bottom-nav-item" id="navBtnSurahs">
-      <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" />
+      <img src="https://iconvault.site/api/icon/hugeicons/quran-01?color=%23FFFFFF&width=48&height=48" alt="quran-01" style="filter: brightness(0) invert(1);" />
       <span class="bottom-nav-label">سوورەتەکان</span>
     </a>
 
     <a onclick="switchView('view-reading')" class="bottom-nav-item" id="navBtnReading">
-      <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" />
+      <img src="https://iconvault.site/api/icon/bi/book?color=%23FFFFFF&width=48&height=48" alt="book" style="filter: brightness(0) invert(1);" />
       <span class="bottom-nav-label">خوێندنەوە</span>
     </a>
 
     <a onclick="switchView('view-sounds')" class="bottom-nav-item" id="navBtnSounds">
-      <img src="https://iconvault.site/api/icon/mdi/voice?color=%23FFFFFF&width=48&height=48" alt="voice" />
-      <span class="bottom-nav-label">ڤیدیۆکان</span>
+      <img src="https://iconvault.site/api/icon/mdi/voice?color=%23FFFFFF&width=48&height=48" alt="voice" style="filter: brightness(0) invert(1);" />
+      <span class="bottom-nav-label">دەنگەکان</span>
     </a>
   </div>
 </div>
@@ -907,7 +1027,6 @@ header.topbar {
 <script>
 /* ========================================================
    LocalForage File Manager (Secret Panel Logic)
-   - Store Audio File as Base64 for 100% Mobile Browser Compatibility
    ======================================================== */
 const customAudioStore = localforage.createInstance({
   name: "NoorQuranFiles_v3",
@@ -932,7 +1051,7 @@ async function saveSecretAudio() {
         const file = fileInput.files[0];
         
         try {
-            const base64Audio = await getBase64(file); // Convert MP3 to text
+            const base64Audio = await getBase64(file); 
             await customAudioStore.setItem(`${reciterName}_${surahId}`, base64Audio);
             alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
             fileInput.value = ''; 
@@ -948,7 +1067,7 @@ function getCustomAudio(reciterName, surahId, callback) {
     customAudioStore.getItem(`${reciterName}_${surahId}`)
       .then(base64Data => {
          if(base64Data) {
-            callback(base64Data, true); // Returns direct Base64 string as URL
+            callback(base64Data, true); 
          } else {
             callback(null, false);
          }
@@ -963,7 +1082,48 @@ function removeSecretAudio() {
       .then(() => alert("فایلە شاراوەکە بە سەرکەوتوویی سڕرایەوە"));
 }
 
-// سێ کلیک بۆ کردنەوەی پەنجەرە شاراوەکە
+/* ---------------------------------
+   زیادکردنی قاریئی نوێ بۆ بەرنامەکە
+   --------------------------------- */
+function addNewReciter() {
+    const nameInput = document.getElementById('newReciterName');
+    const newName = nameInput.value.trim();
+    if (!newName) {
+        alert("تکایە ناوی قاریئ بنووسە");
+        return;
+    }
+    
+    const exists = customReciters.find(r => r.name === newName);
+    if (exists) {
+        alert("ئەم قارییە پێشتر زیاد کراوە");
+        return;
+    }
+    
+    customReciters.push({
+        name: newName,
+        moshaf: [{ name: "تایبەت (لۆکاڵی)", server: "local_only" }]
+    });
+    
+    localStorage.setItem('noor_all_reciters', JSON.stringify(customReciters));
+    populateSecretPanel();
+    displayRecitersList(customReciters);
+    
+    nameInput.value = "";
+    alert("قاریئەکە بە سەرکەوتوویی زیاد کرا!");
+}
+
+function deleteSelectedReciter() {
+    const reciterName = document.getElementById('secretReciter').value;
+    if(!confirm("دڵنیایت لە سڕینەوەی ئەم قارییە لەناو ئەپڵیکەیشنەکە؟")) return;
+    
+    customReciters = customReciters.filter(r => r.name !== reciterName);
+    localStorage.setItem('noor_all_reciters', JSON.stringify(customReciters));
+    
+    populateSecretPanel();
+    displayRecitersList(customReciters);
+    alert("قاریئەکە سڕرایەوە");
+}
+
 let clickCount = 0;
 let clickTimeout;
 function handleSecretClick() {
@@ -1003,15 +1163,20 @@ function populateSecretPanel() {
 const API = 'https://mp3quran.net/api/v3';
 let surahsData = [];
 
-// لیستی قارییەکان
-const customReciters = [
-  { name: "محمد رعد الكردي", moshaf: [{ name: "قورئان خوێندن بە تەجوید و دەنگی خۆش", server: "https://server6.mp3quran.net/raad/" }] },
-  { name: "پێشەوا قادر الکردی", moshaf: [{ name: "قورئان خوێندن بە تەجوید و دەنگی خۆش", server: "https://server11.mp3quran.net/peshawa/" }] },
+const defaultReciters = [
+  { name: "محمد رعد الكردي", moshaf: [{ name: "قورئان خوێندن بە تەجوید", server: "https://server6.mp3quran.net/raad/" }] },
+  { name: "پێشەوا قادر الکردی", moshaf: [{ name: "قورئان خوێندن بە تەجوید", server: "https://server11.mp3quran.net/peshawa/" }] },
   { name: "محمد صديق المنشاوي", moshaf: [{ name: "مُجَوَّد", server: "https://server10.mp3quran.net/minsh_mjwd/" }] },
   { name: "عبدالباسط عبدالصمد", moshaf: [{ name: "مُجَوَّد", server: "https://server7.mp3quran.net/basit_mjwd/" }] },
   { name: "عبدالرحمن مسعد", moshaf: [{ name: "مورەتتەل", server: "https://server11.mp3quran.net/a_musaad/" }] }, 
   { name: "إدريس أبكر", moshaf: [{ name: "مورەتتەل", server: "https://server6.mp3quran.net/abkr/" }] }
 ];
+
+let customReciters = JSON.parse(localStorage.getItem('noor_all_reciters'));
+if (!customReciters || customReciters.length === 0) {
+    customReciters = defaultReciters;
+    localStorage.setItem('noor_all_reciters', JSON.stringify(customReciters));
+}
 
 let selectedMoshaf = null;
 let selectedReciterName = ""; 
@@ -1040,6 +1205,8 @@ function toArabicNumbers(num) {
 }
 
 let currentAyahs = [];
+let currentKurdishAyahs = [];
+let showTranslation = false;
 let currentReadingPage = 1;
 let currentFontSize = 26;
 const ayahsPerPage = 8;
@@ -1393,7 +1560,7 @@ function stopLiveNatureCanvas() {
 function applyTallPlayerTheme(type, customMediaUrl) {
   const theme = natureVisualThemes[type] || natureVisualThemes.rain;
 
-  tallPlayerBox.style.backgroundColor = '#000000';
+  tallPlayerBox.style.backgroundColor = 'transparent';
   tallPlayerBox.style.backgroundImage = 'none';
   
   if(tallVideoMask) {
@@ -1432,7 +1599,6 @@ function quickPlayAmbient(type) {
   document.getElementById('tallSoundsMenu').classList.remove('active');
 }
 
-/* Play Nature Sound with Loud 100% Volume + Smart Fallback */
 function playAmbientVideo(mediaPath, type) {
   stopSynthSound();
   applyTallPlayerTheme(type, mediaPath);
@@ -1472,24 +1638,6 @@ function playAmbientVideo(mediaPath, type) {
   tryNextAudio(0);
 }
 
-function playAmbientVideoManual(fileURL, type) {
-  stopSynthSound();
-  applyTallPlayerTheme(type, fileURL);
-
-  ambientAudio.src = fileURL;
-  ambientAudio.volume = currentVolumeLevel;
-  ambientAudio.muted = false;
-  ambientAudio.play().then(() => {
-    ambientToggleBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-  }).catch(() => {
-    tallPlayerBgVideo.src = fileURL;
-    tallPlayerBgVideo.muted = false;
-    tallPlayerBgVideo.volume = currentVolumeLevel;
-    tallPlayerBgVideo.style.display = 'block';
-    tallPlayerBgVideo.play().catch(()=>{});
-  });
-}
-
 function toggleAmbientSound() {
   const isSynthActive = synthNodes.length > 0;
   if(ambientAudio.paused && !isSynthActive) {
@@ -1508,7 +1656,7 @@ function stopAmbientSound() {
   tallPlayerBgVideo.pause();
   tallPlayerBgVideo.muted = true;
   tallPlayerBgVideo.style.display = 'none';
-  tallPlayerBox.style.backgroundColor = '#000000'; // Make sure it's pitch black
+  tallPlayerBox.style.backgroundColor = '#000000'; 
 
   stopLiveNatureCanvas();
 
@@ -1518,32 +1666,6 @@ function stopAmbientSound() {
   if(badge) {
     badge.textContent = 'دەنگی سروشت: ناچالاک';
   }
-}
-
-/* Handle User Video/Audio Upload and Add Card with Delete Button */
-function handleUserVideoUpload(event, type) {
-  const file = event.target.files[0];
-  if(!file) return;
-  const fileURL = URL.createObjectURL(file);
-  const fileName = file.name;
-
-  const containerId = type + 'GridContainer';
-  const container = document.getElementById(containerId);
-
-  const card = document.createElement('div');
-  card.className = 'surah-card';
-  card.style.padding = '15px';
-  card.innerHTML = `
-    <h5>${fileName}</h5>
-    <small>فایلی بارکراو</small>
-    <div class="card-actions-row">
-      <button class="btn-card-action" onclick="playAmbientVideoManual('${fileURL}', '${type}')">لێدان ▶</button>
-      <button class="btn-card-close" onclick="stopAmbientSound()">ڕاگرتن ⏹</button>
-      <button class="btn-card-delete" onclick="this.closest('.surah-card').remove()">سڕینەوە 🗑</button>
-    </div>
-  `;
-  container.appendChild(card);
-  playAmbientVideoManual(fileURL, type);
 }
 
 function setPlayIcon(isPlaying) {
@@ -1568,6 +1690,17 @@ function toggleLoop() {
     document.getElementById('loopBtn').style.borderColor = audioElement.loop ? 'var(--gold)' : 'rgba(255, 255, 255, 0.2)';
 }
 
+function getReciterImage(name) {
+    if (!name) return 'default-avatar.png';
+    if (name.includes("رعد")) return "raad.jpg";
+    if (name.includes("پێشەوا")) return "peshawa.jpg";
+    if (name.includes("المنشاوي")) return "minshawi.jpg";
+    if (name.includes("عبدالباسط")) return "abdulbasit.jpg";
+    if (name.includes("مسعد")) return "musaad.jpg";
+    if (name.includes("أبكر")) return "abkar.jpg";
+    return "default-avatar.png"; 
+}
+
 function syncPlayerLabels(surahTitle, reciterName) {
   if(surahTitle) {
     document.getElementById('playingTitle').textContent = surahTitle;
@@ -1576,6 +1709,14 @@ function syncPlayerLabels(surahTitle, reciterName) {
   if(reciterName) {
     document.getElementById('playingReciter').textContent = reciterName;
     document.getElementById('fullPlayingReciter').textContent = reciterName;
+    
+    const homeReciterNameEl = document.getElementById('homeReciterName');
+    if (homeReciterNameEl) homeReciterNameEl.textContent = reciterName;
+    
+    const homeReciterImgEl = document.getElementById('homeReciterImg');
+    if (homeReciterImgEl) {
+        homeReciterImgEl.src = getReciterImage(reciterName);
+    }
   }
 }
 
@@ -1598,11 +1739,25 @@ let quoteInterval;
 
 function switchView(viewId) {
   localStorage.setItem('noor_active_view', viewId);
-  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
-  const targetView = document.getElementById(viewId);
-  if(targetView) {
-    targetView.classList.add('active');
-  }
+  const views = document.querySelectorAll('.page-view');
+  
+  // Transition logic (Fade effect)
+  views.forEach(v => {
+    if(v.classList.contains('active')) {
+      v.style.opacity = '0';
+      setTimeout(() => { v.classList.remove('active'); }, 400);
+    }
+  });
+
+  setTimeout(() => {
+      const targetView = document.getElementById(viewId);
+      if(targetView) {
+        targetView.classList.add('active');
+        void targetView.offsetWidth;
+        targetView.style.opacity = '1';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 400);
 
   document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.side-menu a').forEach(el => el.classList.remove('active'));
@@ -1613,10 +1768,6 @@ function switchView(viewId) {
     
     if(viewId === 'view-home') {
         startQuoteSlider();
-    }
-    
-    if(viewId === 'view-full-player' && ambientAudio.paused && synthNodes.length === 0) {
-        tallPlayerBox.style.backgroundColor = '#000000';
     }
   } else {
     clearInterval(quoteInterval);
@@ -1638,7 +1789,6 @@ function switchView(viewId) {
   } else if(viewId === 'view-favorites') {
     renderFavoritesPage();
   }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function startQuoteSlider() {
@@ -1646,6 +1796,16 @@ function startQuoteSlider() {
   const slides = document.querySelectorAll('.quote-slide');
   if(!slides || slides.length === 0) return;
   
+  // Ensure initially only the first one is active
+  slides.forEach((s, i) => {
+     if(i === 0) {
+         s.classList.add('active');
+         s.style.animation = 'none';
+     } else {
+         s.classList.remove('active');
+     }
+  });
+
   let currentSlide = 0;
   quoteInterval = setInterval(() => {
     slides.forEach(s => {
@@ -1668,7 +1828,6 @@ async function loadData() {
     surahsData = sData.suwar || sData.surahs || [];
 
     populateSecretPanel();
-
     renderSurahs(surahsData);
     renderReadingSurahsList(surahsData);
     displayRecitersList(customReciters);
@@ -1767,7 +1926,6 @@ function renderReadingSurahsList(items) {
   });
 }
 
-/* Feature: Resize font */
 function changeFontSize(amount) {
   currentFontSize += amount;
   if(currentFontSize < 16) currentFontSize = 16;
@@ -1775,13 +1933,24 @@ function changeFontSize(amount) {
   document.getElementById('mushafContent').style.fontSize = currentFontSize + 'px';
 }
 
-/* Feature: Toggle Kurdish Translation */
 function toggleTranslation() {
   showTranslation = !showTranslation;
   const btn = document.getElementById('transToggleBtn');
   btn.style.background = showTranslation ? 'var(--gold)' : 'rgba(255,255,255,0.08)';
   btn.style.color = showTranslation ? '#000' : 'var(--gold2)';
   renderReadingPageContent(); 
+}
+
+function colorizeQuranText(text) {
+  let coloredText = text;
+  coloredText = coloredText.replace(/ۗ/g, '<span class="waqf-qala" title="وەستان باشترە">ۗ</span>');
+  coloredText = coloredText.replace(/ۖ/g, '<span class="waqf-sila" title="بەردەوامبوون باشترە">ۖ</span>');
+  coloredText = coloredText.replace(/ۚ/g, '<span class="waqf-jeem" title="وەستان ڕێپێدراوە">ۚ</span>');
+  coloredText = coloredText.replace(/ۘ/g, '<span class="waqf-meem" title="وەستانی پێویست (دەبێت بوەستیت)">ۘ</span>');
+  coloredText = coloredText.replace(/ۙ/g, '<span class="waqf-la" title="مەوەستە">ۙ</span>');
+  coloredText = coloredText.replace(/ۛ/g, '<span class="waqf-dots" title="لە یەکێکیان بوەستە">ۛ</span>');
+  coloredText = coloredText.replace(/(ٱللَّهِ|ٱللَّهُ|ٱللَّهَ|لِلَّهِ)/g, '<span class="allah-word">$1</span>');
+  return coloredText;
 }
 
 async function openSurahReader(surahId, surahName) {
@@ -1795,11 +1964,11 @@ async function openSurahReader(surahId, surahName) {
   contentEl.innerHTML = 'بارکردنی دەقی سوورەت...';
 
   try {
-    const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/editions/quran-simple,ku.asan`);
+    const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/editions/quran-uthmani,ku.asan`);
     const data = await res.json();
     if(data.code === 200) {
-      currentAyahs = data.data[0].ayahs; // Arabic
-      currentKurdishAyahs = data.data[1].ayahs; // Kurdish
+      currentAyahs = data.data[0].ayahs; 
+      currentKurdishAyahs = data.data[1].ayahs; 
       
       currentReadingPage = Number(localStorage.getItem(`reading_page_${surahId}`)) || 1;
       
@@ -1824,14 +1993,13 @@ function renderReadingPageContent() {
   const pageKurdishAyahs = currentKurdishAyahs.slice(start, end);
 
   let bismillahHeader = '';
-  // پێشاندانی بسم الله تەنیا بۆ پەڕەی یەکەم
   if (currentReadingPage === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
     bismillahHeader = `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
   }
 
   let ayahsHtml = '';
   
-  const bismillahRegex = /بِسْمِ\s*اللَّهِ\s*الرَّحْمَٰنِ\s*الرَّحِيمِ|بِسْمِ\s*ٱللَّهِ\s*ٱلرَّحْمَـٰنِ\s*ٱلرَّحِيمِ|بِسْمِ\s*اللَّهِ\s*الرَّحْمَنِ\s*الرَّحِيمِ/gi;
+  const bismillahRegex = /^بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ\s*/;
 
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
@@ -1840,12 +2008,14 @@ function renderReadingPageContent() {
         text = text.replace(bismillahRegex, '').trim();
     }
     
+    text = colorizeQuranText(text);
+    
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
        kurdishHtml = `<div class="mushaf-translation">${pageKurdishAyahs[index].text}</div>`;
     }
     
-    ayahsHtml += `<span>${text} <span style="color: var(--gold); font-size: 0.85em; margin: 0 5px;">﴿${toArabicNumbers(ayah.numberInSurah)}﴾</span></span> ${kurdishHtml}`;
+    ayahsHtml += `<span>${text} <span style="color: var(--gold); font-size: 0.75em; margin: 0 5px;">﴿${toArabicNumbers(ayah.numberInSurah)}﴾</span></span> ${kurdishHtml}`;
   });
 
   contentEl.innerHTML = bismillahHeader + ayahsHtml;
@@ -1865,7 +2035,7 @@ function nextReadingPage() {
     const content = document.getElementById('mushafPageContainer');
     content.style.animation = 'none';
     void content.offsetWidth; 
-    content.style.animation = 'flipPageNext 0.6s ease-in-out forwards';
+    content.style.animation = 'fadeOutIn 0.6s ease-in-out forwards';
     
     setTimeout(() => {
       currentReadingPage++;
@@ -1879,7 +2049,7 @@ function prevReadingPage() {
     const content = document.getElementById('mushafPageContainer');
     content.style.animation = 'none';
     void content.offsetWidth; 
-    content.style.animation = 'flipPagePrev 0.6s ease-in-out forwards';
+    content.style.animation = 'fadeOutIn 0.6s ease-in-out forwards';
     
     setTimeout(() => {
       currentReadingPage--;
@@ -1891,6 +2061,36 @@ function prevReadingPage() {
 function backToReadingList() {
   document.getElementById('readingReaderContainer').style.display = 'none';
   document.getElementById('readingListContainer').style.display = 'block';
+}
+
+function renderUniqueReciters(reciters) {
+  const seenNames = new Set();
+  let validReciters = [];
+
+  reciters.forEach(reciter => {
+    if (!seenNames.has(reciter.name)) {
+      seenNames.add(reciter.name);
+      if (reciter.moshaf && reciter.moshaf.length > 0) {
+        validReciters.push(reciter);
+      }
+    }
+  });
+
+  window.allValidReciters = validReciters;
+  displayRecitersList(validReciters);
+
+  const savedReciterName = localStorage.getItem('noor_reciter_name');
+  if (savedReciterName) {
+    const found = validReciters.find(r => r.name === savedReciterName);
+    if (found && found.moshaf && found.moshaf.length > 0) {
+      selectedMoshaf = found.moshaf[0];
+      syncPlayerLabels(null, found.name);
+    }
+  } else if(validReciters.length > 0 && !selectedMoshaf) {
+    selectedMoshaf = validReciters[0].moshaf[0];
+    syncPlayerLabels(null, validReciters[0].name);
+    localStorage.setItem('noor_reciter_name', validReciters[0].name);
+  }
 }
 
 function displayRecitersList(recitersList) {
@@ -1932,10 +2132,17 @@ function displayRecitersList(recitersList) {
         
         getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
             let audioUrl = hasCustom ? customUrl : selectedMoshaf.server + pad(currentSurahId) + '.mp3';
+            
+            if(!hasCustom && selectedMoshaf.server === "local_only") {
+               audioUrl = ""; 
+            }
+            
             audioElement.src = audioUrl;
-            document.getElementById('downloadBtn').href = audioUrl;
-            audioElement.currentTime = currentTime;
-            audioElement.play().catch(()=>{});
+            document.getElementById('downloadBtn').href = audioUrl || '#';
+            if(audioUrl) {
+                audioElement.currentTime = currentTime;
+                audioElement.play().catch(()=>{});
+            }
         });
       } else {
         getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
@@ -1948,7 +2155,6 @@ function displayRecitersList(recitersList) {
     container.appendChild(item);
   });
   
-  // Set default reciter initially
   if(!selectedMoshaf && recitersList.length > 0) {
      selectedMoshaf = recitersList[0].moshaf[0];
      selectedReciterName = recitersList[0].name;
@@ -1968,20 +2174,23 @@ function playSurahAudio(id, name) {
   syncPlayerLabels(name, null);
   audioElement.volume = currentReciterVolume;
   
-  // Reset UI Time
   document.getElementById('currentTime').textContent = "00:00";
   document.getElementById('fullCurrentTime').textContent = "00:00";
   seekSlider.value = 0;
   fullSeekSlider.value = 0;
 
-  // هەوڵی هێنانی فایلی لۆکاڵی دەدات پێش ئەوەی سێرڤەر بەکاربهێنێت
   getCustomAudio(selectedReciterName, id, (customUrl, hasCustom) => {
       let audioUrl = hasCustom ? customUrl : selectedMoshaf.server + pad(id) + '.mp3';
+      
+      if (!hasCustom && selectedMoshaf.server === "local_only") {
+          alert("ئەم سوورەتە هێشتا دەنگی بۆ دانەندراوە. تکایە لە بەشە شاراوەکە دەنگی بۆ ئاپڵۆد بکە.");
+          setPlayIcon(false);
+          return; 
+      }
       
       audioElement.src = audioUrl;
       document.getElementById('downloadBtn').href = audioUrl;
       
-      // Allow renaming for downloaded secret files
       if (hasCustom) {
          document.getElementById('downloadBtn').download = `${selectedReciterName}_${name}.mp3`;
       } else {
@@ -2076,14 +2285,12 @@ function formatTime(secs) {
 }
 function padZero(n) { return n < 10 ? '0' + n : n; }
 
-// Powerful Reciter Search
 document.getElementById('reciterSearchInput').addEventListener('input', (e) => {
   const query = e.target.value.toLowerCase().trim();
   const filtered = customReciters.filter(r => r.name.toLowerCase().includes(query));
   displayRecitersList(filtered);
 });
 
-// Powerful Reading/Surah Search
 document.getElementById('readingSearchInput').addEventListener('input', (e) => {
   const query = e.target.value.toLowerCase().trim();
   const filtered = surahsData.filter(s => 
@@ -2094,7 +2301,6 @@ document.getElementById('readingSearchInput').addEventListener('input', (e) => {
 });
 
 loadData();
-
 initBgSlider(); 
 switchView('view-home');
 
