@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
-<!-- LocalForage Library for correct MP3 storage -->
+<!-- LocalForage Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
 
 <style>
@@ -360,22 +360,6 @@ header.topbar {
 .btn-play-sound { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--gold2); padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-play-sound:hover { background: var(--gold); color: #0a1825; }
 
-/* Card Actions for Play & Delete */
-.card-actions-row { display: flex; gap: 8px; margin-top: 10px; width: 100%; justify-content: center; flex-wrap: wrap; }
-.btn-card-action { background: rgba(240, 213, 140, 0.15); border: 1px solid var(--gold); color: var(--gold2); padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.btn-card-action:hover { background: var(--gold); color: #050a10; }
-.btn-card-delete { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.btn-card-delete:hover { background: rgba(255,255,255,0.3); color: #000; }
-
-/* Upload Box Style */
-.upload-box {
-  background: var(--glass-bg); border: 2px dashed var(--gold); border-radius: 18px;
-  padding: 18px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: 0.3s;
-}
-.upload-box:hover { background: rgba(255, 255, 255, 0.1); }
-.upload-box input { display: none; }
-.upload-box label { cursor: pointer; color: var(--gold2); font-size: 13px; display: block; font-weight: 700; }
-
 /* Hidden Admin Panel Styles */
 #secretAdminPanel {
   display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -459,7 +443,7 @@ header.topbar {
 </div>
 <div class="bg-overlay"></div>
 
-<!-- HIDDEN CUSTOM MP3 MANAGER -->
+<!-- HIDDEN CUSTOM MP3 MANAGER (Using Base64 encoding to fix mobile browser limitations) -->
 <div id="secretAdminPanel">
   <h3>بەڕێوەبردنی دەنگەکان (تایبەت)</h3>
   <p>لێرە دەتوانیت بۆ هەر قارییەک و سوورەتێک کە دەتەوێت فایلی MP3 ناو مۆبایلەکەت دابنێیت. فایلەکە لۆکاڵی خەزن دەبێت و وەک قارییەکی ئاسایی لێیدەداتەوە.</p>
@@ -511,7 +495,7 @@ header.topbar {
   <!-- Main Content -->
   <main class="main-content">
     
-    <!-- Topbar with mobile NOOR QURAN text for secret trigger -->
+    <!-- Topbar -->
     <header class="topbar" style="justify-content: space-between;">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
@@ -923,14 +907,23 @@ header.topbar {
 <script>
 /* ========================================================
    LocalForage File Manager (Secret Panel Logic)
-   - Store Audio File as Native Blob for proper Mobile streaming
+   - Store Audio File as Base64 for 100% Mobile Browser Compatibility
    ======================================================== */
 const customAudioStore = localforage.createInstance({
-  name: "NoorQuranFiles",
-  storeName: "CustomAudiosBlob"
+  name: "NoorQuranFiles_v3",
+  storeName: "CustomAudiosBase64"
 });
 
-function saveSecretAudio() {
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+async function saveSecretAudio() {
     const reciterName = document.getElementById('secretReciter').value;
     const surahId = document.getElementById('secretSurah').value;
     const fileInput = document.getElementById('secretFileInput');
@@ -938,13 +931,14 @@ function saveSecretAudio() {
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         
-        // خەزنکردنی فایلەکە ڕاستەوخۆ وەک Blob
-        customAudioStore.setItem(`${reciterName}_${surahId}`, file)
-          .then(() => {
-              alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
-              fileInput.value = ''; // سڕینەوەی فایلەکە لە ئینپوتەکە دوای خەزنکردن
-          })
-          .catch(err => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err));
+        try {
+            const base64Audio = await getBase64(file); // Convert MP3 to text
+            await customAudioStore.setItem(`${reciterName}_${surahId}`, base64Audio);
+            alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
+            fileInput.value = ''; 
+        } catch (err) {
+            alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err);
+        }
     } else {
         alert("تکایە سەرەتا فایلێکی دەنگی هەڵبژێرە");
     }
@@ -952,10 +946,9 @@ function saveSecretAudio() {
 
 function getCustomAudio(reciterName, surahId, callback) {
     customAudioStore.getItem(`${reciterName}_${surahId}`)
-      .then(blob => {
-         if(blob) {
-            // دروستکردنی لینکێکی ناوخۆیی بۆ پەڕگەکە بۆ ئەوەی بە ئاسانی لێیبدرێت
-            callback(URL.createObjectURL(blob), true);
+      .then(base64Data => {
+         if(base64Data) {
+            callback(base64Data, true); // Returns direct Base64 string as URL
          } else {
             callback(null, false);
          }
@@ -1047,8 +1040,6 @@ function toArabicNumbers(num) {
 }
 
 let currentAyahs = [];
-let currentKurdishAyahs = [];
-let showTranslation = false;
 let currentReadingPage = 1;
 let currentFontSize = 26;
 const ayahsPerPage = 8;
@@ -1233,6 +1224,7 @@ function startLiveNatureCanvas(type) {
 
   if(animFrameId) cancelAnimationFrame(animFrameId);
 
+  // Disable canvas for video-only themes to let the video shine
   if(type === 'fire' || type === 'river') {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1516,7 +1508,7 @@ function stopAmbientSound() {
   tallPlayerBgVideo.pause();
   tallPlayerBgVideo.muted = true;
   tallPlayerBgVideo.style.display = 'none';
-  tallPlayerBox.style.backgroundColor = '#000000'; 
+  tallPlayerBox.style.backgroundColor = '#000000'; // Make sure it's pitch black
 
   stopLiveNatureCanvas();
 
@@ -1526,6 +1518,32 @@ function stopAmbientSound() {
   if(badge) {
     badge.textContent = 'دەنگی سروشت: ناچالاک';
   }
+}
+
+/* Handle User Video/Audio Upload and Add Card with Delete Button */
+function handleUserVideoUpload(event, type) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const fileURL = URL.createObjectURL(file);
+  const fileName = file.name;
+
+  const containerId = type + 'GridContainer';
+  const container = document.getElementById(containerId);
+
+  const card = document.createElement('div');
+  card.className = 'surah-card';
+  card.style.padding = '15px';
+  card.innerHTML = `
+    <h5>${fileName}</h5>
+    <small>فایلی بارکراو</small>
+    <div class="card-actions-row">
+      <button class="btn-card-action" onclick="playAmbientVideoManual('${fileURL}', '${type}')">لێدان ▶</button>
+      <button class="btn-card-close" onclick="stopAmbientSound()">ڕاگرتن ⏹</button>
+      <button class="btn-card-delete" onclick="this.closest('.surah-card').remove()">سڕینەوە 🗑</button>
+    </div>
+  `;
+  container.appendChild(card);
+  playAmbientVideoManual(fileURL, type);
 }
 
 function setPlayIcon(isPlaying) {
@@ -1806,6 +1824,7 @@ function renderReadingPageContent() {
   const pageKurdishAyahs = currentKurdishAyahs.slice(start, end);
 
   let bismillahHeader = '';
+  // پێشاندانی بسم الله تەنیا بۆ پەڕەی یەکەم
   if (currentReadingPage === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
     bismillahHeader = `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
   }
@@ -1929,6 +1948,7 @@ function displayRecitersList(recitersList) {
     container.appendChild(item);
   });
   
+  // Set default reciter initially
   if(!selectedMoshaf && recitersList.length > 0) {
      selectedMoshaf = recitersList[0].moshaf[0];
      selectedReciterName = recitersList[0].name;
@@ -1948,16 +1968,20 @@ function playSurahAudio(id, name) {
   syncPlayerLabels(name, null);
   audioElement.volume = currentReciterVolume;
   
+  // Reset UI Time
   document.getElementById('currentTime').textContent = "00:00";
   document.getElementById('fullCurrentTime').textContent = "00:00";
   seekSlider.value = 0;
   fullSeekSlider.value = 0;
 
+  // هەوڵی هێنانی فایلی لۆکاڵی دەدات پێش ئەوەی سێرڤەر بەکاربهێنێت
   getCustomAudio(selectedReciterName, id, (customUrl, hasCustom) => {
       let audioUrl = hasCustom ? customUrl : selectedMoshaf.server + pad(id) + '.mp3';
       
       audioElement.src = audioUrl;
       document.getElementById('downloadBtn').href = audioUrl;
+      
+      // Allow renaming for downloaded secret files
       if (hasCustom) {
          document.getElementById('downloadBtn').download = `${selectedReciterName}_${name}.mp3`;
       } else {
@@ -1968,11 +1992,16 @@ function playSurahAudio(id, name) {
         setPlayIcon(true);
       }).catch((error) => {
         console.error("Error playing audio:", error);
-        alert('کێشەیەک هەیە لە لێدانی ئەم سوورەتە، تکایە دڵنیابە لە هێڵی ئینتەرنێت.');
+        alert('کێشەیەک هەیە لە لێدانی ئەم سوورەتە، تکایە دڵنیابە لە هێڵی ئینتەرنێت یان فایلەکە بەڕێکی خەزن کراوە.');
         setPlayIcon(false);
       });
 
       localStorage.setItem('noor_last_surah', name);
+      
+      recentList = recentList.filter(item => item.id !== id);
+      recentList.unshift({ id, name });
+      if(recentList.length > 10) recentList.pop();
+      localStorage.setItem('noor_recent_list', JSON.stringify(recentList));
   });
 }
 
