@@ -297,19 +297,22 @@ header.topbar {
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px;
 }
-.reader-container-wrapper { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+.reader-container-wrapper { 
+  position: relative; display: flex; align-items: stretch; justify-content: center; width: 100%; margin-top: 20px;
+}
 
-/* --- Fixed height Quran Page layout with border frame --- */
+/* --- FULL WIDTH Reader Box (No Margins) --- */
 .reader-box {
   background: rgba(20, 15, 7, 0.95); 
   border: 1px solid var(--gold); 
   border-radius: 12px; 
-  padding: 35px 25px; 
-  height: 62vh; /* FIXED HEIGHT SO ARROWS DONT MOVE */
+  padding: 35px 60px; /* زیادکردنی پادینگ بۆ ئەوەی تیرەکان نەچنە سەر دەقەکە */
+  height: 70vh; /* زیاتر پڕ بە شاشەکە */
   overflow-y: auto; 
   box-shadow: inset 0 0 0 4px rgba(20, 15, 7, 0.95), inset 0 0 0 5px rgba(216, 182, 106, 0.5), var(--card-shadow); 
   flex: 1;
-  margin: 0 50px; 
+  width: 100%; /* پڕ بە بەشەکە */
+  margin: 0; /* هیچ بۆشاییەک لە ڕاست و چەپ نەما */
   transition: font-size 0.3s ease;
 }
 
@@ -334,7 +337,7 @@ header.topbar {
 .waqf-dots { color: #9b59b6; font-weight: bold; font-size: 1.1em;} 
 .allah-word { color: var(--gold2); font-weight: bold; }
 
-/* Arrows */
+/* Arrows (Fixed position inside the reader wrapper) */
 .side-nav-arrow {
   position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15); color: var(--gold2); width: 44px; height: 44px;
@@ -342,7 +345,8 @@ header.topbar {
   transition: 0.3s; z-index: 10; backdrop-filter: blur(5px);
 }
 .side-nav-arrow:hover { background: var(--gold); color: #000; border-color: var(--gold); transform: translateY(-50%) scale(1.1); }
-.right-arrow { right: 0; } .left-arrow { left: 0; } 
+.right-arrow { right: 10px; } /* نزیک لە لێواری ڕاست */
+.left-arrow { left: 10px; } /* نزیک لە لێواری چەپ */
 
 /* New Fade Animation for Page Change */
 @keyframes fadeOutIn { 
@@ -432,7 +436,7 @@ header.topbar {
 .nature-sounds-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; width: 100%; }
 .nature-sound-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; backdrop-filter: blur(25px); transition: 0.3s; width: 100%; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item:hover { border-color: var(--gold); background: rgba(216, 182, 106, 0.1); transform: translateY(-4px); }
-.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: brightness(0) invert(1); } /* Made Icons White */
+.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: brightness(0) invert(1); }
 .nature-sound-item h6 { margin: 0; font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
 .btn-play-sound { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--gold2); padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-play-sound:hover { background: var(--gold); color: #0a1825; }
@@ -523,8 +527,9 @@ header.topbar {
   .quote-meaning { font-size: 12px; }
   .motivational-quote-box { font-size: 15px; }
   .surahs-grid { grid-template-columns: 1fr; }
-  /* Wider and Taller Reader Box for Mobile */
-  .reader-box { margin: 0 35px; padding: 25px 15px; height: 68vh; } 
+  
+  /* گەورەکردنی بەشی قورئان و سڕینەوەی بۆشاییەکان */
+  .reader-box { margin: 0; padding: 25px 45px; height: 72vh; } 
   .reader-header-nav { padding-bottom: 15px; margin-bottom: 15px; flex-direction: row; flex-wrap: nowrap; width: 100%; justify-content: space-between;}
   .side-nav-arrow { width: 34px; height: 34px; font-size: 16px; }
   .bottom-nav-bar { padding: 8px 10px; }
@@ -602,7 +607,7 @@ header.topbar {
   <!-- Main Content -->
   <main class="main-content">
     
-    <!-- Topbar with mobile NOOR QURAN text for secret trigger -->
+    <!-- Topbar -->
     <header class="topbar" style="justify-content: space-between;">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
@@ -1604,24 +1609,6 @@ function playAmbientVideo(mediaPath, type) {
   tryNextAudio(0);
 }
 
-function playAmbientVideoManual(fileURL, type) {
-  stopSynthSound();
-  applyTallPlayerTheme(type, fileURL);
-
-  ambientAudio.src = fileURL;
-  ambientAudio.volume = currentVolumeLevel;
-  ambientAudio.muted = false;
-  ambientAudio.play().then(() => {
-    ambientToggleBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-  }).catch(() => {
-    tallPlayerBgVideo.src = fileURL;
-    tallPlayerBgVideo.muted = false;
-    tallPlayerBgVideo.volume = currentVolumeLevel;
-    tallPlayerBgVideo.style.display = 'block';
-    tallPlayerBgVideo.play().catch(()=>{});
-  });
-}
-
 function toggleAmbientSound() {
   const isSynthActive = synthNodes.length > 0;
   if(ambientAudio.paused && !isSynthActive) {
@@ -1725,6 +1712,7 @@ function switchView(viewId) {
   localStorage.setItem('noor_active_view', viewId);
   const views = document.querySelectorAll('.page-view');
   
+  // Transition logic (Fade effect)
   views.forEach(v => {
     if(v.classList.contains('active')) {
       v.style.opacity = '0';
@@ -1923,6 +1911,20 @@ function toggleTranslation() {
   renderReadingPageContent(); 
 }
 
+function colorizeQuranText(text) {
+  let coloredText = text;
+  // رەنگەکان و نیشانەکانی وەستان
+  coloredText = coloredText.replace(/ۗ/g, '<span class="waqf-qala">ۗ</span>');
+  coloredText = coloredText.replace(/ۖ/g, '<span class="waqf-sila">ۖ</span>');
+  coloredText = coloredText.replace(/ۚ/g, '<span class="waqf-jeem">ۚ</span>');
+  coloredText = coloredText.replace(/ۘ/g, '<span class="waqf-meem">ۘ</span>');
+  coloredText = coloredText.replace(/ۙ/g, '<span class="waqf-la">ۙ</span>');
+  coloredText = coloredText.replace(/ۛ/g, '<span class="waqf-dots">ۛ</span>');
+  
+  coloredText = coloredText.replace(/(ٱللَّهِ|ٱللَّهُ|ٱللَّهَ|لِلَّهِ)/g, '<span class="allah-word">$1</span>');
+  return coloredText;
+}
+
 async function openSurahReader(surahId, surahName) {
   currentReadingSurahName = surahName;
   currentSurahNumber = surahId;
@@ -1972,10 +1974,13 @@ function renderReadingPageContent() {
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
     
-    // سڕینەوەی ئەو "بسم الله"ی کە لە سەرەتای ئایەتی یەکەم بە ئۆتۆماتیکی دێت بۆ گشت سوورەتەکان
+    // سڕینەوەی ئەو "بسم الله"ی کە لە سەرەتای ئایەتی یەکەم بە ئۆتۆماتیکی دێت
+    // (بەم شێوەیە کێشەی دووبارەبوونەوەکە بۆ هەمیشە بنبڕ کرا!)
     if (ayah.numberInSurah === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = text.replace(/^بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ\s*/, '').trim();
     }
+    
+    text = colorizeQuranText(text);
     
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
