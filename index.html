@@ -150,7 +150,7 @@ aside.sidebar {
   position: relative; 
 }
 
-/* Views Management with New Smooth Fade Transition */
+/* Views Management with Smooth Fade Transition */
 .page-view { 
   display: none; 
   width: 100%; 
@@ -256,7 +256,7 @@ header.topbar {
 }
 .cr-image img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Hero Banner (Quranic Ayahs Slider) */
+/* Hero Banner (Dynamic Quote Slider) */
 .hero-banner {
   border-radius: 28px;
   background: var(--glass-bg); border: 1px solid var(--glass-border);
@@ -274,6 +274,13 @@ header.topbar {
 
 .quran-ayah { font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--gold2); line-height: 1.8; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 .quote-meaning { font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--text); line-height: 2; font-weight: 400; max-width: 90%; margin: 0 auto; opacity: 0.95; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+
+.motivational-quote-box {
+  margin-top: 15px; background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; text-align: center; box-shadow: var(--card-shadow);
+  font-family: 'Amiri', serif; font-size: 19px; color: var(--text); line-height: 1.9; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+.motivational-quote-box .quote-marks { color: var(--gold2); font-size: 26px; margin: 0 4px; }
 
 /* Content Grid */
 .card-section {
@@ -326,13 +333,6 @@ header.topbar {
 .waqf-la { color: #70a1ff; font-weight: bold; font-size: 1.1em;} 
 .waqf-dots { color: #9b59b6; font-weight: bold; font-size: 1.1em;} 
 .allah-word { color: var(--gold2); font-weight: bold; }
-
-.tajweed-legend {
-  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; font-size: 12px; 
-  margin-top: 20px; padding: 12px; border-top: 1px solid var(--line); 
-  background: rgba(0,0,0,0.25); border-radius: 12px; color: #fff;
-}
-.tajweed-legend div { display: flex; align-items: center; gap: 5px; }
 
 /* Arrows */
 .side-nav-arrow {
@@ -432,7 +432,7 @@ header.topbar {
 .nature-sounds-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; width: 100%; }
 .nature-sound-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; backdrop-filter: blur(25px); transition: 0.3s; width: 100%; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item:hover { border-color: var(--gold); background: rgba(216, 182, 106, 0.1); transform: translateY(-4px); }
-.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: brightness(0) invert(1); }
+.nature-sound-icon { width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat; background-position: center; display: inline-block; filter: brightness(0) invert(1); } /* Made Icons White */
 .nature-sound-item h6 { margin: 0; font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
 .btn-play-sound { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: var(--gold2); padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 .btn-play-sound:hover { background: var(--gold); color: #0a1825; }
@@ -523,7 +523,9 @@ header.topbar {
   .quote-meaning { font-size: 12px; }
   .motivational-quote-box { font-size: 15px; }
   .surahs-grid { grid-template-columns: 1fr; }
-  .reader-box { margin: 0 40px; padding: 25px 15px; height: 60vh; } 
+  /* Wider and Taller Reader Box for Mobile */
+  .reader-box { margin: 0 35px; padding: 25px 15px; height: 68vh; } 
+  .reader-header-nav { padding-bottom: 15px; margin-bottom: 15px; flex-direction: row; flex-wrap: nowrap; width: 100%; justify-content: space-between;}
   .side-nav-arrow { width: 34px; height: 34px; font-size: 16px; }
   .bottom-nav-bar { padding: 8px 10px; }
   .bottom-nav-item { padding: 6px 10px; min-width: 55px; }
@@ -600,7 +602,7 @@ header.topbar {
   <!-- Main Content -->
   <main class="main-content">
     
-    <!-- Topbar -->
+    <!-- Topbar with mobile NOOR QURAN text for secret trigger -->
     <header class="topbar" style="justify-content: space-between;">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
@@ -621,24 +623,6 @@ header.topbar {
              <img id="homeReciterImg" src="default-avatar.png" onerror="this.src='https://iconvault.site/api/icon/icon-park/people?color=%23FFFFFF'">
          </div>
       </div>
-      
-      <!-- Quranic Ayahs Slider -->
-      <section class="hero-banner" style="margin-top: 20px;">
-        <div class="hero-text-content">
-          <div class="quote-slide active">
-            <div class="quran-ayah">﴿إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنفُسِهِمْ﴾</div>
-            <div class="quote-meaning">
-              بەڕاستی خودا حاڵی هیچ گەل و کۆمەڵێک ناگۆڕێت، تاوەکو ئەوان خۆیان ناخی خۆیان نەگۆڕن. چونکە گەورەترین گۆڕانکاری و خۆبنیادنان بۆ دروستکردنی ژیانێکی باشتر، لە ناخی مرۆڤ خۆیەوە سەرچاوە دەگرێت.
-            </div>
-          </div>
-          <div class="quote-slide">
-            <div class="quran-ayah">﴿وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا﴾</div>
-            <div class="quote-meaning">
-              مرۆڤ هیچ پاداشت و بەرهەمێکی بۆ نییە جگە لەو کۆشش و هەوڵەی کە خۆی داویەتی. ئەم ئایەتە هاندانێکی ڕاستەوخۆیە بۆ ئەوەی بەردەوام بیت لە تێکۆشان، لە هیچ شکستێک نەترسیت و هەنگاو بۆ ئامانجەکانت بنێیت.
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
 
     <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE -->
@@ -763,30 +747,20 @@ header.topbar {
 
       <div class="card-section" id="readingReaderContainer" style="display: none; padding: 15px; border:none; background:transparent; box-shadow:none;">
         <div class="reader-header-nav" style="background: var(--glass-bg); padding:15px; border-radius:15px; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); margin-bottom: 10px;">
-          <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:10px; flex: 1;">
             <button onclick="backToReadingList()" class="btn-primary" style="padding: 6px 14px; font-size: 12px;">← گەڕانەوە</button>
-            <span id="readerPageIndicator" style="color: var(--muted); font-size: 12px; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px;">پەڕەی 1 لە 1</span>
+            <span id="readerPageIndicator" style="color: var(--muted); font-size: 12px; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:8px; white-space: nowrap;">پەڕەی 1 لە 1</span>
           </div>
           
-          <div class="reader-tools">
+          <div class="reader-tools" style="display: flex; gap: 8px;">
              <button class="reader-tool-btn" onclick="changeFontSize(2)" title="گەورەکردنی فۆنت">A+</button>
              <button class="reader-tool-btn" onclick="changeFontSize(-2)" title="بچووککردنەوەی فۆنت">A-</button>
              <button class="reader-tool-btn" onclick="toggleTranslation()" title="پیشاندانی وەرگێڕانی کوردی" id="transToggleBtn">تەفسیر</button>
           </div>
 
-          <div style="display:flex; align-items:center; gap: 12px;">
-            <h3 id="readerSurahTitle" style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 24px; margin: 0;">سوورەت</h3>
+          <div style="display:flex; align-items:center; gap: 12px; justify-content: flex-end; flex: 1;">
+            <h3 id="readerSurahTitle" style="color: var(--gold2); font-family: 'Amiri', serif; font-size: 20px; margin: 0; white-space: nowrap;">سوورەت</h3>
           </div>
-        </div>
-        
-        <!-- Tajweed Legend -->
-        <div class="tajweed-legend" id="tajweedLegendBox">
-           <div><span class="waqf-qala">ۗ</span> وەستان باشترە</div>
-           <div><span class="waqf-sila">ۖ</span> بەردەوامبوون باشترە</div>
-           <div><span class="waqf-jeem">ۚ</span> وەستان ڕێپێدراوە</div>
-           <div><span class="waqf-meem">ۘ</span> وەستانی پێویست</div>
-           <div><span class="waqf-la">ۙ</span> مەوەستە</div>
-           <div><span class="waqf-dots">ۛ</span> لە یەکێکیان بوەستە</div>
         </div>
         
         <!-- Box for Reading Page with Arrows Fixed Outside -->
@@ -1029,20 +1003,11 @@ header.topbar {
    LocalForage File Manager (Secret Panel Logic)
    ======================================================== */
 const customAudioStore = localforage.createInstance({
-  name: "NoorQuranFiles_v3",
-  storeName: "CustomAudiosBase64"
+  name: "NoorQuranFiles_v4",
+  storeName: "CustomAudiosBlob"
 });
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-async function saveSecretAudio() {
+function saveSecretAudio() {
     const reciterName = document.getElementById('secretReciter').value;
     const surahId = document.getElementById('secretSurah').value;
     const fileInput = document.getElementById('secretFileInput');
@@ -1050,24 +1015,25 @@ async function saveSecretAudio() {
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         
-        try {
-            const base64Audio = await getBase64(file); 
-            await customAudioStore.setItem(`${reciterName}_${surahId}`, base64Audio);
-            alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
-            fileInput.value = ''; 
-        } catch (err) {
-            alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err);
-        }
+        customAudioStore.setItem(`${reciterName}_${surahId}`, file)
+          .then(() => {
+              alert(`بە سەرکەوتوویی پاشەکەوت کرا بۆ قاری: ${reciterName} - سوورەتی: ${surahId}`);
+              fileInput.value = ''; 
+          })
+          .catch(err => alert("هەڵەیەک ڕوویدا لە پاشەکەوتکردن: " + err));
     } else {
         alert("تکایە سەرەتا فایلێکی دەنگی هەڵبژێرە");
     }
 }
 
 function getCustomAudio(reciterName, surahId, callback) {
+    if (!reciterName) return callback(null, false);
+    
     customAudioStore.getItem(`${reciterName}_${surahId}`)
-      .then(base64Data => {
-         if(base64Data) {
-            callback(base64Data, true); 
+      .then(fileBlob => {
+         if(fileBlob) {
+            const url = URL.createObjectURL(fileBlob);
+            callback(url, true);
          } else {
             callback(null, false);
          }
@@ -1179,7 +1145,7 @@ if (!customReciters || customReciters.length === 0) {
 }
 
 let selectedMoshaf = null;
-let selectedReciterName = ""; 
+let selectedReciterName = localStorage.getItem('noor_reciter_name') || ""; 
 let currentSurahId = 1;
 
 const audioElement = document.getElementById('audioElement');
@@ -1638,6 +1604,24 @@ function playAmbientVideo(mediaPath, type) {
   tryNextAudio(0);
 }
 
+function playAmbientVideoManual(fileURL, type) {
+  stopSynthSound();
+  applyTallPlayerTheme(type, fileURL);
+
+  ambientAudio.src = fileURL;
+  ambientAudio.volume = currentVolumeLevel;
+  ambientAudio.muted = false;
+  ambientAudio.play().then(() => {
+    ambientToggleBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+  }).catch(() => {
+    tallPlayerBgVideo.src = fileURL;
+    tallPlayerBgVideo.muted = false;
+    tallPlayerBgVideo.volume = currentVolumeLevel;
+    tallPlayerBgVideo.style.display = 'block';
+    tallPlayerBgVideo.play().catch(()=>{});
+  });
+}
+
 function toggleAmbientSound() {
   const isSynthActive = synthNodes.length > 0;
   if(ambientAudio.paused && !isSynthActive) {
@@ -1741,7 +1725,6 @@ function switchView(viewId) {
   localStorage.setItem('noor_active_view', viewId);
   const views = document.querySelectorAll('.page-view');
   
-  // Transition logic (Fade effect)
   views.forEach(v => {
     if(v.classList.contains('active')) {
       v.style.opacity = '0';
@@ -1796,7 +1779,6 @@ function startQuoteSlider() {
   const slides = document.querySelectorAll('.quote-slide');
   if(!slides || slides.length === 0) return;
   
-  // Ensure initially only the first one is active
   slides.forEach((s, i) => {
      if(i === 0) {
          s.classList.add('active');
@@ -1941,18 +1923,6 @@ function toggleTranslation() {
   renderReadingPageContent(); 
 }
 
-function colorizeQuranText(text) {
-  let coloredText = text;
-  coloredText = coloredText.replace(/ۗ/g, '<span class="waqf-qala" title="وەستان باشترە">ۗ</span>');
-  coloredText = coloredText.replace(/ۖ/g, '<span class="waqf-sila" title="بەردەوامبوون باشترە">ۖ</span>');
-  coloredText = coloredText.replace(/ۚ/g, '<span class="waqf-jeem" title="وەستان ڕێپێدراوە">ۚ</span>');
-  coloredText = coloredText.replace(/ۘ/g, '<span class="waqf-meem" title="وەستانی پێویست (دەبێت بوەستیت)">ۘ</span>');
-  coloredText = coloredText.replace(/ۙ/g, '<span class="waqf-la" title="مەوەستە">ۙ</span>');
-  coloredText = coloredText.replace(/ۛ/g, '<span class="waqf-dots" title="لە یەکێکیان بوەستە">ۛ</span>');
-  coloredText = coloredText.replace(/(ٱللَّهِ|ٱللَّهُ|ٱللَّهَ|لِلَّهِ)/g, '<span class="allah-word">$1</span>');
-  return coloredText;
-}
-
 async function openSurahReader(surahId, surahName) {
   currentReadingSurahName = surahName;
   currentSurahNumber = surahId;
@@ -1998,17 +1968,14 @@ function renderReadingPageContent() {
   }
 
   let ayahsHtml = '';
-  
-  const bismillahRegex = /^بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ\s*/;
 
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
     
+    // سڕینەوەی ئەو "بسم الله"ی کە لە سەرەتای ئایەتی یەکەم بە ئۆتۆماتیکی دێت بۆ گشت سوورەتەکان
     if (ayah.numberInSurah === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
-        text = text.replace(bismillahRegex, '').trim();
+        text = text.replace(/^بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ\s*/, '').trim();
     }
-    
-    text = colorizeQuranText(text);
     
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
@@ -2061,36 +2028,6 @@ function prevReadingPage() {
 function backToReadingList() {
   document.getElementById('readingReaderContainer').style.display = 'none';
   document.getElementById('readingListContainer').style.display = 'block';
-}
-
-function renderUniqueReciters(reciters) {
-  const seenNames = new Set();
-  let validReciters = [];
-
-  reciters.forEach(reciter => {
-    if (!seenNames.has(reciter.name)) {
-      seenNames.add(reciter.name);
-      if (reciter.moshaf && reciter.moshaf.length > 0) {
-        validReciters.push(reciter);
-      }
-    }
-  });
-
-  window.allValidReciters = validReciters;
-  displayRecitersList(validReciters);
-
-  const savedReciterName = localStorage.getItem('noor_reciter_name');
-  if (savedReciterName) {
-    const found = validReciters.find(r => r.name === savedReciterName);
-    if (found && found.moshaf && found.moshaf.length > 0) {
-      selectedMoshaf = found.moshaf[0];
-      syncPlayerLabels(null, found.name);
-    }
-  } else if(validReciters.length > 0 && !selectedMoshaf) {
-    selectedMoshaf = validReciters[0].moshaf[0];
-    syncPlayerLabels(null, validReciters[0].name);
-    localStorage.setItem('noor_reciter_name', validReciters[0].name);
-  }
 }
 
 function displayRecitersList(recitersList) {
