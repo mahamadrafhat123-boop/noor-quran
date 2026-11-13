@@ -278,7 +278,6 @@ header.topbar {
   justify-content: space-between;
 }
 
-/* Glowing Moon Visual Effect inside the 1:1 Dark Night Card */
 .prayer-times-card::after {
   content: "";
   position: absolute;
@@ -324,7 +323,6 @@ header.topbar {
 }
 .pt-header select option { background: #0f172a; color: #fff; }
 
-/* Center Countdown Box inside 1:1 Card */
 .pt-countdown-box {
   text-align: center;
   background: rgba(15, 23, 42, 0.58);
@@ -523,7 +521,7 @@ header.topbar {
 }
 
 /* =========================================================
-   FULLSCREEN QURAN READER & MULTI-PAGE THEMES
+   FULLSCREEN QURAN READER, MULTI-PAGE THEMES & AYAH SPLASH
    ========================================================= */
 #readingReaderContainer {
   display: none; 
@@ -581,6 +579,9 @@ header.topbar {
   --page-divider: rgba(255, 255, 255, 0.15);
   --page-border: #60a5fa;
   --page-frame: inset 0 0 0 4px rgba(15, 23, 42, 0.95), inset 0 0 0 6px rgba(255, 255, 255, 0.25);
+  --splash-bg: rgba(96, 165, 250, 0.24);
+  --splash-border: rgba(147, 197, 253, 0.75);
+  --splash-glow: rgba(96, 165, 250, 0.45);
 
   width: 100%; height: 100%; flex: 1;
   background: var(--page-bg); border-top: 1px solid var(--page-border); border-bottom: 1px solid var(--page-border); 
@@ -591,22 +592,37 @@ header.topbar {
 .reader-box.theme-cream {
   --page-bg: #fbf3e4; --page-text: #1c1610; --page-accent: #8c5d18; --page-muted: #574631; --page-divider: rgba(140, 93, 24, 0.25); --page-border: #c59b52;
   --page-frame: inset 0 0 0 5px #fbf3e4, inset 0 0 0 8px #c59b52, inset 0 0 25px rgba(140, 93, 24, 0.12);
+  --splash-bg: rgba(197, 155, 82, 0.28);
+  --splash-border: #8c5d18;
+  --splash-glow: rgba(197, 155, 82, 0.5);
 }
 .reader-box.theme-blue {
   --page-bg: rgba(15, 23, 42, 0.92); --page-text: #f8fafc; --page-accent: #ffffff; --page-muted: #94a3b8; --page-divider: rgba(255, 255, 255, 0.15); --page-border: #60a5fa;
   --page-frame: inset 0 0 0 4px rgba(15, 23, 42, 0.95), inset 0 0 0 6px rgba(255, 255, 255, 0.25);
+  --splash-bg: rgba(96, 165, 250, 0.26);
+  --splash-border: #93c5fd;
+  --splash-glow: rgba(96, 165, 250, 0.55);
 }
 .reader-box.theme-white {
   --page-bg: #ffffff; --page-text: #0f172a; --page-accent: #1e40af; --page-muted: #475569; --page-divider: rgba(15, 23, 42, 0.15); --page-border: #94a3b8;
   --page-frame: inset 0 0 0 5px #ffffff, inset 0 0 0 7px #cbd5e1;
+  --splash-bg: rgba(59, 130, 246, 0.18);
+  --splash-border: #2563eb;
+  --splash-glow: rgba(59, 130, 246, 0.35);
 }
 .reader-box.theme-green {
   --page-bg: #06281e; --page-text: #f7f4e9; --page-accent: #e5c378; --page-muted: #a3c2b6; --page-divider: rgba(229, 195, 120, 0.2); --page-border: #d8b66a;
   --page-frame: inset 0 0 0 4px #06281e, inset 0 0 0 6px rgba(216, 182, 106, 0.5);
+  --splash-bg: rgba(229, 195, 120, 0.24);
+  --splash-border: #e5c378;
+  --splash-glow: rgba(229, 195, 120, 0.45);
 }
 .reader-box.theme-dark {
   --page-bg: #050505; --page-text: #e5e7eb; --page-accent: #d4af37; --page-muted: #9ca3af; --page-divider: rgba(255, 255, 255, 0.12); --page-border: #374151;
   --page-frame: inset 0 0 0 4px #050505, inset 0 0 0 6px rgba(212, 175, 55, 0.35);
+  --splash-bg: rgba(212, 175, 55, 0.25);
+  --splash-border: #d4af37;
+  --splash-glow: rgba(212, 175, 55, 0.5);
 }
 
 .reader-box::-webkit-scrollbar { width: 4px; }
@@ -616,8 +632,47 @@ header.topbar {
 .mushaf-page-container { width: 100%; min-height: 100%; display: flex; flex-direction: column; justify-content: flex-start; }
 .mushaf-page { width: 100%; font-family: 'Amiri Quran', serif; font-size: 26px; color: var(--page-text); line-height: 2.8; text-align: justify; text-align-last: center; direction: rtl; }
 .bismillah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--page-accent); margin-top: 10px; margin-bottom: 25px; }
+
+/* --- AYAH SPLASH TRACKING EFFECT (ئایەت بە ئایەت) --- */
+.ayah-item {
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 2px 6px;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+  display: inline;
+}
+.ayah-item:hover {
+  background-color: rgba(128, 128, 128, 0.12);
+}
+.ayah-item.active-splash {
+  background-color: var(--splash-bg);
+  box-shadow: 0 0 0 2px var(--splash-border), 0 0 22px var(--splash-glow);
+  animation: ayahSplashPulse 1.4s ease-out;
+}
+@keyframes ayahSplashPulse {
+  0% {
+    box-shadow: 0 0 0 0px var(--splash-border), 0 0 35px var(--splash-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(96, 165, 250, 0), 0 0 28px var(--splash-glow);
+  }
+  100% {
+    box-shadow: 0 0 0 2px var(--splash-border), 0 0 22px var(--splash-glow);
+  }
+}
+
 .ayah-num-mark { color: var(--page-accent); font-size: 0.78em; margin: 0 5px; font-weight: bold; }
-.mushaf-translation { display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--page-muted); line-height: 2; margin-bottom: 15px; border-bottom: 1px dashed var(--page-divider); padding-bottom: 8px; text-align-last: right;}
+.mushaf-translation { 
+  display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--page-muted); 
+  line-height: 2; margin-bottom: 15px; border-bottom: 1px dashed var(--page-divider); 
+  padding: 6px 10px 8px; border-radius: 10px; text-align-last: right; transition: 0.3s ease;
+}
+.mushaf-translation.active-splash {
+  background-color: var(--splash-bg);
+  border-right: 3px solid var(--splash-border);
+  color: var(--page-text);
+}
 
 .waqf-qala { color: #e74c3c; font-weight: bold; font-size: 1.1em; } 
 .waqf-sila { color: #16a34a; font-weight: bold; font-size: 1.1em;} 
@@ -1130,14 +1185,17 @@ header.topbar {
     <!-- FULL SCREEN READER MODAL -->
     <div id="readingReaderContainer">
       <div class="reader-header-fullscreen">
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-          <button class="topbar-btn" onclick="backToReadingList()" style="background: rgba(255,255,255,0.08); padding: 7px 14px; border-radius: 20px; width: auto; height: auto;">
+        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+          <button class="topbar-btn" onclick="backToReadingList()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;">
             <span>←</span> <span>گەڕانەوە</span>
           </button>
-          <button class="topbar-btn" id="transToggleBtn" onclick="toggleTranslation()" style="background: rgba(255,255,255,0.08); padding: 7px 14px; border-radius: 20px; width: auto; height: auto;">
+          <button class="topbar-btn" id="ayahFollowToggleBtn" onclick="toggleAyahByAyahFollow()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;">
+            <span id="ayahFollowIcon">🔊</span> <span id="ayahFollowText">لەگەڵم بێت</span>
+          </button>
+          <button class="topbar-btn" id="transToggleBtn" onclick="toggleTranslation()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;">
             <span>📖</span> <span>تەفسیر</span>
           </button>
-          <button class="topbar-btn" id="pageThemesToggleBtn" onclick="togglePageThemesBar()" style="background: rgba(255,255,255,0.08); padding: 7px 14px; border-radius: 20px; width: auto; height: auto;">
+          <button class="topbar-btn" id="pageThemesToggleBtn" onclick="togglePageThemesBar()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;">
             <span>🎨</span> <span>شێوازی پەڕە</span>
           </button>
         </div>
@@ -1369,6 +1427,7 @@ header.topbar {
     </div>
 
     <audio id="audioElement" preload="metadata"></audio>
+    <audio id="ayahAudioPlayer" preload="auto" style="display:none;"></audio>
     <audio id="ambientAudio" loop preload="auto" style="display:none;"></audio>
   </div>
 
@@ -1483,7 +1542,7 @@ function removeSecretAudio() {
 }
 
 /* ========================================================
-   ACCURATE KURDISTAN PRAYER TIMES LOGIC (کاتژمێری دروستی بانگ)
+   ACCURATE KURDISTAN PRAYER TIMES LOGIC
    ======================================================== */
 const KURD_CITIES_COORDS = {
   Erbil:        { name: 'هەولێر',    lat: 36.1901, lng: 44.0091 },
@@ -1526,7 +1585,6 @@ async function updatePrayerTimes() {
     exactClockDisplay.textContent = 'کاتی بانگدان: --:--';
 
     try {
-        // Method 3 (Muslim World League: Fajr 18°, Isha 17°) + Shafi'i school (0) + local Awqaf tune offsets
         const timestamp = Math.floor(Date.now() / 1000);
         const url = `https://api.aladhan.com/v1/timings/${timestamp}?latitude=${cityObj.lat}&longitude=${cityObj.lng}&method=3&school=0&timezonestring=Asia/Baghdad&tune=0,0,0,3,1,3,0,2,0`;
         const res = await fetch(url);
@@ -1561,7 +1619,6 @@ function startPrayerCountdown() {
     function tick() {
         if (!todayTimings) return;
 
-        // Calculate current time strictly in Kurdistan/Iraq timezone (UTC+3)
         const now = new Date();
         const nowSecs = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
 
@@ -1570,7 +1627,6 @@ function startPrayerCountdown() {
             currentClockEl.textContent = `ئێستا: ${formatKurdishClock12(now.getHours(), now.getMinutes())}`;
         }
 
-        // Only the 5 actual Adhan calls (Sunrise is excluded because it has no Adhan)
         const prayers = [
             { id: 'Fajr',    name: 'بانگی بەیانی' },
             { id: 'Dhuhr',   name: 'بانگی نیوەڕۆ' },
@@ -1594,7 +1650,6 @@ function startPrayerCountdown() {
             }
         }
 
-        // If Isha has passed today, the next Adhan is tomorrow's Fajr
         if (!nextP) {
             nextP = prayers[0];
             const [fh, fm] = parseCleanHHMM(todayTimings.Fajr);
@@ -2018,6 +2073,7 @@ let currentSurahId = Number(localStorage.getItem('noor_last_surah_id')) || 1;
 let currentSurahName = localStorage.getItem('noor_last_surah') || 'سُورَةُ الفَاتِحَة';
 
 const audioElement = document.getElementById('audioElement');
+const ayahAudioPlayer = document.getElementById('ayahAudioPlayer');
 const ambientAudio = document.getElementById('ambientAudio');
 const tallPlayerBgVideo = document.getElementById('tallPlayerBgVideo');
 const tallPlayerBox = document.getElementById('tallPlayerBox');
@@ -2027,6 +2083,7 @@ const ambientToggleBtn = document.getElementById('ambientToggleBtn');
 let currentReciterVolume = 0.80;
 let currentVolumeLevel = 0.50;
 audioElement.volume = currentReciterVolume;
+ayahAudioPlayer.volume = currentReciterVolume;
 ambientAudio.volume = currentVolumeLevel;
 tallPlayerBgVideo.volume = currentVolumeLevel;
 
@@ -2046,6 +2103,8 @@ let currentReadingPage = 1;
 const ayahsPerPage = 8;
 let currentReadingSurahName = '';
 let currentSurahNumber = 1;
+let activeSplashAyahNum = 1;
+let isAyahAutoFollow = false;
 let favorites = JSON.parse(localStorage.getItem('noor_favorites') || '[]');
 let recentList = JSON.parse(localStorage.getItem('noor_recent_list') || '[]');
 
@@ -2163,6 +2222,7 @@ function startSynthSound(type) {
 function changeReciterVolume(val) {
   currentReciterVolume = Number(val) / 100;
   audioElement.volume = currentReciterVolume;
+  ayahAudioPlayer.volume = currentReciterVolume;
 }
 
 function changeAmbientVolume(val) {
@@ -2753,7 +2813,7 @@ function toggleTranslation() {
   const btn = document.getElementById('transToggleBtn');
   btn.style.background = showTranslation ? '#ffffff' : 'rgba(255,255,255,0.08)';
   btn.style.color = showTranslation ? '#0f172a' : 'var(--text)';
-  renderReadingPageContent(); 
+  renderReadingPageContent(false); 
 }
 
 function colorizeQuranText(text) {
@@ -2768,7 +2828,124 @@ function colorizeQuranText(text) {
   return coloredText;
 }
 
+/* ========================================================
+   SPLASH AYAH-BY-AYAH TRACKING & AUTO-FOLLOW LOGIC
+   ======================================================== */
+function applyAyahSplashHighlight(ayahNumberInSurah, smoothScroll = true) {
+  activeSplashAyahNum = Number(ayahNumberInSurah);
+  localStorage.setItem(`reading_ayah_${currentSurahNumber}`, activeSplashAyahNum);
+
+  document.querySelectorAll('.ayah-item').forEach(el => el.classList.remove('active-splash'));
+  document.querySelectorAll('.mushaf-translation').forEach(el => el.classList.remove('active-splash'));
+
+  const targetSpan = document.getElementById(`reader-ayah-${activeSplashAyahNum}`);
+  const targetTrans = document.getElementById(`reader-trans-${activeSplashAyahNum}`);
+
+  if (targetSpan) {
+    void targetSpan.offsetWidth; // Restart splash animation cleanly
+    targetSpan.classList.add('active-splash');
+    if (smoothScroll) {
+      targetSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  if (targetTrans) {
+    targetTrans.classList.add('active-splash');
+  }
+}
+
+function selectAyahSplash(ayahNumberInSurah) {
+  applyAyahSplashHighlight(ayahNumberInSurah, true);
+  if (isAyahAutoFollow) {
+    playCurrentSplashAyahAudio();
+  }
+}
+
+function playCurrentSplashAyahAudio() {
+  if (!isAyahAutoFollow || !currentAyahs.length) return;
+  const ayahObj = currentAyahs.find(a => Number(a.numberInSurah) === Number(activeSplashAyahNum));
+  if (!ayahObj) return;
+
+  // Pause main full-surah player if running
+  if (!audioElement.paused) {
+    audioElement.pause();
+    setPlayIcon(false);
+  }
+
+  ayahAudioPlayer.src = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${ayahObj.number}.mp3`;
+  ayahAudioPlayer.volume = currentReciterVolume;
+  ayahAudioPlayer.play().catch(err => {
+    console.warn("Ayah audio play error:", err);
+  });
+}
+
+function stopAyahByAyahFollow() {
+  isAyahAutoFollow = false;
+  ayahAudioPlayer.pause();
+  const btn = document.getElementById('ayahFollowToggleBtn');
+  const txt = document.getElementById('ayahFollowText');
+  const icon = document.getElementById('ayahFollowIcon');
+  if (btn) {
+    btn.style.background = 'rgba(255,255,255,0.08)';
+    btn.style.color = 'var(--text)';
+  }
+  if (txt) txt.textContent = 'لەگەڵم بێت';
+  if (icon) icon.textContent = '🔊';
+}
+
+function toggleAyahByAyahFollow() {
+  if (isAyahAutoFollow) {
+    stopAyahByAyahFollow();
+  } else {
+    isAyahAutoFollow = true;
+    const btn = document.getElementById('ayahFollowToggleBtn');
+    const txt = document.getElementById('ayahFollowText');
+    const icon = document.getElementById('ayahFollowIcon');
+    if (btn) {
+      btn.style.background = '#ffffff';
+      btn.style.color = '#0f172a';
+    }
+    if (txt) txt.textContent = 'وەستان';
+    if (icon) icon.textContent = '⏸️';
+
+    // Ensure the active splash ayah is on the currently visible page
+    const startAyah = (currentReadingPage - 1) * ayahsPerPage + 1;
+    const endAyah = Math.min(currentAyahs.length, currentReadingPage * ayahsPerPage);
+    if (activeSplashAyahNum < startAyah || activeSplashAyahNum > endAyah) {
+      activeSplashAyahNum = startAyah;
+    }
+    applyAyahSplashHighlight(activeSplashAyahNum, true);
+    playCurrentSplashAyahAudio();
+  }
+}
+
+ayahAudioPlayer.addEventListener('ended', () => {
+  if (!isAyahAutoFollow) return;
+  if (activeSplashAyahNum < currentAyahs.length) {
+    const nextAyahNum = activeSplashAyahNum + 1;
+    const requiredPage = Math.ceil(nextAyahNum / ayahsPerPage);
+    if (requiredPage !== currentReadingPage) {
+      const content = document.getElementById('mushafPageContainer');
+      content.style.animation = 'none';
+      void content.offsetWidth;
+      content.style.animation = 'fadeOutIn 0.5s ease-in-out forwards';
+      setTimeout(() => {
+        currentReadingPage = requiredPage;
+        activeSplashAyahNum = nextAyahNum;
+        renderReadingPageContent(false);
+        applyAyahSplashHighlight(activeSplashAyahNum, true);
+        playCurrentSplashAyahAudio();
+      }, 250);
+    } else {
+      applyAyahSplashHighlight(nextAyahNum, true);
+      playCurrentSplashAyahAudio();
+    }
+  } else {
+    stopAyahByAyahFollow();
+  }
+});
+
 async function openSurahReader(surahId, surahName) {
+  stopAyahByAyahFollow();
   currentReadingSurahName = surahName;
   currentSurahNumber = surahId;
   document.getElementById('readerSurahTitle').textContent = surahName;
@@ -2790,11 +2967,19 @@ async function openSurahReader(surahId, surahName) {
       currentKurdishAyahs = data.data[1].ayahs; 
       
       currentReadingPage = Number(localStorage.getItem(`reading_page_${surahId}`)) || 1;
-      
       const totalPages = Math.ceil(currentAyahs.length / ayahsPerPage);
       if(currentReadingPage > totalPages) currentReadingPage = 1;
+
+      const savedAyah = Number(localStorage.getItem(`reading_ayah_${surahId}`));
+      const pageStartAyah = (currentReadingPage - 1) * ayahsPerPage + 1;
+      const pageEndAyah = Math.min(currentAyahs.length, currentReadingPage * ayahsPerPage);
+      if (savedAyah >= pageStartAyah && savedAyah <= pageEndAyah) {
+        activeSplashAyahNum = savedAyah;
+      } else {
+        activeSplashAyahNum = pageStartAyah;
+      }
       
-      renderReadingPageContent();
+      renderReadingPageContent(true);
     } else {
       contentEl.innerHTML = 'هەڵەیەک ڕوویدا لە بارکردنی دەقەکە.';
     }
@@ -2803,7 +2988,7 @@ async function openSurahReader(surahId, surahName) {
   }
 }
 
-function renderReadingPageContent() {
+function renderReadingPageContent(resetScrollTop = true) {
   const contentEl = document.getElementById('mushafContent');
   const start = (currentReadingPage - 1) * ayahsPerPage;
   const end = start + ayahsPerPage;
@@ -2820,8 +3005,10 @@ function renderReadingPageContent() {
 
   pageAyahs.forEach((ayah, index) => {
     let text = ayah.text;
+    const ayahNum = ayah.numberInSurah;
+    const isSplashActive = (ayahNum === activeSplashAyahNum);
     
-    if (ayah.numberInSurah === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
+    if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = text.replace(/^بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ\s*/, '').trim();
     }
     
@@ -2829,16 +3016,16 @@ function renderReadingPageContent() {
     
     let kurdishHtml = '';
     if(showTranslation && pageKurdishAyahs[index]) {
-       kurdishHtml = `<div class="mushaf-translation">${pageKurdishAyahs[index].text}</div>`;
+       kurdishHtml = `<div class="mushaf-translation ${isSplashActive ? 'active-splash' : ''}" id="reader-trans-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${pageKurdishAyahs[index].text}</div>`;
     }
     
-    ayahsHtml += `<span>${text} <span class="ayah-num-mark">﴿${toArabicNumbers(ayah.numberInSurah)}﴾</span></span> ${kurdishHtml}`;
+    ayahsHtml += `<span class="ayah-item ${isSplashActive ? 'active-splash' : ''}" id="reader-ayah-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${text} <span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></span> ${kurdishHtml}`;
   });
 
   contentEl.innerHTML = bismillahHeader + ayahsHtml;
   
   const scrollBox = document.getElementById('readerScrollBox');
-  if (scrollBox) scrollBox.scrollTop = 0;
+  if (scrollBox && resetScrollTop) scrollBox.scrollTop = 0;
 
   const totalPages = Math.ceil(currentAyahs.length / ayahsPerPage);
   document.getElementById('readerPageIndicator').textContent = `پەڕەی ${currentReadingPage} لە ${totalPages}`;
@@ -2859,7 +3046,9 @@ function nextReadingPage() {
     
     setTimeout(() => {
       currentReadingPage++;
-      renderReadingPageContent();
+      activeSplashAyahNum = (currentReadingPage - 1) * ayahsPerPage + 1;
+      renderReadingPageContent(true);
+      if (isAyahAutoFollow) playCurrentSplashAyahAudio();
     }, 250);
   }
 }
@@ -2873,12 +3062,15 @@ function prevReadingPage() {
     
     setTimeout(() => {
       currentReadingPage--;
-      renderReadingPageContent();
+      activeSplashAyahNum = (currentReadingPage - 1) * ayahsPerPage + 1;
+      renderReadingPageContent(true);
+      if (isAyahAutoFollow) playCurrentSplashAyahAudio();
     }, 250);
   }
 }
 
 function backToReadingList() {
+  stopAyahByAyahFollow();
   document.getElementById('readingReaderContainer').style.display = 'none';
   document.getElementById('readingListContainer').style.display = 'block';
   document.getElementById('mainTopbar').style.display = 'flex';
