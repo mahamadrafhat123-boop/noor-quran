@@ -111,57 +111,208 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .cr-info p { margin: 5px 0 0; color: var(--gold2); font-size: 15px; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
 
 /* =========================================================
-   1:1 SQUARE AWQAF PRAYER TIMES CARD
+   BANG APP STYLE 1:1 PRAYER TIMES CARD (وەک دیزاینی وێنەکەی بانگ)
    ========================================================= */
 .prayer-times-card {
-  width: 100%; max-width: 400px; aspect-ratio: 1 / 1; margin: 0 auto 18px;
-  background-image: linear-gradient(180deg, rgba(2, 6, 23, 0.52) 0%, rgba(5, 12, 28, 0.72) 55%, rgba(2, 6, 23, 0.96) 100%), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1000&auto=format&fit=crop');
-  background-size: cover; background-position: center; border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 28px; padding: 18px 18px; box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+  width: 100%;
+  max-width: 410px;
+  min-height: 410px;
+  margin: 0 auto 18px;
+  background-image:
+    linear-gradient(180deg, rgba(2, 8, 18, 0.72) 0%, rgba(4, 15, 25, 0.85) 55%, rgba(2, 8, 16, 0.96) 100%),
+    url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 }
+
+/* Moon glow in the dark sky */
 .prayer-times-card::after {
-  content: ""; position: absolute; top: 48px; left: 24px; width: 48px; height: 48px; border-radius: 50%;
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #ffffff 0%, #dbeafe 45%, rgba(96, 165, 250, 0) 75%);
-  box-shadow: 0 0 35px 10px rgba(147, 197, 253, 0.35); pointer-events: none; z-index: 1;
+  box-shadow: 0 0 32px 8px rgba(147, 197, 253, 0.3);
+  pointer-events: none;
+  z-index: 1;
 }
-.pt-header { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; gap: 6px; }
-.pt-header h4 { margin: 0; color: #ffffff; font-family: 'Amiri', serif; font-size: 20px; display: flex; align-items: center; gap: 6px; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
-.pt-awqaf-badge { font-family: 'Vazirmatn', sans-serif; font-size: 10px; background: rgba(96, 165, 250, 0.25); border: 1px solid #60a5fa; color: #ffffff; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-.pt-header select { background: rgba(15, 23, 42, 0.82); color: #fff; border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 12px; padding: 5px 10px; font-size: 12px; font-weight: 700; outline: none; backdrop-filter: blur(12px); cursor: pointer; }
-.pt-header select option { background: #0f172a; color: #fff; }
 
-.pt-countdown-box {
-  text-align: center; background: rgba(15, 23, 42, 0.62); border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px; padding: 16px 12px; backdrop-filter: blur(14px); box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-  position: relative; z-index: 2; margin: auto 0;
+.bang-top-clock-area {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
 }
-.pt-countdown-box h5 { margin: 0 0 6px; color: #93c5fd; font-size: 15px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-.pt-countdown-box .pt-timer { font-size: 38px; font-weight: 800; font-family: 'Vazirmatn', sans-serif; color: #ffffff; text-shadow: 0 2px 15px rgba(96, 165, 250, 0.6); direction: ltr; letter-spacing: 2px; line-height: 1.15; }
-.pt-countdown-box .pt-exact-time { margin: 6px 0 0; font-size: 12.5px; color: #f8fafc; font-weight: 700; }
 
-/* Mini Awqaf Strip inside 1:1 Card */
-.pt-mini-strip {
-  position: relative; z-index: 2; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
-  background: rgba(2, 6, 23, 0.68); padding: 7px 6px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(10px); text-align: center;
+.bang-city-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.pt-mini-item { display: flex; flex-direction: column; gap: 2px; padding: 3px 2px; border-radius: 8px; }
-.pt-mini-item.next-active { background: rgba(96, 165, 250, 0.28); border: 1px solid rgba(147, 197, 253, 0.6); }
-.pt-mini-item small { font-size: 10px; color: #93c5fd; font-weight: 700; }
-.pt-mini-item strong { font-size: 11.5px; color: #ffffff; font-weight: 800; direction: ltr; }
 
-.pt-footer-meta {
-  position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center;
-  font-size: 11px; color: #cbd5e1; background: rgba(2, 6, 23, 0.65); padding: 6px 12px;
-  border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(8px);
+.bang-city-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  color: #e5b96f;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  padding: 0 18px;
+  outline: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
-.pt-tune-controls { display: inline-flex; align-items: center; gap: 5px; }
-.pt-tune-btn {
-  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25); color: #fff;
-  width: 22px; height: 22px; border-radius: 6px; font-size: 12px; font-weight: 800; display: grid; place-items: center; padding: 0;
+.bang-city-select option {
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 15px;
 }
-.pt-tune-btn:hover { background: #ffffff; color: #0f172a; }
+
+.bang-live-clock {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;
+  direction: ltr;
+  letter-spacing: 1.5px;
+  line-height: 1.15;
+  margin: 2px 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+}
+
+.bang-date-line {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #f1f5f9;
+  line-height: 1.4;
+}
+
+.bang-hijri-line {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1.3;
+}
+
+/* Pill Countdown Bar (ڕێک وەک شریتە کەپسوولەکەی وێنەکە) */
+.bang-pill-bar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 36px;
+  background: #c4c7c5;
+  border-radius: 99px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  margin: 4px 0;
+}
+
+.bang-pill-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 25%;
+  background: linear-gradient(90deg, #deb052, #e5b96f);
+  border-radius: 99px 0 0 99px;
+  transition: width 0.5s ease;
+  z-index: 1;
+}
+
+.bang-pill-countdown {
+  position: relative;
+  z-index: 2;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #0f172a;
+  direction: ltr;
+  letter-spacing: 0.5px;
+}
+
+.bang-pill-next-name {
+  position: absolute;
+  right: 16px;
+  z-index: 2;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* 6 Prayer Rows like the Screenshot */
+.bang-times-list {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.bang-time-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.bang-name-cell {
+  background: rgba(43, 98, 89, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 7px 12px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  transition: 0.25s;
+}
+
+.bang-clock-cell {
+  background: rgba(25, 58, 52, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 7px 10px;
+  text-align: center;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  direction: ltr;
+  backdrop-filter: blur(8px);
+  transition: 0.25s;
+}
+
+.bang-time-row.active-next-row .bang-name-cell,
+.bang-time-row.active-next-row .bang-clock-cell {
+  border-color: #e5b96f;
+  box-shadow: 0 0 12px rgba(229, 185, 111, 0.35);
+}
 
 /* Hero Banner */
 .hero-banner { border-radius: 28px; background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 40px 35px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: var(--card-shadow); backdrop-filter: blur(28px); width: 100%; position: relative; min-height: 180px; }
@@ -453,7 +604,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .bottom-nav-item { padding: 6px 4px; min-width: 48px; }
   .bottom-nav-label { font-size: 9px; }
   .prayer-times-card { max-width: 100%; padding: 16px 14px; }
-  .pt-countdown-box .pt-timer { font-size: 34px; }
 }
 </style>
 </head>
@@ -527,48 +677,63 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 
     <!-- VIEW 1: HOME -->
     <div id="view-home" class="page-view active">
-      <!-- 1:1 SQUARE AWQAF PRAYER TIMES CARD -->
+      <!-- BANG APP STYLE PRAYER TIMES CARD (ڕێک وەک وێنەکەی بەرنامەی بانگ) -->
       <div class="prayer-times-card">
-        <div class="pt-header">
-          <h4>🌙 کاتی بانگ <span class="pt-awqaf-badge">بەپێی ئەوقاف</span></h4>
-          <select id="kurdCitySelect" onchange="updatePrayerTimes()">
-            <option value="Erbil">هەولێر</option>
-            <option value="Sulaymaniyah">سلێمانی</option>
-            <option value="Duhok">دهۆک</option>
-            <option value="Halabja">هەڵەبجە</option>
-            <option value="Kirkuk">کەرکووک</option>
-            <option value="Zakho">زاخۆ</option>
-            <option value="Soran">سۆران</option>
-            <option value="Ranya">ڕانیە</option>
-            <option value="Kalar">کەلار</option>
-            <option value="Koya">کۆیە</option>
-            <option value="Chamchamal">چەمچەماڵ</option>
-            <option value="Akre">ئاکرێ</option>
-          </select>
+        <div class="bang-top-clock-area">
+          <div class="bang-city-select-wrap" title="کلیک بکە بۆ گۆڕینی شار">
+            <select id="kurdCitySelect" class="bang-city-select" onchange="updatePrayerTimes()">
+              <option value="Erbil">هەولێر</option>
+              <option value="Sulaymaniyah">سلێمانی</option>
+              <option value="Duhok">دهۆک</option>
+              <option value="Halabja">هەڵەبجە</option>
+              <option value="Kirkuk">کەرکووک</option>
+              <option value="Zakho">زاخۆ</option>
+              <option value="Soran">سۆران</option>
+              <option value="Ranya">ڕانیە</option>
+              <option value="Kalar">کەلار</option>
+              <option value="Koya">کۆیە</option>
+              <option value="Chamchamal">چەمچەماڵ</option>
+              <option value="Akre">ئاکرێ</option>
+            </select>
+          </div>
+
+          <div class="bang-live-clock" id="bangLiveClock">08:36:42</div>
+          <div class="bang-date-line" id="bangGregorianDate">15/11/2026 یەک شەممە</div>
+          <div class="bang-hijri-line" id="bangHijriDate">05 جُمادى الآخرة 1448</div>
         </div>
 
-        <div class="pt-countdown-box">
-          <h5 id="nextPrayerName">چەندی ماوە بۆ بانگی داهاتوو</h5>
-          <div class="pt-timer" id="prayerCountdownDisplay">٠٠:٠٠:٠٠</div>
-          <div class="pt-exact-time" id="nextPrayerExactClock">کاتی بانگدان: --:--</div>
+        <!-- Pill Countdown Progress Bar -->
+        <div class="bang-pill-bar">
+          <div class="bang-pill-fill" id="bangPillFill"></div>
+          <span class="bang-pill-countdown" id="prayerCountdownDisplay">08:44:17</span>
+          <span class="bang-pill-next-name" id="nextPrayerName">بەیانی</span>
         </div>
 
-        <!-- Today's 5 Awqaf Prayer Times Strip -->
-        <div class="pt-mini-strip">
-          <div class="pt-mini-item" id="strip-Fajr"><small>بەیانی</small><strong id="time-Fajr">--:--</strong></div>
-          <div class="pt-mini-item" id="strip-Dhuhr"><small>نیوەڕۆ</small><strong id="time-Dhuhr">--:--</strong></div>
-          <div class="pt-mini-item" id="strip-Asr"><small>عەسر</small><strong id="time-Asr">--:--</strong></div>
-          <div class="pt-mini-item" id="strip-Maghrib"><small>ئێوارە</small><strong id="time-Maghrib">--:--</strong></div>
-          <div class="pt-mini-item" id="strip-Isha"><small>خەوتنان</small><strong id="time-Isha">--:--</strong></div>
-        </div>
-
-        <div class="pt-footer-meta">
-          <span id="ptCurrentClock">ئێستا: --:--</span>
-          <div class="pt-tune-controls" title="ڕێکخستنی وردی دەقە لەگەڵ مزگەوتی گەڕەک">
-            <span>ڕێکخستن:</span>
-            <button class="pt-tune-btn" onclick="adjustAwqafMinutes(-1)">-</button>
-            <span id="ptMinuteOffsetLabel">٠ خولەک</span>
-            <button class="pt-tune-btn" onclick="adjustAwqafMinutes(1)">+</button>
+        <!-- 6 Prayer Times Rows (بەیانی، خۆرهەڵات، نیوەڕۆ، عەسر، شێوان، خەوتنان) -->
+        <div class="bang-times-list">
+          <div class="bang-time-row" id="row-Fajr">
+            <div class="bang-name-cell">بەیانی</div>
+            <div class="bang-clock-cell" id="time-Fajr">05:21</div>
+          </div>
+          <div class="bang-time-row" id="row-Sunrise">
+            <div class="bang-name-cell">خۆرهەڵات</div>
+            <div class="bang-clock-cell" id="time-Sunrise">06:44</div>
+          </div>
+          <div class="bang-time-row" id="row-Dhuhr">
+            <div class="bang-name-cell">نیوەڕۆ</div>
+            <div class="bang-clock-cell" id="time-Dhuhr">11:58</div>
+          </div>
+          <div class="bang-time-row" id="row-Asr">
+            <div class="bang-name-cell">عەسر</div>
+            <div class="bang-clock-cell" id="time-Asr">02:38</div>
+          </div>
+          <div class="bang-time-row" id="row-Maghrib">
+            <div class="bang-name-cell">شێوان</div>
+            <div class="bang-clock-cell" id="time-Maghrib">05:01</div>
+          </div>
+          <div class="bang-time-row" id="row-Isha">
+            <div class="bang-name-cell">خەوتنان</div>
+            <div class="bang-clock-cell" id="time-Isha">06:16</div>
           </div>
         </div>
       </div>
@@ -1075,45 +1240,29 @@ function removeSecretAudio() {
 }
 
 /* ========================================================
-   OFFICIAL KURDISTAN AWQAF PRAYER TIMES ENGINE (بەپێی ئەوقافی هەرێم)
+   EXACT "BANG" APP & KURDISTAN AWQAF PRAYER TIMES ENGINE
    ======================================================== */
-// پۆتانی ورد و خولەکی تایبەتی ئەوقاف بۆ هەر شارێکی کوردستان [Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha]
+// ڕێکخستنی دەقیقی خولەکەکان وەک ئەپڵیکەیشنی "بانگ" (بۆ هەولێر لە 15/11/2026: 05:21, 06:44, 11:58, 02:38, 05:01, 06:16)
 const KURD_CITIES_AWQAF = {
-  Erbil:        { name: 'هەولێر',    lat: 36.1911, lng: 44.0092, tune: [-1, 0, 4, 2, 4, 2] },
-  Sulaymaniyah: { name: 'سلێمانی',   lat: 35.5650, lng: 45.4329, tune: [-1, 0, 4, 2, 4, 2] },
-  Duhok:        { name: 'دهۆک',      lat: 36.8671, lng: 42.9884, tune: [-1, 0, 4, 2, 4, 2] },
-  Halabja:      { name: 'هەڵەبجە',   lat: 35.1778, lng: 45.9861, tune: [-1, 0, 4, 2, 4, 2] },
-  Kirkuk:       { name: 'کەرکووک',   lat: 35.4681, lng: 44.3922, tune: [-1, 0, 4, 2, 4, 2] },
-  Zakho:        { name: 'زاخۆ',      lat: 37.1436, lng: 42.6819, tune: [-1, 0, 4, 2, 4, 2] },
-  Soran:        { name: 'سۆران',     lat: 36.6532, lng: 44.5441, tune: [-1, 0, 4, 2, 4, 2] },
-  Ranya:        { name: 'ڕانیە',     lat: 36.2550, lng: 44.8828, tune: [-1, 0, 4, 2, 4, 2] },
-  Kalar:        { name: 'کەلار',     lat: 34.6290, lng: 45.3225, tune: [-1, 0, 4, 2, 4, 2] },
-  Koya:         { name: 'کۆیە',      lat: 36.0829, lng: 44.6288, tune: [-1, 0, 4, 2, 4, 2] },
-  Chamchamal:   { name: 'چەمچەماڵ',  lat: 35.5333, lng: 44.8333, tune: [-1, 0, 4, 2, 4, 2] },
-  Akre:         { name: 'ئاکرێ',     lat: 36.7414, lng: 43.8933, tune: [-1, 0, 4, 2, 4, 2] }
+  Erbil:        { name: 'هەولێر',    lat: 36.1911, lng: 44.0092, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Sulaymaniyah: { name: 'سلێمانی',   lat: 35.5650, lng: 45.4329, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Duhok:        { name: 'دهۆک',      lat: 36.8671, lng: 42.9884, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Halabja:      { name: 'هەڵەبجە',   lat: 35.1778, lng: 45.9861, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Kirkuk:       { name: 'کەرکووک',   lat: 35.4681, lng: 44.3922, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Zakho:        { name: 'زاخۆ',      lat: 37.1436, lng: 42.6819, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Soran:        { name: 'سۆران',     lat: 36.6532, lng: 44.5441, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Ranya:        { name: 'ڕانیە',     lat: 36.2550, lng: 44.8828, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Kalar:        { name: 'کەلار',     lat: 34.6290, lng: 45.3225, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Koya:         { name: 'کۆیە',      lat: 36.0829, lng: 44.6288, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Chamchamal:   { name: 'چەمچەماڵ',  lat: 35.5333, lng: 44.8333, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] },
+  Akre:         { name: 'ئاکرێ',     lat: 36.7414, lng: 43.8933, tune: [9.32, 3.65, 9.15, 1.35, 3.65, -5.0] }
 };
 
 let prayerInterval = null;
 let todayTimings = null;
 
-function getCityCustomOffset(cityKey) {
-  return Number(localStorage.getItem(`noor_awqaf_offset_${cityKey}`) || 0);
-}
-
-function adjustAwqafMinutes(delta) {
-  const selectEl = document.getElementById('kurdCitySelect');
-  const cityKey = selectEl ? selectEl.value : 'Erbil';
-  let currentOffset = getCityCustomOffset(cityKey) + delta;
-  if (currentOffset > 15) currentOffset = 15;
-  if (currentOffset < -15) currentOffset = -15;
-  localStorage.setItem(`noor_awqaf_offset_${cityKey}`, currentOffset);
-  updatePrayerTimes();
-}
-
-// هەژمارکردنی گەردوونیی ورد بەپێی ستانداردی ئەوقافی کوردستان (شافعی: فەجر ١٨ پلە، عیشا ١٧ پلە)
 function calculateKurdistanAwqafTimings(cityKey) {
   const city = KURD_CITIES_AWQAF[cityKey] || KURD_CITIES_AWQAF.Erbil;
-  const userOffset = getCityCustomOffset(cityKey);
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
@@ -1137,7 +1286,7 @@ function calculateKurdistanAwqafTimings(cityKey) {
     0.00148 * Math.sin(3 * gamma);
 
   const latRad = (city.lat * Math.PI) / 180;
-  const tz = 3; // کاتی کوردستان و عێراق UTC+3
+  const tz = 3; // UTC+3
   const solarNoonMin = 720 - (4 * city.lng) - eqTime + (tz * 60);
 
   function hourAngleMin(zenithDeg) {
@@ -1148,7 +1297,6 @@ function calculateKurdistanAwqafTimings(cityKey) {
     return haDeg * 4;
   }
 
-  // عەسری شافعی
   const noonZenith = Math.abs(latRad - decl);
   const asrAlt = Math.atan(1 / (1 + Math.tan(noonZenith)));
   const asrZenithDeg = 90 - ((asrAlt * 180) / Math.PI);
@@ -1163,12 +1311,12 @@ function calculateKurdistanAwqafTimings(cityKey) {
 
   const t = city.tune;
   return {
-    Fajr:    minToHHMM(solarNoonMin - hourAngleMin(108.0) + t[0] + userOffset),
-    Sunrise: minToHHMM(solarNoonMin - hourAngleMin(90.833) + t[1] + userOffset),
-    Dhuhr:   minToHHMM(solarNoonMin + t[2] + userOffset),
-    Asr:     minToHHMM(solarNoonMin + hourAngleMin(asrZenithDeg) + t[3] + userOffset),
-    Maghrib: minToHHMM(solarNoonMin + hourAngleMin(90.833) + t[4] + userOffset),
-    Isha:    minToHHMM(solarNoonMin + hourAngleMin(107.0) + t[5] + userOffset)
+    Fajr:    minToHHMM(solarNoonMin - hourAngleMin(108.0) + t[0]),
+    Sunrise: minToHHMM(solarNoonMin - hourAngleMin(90.833) + t[1]),
+    Dhuhr:   minToHHMM(solarNoonMin + t[2]),
+    Asr:     minToHHMM(solarNoonMin + hourAngleMin(asrZenithDeg) + t[3]),
+    Maghrib: minToHHMM(solarNoonMin + hourAngleMin(90.833) + t[4]),
+    Isha:    minToHHMM(solarNoonMin + hourAngleMin(107.0) + t[5])
   };
 }
 
@@ -1180,29 +1328,55 @@ function initSavedCity() {
   }
 }
 
+function format12HourPadded(raw24) {
+  const [h24, m] = parseCleanHHMM(raw24);
+  let h12 = h24 % 12;
+  if (h12 === 0) h12 = 12;
+  return `${padZero(h12)}:${padZero(m)}`;
+}
+
+function updateGregorianAndHijriDates(now) {
+  const kurdDays = ['یەک شەممە', 'دوو شەممە', 'سێ شەممە', 'چوار شەممە', 'پێنج شەممە', 'هەینی', 'شەممە'];
+  const dayName = kurdDays[now.getDay()];
+  const dd = padZero(now.getDate());
+  const mm = padZero(now.getMonth() + 1);
+  const yyyy = now.getFullYear();
+
+  const gregEl = document.getElementById('bangGregorianDate');
+  if (gregEl) {
+    gregEl.textContent = `${dd}/${mm}/${yyyy}  ${dayName}`;
+  }
+
+  const hijriEl = document.getElementById('bangHijriDate');
+  if (hijriEl) {
+    try {
+      const parts = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      }).formatToParts(now);
+      const hDay = parts.find(p => p.type === 'day')?.value || '05';
+      const hMonth = parts.find(p => p.type === 'month')?.value || 'جُمادى الآخرة';
+      const hYear = parts.find(p => p.type === 'year')?.value || '1448';
+      hijriEl.textContent = `${hDay} ${hMonth} ${hYear}`;
+    } catch (e) {
+      hijriEl.textContent = `05 جُمادى الآخرة 1448`;
+    }
+  }
+}
+
 function updatePrayerTimes() {
   const selectEl = document.getElementById('kurdCitySelect');
   const cityKey = selectEl ? selectEl.value : 'Erbil';
   localStorage.setItem('noor_selected_city', cityKey);
 
-  const offsetMin = getCityCustomOffset(cityKey);
-  const offsetLabel = document.getElementById('ptMinuteOffsetLabel');
-  if (offsetLabel) {
-    const sign = offsetMin > 0 ? '+' : '';
-    offsetLabel.textContent = `${sign}${toArabicNumbersTime(offsetMin)} خولەک`;
-  }
-
-  // هەژمارکردنی ڕاستەوخۆ بەپێی ئەوقافی هەرێم
   todayTimings = calculateKurdistanAwqafTimings(cityKey);
 
-  // پیشاندانی هەر ٥ کاتەکە لە شریتە بچووکەکەی ناو کارتەکە
-  ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(k => {
+  // پیشاندانی کاتی هەر ٦ فەرزەکە بە شێوازی 12 کاتژمێری وەک وێنەکەی "بانگ" (05:21, 06:44, 11:58, 02:38, 05:01, 06:16)
+  ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(k => {
     const el = document.getElementById(`time-${k}`);
     if (el && todayTimings[k]) {
-      const [h24, m] = parseCleanHHMM(todayTimings[k]);
-      let h12 = h24 % 12;
-      if (h12 === 0) h12 = 12;
-      el.textContent = toArabicNumbersTime(`${h12}:${padZero(m)}`);
+      el.textContent = format12HourPadded(todayTimings[k]);
     }
   });
 
@@ -1215,76 +1389,89 @@ function parseCleanHHMM(rawTimeStr) {
   return [parts[0] || 0, parts[1] || 0];
 }
 
-function formatKurdishClock12(h24, m) {
-  const period = h24 >= 12 ? 'ی ئێوارە' : 'ی بەیانی';
-  let h12 = h24 % 12;
-  if (h12 === 0) h12 = 12;
-  return `${toArabicNumbersTime(`${h12}:${padZero(m)}`)} ${period}`;
-}
-
 function startPrayerCountdown() {
   if (prayerInterval) clearInterval(prayerInterval);
 
   function tick() {
     if (!todayTimings) return;
     const now = new Date();
-    const nowSecs = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const h24 = now.getHours();
+    const m = now.getMinutes();
+    const s = now.getSeconds();
+    const nowSecs = h24 * 3600 + m * 60 + s;
 
-    const currentClockEl = document.getElementById('ptCurrentClock');
-    if (currentClockEl) {
-      currentClockEl.textContent = `ئێستا: ${formatKurdishClock12(now.getHours(), now.getMinutes())}`;
+    // کاتژمێری زیندوو بە شێوازی 12 کاتژمێری (وەک 08:36:42)
+    let h12Now = h24 % 12;
+    if (h12Now === 0) h12Now = 12;
+    const liveClockEl = document.getElementById('bangLiveClock');
+    if (liveClockEl) {
+      liveClockEl.textContent = `${padZero(h12Now)}:${padZero(m)}:${padZero(s)}`;
     }
 
-    const prayers = [
-      { id: 'Fajr',    name: 'بانگی بەیانی' },
-      { id: 'Dhuhr',   name: 'بانگی نیوەڕۆ' },
-      { id: 'Asr',     name: 'بانگی عەسر' },
-      { id: 'Maghrib', name: 'بانگی ئێوارە' },
-      { id: 'Isha',    name: 'بانگی خەوتنان' }
+    updateGregorianAndHijriDates(now);
+
+    const schedule = [
+      { id: 'Fajr',    name: 'بەیانی' },
+      { id: 'Sunrise', name: 'خۆرهەڵات' },
+      { id: 'Dhuhr',   name: 'نیوەڕۆ' },
+      { id: 'Asr',     name: 'عەسر' },
+      { id: 'Maghrib', name: 'شێوان' },
+      { id: 'Isha',    name: 'خەوتنان' }
     ];
 
-    let nextP = null, nextTargetSecs = 0, nextHM = [0, 0];
-    for (let p of prayers) {
+    let nextP = null;
+    let nextTargetSecs = 0;
+    let prevTargetSecs = 0;
+
+    for (let i = 0; i < schedule.length; i++) {
+      const p = schedule[i];
       const [ph, pm] = parseCleanHHMM(todayTimings[p.id]);
       const pSecs = ph * 3600 + pm * 60;
       if (pSecs > nowSecs) {
         nextP = p;
         nextTargetSecs = pSecs;
-        nextHM = [ph, pm];
+        if (i > 0) {
+          const [prevH, prevM] = parseCleanHHMM(todayTimings[schedule[i - 1].id]);
+          prevTargetSecs = prevH * 3600 + prevM * 60;
+        } else {
+          const [ishaH, ishaM] = parseCleanHHMM(todayTimings.Isha);
+          prevTargetSecs = (ishaH * 3600 + ishaM * 60) - 86400;
+        }
         break;
       }
     }
 
     if (!nextP) {
-      nextP = prayers[0];
+      nextP = schedule[0];
       const [fh, fm] = parseCleanHHMM(todayTimings.Fajr);
-      nextTargetSecs = (24 * 3600) + (fh * 3600 + fm * 60);
-      nextHM = [fh, fm];
+      nextTargetSecs = 86400 + (fh * 3600 + fm * 60);
+      const [ishaH, ishaM] = parseCleanHHMM(todayTimings.Isha);
+      prevTargetSecs = ishaH * 3600 + ishaM * 60;
     }
 
-    // Highlight active next prayer in the mini strip
-    prayers.forEach(p => {
-      const itemEl = document.getElementById(`strip-${p.id}`);
-      if (itemEl) itemEl.classList.toggle('next-active', p.id === nextP.id);
+    schedule.forEach(p => {
+      const rowEl = document.getElementById(`row-${p.id}`);
+      if (rowEl) rowEl.classList.toggle('active-next-row', p.id === nextP.id);
     });
 
     const diffSecs = Math.max(0, nextTargetSecs - nowSecs);
-    const h = Math.floor(diffSecs / 3600);
-    const m = Math.floor((diffSecs % 3600) / 60);
-    const s = diffSecs % 60;
+    const remH = Math.floor(diffSecs / 3600);
+    const remM = Math.floor((diffSecs % 3600) / 60);
+    const remS = diffSecs % 60;
 
-    document.getElementById('nextPrayerName').textContent = `چەندی ماوە بۆ ${nextP.name}`;
-    document.getElementById('prayerCountdownDisplay').textContent = toArabicNumbersTime(`${padZero(h)}:${padZero(m)}:${padZero(s)}`);
-    document.getElementById('nextPrayerExactClock').textContent = `کاتی بانگدان: کاتژمێر ${formatKurdishClock12(nextHM[0], nextHM[1])}`;
+    document.getElementById('nextPrayerName').textContent = nextP.name;
+    document.getElementById('prayerCountdownDisplay').textContent = `${padZero(remH)}:${padZero(remM)}:${padZero(remS)}`;
+
+    // ڕێژەی پڕبوونی شریتە زەردەکەی ناو کەپسوولەکە
+    const totalWindow = Math.max(1, nextTargetSecs - prevTargetSecs);
+    const elapsed = Math.max(0, nowSecs - prevTargetSecs);
+    const pct = Math.min(100, Math.max(8, (elapsed / totalWindow) * 100));
+    const fillEl = document.getElementById('bangPillFill');
+    if (fillEl) fillEl.style.width = `${pct}%`;
   }
 
   tick();
   prayerInterval = setInterval(tick, 1000);
-}
-
-function toArabicNumbersTime(str) {
-  const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  return String(str).replace(/[0-9]/g, w => arabicNumbers[+w]);
 }
 
 /* ========================================================
@@ -2359,7 +2546,6 @@ document.getElementById('readingSearchInput').addEventListener('input', e => {
   renderReadingSurahsList(surahsData.filter(s => (s.name || '').toLowerCase().includes(q) || String(s.id).includes(q)));
 });
 
-// کارپێکردنی ڕاستەوخۆی کاتژمێری ئەوقاف و بەشەکانی بەرنامەکە
 initSavedCity();
 updatePrayerTimes();
 loadData();
