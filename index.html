@@ -6,6 +6,9 @@
 <meta name="theme-color" content="#ffffff">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+<!-- FIREBASE AUTH SDK (REAL GOOGLE/EMAIL & FACEBOOK OAUTH) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
@@ -29,6 +32,7 @@
 
 *{box-sizing:border-box}
 body { margin: 0; color: var(--text); font-family: 'Vazirmatn', sans-serif; overflow-x: hidden; position: relative; min-height: 100vh; background: var(--main-bg-gradient); }
+body.auth-locked { overflow: hidden; height: 100vh; }
 body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 12% 14%, rgba(191, 219, 254, 0.42) 0%, transparent 42%), radial-gradient(circle at 88% 22%, rgba(224, 242, 254, 0.48) 0%, transparent 45%), radial-gradient(circle at 50% 85%, rgba(219, 234, 254, 0.38) 0%, transparent 48%); z-index: -3; pointer-events: none; }
 
 #mainBackgroundSlider { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; background-color: #ffffff; }
@@ -38,6 +42,464 @@ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; heigh
 
 button,select,input{font:inherit} button{cursor:pointer}
 .app-layout { display: flex; min-height: 100vh; flex-direction: row; position: relative; z-index: 1; }
+
+/* ========================================================
+   WHITE MIRROR LOGIN & SIGNUP GATE
+   ======================================================== */
+#authGateOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 14px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(241, 247, 255, 0.9) 50%, rgba(226, 238, 255, 0.92) 100%);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+}
+#authGateOverlay::before, #authGateOverlay::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+#authGateOverlay::before {
+  width: 340px;
+  height: 340px;
+  top: -80px;
+  right: -70px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.34) 0%, rgba(255, 255, 255, 0) 70%);
+}
+#authGateOverlay::after {
+  width: 320px;
+  height: 320px;
+  bottom: -90px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.36) 0%, rgba(255, 255, 255, 0) 70%);
+}
+.auth-mirror-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 430px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(248, 250, 252, 0.62) 100%);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1.5px solid rgba(255, 255, 255, 0.98);
+  border-radius: 28px;
+  padding: 26px 22px 24px;
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(148, 163, 184, 0.22), inset 0 2px 4px rgba(255, 255, 255, 1);
+  direction: rtl;
+  animation: slideFadeIn 0.45s ease forwards;
+}
+.auth-brand-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.auth-brand-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  color: #ffffff;
+  background: linear-gradient(145deg, #2563eb, #60a5fa);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28), inset 0 2px 3px rgba(255, 255, 255, 0.65);
+}
+.auth-brand-head h2 {
+  margin: 0 0 4px;
+  font-family: 'Amiri', serif;
+  font-size: 24px;
+  color: #0f172a;
+}
+.auth-brand-head p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #475569;
+  font-weight: 500;
+}
+.auth-tabs-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06);
+  border-radius: 16px;
+  padding: 5px;
+  margin-bottom: 16px;
+}
+.auth-tab-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #475569;
+  padding: 9px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: 0.25s;
+}
+.auth-tab-btn.active {
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  color: #1d4ed8;
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14);
+}
+.auth-feedback {
+  display: none;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
+  line-height: 1.6;
+}
+.auth-feedback.error {
+  display: block;
+  background: rgba(254, 226, 226, 0.9);
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+.auth-feedback.success {
+  display: block;
+  background: rgba(209, 250, 229, 0.92);
+  color: #047857;
+  border: 1px solid #6ee7b7;
+}
+.auth-form-panel {
+  display: none;
+  flex-direction: column;
+  gap: 11px;
+}
+.auth-form-panel.active {
+  display: flex;
+}
+.auth-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.auth-input-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+.auth-input-group input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(148, 163, 184, 0.3);
+  border-radius: 14px;
+  padding: 11px 14px;
+  font-size: 13.5px;
+  color: #0f172a;
+  outline: none;
+  transition: 0.25s;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.auth-input-group input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+.auth-submit-btn {
+  width: 100%;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+  transition: 0.25s;
+}
+.auth-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.36);
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0 13px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+.auth-divider::before, .auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(15, 23, 42, 0.12);
+}
+.auth-social-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.auth-google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.88) 100%);
+  color: #0f172a;
+  border: 1.5px solid rgba(148, 163, 184, 0.32);
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), inset 0 2px 2px #ffffff;
+  transition: 0.25s;
+}
+.auth-google-btn:hover {
+  transform: translateY(-2px);
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 11px 24px rgba(37, 99, 235, 0.16);
+}
+.auth-google-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.auth-fb-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1877f2 0%, #0d65d9 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(24, 119, 242, 0.26);
+  transition: 0.25s;
+}
+.auth-fb-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 24px rgba(24, 119, 242, 0.34);
+}
+.auth-fb-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  flex-shrink: 0;
+}
+.auth-close-return-btn {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #334155;
+  padding: 9px 14px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+/* ========================================================
+   MY ACCOUNT SECTION STYLES
+   ======================================================== */
+.account-profile-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.account-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.account-avatar-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2563eb, #60a5fa);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 800;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.account-avatar-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.account-meta h4 {
+  margin: 0 0 3px;
+  font-size: 17px;
+  color: #0f172a;
+}
+.account-meta small {
+  display: block;
+  font-size: 12px;
+  color: #475569;
+  direction: ltr;
+  text-align: right;
+}
+.account-provider-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(239, 246, 255, 0.9);
+  color: #1d4ed8;
+  border: 1px solid rgba(147, 197, 253, 0.7);
+}
+.account-provider-pill.fb {
+  background: rgba(24, 119, 242, 0.12);
+  color: #1877f2;
+  border-color: rgba(24, 119, 242, 0.35);
+}
+.account-provider-pill.google {
+  background: rgba(234, 67, 53, 0.1);
+  color: #c5221f;
+  border-color: rgba(234, 67, 53, 0.3);
+}
+.account-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.account-stat-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.account-stat-card strong {
+  font-size: 20px;
+  color: #1d4ed8;
+  font-weight: 800;
+}
+.account-stat-card span {
+  font-size: 11.5px;
+  color: #475569;
+  font-weight: 700;
+}
+.account-link-box {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.account-link-box h4 {
+  margin: 0 0 10px;
+  font-size: 14.5px;
+  color: #0f172a;
+}
+.account-link-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.account-edit-box {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.account-edit-box h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: #0f172a;
+}
+.account-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.account-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.account-btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 800;
+  transition: 0.25s;
+}
+.account-btn-secondary {
+  background: var(--glass-card-bg);
+  color: #0f172a;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: 0.25s;
+}
+.account-btn-danger {
+  background: rgba(254, 226, 226, 0.85);
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 800;
+  transition: 0.25s;
+}
+.account-btn-danger:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
 
 aside.sidebar { width: 260px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-left: 1px solid var(--glass-border); padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; box-shadow: var(--card-shadow); overflow-y: auto; }
 .sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
@@ -134,7 +596,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .surah-card:hover, .surah-card.active { border-color: #93c5fd; background: rgba(255, 255, 255, 0.94); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.14), inset 0 2px 2px #ffffff; }
 .surah-card h5 { margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; font-family: 'Amiri', serif; }
 .surah-card small { color: var(--muted); font-size: 11px; }
-.sound-video-preview { width: 100%; height: 115px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.85); background: #0f172a; display: block; margin-bottom: 4px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14); }
+.sound-video-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.85); background: #0f172a; display: block; margin-bottom: 4px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14); }
 .btn-fav { position: absolute; top: 8px; left: 8px; background: none; border: none; font-size: 15px; cursor: pointer; color: #94a3b8; transition: 0.2s; }
 .btn-fav.active { color: #ff4757; }
 .card-actions-row { display: flex; gap: 8px; justify-content: center; margin-top: 6px; width: 100%; }
@@ -149,11 +611,12 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reciter-info h6 { margin: 0 0 2px; font-size: 13.5px; font-weight: 700; color: #0f172a; line-height: 1.4; }
 .reciter-info small { color: var(--muted); font-size: 11px; display: block; }
 
-.nature-sounds-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 20px; width: 100%; }
-.nature-sound-item { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; width: 100%; min-width: 0; cursor: pointer; box-shadow: var(--card-shadow); }
+.nature-sounds-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; width: 100%; }
+.nature-sound-item { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); border-radius: 18px; padding: 18px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; width: 100%; min-width: 0; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item:hover { border-color: #93c5fd; background: rgba(255, 255, 255, 0.94); transform: translateY(-4px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.14), inset 0 2px 2px #ffffff; }
-.nature-sound-item h6 { margin: 0; font-size: 13px; font-weight: 700; color: #0f172a; }
-.btn-play-sound { background: rgba(239, 246, 255, 0.85); border: 1px solid rgba(147, 197, 253, 0.7); color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 10px; font-weight: 700; box-shadow: inset 0 1px 1px #ffffff; }
+.nature-sound-item h6 { margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; }
+.btn-play-sound { background: rgba(239, 246, 255, 0.85); border: 1px solid rgba(147, 197, 253, 0.7); color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 10.5px; font-weight: 700; box-shadow: inset 0 1px 1px #ffffff; }
+#view-fire-select .surahs-grid, #view-river-select .surahs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* WHITE MIRROR SMART HIFZ SYSTEM */
 #view-hifz .hifz-white-container { background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); color: #0f172a; border: 1px solid var(--glass-border); border-radius: 26px; padding: 24px 20px; box-shadow: var(--mirror-shadow); }
@@ -401,7 +864,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .surahs-grid, .reciters-list, .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-height: none; overflow-y: visible; padding-left: 0; }
   .hifz-saved-list, #adhkarListContainer { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hifz-guide-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .nature-sounds-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .nature-sounds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .account-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media(max-width: 520px) {
@@ -415,11 +879,11 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .section-header h3, .section-header h4 { font-size: 16.5px !important; }
   .section-header .topbar-btn { width: auto !important; height: auto !important; border-radius: 20px !important; padding: 6px 12px !important; font-size: 11.5px; flex-shrink: 0; }
   .surahs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-  #view-fire-select .surahs-grid, #view-river-select .surahs-grid, #view-rain-select .surahs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  #view-fire-select .surahs-grid, #view-river-select .surahs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .surah-card { padding: 12px 6px; border-radius: 14px; gap: 4px; }
   .surah-card h5 { font-size: 12.5px; }
   .surah-card small { font-size: 10px; }
-  .sound-video-preview { height: 95px; }
+  .sound-video-preview { height: 110px; }
   .reciters-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .reciter-item { padding: 12px 8px; border-radius: 14px; }
   .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
@@ -430,6 +894,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   #view-adhkar .khatm-presets-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
   .khatm-preset-btn { min-width: 0; padding: 8px 4px; font-size: 10.5px; }
   .hifz-saved-list, .hifz-config-grid, .hifz-guide-steps, .spiritual-gems-grid, #adhkarListContainer { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .account-stats-grid, .account-form-grid, .account-link-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .account-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .adhkar-card { padding: 12px 8px; border-radius: 16px; gap: 8px; }
   .adhkar-arabic { font-size: 16.5px; line-height: 1.6; }
   .adhkar-kurdish { font-size: 11px; padding-bottom: 8px; }
@@ -441,8 +907,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .hifz-btn-main, .hifz-btn-sec { justify-content: center; padding: 9px 10px; font-size: 11.5px; width: 100%; }
   .blessed-surahs-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .hifz-modes-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-  .nature-sounds-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-  .nature-sound-item { padding: 12px 6px; border-radius: 14px; }
+  .nature-sounds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .nature-sound-item { padding: 14px 8px; border-radius: 14px; }
   .reader-box { margin: 0; padding: 25px 46px; height: 100%; } 
   .hifz-stage-box { padding: 22px 38px; }
   .hifz-arrow-right { right: -6px; width: 38px; height: 38px; font-size: 17px; }
@@ -455,6 +921,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .bang-time-row { padding: 8px 2px; border-radius: 11px; }
   .bang-name-cell { font-size: 10.5px; }
   .bang-clock-cell { font-size: 12px; }
+  .auth-mirror-card { padding: 22px 16px 20px; border-radius: 22px; }
 }
 </style>
 </head>
@@ -465,6 +932,74 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   <div class="bg-slide" style="background-image: url('58751.png');"></div>
 </div>
 <div class="bg-overlay"></div>
+
+<!-- WHITE MIRROR LOGIN / REGISTER GATE (CONNECTED TO REAL GOOGLE/EMAIL & FACEBOOK AUTH) -->
+<div id="authGateOverlay">
+  <div class="auth-mirror-card">
+    <div class="auth-brand-head">
+      <div class="auth-brand-logo">☾</div>
+      <h2>NOOR QURAN · نووری قورئان</h2>
+      <p>بە هەژماری ئیمێڵ (Google) یان فەیسبوکەکەت ببەسترێوە و بچۆ ناو سایتەکە</p>
+    </div>
+
+    <div class="auth-tabs-row">
+      <button type="button" class="auth-tab-btn active" id="authTabLogin" onclick="switchAuthTab('login')">چوونەژوورەوە</button>
+      <button type="button" class="auth-tab-btn" id="authTabRegister" onclick="switchAuthTab('register')">دروستکردنی هەژمار</button>
+    </div>
+
+    <div id="authFeedbackMsg" class="auth-feedback"></div>
+
+    <!-- LOGIN WITH EMAIL -->
+    <form id="authLoginForm" class="auth-form-panel active" onsubmit="handleEmailLogin(event)">
+      <div class="auth-input-group">
+        <label for="loginEmailInput">ئیمێڵ (Email):</label>
+        <input type="email" id="loginEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
+      </div>
+      <div class="auth-input-group">
+        <label for="loginPasswordInput">وشەی نهێنی (Password):</label>
+        <input type="password" id="loginPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">چوونەژوورەوە بە ئیمێڵ ✉️</button>
+    </form>
+
+    <!-- CREATE ACCOUNT WITH EMAIL -->
+    <form id="authRegisterForm" class="auth-form-panel" onsubmit="handleEmailRegister(event)">
+      <div class="auth-input-group">
+        <label for="regNameInput">ناوی تەواو:</label>
+        <input type="text" id="regNameInput" placeholder="ناوەکەت لێرە بنووسە..." required>
+      </div>
+      <div class="auth-input-group">
+        <label for="regEmailInput">ئیمێڵ (Email):</label>
+        <input type="email" id="regEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
+      </div>
+      <div class="auth-input-group">
+        <label for="regPasswordInput">وشەی نهێنی (لانیکەم ٦ پیت):</label>
+        <input type="password" id="regPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+      </div>
+      <div class="auth-input-group">
+        <label for="regConfirmInput">دووبارەکردنەوەی وشەی نهێنی:</label>
+        <input type="password" id="regConfirmInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+      </div>
+      <button type="submit" class="auth-submit-btn">دروستکردنی هەژمار و چوونەژوورەوە ✨</button>
+    </form>
+
+    <div class="auth-divider">یان بەستنەوەی ڕاستەوخۆ بە هەژمارەکانت</div>
+
+    <div class="auth-social-stack">
+      <button type="button" class="auth-google-btn" onclick="handleGoogleOAuthLogin()">
+        <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+        <span>چوونەژوورەوە بە ئیمێڵی گۆگڵ (Google / Gmail)</span>
+      </button>
+
+      <button type="button" class="auth-fb-btn" onclick="handleFacebookOAuthLogin()">
+        <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.326v21.348C0 23.403.597 24 1.326 24h11.495v-9.294H9.691v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.674V1.326C24 .597 23.403 0 22.675 0z"/></svg>
+        <span>چوونەژوورەوە بە فەیسبوک (Facebook)</span>
+      </button>
+    </div>
+
+    <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthOverlayIfLoggedIn()">← گەڕانەوە بۆ هەژمارەکەم</button>
+  </div>
+</div>
 
 <!-- AUTOMATIC ADHKAR REMINDER TOAST -->
 <div id="adhkarAutoToast" class="adhkar-auto-toast">
@@ -521,6 +1056,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <li><a onclick="switchView('view-khatm')" id="menuKhatm">📅 خەتمی قورئان</a></li>
         <li><a onclick="switchView('view-adhkar')" id="menuAdhkar">📿 زیکرەکان</a></li>
         <li><a onclick="switchView('view-sounds')" id="menuSounds">🌧️ دەنگەکان</a></li>
+        <li><a onclick="switchView('view-account')" id="menuAccount">👤 هەژماری خۆم</a></li>
       </ul>
     </div>
     <div class="sidebar-footer">«قورئان ڕووناکییە بۆ دڵەکان»<br>— نووری قورئان ٢٠٢٦</div>
@@ -530,6 +1066,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <header class="topbar" id="mainTopbar">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
+        <button class="topbar-btn" onclick="switchView('view-account')" title="هەژماری خۆم"><span>👤</span> <span class="tb-text" id="topbarUserName">هەژماری خۆم</span></button>
         <button class="topbar-btn" onclick="switchView('view-favorites')" title="دڵخوازەکان"><span>❤️</span> <span class="tb-text">دڵخوازەکان</span></button>
       </div>
     </header>
@@ -669,7 +1206,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE -->
     <div id="view-full-player" class="page-view">
       <div class="tall-player-wrapper" id="tallPlayerBox">
-        <video id="tallPlayerBgVideo" autoplay loop muted playsinline></video>
+        <video id="tallPlayerBgVideo" autoplay loop playsinline></video>
         <canvas id="tallEffectCanvas"></canvas>
         <div class="tall-player-video-mask" id="tallVideoMask"></div>
 
@@ -681,13 +1218,10 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 
         <div class="tall-player-center">
           <div style="position: relative; width: 100%; text-align: center;">
-            <button onclick="toggleTallSoundsMenu()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 14px 28px; border-radius: 30px; font-size: 15px; backdrop-filter: blur(10px);">🌧️ دەنگەکانی سروشت</button>
+            <button onclick="toggleTallSoundsMenu()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 14px 28px; border-radius: 30px; font-size: 15px; backdrop-filter: blur(10px);">🌊 دەنگەکانی سروشت</button>
             <div id="tallSoundsMenu" class="tall-sounds-menu">
               <div onclick="quickPlayAmbient('fire')">🔥 ئاگر</div>
-              <div onclick="quickPlayAmbient('river')">🌊 ڕووبار</div>
-              <div onclick="quickPlayAmbient('rain')">🌧️ باران</div>
-              <div onclick="quickPlayAmbient('wind')">💨 با</div>
-              <div onclick="quickPlayAmbient('thunder')">⚡ بروسکە</div>
+              <div onclick="quickPlayAmbient('river')">🌊 ڕووبار و دەریا</div>
               <div onclick="stopAmbientSound(); toggleTallSoundsMenu();" style="background: rgba(255,50,50,0.2); border-color: rgba(255,50,50,0.5); width: 100%; text-align: center; margin-top: 5px;">❌ کوژاندنەوەی سروشت</div>
             </div>
           </div>
@@ -1019,34 +1553,20 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           <p style="text-align: center; color: var(--muted); font-size: 12px; margin: 0 0 20px;">هەر دەنگێک هەڵبژێریت باکگراوندە درێژەکە ئۆتۆماتیکی دەگۆڕێت بۆ دیمەنی زیندووی ئەو دەنگە</p>
           <div class="nature-sounds-grid">
             <div class="nature-sound-item" onclick="switchView('view-fire-select')"><h6>🔥 ئاگر</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
-            <div class="nature-sound-item" onclick="switchView('view-river-select')"><h6>🌊 ڕووبار</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
-            <div class="nature-sound-item" onclick="switchView('view-rain-select')"><h6>🌧️ باران</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
-            <div class="nature-sound-item" onclick="switchView('view-wind-select')"><h6>💨 با</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
-            <div class="nature-sound-item" onclick="switchView('view-thunder-select')"><h6>⚡ هەورەبروسکە</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
+            <div class="nature-sound-item" onclick="switchView('view-river-select')"><h6>🌊 ڕووبار و دەریا</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- SELECTION PAGES -->
-    <div id="view-rain-select" class="page-view">
-      <div class="card-section">
-        <div class="section-header"><h3>🌧️ دەنگەکانی باران</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
-        <div class="surahs-grid">
-          <div class="surah-card"><h5>بارانی یەکەم</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('85788.mp4', 'rain', true)">لێدان ▶</button></div></div>
-          <div class="surah-card"><h5>بارانی دووەم</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('85789.mp4', 'rain', true)">لێدان ▶</button></div></div>
-        </div>
-      </div>
-    </div>
-
     <div id="view-fire-select" class="page-view">
       <div class="card-section">
         <div class="section-header"><h3>🔥 دەنگەکانی ئاگر</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
         <div class="surahs-grid">
-          <div class="surah-card"><h5>ئاگری دارستان (١)</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('87654.mp4', 'fire', true)">لێدان ▶</button></div></div>
           <div class="surah-card">
             <video class="sound-video-preview" src="21345.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <h5>ئاگری شەوی دارستان (٢)</h5>
+            <h5>ئاگری شەوی دارستان</h5>
             <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('21345.mp4', 'fire', true)">لێدان ▶</button></div>
           </div>
         </div>
@@ -1057,27 +1577,12 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <div class="card-section">
         <div class="section-header"><h3>🌊 دەنگەکانی ڕووبار و دەریا</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
         <div class="surahs-grid">
-          <div class="surah-card"><h5>ڕووباری سروشتی (١)</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('12634.png', 'river', true)">لێدان ▶</button></div></div>
           <div class="surah-card">
             <video class="sound-video-preview" src="65789.mp4" autoplay loop muted playsinline preload="metadata"></video>
-            <h5>شەپۆلی دەریا و کەنار ئاو (٢)</h5>
+            <h5>شەپۆلی دەریا و کەنار ئاو</h5>
             <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('65789.mp4', 'river', true)">لێدان ▶</button></div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div id="view-wind-select" class="page-view">
-      <div class="card-section">
-        <div class="section-header"><h3>💨 دەنگەکانی با</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
-        <div class="surahs-grid"><div class="surah-card"><h5>داری جوڵاو لەکاتی با</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('https://assets.mixkit.co/videos/preview/mixkit-tree-branches-in-the-wind-41618-large.mp4', 'wind', true)">لێدان ▶</button></div></div></div>
-      </div>
-    </div>
-
-    <div id="view-thunder-select" class="page-view">
-      <div class="card-section">
-        <div class="section-header"><h3>⚡ دەنگەکانی هەورەبروسکە</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
-        <div class="surahs-grid"><div class="surah-card"><h5>بروسکە و ترشقەی بەهێز</h5><div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('https://assets.mixkit.co/videos/preview/mixkit-storm-with-lightning-in-the-sky-42994-large.mp4', 'thunder', true)">لێدان ▶</button></div></div></div>
       </div>
     </div>
 
@@ -1086,6 +1591,85 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <div class="card-section">
         <div class="section-header"><h3>❤️ سوورەتە دڵخوازەکانم</h3><button onclick="switchView('view-home')" class="topbar-btn">← گەڕانەوە</button></div>
         <div class="surahs-grid" id="favoritesGridContainer" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+
+    <!-- VIEW 11: MY ACCOUNT -->
+    <div id="view-account" class="page-view">
+      <div class="card-section">
+        <div class="section-header">
+          <h3>👤 هەژماری خۆم</h3>
+          <button onclick="switchView('view-home')" class="topbar-btn" style="padding: 6px 14px; font-size: 11px; width: auto; height: auto; border-radius: 20px;">← گەڕانەوە</button>
+        </div>
+
+        <div class="account-profile-banner">
+          <div class="account-identity">
+            <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
+            <div class="account-meta">
+              <h4 id="accountDisplayName">بەکارهێنەر</h4>
+              <small id="accountDisplayEmail">user@example.com</small>
+              <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+            </div>
+          </div>
+          <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 11.5px; font-weight: 600;"></small>
+        </div>
+
+        <div class="account-stats-grid">
+          <div class="account-stat-card">
+            <strong id="accStatFav">٠</strong>
+            <span>سوورەتی دڵخواز</span>
+          </div>
+          <div class="account-stat-card">
+            <strong id="accStatHifz">٠</strong>
+            <span>بەشی لەبەرکراو</span>
+          </div>
+          <div class="account-stat-card">
+            <strong id="accStatKhatm">٠٪</strong>
+            <span>پێشکەوتنی خەتم</span>
+          </div>
+          <div class="account-stat-card">
+            <strong id="accStatTasbih">٠</strong>
+            <span>تەسبیح</span>
+          </div>
+        </div>
+
+        <div class="account-link-box">
+          <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژمارەکانی گۆگڵ و فەیسبوک</h4>
+          <div class="account-link-row">
+            <button type="button" class="auth-google-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('google')">
+              <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+              <span>بەستنەوە بە گۆگڵ / ئیمێڵ</span>
+            </button>
+            <button type="button" class="auth-fb-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('facebook')">
+              <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.326v21.348C0 23.403.597 24 1.326 24h11.495v-9.294H9.691v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.674V1.326C24 .597 23.403 0 22.675 0z"/></svg>
+              <span>بەستنەوە بە فەیسبوک</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="account-edit-box">
+          <h4>✏️ دەستکاریکردنی زانیارییەکانی هەژمارەکەم</h4>
+          <div id="accountEditMsg" class="auth-feedback"></div>
+          <div class="account-form-grid">
+            <div class="auth-input-group">
+              <label for="accEditName">ناوی تەواو:</label>
+              <input type="text" id="accEditName" placeholder="ناوی خۆت...">
+            </div>
+            <div class="auth-input-group">
+              <label for="accEditEmail">ئیمێڵ (Email):</label>
+              <input type="email" id="accEditEmail" placeholder="example@gmail.com" style="direction:ltr; text-align:left;">
+            </div>
+            <div class="auth-input-group" style="grid-column: 1 / -1;">
+              <label for="accEditPassword">وشەی نهێنی نوێ (ئارەزوومەندانە):</label>
+              <input type="password" id="accEditPassword" placeholder="ئەگەر ناتەوێت بیگۆڕیت بە بەتاڵی بیهێڵەرەوە..." style="direction:ltr; text-align:left;">
+            </div>
+          </div>
+          <div class="account-actions-grid">
+            <button type="button" class="account-btn-primary" onclick="saveAccountProfileChanges()">پاشەکەوتکردن 💾</button>
+            <button type="button" class="account-btn-secondary" onclick="openAuthGateForNewAccount()">دروستکردنی هەژماری نوێ ➕</button>
+            <button type="button" class="account-btn-danger" onclick="logoutUser()">دەرچوون لە هەژمار 🚪</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -1155,6 +1739,31 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </div>
 </div><script>
 /* ========================================================
+   FIREBASE REAL AUTHENTICATION CONFIG (NOOR QURAN)
+   ======================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCwG3EO9pWXFuGRRODXpoGtbMKuxTC_fqY",
+  authDomain: "noor-quran-ebbd5.firebaseapp.com",
+  projectId: "noor-quran-ebbd5",
+  storageBucket: "noor-quran-ebbd5.firebasestorage.app",
+  messagingSenderId: "202449544771",
+  appId: "1:202449544771:web:2008e29cb92ff1a29f56f6",
+  measurementId: "G-15460LWGQF"
+};
+
+let fbAuth = null;
+try {
+  if (typeof firebase !== 'undefined') {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    fbAuth = firebase.auth();
+  }
+} catch (err) {
+  console.error('Firebase init error:', err);
+}
+
+/* ========================================================
    CORE VARIABLES & SYSTEM ENGINE
    ======================================================== */
 const audioElement = document.getElementById('audioElement');
@@ -1223,6 +1832,441 @@ let activeSplashAyahNum = 1;
 let showTranslation = localStorage.getItem('noor_show_trans') !== 'false';
 let isAyahAutoFollow = false;
 
+/* ========================================================
+   REAL FIREBASE AUTH (GOOGLE/GMAIL, EMAIL & FACEBOOK) + ACCOUNT
+   ======================================================== */
+let activeUser = JSON.parse(localStorage.getItem('noor_active_user') || 'null');
+
+function getKurdishAuthError(err) {
+  const code = err?.code || '';
+  switch (code) {
+    case 'auth/invalid-email':
+      return 'شێوازی ئیمێڵەکە هەڵەیە، تکایە ئیمێڵێکی دروست بنووسە.';
+    case 'auth/user-not-found':
+      return 'ئەم ئیمێڵە تۆمار نەکراوە؛ بچۆ بەشی «دروستکردنی هەژمار».';
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'ئیمێڵ یان وشەی نهێنی هەڵەیە، تکایە دووبارە دڵنیابەوە.';
+    case 'auth/email-already-in-use':
+      return 'ئەم ئیمێڵە پێشتر هەژماری پێ دروست کراوە، تکایە بچۆ ژوورەوە.';
+    case 'auth/weak-password':
+      return 'وشەی نهێنی زۆر لاوازە، تکایە لانیکەم ٦ پیت یان ژمارە بنووسە.';
+    case 'auth/popup-closed-by-user':
+      return 'پەنجەرەی چوونەژوورەوە داخرا پێش تەواوکردنی کردارەکە.';
+    case 'auth/popup-blocked':
+      return 'وێبگەڕەکەت ڕێگری لە پەنجەرەی چوونەژوورەوە کرد؛ تکایە ڕێگە بە Pop-up بدە.';
+    case 'auth/unauthorized-domain':
+      return 'دۆمەینی ئەم سایتە هێشتا لە Firebase زیاد نەکراوە (Authentication → Settings → Authorized domains).';
+    case 'auth/operation-not-supported-in-this-environment':
+      return 'تکایە سایتەکە لەسەر Netlify یان Live Server (localhost) بکەرەوە؛ گۆگڵ ڕێگە بە کردنەوەی ڕاستەوخۆی فایل (file://) نادات.';
+    case 'auth/operation-not-allowed':
+      return 'ئەم شێوازەی چوونەژوورەوە هێشتا لە Firebase چالاک نەکراوە (Sign-in method).';
+    case 'auth/account-exists-with-different-credential':
+      return 'ئەم ئیمێڵە پێشتر بە شێوازێکی تر تۆمارکراوە، بەو شێوازە بچۆ ژوورەوە.';
+    case 'auth/provider-already-linked':
+      return 'ئەم هەژمارە پێشتر بەستراوەتەوە ✅';
+    case 'auth/credential-already-in-use':
+      return 'ئەم هەژمارەی گۆگڵ یان فەیسبوک پێشتر بە هەژمارێکی ترەوە بەستراوەتەوە.';
+    case 'auth/requires-recent-login':
+      return 'بۆ ئاسایش، تکایە جارێکی تر دەربچۆ و بچۆوە ژوورەوە پێش گۆڕینی وشەی نهێنی یان ئیمێڵ.';
+    case 'auth/network-request-failed':
+      return 'کێشەی هێڵی ئینتەرنێت هەیە، تکایە دڵنیابەوە لە ئینتەرنێتەکەت.';
+    default:
+      return err?.message || 'هەڵەیەک ڕوویدا، تکایە دووبارە هەوڵ بدەرەوە.';
+  }
+}
+
+function mapFirebaseUserToLocal(fbUser) {
+  if (!fbUser) return null;
+  const providerIds = (fbUser.providerData || []).map(p => p.providerId);
+  let mainProvider = 'email';
+  if (providerIds.includes('google.com')) mainProvider = 'google';
+  else if (providerIds.includes('facebook.com')) mainProvider = 'facebook';
+
+  let createdDate = '';
+  try {
+    if (fbUser.metadata?.creationTime) {
+      createdDate = new Date(fbUser.metadata.creationTime).toLocaleDateString('ku-IQ');
+    }
+  } catch (e) {}
+
+  return {
+    uid: fbUser.uid,
+    name: fbUser.displayName || (fbUser.email ? fbUser.email.split('@')[0] : 'بەکارهێنەر'),
+    email: fbUser.email || '',
+    photoURL: fbUser.photoURL || '',
+    provider: mainProvider,
+    providers: providerIds,
+    createdAt: createdDate
+  };
+}
+
+function setActiveUser(userObj) {
+  activeUser = userObj;
+  if (userObj) {
+    localStorage.setItem('noor_active_user', JSON.stringify(userObj));
+  } else {
+    localStorage.removeItem('noor_active_user');
+  }
+  updateAccountHeaderUI();
+  renderAccountView();
+}
+
+function showAuthFeedback(message, type = 'error', targetId = 'authFeedbackMsg') {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  if (!message) {
+    el.className = 'auth-feedback';
+    el.textContent = '';
+    return;
+  }
+  el.className = `auth-feedback ${type}`;
+  el.textContent = message;
+}
+
+function switchAuthTab(tabName) {
+  const loginTab = document.getElementById('authTabLogin');
+  const regTab = document.getElementById('authTabRegister');
+  const loginForm = document.getElementById('authLoginForm');
+  const regForm = document.getElementById('authRegisterForm');
+
+  showAuthFeedback('');
+  if (tabName === 'register') {
+    if (loginTab) loginTab.classList.remove('active');
+    if (regTab) regTab.classList.add('active');
+    if (loginForm) loginForm.classList.remove('active');
+    if (regForm) regForm.classList.add('active');
+  } else {
+    if (regTab) regTab.classList.remove('active');
+    if (loginTab) loginTab.classList.add('active');
+    if (regForm) regForm.classList.remove('active');
+    if (loginForm) loginForm.classList.add('active');
+  }
+}
+
+function hideAuthOverlay() {
+  const overlay = document.getElementById('authGateOverlay');
+  if (overlay) overlay.style.display = 'none';
+  document.body.classList.remove('auth-locked');
+  showAuthFeedback('');
+}
+
+function showAuthOverlay(allowReturn = false, defaultTab = 'login') {
+  const overlay = document.getElementById('authGateOverlay');
+  const returnBtn = document.getElementById('authReturnBtn');
+  if (overlay) overlay.style.display = 'flex';
+  document.body.classList.add('auth-locked');
+  if (returnBtn) returnBtn.style.display = (allowReturn && activeUser) ? 'block' : 'none';
+  switchAuthTab(defaultTab);
+}
+
+function closeAuthOverlayIfLoggedIn() {
+  if (activeUser) hideAuthOverlay();
+}
+
+async function handleEmailLogin(event) {
+  event.preventDefault();
+  if (!fbAuth) {
+    showAuthFeedback('سیستەمی Firebase بار نەبووە؛ دڵنیابەوە لە هێڵی ئینتەرنێت.', 'error');
+    return;
+  }
+  const email = (document.getElementById('loginEmailInput')?.value || '').trim();
+  const password = (document.getElementById('loginPasswordInput')?.value || '').trim();
+
+  if (!email || !password) {
+    showAuthFeedback('تکایە ئیمێڵ و وشەی نهێنی بە تەواوی بنووسە.', 'error');
+    return;
+  }
+
+  showAuthFeedback('تکایە چاوەڕێ بکە...', 'success');
+  try {
+    const cred = await fbAuth.signInWithEmailAndPassword(email, password);
+    setActiveUser(mapFirebaseUserToLocal(cred.user));
+    showAuthFeedback('بە سەرکەوتوویی چوویتە ژوورەوە ✅', 'success');
+    setTimeout(() => {
+      document.getElementById('authLoginForm')?.reset();
+      hideAuthOverlay();
+    }, 350);
+  } catch (err) {
+    showAuthFeedback(getKurdishAuthError(err), 'error');
+  }
+}
+
+async function handleEmailRegister(event) {
+  event.preventDefault();
+  if (!fbAuth) {
+    showAuthFeedback('سیستەمی Firebase بار نەبووە؛ دڵنیابەوە لە هێڵی ئینتەرنێت.', 'error');
+    return;
+  }
+  const name = (document.getElementById('regNameInput')?.value || '').trim();
+  const email = (document.getElementById('regEmailInput')?.value || '').trim();
+  const password = (document.getElementById('regPasswordInput')?.value || '').trim();
+  const confirmPass = (document.getElementById('regConfirmInput')?.value || '').trim();
+
+  if (!name || !email || !password) {
+    showAuthFeedback('تکایە هەموو خانەکان بە دروستی پڕ بکەرەوە.', 'error');
+    return;
+  }
+  if (password.length < 6) {
+    showAuthFeedback('وشەی نهێنی دەبێت لانیکەم ٦ پیت یان ژمارە بێت.', 'error');
+    return;
+  }
+  if (password !== confirmPass) {
+    showAuthFeedback('وشەی نهێنی و دووبارەکردنەوەکەی یەکسان نین.', 'error');
+    return;
+  }
+
+  showAuthFeedback('خەریکی دروستکردنی هەژمارەکەتین...', 'success');
+  try {
+    const cred = await fbAuth.createUserWithEmailAndPassword(email, password);
+    await cred.user.updateProfile({ displayName: name });
+    await cred.user.reload();
+    setActiveUser(mapFirebaseUserToLocal(fbAuth.currentUser || cred.user));
+    showAuthFeedback('هەژمارەکەت بە سەرکەوتوویی دروست کرا ✨', 'success');
+    setTimeout(() => {
+      document.getElementById('authRegisterForm')?.reset();
+      hideAuthOverlay();
+    }, 450);
+  } catch (err) {
+    showAuthFeedback(getKurdishAuthError(err), 'error');
+  }
+}
+
+async function handleGoogleOAuthLogin() {
+  if (!fbAuth) {
+    showAuthFeedback('سیستەمی Firebase بار نەبووە؛ دڵنیابەوە لە هێڵی ئینتەرنێت.', 'error');
+    return;
+  }
+  if (window.location.protocol === 'file:') {
+    showAuthFeedback('تکایە سایتەکە لەسەر Netlify یان Live Server (localhost) بکەرەوە؛ گۆگڵ ڕێگە بە کردنەوەی ڕاستەوخۆی فایل (file://) نادات.', 'error');
+    return;
+  }
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+  showAuthFeedback('کردنەوەی لیستی ئیمێڵەکانی گۆگڵ...', 'success');
+
+  try {
+    const result = await fbAuth.signInWithPopup(provider);
+    setActiveUser(mapFirebaseUserToLocal(result.user));
+    showAuthFeedback('بە سەرکەوتوویی بە ئیمێڵی گۆگڵ چوویتە ژوورەوە ✅', 'success');
+    setTimeout(() => hideAuthOverlay(), 350);
+  } catch (err) {
+    if (err?.code === 'auth/popup-blocked') {
+      try {
+        await fbAuth.signInWithRedirect(provider);
+        return;
+      } catch (e2) {
+        showAuthFeedback(getKurdishAuthError(e2), 'error');
+        return;
+      }
+    }
+    showAuthFeedback(getKurdishAuthError(err), 'error');
+  }
+}
+
+async function handleFacebookOAuthLogin() {
+  if (!fbAuth) {
+    showAuthFeedback('سیستەمی Firebase بار نەبووە؛ دڵنیابەوە لە هێڵی ئینتەرنێت.', 'error');
+    return;
+  }
+  if (window.location.protocol === 'file:') {
+    showAuthFeedback('تکایە سایتەکە لەسەر Netlify یان Live Server (localhost) بکەرەوە؛ فەیسبوک ڕێگە بە (file://) نادات.', 'error');
+    return;
+  }
+
+  const provider = new firebase.auth.FacebookAuthProvider();
+  provider.addScope('email');
+  showAuthFeedback('کردنەوەی پەنجەرەی فەیسبوک...', 'success');
+
+  try {
+    const result = await fbAuth.signInWithPopup(provider);
+    setActiveUser(mapFirebaseUserToLocal(result.user));
+    showAuthFeedback('بە سەرکەوتوویی بە فەیسبوک چوویتە ژوورەوە ✅', 'success');
+    setTimeout(() => hideAuthOverlay(), 350);
+  } catch (err) {
+    if (err?.code === 'auth/popup-blocked') {
+      try {
+        await fbAuth.signInWithRedirect(provider);
+        return;
+      } catch (e2) {
+        showAuthFeedback(getKurdishAuthError(e2), 'error');
+        return;
+      }
+    }
+    showAuthFeedback(getKurdishAuthError(err), 'error');
+  }
+}
+
+async function linkSocialProvider(type) {
+  if (!fbAuth || !fbAuth.currentUser) {
+    showAuthFeedback('سەرەتا بچۆ ژوورەوە بۆ هەژمارەکەت.', 'error', 'accountEditMsg');
+    return;
+  }
+  if (window.location.protocol === 'file:') {
+    showAuthFeedback('بۆ بەستنەوە بە گۆگڵ و فەیسبوک پێویستە سایتەکە لەسەر Netlify یان localhost کراوە بێت.', 'error', 'accountEditMsg');
+    return;
+  }
+
+  const provider = type === 'facebook'
+    ? new firebase.auth.FacebookAuthProvider()
+    : new firebase.auth.GoogleAuthProvider();
+  if (type === 'google') provider.setCustomParameters({ prompt: 'select_account' });
+  if (type === 'facebook') provider.addScope('email');
+
+  try {
+    const result = await fbAuth.currentUser.linkWithPopup(provider);
+    setActiveUser(mapFirebaseUserToLocal(result.user));
+    showAuthFeedback(
+      type === 'facebook'
+        ? 'هەژمارەکەت بە سەرکەوتوویی بە فەیسبوکەوە بەسترایەوە ✅'
+        : 'هەژمارەکەت بە سەرکەوتوویی بە گۆگڵەوە بەسترایەوە ✅',
+      'success',
+      'accountEditMsg'
+    );
+    setTimeout(() => showAuthFeedback('', 'success', 'accountEditMsg'), 3000);
+  } catch (err) {
+    showAuthFeedback(getKurdishAuthError(err), 'error', 'accountEditMsg');
+  }
+}
+
+function updateAccountHeaderUI() {
+  const topbarName = document.getElementById('topbarUserName');
+  if (topbarName) {
+    topbarName.textContent = activeUser ? activeUser.name : 'هەژماری خۆم';
+  }
+}
+
+function renderAccountView() {
+  const avatarEl = document.getElementById('accountAvatarLetter');
+  const nameEl = document.getElementById('accountDisplayName');
+  const emailEl = document.getElementById('accountDisplayEmail');
+  const providerEl = document.getElementById('accountProviderBadge');
+  const dateEl = document.getElementById('accountJoinDateTxt');
+  const editName = document.getElementById('accEditName');
+  const editEmail = document.getElementById('accEditEmail');
+  const editPass = document.getElementById('accEditPassword');
+
+  if (activeUser) {
+    const firstChar = (activeUser.name || 'ن').trim().charAt(0).toUpperCase();
+    if (avatarEl) {
+      if (activeUser.photoURL) {
+        avatarEl.innerHTML = `<img src="${activeUser.photoURL}" alt="avatar">`;
+      } else {
+        avatarEl.textContent = firstChar;
+      }
+    }
+    if (nameEl) nameEl.textContent = activeUser.name || 'بەکارهێنەر';
+    if (emailEl) emailEl.textContent = activeUser.email || '';
+    if (providerEl) {
+      const providers = activeUser.providers || [];
+      if (providers.includes('google.com') && providers.includes('facebook.com')) {
+        providerEl.className = 'account-provider-pill google';
+        providerEl.textContent = '🔗 بەستراوە بە گۆگڵ و فەیسبوک';
+      } else if (activeUser.provider === 'google' || providers.includes('google.com')) {
+        providerEl.className = 'account-provider-pill google';
+        providerEl.textContent = '🔴 بەستراوە بە گۆگڵ (Google / Gmail)';
+      } else if (activeUser.provider === 'facebook' || providers.includes('facebook.com')) {
+        providerEl.className = 'account-provider-pill fb';
+        providerEl.textContent = '📘 بەستراوە بە فەیسبوک (Facebook)';
+      } else {
+        providerEl.className = 'account-provider-pill';
+        providerEl.textContent = '✉️ بەستراوە بە ئیمێڵ (Email)';
+      }
+    }
+    if (dateEl) dateEl.textContent = activeUser.createdAt ? `تۆمارکردن: ${activeUser.createdAt}` : '';
+    if (editName) editName.value = activeUser.name || '';
+    if (editEmail) {
+      editEmail.value = activeUser.email || '';
+      editEmail.readOnly = true;
+    }
+    if (editPass) editPass.value = '';
+  }
+
+  const statFav = document.getElementById('accStatFav');
+  const statHifz = document.getElementById('accStatHifz');
+  const statKhatm = document.getElementById('accStatKhatm');
+  const statTasbih = document.getElementById('accStatTasbih');
+
+  const totalKhatmDays = (typeof khatmPlan !== 'undefined' && khatmPlan.totalDays) ? khatmPlan.totalDays : 30;
+  const doneKhatmDays = (typeof khatmPlan !== 'undefined' && Array.isArray(khatmPlan.completedDays)) ? khatmPlan.completedDays.length : 0;
+  const khatmPct = Math.round((doneKhatmDays / totalKhatmDays) * 100);
+
+  if (statFav) statFav.textContent = toArabicNumbers(favSurahs.length);
+  if (statHifz) statHifz.textContent = toArabicNumbers(typeof hifzSavedRecords !== 'undefined' ? hifzSavedRecords.length : 0);
+  if (statKhatm) statKhatm.textContent = `${toArabicNumbers(khatmPct)}٪`;
+  if (statTasbih) statTasbih.textContent = toArabicNumbers(typeof currentTasbihCount !== 'undefined' ? currentTasbihCount : 0);
+}
+
+async function saveAccountProfileChanges() {
+  if (!fbAuth || !fbAuth.currentUser) return;
+  const newName = (document.getElementById('accEditName')?.value || '').trim();
+  const newPass = (document.getElementById('accEditPassword')?.value || '').trim();
+
+  if (!newName) {
+    showAuthFeedback('ناو نابێت بەتاڵ بێت.', 'error', 'accountEditMsg');
+    return;
+  }
+  if (newPass && newPass.length < 6) {
+    showAuthFeedback('وشەی نهێنی نوێ دەبێت لانیکەم ٦ پیت بێت.', 'error', 'accountEditMsg');
+    return;
+  }
+
+  try {
+    await fbAuth.currentUser.updateProfile({ displayName: newName });
+    if (newPass) {
+      await fbAuth.currentUser.updatePassword(newPass);
+    }
+    await fbAuth.currentUser.reload();
+    setActiveUser(mapFirebaseUserToLocal(fbAuth.currentUser));
+    showAuthFeedback('زانیارییەکانی هەژمارەکەت بە سەرکەوتوویی نوێکرانەوە ✅', 'success', 'accountEditMsg');
+    setTimeout(() => showAuthFeedback('', 'success', 'accountEditMsg'), 2500);
+  } catch (err) {
+    showAuthFeedback(getKurdishAuthError(err), 'error', 'accountEditMsg');
+  }
+}
+
+function openAuthGateForNewAccount() {
+  showAuthOverlay(true, 'register');
+}
+
+async function logoutUser() {
+  try {
+    if (fbAuth) await fbAuth.signOut();
+  } catch (e) {}
+  setActiveUser(null);
+  switchView('view-home', true);
+  showAuthOverlay(false, 'login');
+  showAuthFeedback('لە هەژمارەکەت دەرچوویت؛ دەتوانیت بە هەر ئیمێڵ یان هەژمارێکی تر بچیتەوە ژوورەوە.', 'success');
+}
+
+function initAuthSystem() {
+  updateAccountHeaderUI();
+  if (!fbAuth) {
+    showAuthOverlay(false, 'login');
+    return;
+  }
+
+  fbAuth.getRedirectResult().then(result => {
+    if (result && result.user) {
+      setActiveUser(mapFirebaseUserToLocal(result.user));
+      hideAuthOverlay();
+    }
+  }).catch(err => {
+    if (err) showAuthFeedback(getKurdishAuthError(err), 'error');
+  });
+
+  fbAuth.onAuthStateChanged(user => {
+    if (user) {
+      setActiveUser(mapFirebaseUserToLocal(user));
+      hideAuthOverlay();
+    } else {
+      setActiveUser(null);
+      showAuthOverlay(false, 'login');
+    }
+  });
+}
+
 function pad(n) { return String(n).padStart(3, '0'); }
 
 function toArabicNumbers(num) {
@@ -1273,8 +2317,12 @@ function setPlayIcon(isPlaying) {
 }
 
 function switchView(viewId, isRestore = false) {
+  let target = document.getElementById(viewId);
+  if (!target) {
+    viewId = 'view-home';
+    target = document.getElementById(viewId);
+  }
   document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
-  const target = document.getElementById(viewId);
   if (target) target.classList.add('active');
 
   const bottomNav = document.getElementById('mainBottomNav');
@@ -1299,7 +2347,8 @@ function switchView(viewId, isRestore = false) {
     'view-hifz': ['menuHifz', 'navBtnHifz'],
     'view-khatm': ['menuKhatm'],
     'view-adhkar': ['menuAdhkar', 'navBtnAdhkar'],
-    'view-sounds': ['menuSounds', 'navBtnSounds']
+    'view-sounds': ['menuSounds', 'navBtnSounds'],
+    'view-account': ['menuAccount']
   };
 
   document.querySelectorAll('.side-menu a, .bottom-nav-item').forEach(el => el.classList.remove('active'));
@@ -1317,6 +2366,7 @@ function switchView(viewId, isRestore = false) {
     updateAdhkarReminderUI();
   }
   if (viewId === 'view-favorites') renderFavoritesGrid();
+  if (viewId === 'view-account') renderAccountView();
   if (!isRestore) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1504,21 +2554,10 @@ ayahAudioPlayer.addEventListener('ended', () => {
   }
 });
 
-/* AMBIENT SOUNDS, CANVAS VISUALS & FULL PLAYER */
-const AMBIENT_SOUNDS_MAP = {
-  rain: 'https://assets.mixkit.co/active_storage/sfx/2393/2393-preview.mp3',
-  fire: 'https://assets.mixkit.co/active_storage/sfx/1330/1330-preview.mp3',
-  river: 'https://assets.mixkit.co/active_storage/sfx/2432/2432-preview.mp3',
-  wind: 'https://assets.mixkit.co/active_storage/sfx/1173/1173-preview.mp3',
-  thunder: 'https://assets.mixkit.co/active_storage/sfx/1270/1270-preview.mp3'
-};
-
+/* USER AMBIENT VIDEOS & FULL PLAYER */
 const AMBIENT_DEFAULT_VIDEOS = {
   fire: '21345.mp4',
-  river: '65789.mp4',
-  rain: '85788.mp4',
-  wind: 'https://assets.mixkit.co/videos/preview/mixkit-tree-branches-in-the-wind-41618-large.mp4',
-  thunder: 'https://assets.mixkit.co/videos/preview/mixkit-storm-with-lightning-in-the-sky-42994-large.mp4'
+  river: '65789.mp4'
 };
 
 let canvasAnimId = null;
@@ -1532,26 +2571,22 @@ function startCanvasEffect(type) {
   canvas.height = window.innerHeight;
 
   const particles = [];
-  const count = type === 'fire' ? 65 : 90;
+  const count = type === 'fire' ? 65 : 80;
 
   for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      len: Math.random() * 18 + 8,
-      speedY: type === 'fire' ? -(Math.random() * 2.5 + 1) : (Math.random() * 6 + 4),
-      speedX: type === 'wind' ? (Math.random() * 4 + 2) : (Math.random() - 0.5) * 1.2,
+      len: Math.random() * 14 + 6,
+      speedY: type === 'fire' ? -(Math.random() * 2.5 + 1) : (Math.random() * 3 + 1.5),
+      speedX: (Math.random() - 0.5) * 1.2,
       radius: Math.random() * 3 + 1,
-      alpha: Math.random() * 0.6 + 0.2
+      alpha: Math.random() * 0.5 + 0.15
     });
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (type === 'thunder' && Math.random() < 0.012) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
 
     particles.forEach(p => {
       if (type === 'fire') {
@@ -1562,8 +2597,8 @@ function startCanvasEffect(type) {
       } else {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + p.speedX * 2, p.y + (type === 'river' ? 2 : p.len));
-        ctx.strokeStyle = type === 'river' ? `rgba(147, 197, 253, ${p.alpha})` : `rgba(226, 232, 240, ${p.alpha})`;
+        ctx.lineTo(p.x + p.speedX * 2, p.y + 2);
+        ctx.strokeStyle = `rgba(147, 197, 253, ${p.alpha})`;
         ctx.lineWidth = 1.3;
         ctx.stroke();
       }
@@ -1588,22 +2623,22 @@ function toggleTallSoundsMenu() {
 }
 
 function quickPlayAmbient(type) {
-  const defaultMedia = AMBIENT_DEFAULT_VIDEOS[type] || '';
+  const defaultMedia = AMBIENT_DEFAULT_VIDEOS[type];
+  if (!defaultMedia) return;
   playAmbientVideo(defaultMedia, type, false);
   toggleTallSoundsMenu();
 }
 
 function playAmbientVideo(mediaUrl, type, switchToFull = true) {
   const resolvedMedia = mediaUrl || AMBIENT_DEFAULT_VIDEOS[type] || '';
+  if (!resolvedMedia) return;
   localStorage.setItem('noor_active_nature_type', type);
   localStorage.setItem('noor_active_nature_url', resolvedMedia);
   applyTallPlayerTheme(type, resolvedMedia);
 
-  if (AMBIENT_SOUNDS_MAP[type]) {
-    ambientAudio.src = AMBIENT_SOUNDS_MAP[type];
-    ambientAudio.volume = currentAmbientVolume;
-    ambientAudio.play().catch(() => {});
-  }
+  ambientAudio.src = resolvedMedia;
+  ambientAudio.volume = currentAmbientVolume;
+  ambientAudio.play().catch(() => {});
   if (switchToFull) switchView('view-full-player');
 }
 
@@ -1613,10 +2648,12 @@ function applyTallPlayerTheme(type, mediaUrl) {
   if (!box || !video) return;
 
   const resolvedMedia = mediaUrl || AMBIENT_DEFAULT_VIDEOS[type] || '';
-  startCanvasEffect(type || 'rain');
+  if (!resolvedMedia) return;
+  startCanvasEffect(type || 'fire');
 
-  if (resolvedMedia && resolvedMedia.toLowerCase().endsWith('.mp4')) {
+  if (resolvedMedia.toLowerCase().endsWith('.mp4')) {
     box.style.backgroundImage = 'none';
+    video.muted = true;
     video.src = resolvedMedia;
     video.style.display = 'block';
     video.load();
@@ -1625,15 +2662,20 @@ function applyTallPlayerTheme(type, mediaUrl) {
     video.pause();
     video.removeAttribute('src');
     video.style.display = 'none';
-    if (resolvedMedia) box.style.backgroundImage = `url('${resolvedMedia}')`;
-    else box.style.backgroundImage = 'none';
+    box.style.backgroundImage = `url('${resolvedMedia}')`;
   }
 }
 
 function toggleAmbientSound() {
   if (ambientAudio.paused) {
-    const savedType = localStorage.getItem('noor_active_nature_type') || 'rain';
-    if (!ambientAudio.src) ambientAudio.src = AMBIENT_SOUNDS_MAP[savedType];
+    const savedType = localStorage.getItem('noor_active_nature_type');
+    const activeType = (savedType && AMBIENT_DEFAULT_VIDEOS[savedType]) ? savedType : 'fire';
+    const savedUrl = localStorage.getItem('noor_active_nature_url');
+    const activeUrl = (savedUrl === '21345.mp4' || savedUrl === '65789.mp4') ? savedUrl : AMBIENT_DEFAULT_VIDEOS[activeType];
+    if (!ambientAudio.src || !ambientAudio.src.endsWith(activeUrl)) {
+      ambientAudio.src = activeUrl;
+    }
+    applyTallPlayerTheme(activeType, activeUrl);
     ambientAudio.volume = currentAmbientVolume;
     ambientAudio.play().catch(() => {});
   } else {
@@ -1644,6 +2686,16 @@ function toggleAmbientSound() {
 function stopAmbientSound() {
   ambientAudio.pause();
   ambientAudio.currentTime = 0;
+  const video = document.getElementById('tallPlayerBgVideo');
+  if (video) {
+    video.pause();
+    video.removeAttribute('src');
+    video.style.display = 'none';
+  }
+  const box = document.getElementById('tallPlayerBox');
+  if (box) box.style.backgroundImage = 'none';
+  localStorage.removeItem('noor_active_nature_type');
+  localStorage.removeItem('noor_active_nature_url');
   if (canvasAnimId) cancelAnimationFrame(canvasAnimId);
   const canvas = document.getElementById('tallEffectCanvas');
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -3116,11 +4168,18 @@ renderSpiritualGems();
 initBgSlider(); 
 initSavedQuranPageTheme();
 initAdhkarReminderSystem();
+initAuthSystem();
 
 const savedNatureType = localStorage.getItem('noor_active_nature_type');
 const savedNatureUrl = localStorage.getItem('noor_active_nature_url');
-if (savedNatureType) {
-  applyTallPlayerTheme(savedNatureType, savedNatureUrl);
+if (savedNatureType && AMBIENT_DEFAULT_VIDEOS[savedNatureType]) {
+  const validUrl = (savedNatureUrl === '21345.mp4' || savedNatureUrl === '65789.mp4')
+    ? savedNatureUrl
+    : AMBIENT_DEFAULT_VIDEOS[savedNatureType];
+  applyTallPlayerTheme(savedNatureType, validUrl);
+} else {
+  localStorage.removeItem('noor_active_nature_type');
+  localStorage.removeItem('noor_active_nature_url');
 }
 
 const lastActiveView = localStorage.getItem('noor_active_view') || 'view-home';
