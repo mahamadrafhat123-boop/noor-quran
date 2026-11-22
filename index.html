@@ -694,67 +694,202 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .tasbih-reset-btn { background: var(--glass-card-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); color: #0f172a; padding: 10px 30px; border-radius: 99px; font-size: 14px; font-weight: 700; transition: 0.3s; cursor: pointer; }
 .tasbih-reset-btn:hover { background: rgba(255, 255, 255, 0.95); }
 
-/* TAFSIR & QURAN READER */
-#readingReaderContainer { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%); flex-direction: column; }
+/* TAFSIR & QURAN READER — REAL MUSHAF PAGES */
+#readingReaderContainer { display: none; position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%); flex-direction: column; overflow: hidden; }
 #readingReaderContainer .topbar-btn, #view-full-player .topbar-btn { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.24); color: #ffffff; box-shadow: none; }
 #readingReaderContainer .topbar-btn:hover, #view-full-player .topbar-btn:hover { background: rgba(255, 255, 255, 0.22); border-color: #ffffff; color: #ffffff; }
 #readingReaderContainer #readerSurahTitle { color: #ffffff !important; }
-#readingReaderContainer #readerPageIndicator { color: #94a3b8 !important; }
-.reader-header-fullscreen { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); background: rgba(15, 23, 42, 0.96); box-shadow: 0 4px 20px rgba(0,0,0,0.5); flex-shrink: 0; position: relative; z-index: 120; }
-.reader-settings-bar { display: none; align-items: center; justify-content: center; gap: 10px; padding: 12px 15px; background: rgba(10, 15, 30, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.16); flex-wrap: wrap; z-index: 115; animation: fadeIn 0.25s ease; }
+#readingReaderContainer #readerPageIndicator { color: #cbd5e1 !important; }
+.reader-header-fullscreen { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); background: rgba(15, 23, 42, 0.96); box-shadow: 0 4px 20px rgba(0,0,0,0.45); flex-shrink: 0; position: relative; z-index: 120; flex-wrap: wrap; }
+.reader-settings-bar { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; background: rgba(10, 15, 30, 0.98); border-bottom: 1px solid rgba(255, 255, 255, 0.16); flex-wrap: wrap; z-index: 115; animation: fadeIn 0.25s ease; }
 .reader-settings-bar.active { display: flex; }
 
-.page-themes-bar { display: none; align-items: center; justify-content: center; gap: 10px; padding: 12px 15px; background: rgba(10, 15, 30, 0.96); border-bottom: 1px solid rgba(255, 255, 255, 0.16); flex-wrap: wrap; z-index: 115; animation: fadeIn 0.25s ease; }
+.page-themes-bar { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; background: rgba(10, 15, 30, 0.96); border-bottom: 1px solid rgba(255, 255, 255, 0.16); flex-wrap: wrap; z-index: 115; animation: fadeIn 0.25s ease; }
 .page-themes-bar.active { display: flex; }
-.page-theme-option { display: flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 14px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.25s; }
-.page-theme-option:hover, .page-theme-option.active { border-color: #ffffff; background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-.theme-swatch { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.6); display: inline-block; flex-shrink: 0; }
+.page-theme-option { display: flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 14px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.25s; }
+.page-theme-option:hover, .page-theme-option.active { border-color: #ffffff; background: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
+.theme-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.6); display: inline-block; flex-shrink: 0; }
+.font-size-controls { display: inline-flex; align-items: center; gap: 6px; padding-right: 8px; border-right: 1px solid rgba(255, 255, 255, 0.2); }
 
-.reader-fullscreen-wrapper { flex: 1; display: flex; align-items: stretch; justify-content: center; position: relative; width: 100%; min-height: 0; overflow: hidden; perspective: 1200px; }
+.reader-fullscreen-wrapper { flex: 1; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; position: relative; width: 100%; min-height: 0; overflow: hidden; }
 
-.reader-box {
-  --page-bg: rgba(15, 23, 42, 0.92); --page-text: #f8fafc; --page-accent: #ffffff; --page-muted: #94a3b8;
-  --page-divider: rgba(255, 255, 255, 0.15); --page-border: #60a5fa;
-  --page-frame: inset 0 0 0 4px rgba(15, 23, 42, 0.95), inset 0 0 0 6px rgba(255, 255, 255, 0.25);
-  --splash-bg: rgba(96, 165, 250, 0.24); --splash-border: rgba(147, 197, 253, 0.75); --splash-glow: rgba(96, 165, 250, 0.45);
-  width: 100%; height: 100%; flex: 1; background: var(--page-bg); border-top: 1px solid var(--page-border);
-  border-bottom: 1px solid var(--page-border); padding: 30px 52px; margin: 0; overflow-y: auto; box-shadow: var(--page-frame);
-  transition: background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+#readingReaderContainer .reader-box {
+  --page-bg: #0f172a; --page-text: #f8fafc; --page-accent: #93c5fd; --page-muted: #cbd5e1;
+  --page-divider: rgba(255, 255, 255, 0.14); --page-border: rgba(96, 165, 250, 0.45);
+  --page-sheet-bg: rgba(30, 41, 59, 0.45);
+  --splash-bg: rgba(96, 165, 250, 0.22); --splash-border: rgba(147, 197, 253, 0.8); --splash-glow: rgba(96, 165, 250, 0.35);
+  width: 100%; height: 100%; flex: 1; min-height: 0;
+  background: var(--page-bg);
+  padding: 18px 16px 26px !important;
+  margin: 0 !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  transition: background 0.35s ease, color 0.35s ease;
 }
-.reader-box.theme-cream { --page-bg: #fbf3e4; --page-text: #1c1610; --page-accent: #8c5d18; --page-muted: #574631; --page-divider: rgba(140, 93, 24, 0.25); --page-border: #c59b52; --page-frame: inset 0 0 0 5px #fbf3e4, inset 0 0 0 8px #c59b52, inset 0 0 25px rgba(140, 93, 24, 0.12); --splash-bg: rgba(197, 155, 82, 0.28); --splash-border: #8c5d18; --splash-glow: rgba(197, 155, 82, 0.5); }
-.reader-box.theme-blue { --page-bg: rgba(15, 23, 42, 0.92); --page-text: #f8fafc; --page-accent: #ffffff; --page-muted: #94a3b8; --page-divider: rgba(255, 255, 255, 0.15); --page-border: #60a5fa; --page-frame: inset 0 0 0 4px rgba(15, 23, 42, 0.95), inset 0 0 0 6px rgba(255, 255, 255, 0.25); --splash-bg: rgba(96, 165, 250, 0.26); --splash-border: #93c5fd; --splash-glow: rgba(96, 165, 250, 0.55); }
-.reader-box.theme-white { --page-bg: #ffffff; --page-text: #0f172a; --page-accent: #1e40af; --page-muted: #475569; --page-divider: rgba(15, 23, 42, 0.15); --page-border: #94a3b8; --page-frame: inset 0 0 0 5px #ffffff, inset 0 0 0 7px #cbd5e1; --splash-bg: rgba(59, 130, 246, 0.18); --splash-border: #2563eb; --splash-glow: rgba(59, 130, 246, 0.35); }
-.reader-box.theme-green { --page-bg: #06281e; --page-text: #f7f4e9; --page-accent: #e5c378; --page-muted: #a3c2b6; --page-divider: rgba(229, 195, 120, 0.2); --page-border: #d8b66a; --page-frame: inset 0 0 0 4px #06281e, inset 0 0 0 6px rgba(216, 182, 106, 0.5); --splash-bg: rgba(229, 195, 120, 0.24); --splash-border: #e5c378; --splash-glow: rgba(229, 195, 120, 0.45); }
-.reader-box.theme-dark { --page-bg: #050505; --page-text: #e5e7eb; --page-accent: #d4af37; --page-muted: #9ca3af; --page-divider: rgba(255, 255, 255, 0.12); --page-border: #374151; --page-frame: inset 0 0 0 4px #050505, inset 0 0 0 6px rgba(212, 175, 55, 0.35); --splash-bg: rgba(212, 175, 55, 0.25); --splash-border: #d4af37; --splash-glow: rgba(212, 175, 55, 0.5); }
-.reader-box::-webkit-scrollbar { width: 4px; }
-.reader-box::-webkit-scrollbar-track { background: transparent; }
-.reader-box::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.4); border-radius: 10px; }
+#readingReaderContainer .reader-box.theme-cream { --page-bg: #f6ebd4; --page-sheet-bg: #fbf4e4; --page-text: #1c1610; --page-accent: #8c5d18; --page-muted: #574631; --page-divider: rgba(140, 93, 24, 0.24); --page-border: #c59b52; --splash-bg: rgba(197, 155, 82, 0.25); --splash-border: #8c5d18; --splash-glow: rgba(197, 155, 82, 0.4); }
+#readingReaderContainer .reader-box.theme-blue { --page-bg: #0b1326; --page-sheet-bg: rgba(15, 23, 42, 0.92); --page-text: #f8fafc; --page-accent: #93c5fd; --page-muted: #cbd5e1; --page-divider: rgba(255, 255, 255, 0.14); --page-border: rgba(96, 165, 250, 0.45); --splash-bg: rgba(96, 165, 250, 0.24); --splash-border: #93c5fd; --splash-glow: rgba(96, 165, 250, 0.45); }
+#readingReaderContainer .reader-box.theme-white { --page-bg: #f1f5f9; --page-sheet-bg: #ffffff; --page-text: #0f172a; --page-accent: #1d4ed8; --page-muted: #475569; --page-divider: rgba(15, 23, 42, 0.14); --page-border: #cbd5e1; --splash-bg: rgba(59, 130, 246, 0.15); --splash-border: #2563eb; --splash-glow: rgba(59, 130, 246, 0.28); }
+#readingReaderContainer .reader-box.theme-green { --page-bg: #041d15; --page-sheet-bg: #06281e; --page-text: #f7f4e9; --page-accent: #e5c378; --page-muted: #b2d0c5; --page-divider: rgba(229, 195, 120, 0.22); --page-border: rgba(216, 182, 106, 0.55); --splash-bg: rgba(229, 195, 120, 0.22); --splash-border: #e5c378; --splash-glow: rgba(229, 195, 120, 0.4); }
+#readingReaderContainer .reader-box.theme-dark { --page-bg: #000000; --page-sheet-bg: #0a0a0a; --page-text: #e5e7eb; --page-accent: #d4af37; --page-muted: #9ca3af; --page-divider: rgba(255, 255, 255, 0.12); --page-border: rgba(212, 175, 55, 0.35); --splash-bg: rgba(212, 175, 55, 0.22); --splash-border: #d4af37; --splash-glow: rgba(212, 175, 55, 0.4); }
+#readingReaderContainer .reader-box::-webkit-scrollbar { width: 5px; }
+#readingReaderContainer .reader-box::-webkit-scrollbar-track { background: transparent; }
+#readingReaderContainer .reader-box::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.4); border-radius: 10px; }
 
-.mushaf-page-container { width: 100%; min-height: 100%; display: flex; flex-direction: column; justify-content: flex-start; transform-style: preserve-3d; }
-.mushaf-page { width: 100%; font-family: 'Amiri Quran', serif; font-size: 26px; color: var(--page-text); line-height: 2.8; text-align: justify; text-align-last: center; direction: rtl; }
-.bismillah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--page-accent); margin-top: 10px; margin-bottom: 25px; }
+.mushaf-page-container {
+  width: 100%;
+  max-width: 780px;
+  min-height: 100%;
+  margin: 0 auto;
+  background: var(--page-sheet-bg);
+  border: 2px solid var(--page-border);
+  outline: 4px solid var(--page-sheet-bg);
+  outline-offset: -8px;
+  border-radius: 20px;
+  padding: 24px 22px 28px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.mushaf-surah-banner {
+  text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--page-accent);
+  border: 1.5px solid var(--page-border);
+  border-radius: 14px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  background: rgba(128, 128, 128, 0.06);
+}
+.bismillah {
+  text-align: center;
+  font-family: 'Amiri Quran', serif;
+  font-size: 30px;
+  color: var(--page-accent);
+  line-height: 2;
+  margin: 4px 0 18px;
+}
+.mushaf-page {
+  width: 100%;
+  font-family: 'Amiri Quran', 'Amiri', serif;
+  font-size: var(--mushaf-font-size, 26px);
+  color: var(--page-text);
+  line-height: 2.55;
+  text-align: justify;
+  text-align-last: center;
+  direction: rtl;
+  word-spacing: 2px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-rendering: optimizeLegibility;
+}
+.mushaf-page.tafsir-open {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: right;
+  text-align-last: right;
+}
+.ayah-tafsir-card {
+  padding: 14px 14px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--page-divider);
+  background: rgba(128, 128, 128, 0.04);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+.ayah-tafsir-card.active-splash {
+  background-color: var(--splash-bg);
+  border-color: var(--splash-border);
+  box-shadow: 0 0 18px var(--splash-glow);
+}
+.ayah-tafsir-arabic {
+  font-family: 'Amiri Quran', 'Amiri', serif;
+  font-size: var(--mushaf-font-size, 26px);
+  line-height: 2.35;
+  color: var(--page-text);
+  margin-bottom: 10px;
+  text-align: right;
+}
 
-.ayah-item { cursor: pointer; border-radius: 12px; padding: 2px 6px; transition: background-color 0.35s ease, box-shadow 0.35s ease; position: relative; display: inline; }
+.ayah-item {
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 2px 4px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
 .ayah-item:hover { background-color: rgba(128, 128, 128, 0.12); }
-.ayah-item.active-splash { background-color: var(--splash-bg); box-shadow: 0 0 0 2px var(--splash-border), 0 0 22px var(--splash-glow); animation: ayahSplashPulse 1.4s ease-out; }
-@keyframes ayahSplashPulse { 0% { box-shadow: 0 0 0 0px var(--splash-border), 0 0 35px var(--splash-glow); } 50% { box-shadow: 0 0 0 6px rgba(96, 165, 250, 0), 0 0 28px var(--splash-glow); } 100% { box-shadow: 0 0 0 2px var(--splash-border), 0 0 22px var(--splash-glow); } }
+.ayah-item.active-splash { background-color: var(--splash-bg); box-shadow: 0 0 0 1.5px var(--splash-border), 0 0 16px var(--splash-glow); }
 
-.ayah-num-mark { color: var(--page-accent, #0284c7); font-size: 0.78em; margin: 0 5px; font-weight: bold; }
-.mushaf-translation { display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14px; color: var(--page-muted); line-height: 2; margin-bottom: 15px; border-bottom: 1px dashed var(--page-divider); padding: 6px 10px 8px; border-radius: 10px; text-align-last: right; transition: 0.3s ease; }
-.mushaf-translation.active-splash { background-color: var(--splash-bg); border-right: 3px solid var(--splash-border); color: var(--page-text); }
+.ayah-num-mark {
+  color: var(--page-accent, #0284c7);
+  font-size: 0.78em;
+  margin-right: 4px;
+  margin-left: 6px;
+  font-weight: bold;
+  white-space: nowrap;
+  display: inline-block;
+}
+.mushaf-translation {
+  display: block;
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 14.5px;
+  color: var(--page-muted);
+  line-height: 1.95;
+  border-top: 1px dashed var(--page-divider);
+  padding-top: 10px;
+  text-align: right;
+}
+.ayah-tafsir-card.active-splash .mushaf-translation { color: var(--page-text); }
 
-.waqf-qala { color: #e74c3c; font-weight: bold; font-size: 1.1em; } 
-.waqf-sila { color: #16a34a; font-weight: bold; font-size: 1.1em;} 
-.waqf-jeem { color: #d97706; font-weight: bold; font-size: 1.1em;} 
-.waqf-meem { color: #dc2626; font-weight: 900; font-size: 1.1em;} 
-.waqf-la { color: #2563eb; font-weight: bold; font-size: 1.1em;} 
-.waqf-dots { color: #9333ea; font-weight: bold; font-size: 1.1em;} 
+.waqf-qala { color: #e74c3c; font-weight: bold; font-size: 1.1em; }
+.waqf-sila { color: #16a34a; font-weight: bold; font-size: 1.1em; }
+.waqf-jeem { color: #d97706; font-weight: bold; font-size: 1.1em; }
+.waqf-meem { color: #dc2626; font-weight: 900; font-size: 1.1em; }
+.waqf-la { color: #2563eb; font-weight: bold; font-size: 1.1em; }
+.waqf-dots { color: #9333ea; font-weight: bold; font-size: 1.1em; }
 .allah-word { color: var(--page-accent); font-weight: bold; }
 
-.side-nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.35); color: #ffffff; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-size: 20px; transition: 0.3s; z-index: 100; backdrop-filter: blur(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-.side-nav-arrow:hover { background: #ffffff; color: #0f172a; border-color: #ffffff; transform: translateY(-50%) scale(1.1); }
-.right-arrow { right: 8px; } 
-.left-arrow { left: 8px; } 
+/* DEDICATED BOTTOM MUSHAF PAGE BAR (ZERO OVERLAP ON TEXT) */
+.reader-footer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(15, 23, 42, 0.96);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  flex-shrink: 0;
+  z-index: 120;
+}
+.reader-nav-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.25s;
+}
+.reader-nav-btn:hover:not(:disabled) { background: #ffffff; color: #0f172a; }
+.reader-nav-btn:disabled { opacity: 0.32; cursor: not-allowed; }
+.reader-footer-meta {
+  text-align: center;
+  color: #e2e8f0;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.5;
+}
 
 /* TALL FULL-SCREEN PLAYER PAGE */
 .tall-player-wrapper { position: relative; width: 100vw; height: 100vh; max-width: 100%; min-height: 100vh; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; backdrop-filter: blur(15px); display: flex; flex-direction: column; justify-content: space-between; padding: 25px 22px 40px; z-index: 1; }
@@ -879,7 +1014,12 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .hifz-modes-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .nature-sounds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .nature-sound-item { padding: 14px 8px; border-radius: 14px; }
-  .reader-box { margin: 0; padding: 25px 46px; height: 100%; } 
+  #readingReaderContainer .reader-box { padding: 12px 10px 20px !important; }
+  .mushaf-page-container { padding: 18px 14px 22px; border-radius: 16px; }
+  .mushaf-surah-banner { font-size: 20px; padding: 6px 12px; }
+  .bismillah { font-size: 25px; margin-bottom: 14px; }
+  .reader-nav-btn { padding: 7px 12px; font-size: 12px; }
+  .reader-footer-meta { font-size: 11.5px; }
   .hifz-stage-box { padding: 22px 38px; }
   .hifz-arrow-right { right: -6px; width: 38px; height: 38px; font-size: 17px; }
   .hifz-arrow-left { left: -6px; width: 38px; height: 38px; font-size: 17px; }
@@ -1474,17 +1614,17 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         </div>
         <div style="text-align: left;">
           <h3 id="readerSurahTitle" style="color: #ffffff; font-family: 'Amiri', serif; font-size: 20px; margin: 0;">سوورەت</h3>
-          <span id="readerPageIndicator" style="display: block; color: #94a3b8; font-size: 11px; margin-top: 4px;">پەڕەی 1 لە 1</span>
+          <span id="readerPageIndicator" style="display: block; color: #cbd5e1; font-size: 11px; margin-top: 2px;">پەڕەی ١ لە ١</span>
         </div>
       </div>
 
-      <!-- TAFSIR SELECTION BAR (3 TAFSIRS) -->
+      <!-- TAFSIR SELECTION BAR (CLOSED BY DEFAULT) -->
       <div class="reader-settings-bar" id="readerSettingsBar">
         <button class="page-theme-option tafsir-option-btn" data-tafsir="ku.asan" onclick="changeTafsir('ku.asan')"><span>📖</span><span>تەفسیری ئاسان</span></button>
         <button class="page-theme-option tafsir-option-btn" data-tafsir="kurdish_salahuddin" onclick="changeTafsir('kurdish_salahuddin')"><span>📖</span><span>تەفسیری ڕێبەر (سەلاحەدین)</span></button>
         <button class="page-theme-option tafsir-option-btn" data-tafsir="kurdish_bamoki" onclick="changeTafsir('kurdish_bamoki')"><span>📖</span><span>تەفسیری ڕامان (بامۆکی)</span></button>
-        <button class="topbar-btn" id="transToggleBtn" onclick="toggleTranslation()" style="background: rgba(255,255,255,0.15); border: 1px solid #60a5fa; color: #fff; border-radius: 14px; padding: 7px 14px; width: auto; height: auto;">
-          <span>👁️</span> <span id="transBtnText">شاردنەوەی تەفسیر</span>
+        <button class="topbar-btn" id="transToggleBtn" onclick="toggleTranslation()" style="background: rgba(255,255,255,0.12); border: 1px solid #60a5fa; color: #fff; border-radius: 14px; padding: 7px 14px; width: auto; height: auto;">
+          <span>👁️</span> <span id="transBtnText">پیشاندانی تەفسیر</span>
         </button>
       </div>
 
@@ -1494,16 +1634,24 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <button class="page-theme-option" data-theme="theme-white" onclick="setQuranPageTheme('theme-white')"><span class="theme-swatch" style="background: #ffffff; border-color: #94a3b8;"></span><span>پەڕەی سپی</span></button>
         <button class="page-theme-option" data-theme="theme-green" onclick="setQuranPageTheme('theme-green')"><span class="theme-swatch" style="background: #06281e; border-color: #d8b66a;"></span><span>سەوزی مەلەکی</span></button>
         <button class="page-theme-option" data-theme="theme-dark" onclick="setQuranPageTheme('theme-dark')"><span class="theme-swatch" style="background: #050505; border-color: #d4af37;"></span><span>ڕەشی شەو</span></button>
+        <div class="font-size-controls">
+          <button class="page-theme-option" onclick="adjustMushafFontSize(-2)" title="بچووککردنەوەی نووسین">A-</button>
+          <button class="page-theme-option" onclick="adjustMushafFontSize(2)" title="گەورەکردنەوەی نووسین">A+</button>
+        </div>
       </div>
-      
+
       <div class="reader-fullscreen-wrapper">
-        <button onclick="nextReadingPage()" id="sideNextBtn" class="side-nav-arrow right-arrow" title="پەڕەی داهاتوو">❯</button>
         <div class="reader-box theme-blue" id="readerScrollBox">
           <div class="mushaf-page-container" id="mushafPageContainer">
             <div id="mushafContent" class="mushaf-page">دەقی سوورەت لێرە نیشان دەدرێت...</div>
           </div>
         </div>
-        <button onclick="prevReadingPage()" id="sidePrevBtn" class="side-nav-arrow left-arrow" title="پەڕەی پێشوو">❮</button>
+      </div>
+
+      <div class="reader-footer-nav">
+        <button onclick="prevReadingPage()" id="sidePrevBtn" class="reader-nav-btn">❯ پەڕەی پێشوو</button>
+        <div class="reader-footer-meta" id="mushafPageMeta">لاپەڕەی موصحەف: ١</div>
+        <button onclick="nextReadingPage()" id="sideNextBtn" class="reader-nav-btn">پەڕەی داهاتوو ❮</button>
       </div>
     </div>
 
@@ -1786,11 +1934,10 @@ let currentAmbientVolume = Number(localStorage.getItem('noor_ambient_vol')) || 0
 let currentAyahs = [];
 let currentKurdishAyahs = [];
 let currentReadingPage = 1;
-const ayahsPerPage = 10;
 let currentReadingSurahName = '';
 let currentSurahNumber = 1;
 let activeSplashAyahNum = 1;
-let showTranslation = localStorage.getItem('noor_show_trans') !== 'false';
+let showTranslation = false;
 let isAyahAutoFollow = false;
 
 /* ========================================================
@@ -2401,27 +2548,23 @@ function colorizeQuranText(text) {
     .replace(/([ۛ])/g, '<span class="waqf-dots">$1</span>');
 }
 
-function toggleTranslation() {
+async function toggleTranslation() {
   showTranslation = !showTranslation;
-  localStorage.setItem('noor_show_trans', showTranslation);
-  const transBtn = document.getElementById('transToggleBtn');
-  const transTxt = document.getElementById('transBtnText');
-  if (transBtn) {
-    transBtn.style.background = showTranslation ? '#ffffff' : 'rgba(255,255,255,0.08)';
-    transBtn.style.color = showTranslation ? '#0f172a' : '#ffffff';
+  updateTafsirToggleUI();
+  if (showTranslation) {
+    await ensureTafsirLoaded();
   }
-  if (transTxt) transTxt.textContent = showTranslation ? 'شاردنەوەی تەفسیر' : 'پیشاندانی تەفسیر';
   renderReadingPageContent(false);
 }
 
 function selectAyahSplash(ayahNum) {
   activeSplashAyahNum = ayahNum;
   localStorage.setItem(`reading_ayah_${currentSurahNumber}`, ayahNum);
-  document.querySelectorAll('.ayah-item, .mushaf-translation').forEach(el => el.classList.remove('active-splash'));
+  document.querySelectorAll('.ayah-item, .ayah-tafsir-card').forEach(el => el.classList.remove('active-splash'));
   const aEl = document.getElementById(`reader-ayah-${ayahNum}`);
-  const tEl = document.getElementById(`reader-trans-${ayahNum}`);
+  const cEl = document.getElementById(`reader-card-${ayahNum}`);
   if (aEl) aEl.classList.add('active-splash');
-  if (tEl) tEl.classList.add('active-splash');
+  if (cEl) cEl.classList.add('active-splash');
   if (isAyahAutoFollow) playCurrentSplashAyahAudio();
 }
 
@@ -2455,8 +2598,11 @@ ayahAudioPlayer.addEventListener('ended', () => {
   if (!isAyahAutoFollow) return;
   if (activeSplashAyahNum < currentAyahs.length) {
     const nextNum = activeSplashAyahNum + 1;
-    const pageEnd = currentReadingPage * ayahsPerPage;
-    if (nextNum > pageEnd) {
+    const pageObj = currentMushafPages[currentReadingPage - 1];
+    const lastAyahOnPage = pageObj && pageObj.ayahs.length
+      ? pageObj.ayahs[pageObj.ayahs.length - 1].numberInSurah
+      : nextNum;
+    if (nextNum > lastAyahOnPage) {
       nextReadingPage();
     } else {
       selectAyahSplash(nextNum);
@@ -3810,9 +3956,37 @@ function resetTasbih() {
 }
 
 /* ========================================================
-   TAFSIR & QURAN READER
+   TAFSIR & QURAN READER — REAL MUSHAF PAGES (TAFSIR OFF BY DEFAULT)
    ======================================================== */
 let currentTafsirId = localStorage.getItem('noor_reader_tafsir') || 'ku.asan';
+let currentMushafPages = [];
+let loadedTafsirSurahKey = '';
+let currentMushafFontSize = Number(localStorage.getItem('noor_mushaf_font_size')) || 26;
+
+function applyMushafFontSize() {
+  const readerBox = document.getElementById('readerScrollBox');
+  if (readerBox) {
+    readerBox.style.setProperty('--mushaf-font-size', `${currentMushafFontSize}px`);
+  }
+}
+
+function adjustMushafFontSize(delta) {
+  currentMushafFontSize = Math.max(18, Math.min(40, currentMushafFontSize + delta));
+  localStorage.setItem('noor_mushaf_font_size', currentMushafFontSize);
+  applyMushafFontSize();
+}
+
+function buildMushafPages(ayahs) {
+  const pagesMap = new Map();
+  ayahs.forEach((ayah, idx) => {
+    const pNum = ayah.page || (Math.floor(idx / 10) + 1);
+    if (!pagesMap.has(pNum)) {
+      pagesMap.set(pNum, { mushafPage: pNum, juz: ayah.juz || 1, ayahs: [] });
+    }
+    pagesMap.get(pNum).ayahs.push({ ...ayah, surahArrayIndex: idx });
+  });
+  return Array.from(pagesMap.values());
+}
 
 function updateActiveTafsirButtons() {
   document.querySelectorAll('.tafsir-option-btn').forEach(btn => {
@@ -3820,123 +3994,234 @@ function updateActiveTafsirButtons() {
   });
 }
 
-function toggleReaderSettingsBar() {
-  document.getElementById('readerSettingsBar').classList.toggle('active');
-  updateActiveTafsirButtons();
-}
-
-function changeTafsir(val) {
-  currentTafsirId = val;
-  localStorage.setItem('noor_reader_tafsir', val);
-  if (!showTranslation) {
-    showTranslation = true;
-    localStorage.setItem('noor_show_trans', true);
-  }
-  updateActiveTafsirButtons();
-  openSurahReader(currentSurahNumber, currentReadingSurahName);
-}
-
-async function openSurahReader(surahId, surahName) {
-  stopAyahByAyahFollow();
-  currentReadingSurahName = surahName; currentSurahNumber = surahId;
-  localStorage.setItem('noor_reader_is_open', 'true');
-  localStorage.setItem('noor_reader_surah_id', surahId);
-  localStorage.setItem('noor_reader_surah_name', surahName);
-
-  updateActiveTafsirButtons();
-
+function updateTafsirToggleUI() {
   const transBtn = document.getElementById('transToggleBtn');
   const transTxt = document.getElementById('transBtnText');
   if (transBtn) {
-    transBtn.style.background = showTranslation ? '#ffffff' : 'rgba(255,255,255,0.08)';
+    transBtn.style.background = showTranslation ? '#ffffff' : 'rgba(255,255,255,0.12)';
     transBtn.style.color = showTranslation ? '#0f172a' : '#ffffff';
   }
   if (transTxt) {
     transTxt.textContent = showTranslation ? 'شاردنەوەی تەفسیر' : 'پیشاندانی تەفسیر';
   }
+}
+
+function toggleReaderSettingsBar() {
+  const settingsBar = document.getElementById('readerSettingsBar');
+  const themesBar = document.getElementById('pageThemesBar');
+  if (themesBar) themesBar.classList.remove('active');
+  if (settingsBar) settingsBar.classList.toggle('active');
+  updateActiveTafsirButtons();
+  updateTafsirToggleUI();
+}
+
+async function ensureTafsirLoaded() {
+  const cacheKey = `${currentSurahNumber}_${currentTafsirId}`;
+  if (loadedTafsirSurahKey === cacheKey && currentKurdishAyahs.length > 0) return;
+
+  const contentEl = document.getElementById('mushafContent');
+  if (contentEl && showTranslation) {
+    contentEl.style.opacity = '0.6';
+  }
+
+  try {
+    if (currentTafsirId === 'ku.asan') {
+      const tRes = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurahNumber}/ku.asan`);
+      const tData = await tRes.json();
+      if (tData && tData.code === 200 && tData.data && Array.isArray(tData.data.ayahs)) {
+        currentKurdishAyahs = tData.data.ayahs;
+        loadedTafsirSurahKey = cacheKey;
+      }
+    } else {
+      const encRes = await fetch(`https://quranenc.com/api/v1/translation/sura/${currentTafsirId}/${currentSurahNumber}`);
+      const encData = await encRes.json();
+      if (encData && Array.isArray(encData.result) && encData.result.length > 0) {
+        currentKurdishAyahs = encData.result.map(item => ({ text: item.translation }));
+        loadedTafsirSurahKey = cacheKey;
+      } else {
+        throw new Error('Empty tafsir result');
+      }
+    }
+  } catch (e) {
+    try {
+      const fallbackRes = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurahNumber}/ku.asan`);
+      const fallbackData = await fallbackRes.json();
+      if (fallbackData && fallbackData.code === 200 && fallbackData.data) {
+        currentKurdishAyahs = fallbackData.data.ayahs;
+        loadedTafsirSurahKey = cacheKey;
+      }
+    } catch (e2) {
+      currentKurdishAyahs = [];
+    }
+  } finally {
+    if (contentEl) contentEl.style.opacity = '1';
+  }
+}
+
+async function changeTafsir(val) {
+  currentTafsirId = val;
+  localStorage.setItem('noor_reader_tafsir', val);
+  showTranslation = true;
+  updateActiveTafsirButtons();
+  updateTafsirToggleUI();
+  await ensureTafsirLoaded();
+  renderReadingPageContent(false);
+}
+
+async function openSurahReader(surahId, surahName) {
+  stopAyahByAyahFollow();
+  currentReadingSurahName = surahName;
+  currentSurahNumber = surahId;
+  localStorage.setItem('noor_reader_is_open', 'true');
+  localStorage.setItem('noor_reader_surah_id', surahId);
+  localStorage.setItem('noor_reader_surah_name', surahName);
+
+  // هەمیشە لە سەرەتای چوونە ناو هەر سوورەتێک تەفسیر داخراو دەبێت
+  showTranslation = false;
+  currentKurdishAyahs = [];
+  loadedTafsirSurahKey = '';
+
+  const settingsBar = document.getElementById('readerSettingsBar');
+  const themesBar = document.getElementById('pageThemesBar');
+  if (settingsBar) settingsBar.classList.remove('active');
+  if (themesBar) themesBar.classList.remove('active');
+
+  updateActiveTafsirButtons();
+  updateTafsirToggleUI();
+  applyMushafFontSize();
 
   document.getElementById('readerSurahTitle').textContent = surahName;
   document.getElementById('readingListContainer').style.display = 'none';
   document.getElementById('mainTopbar').style.display = 'none';
   document.getElementById('mainBottomNav').style.display = 'none';
   document.getElementById('readingReaderContainer').style.display = 'flex';
-  
+
   const contentEl = document.getElementById('mushafContent');
-  contentEl.innerHTML = 'بارکردنی دەقی سوورەت و تەفسیر...';
+  contentEl.classList.remove('tafsir-open');
+  contentEl.innerHTML = '<div style="text-align:center; padding:40px 10px; font-family:Vazirmatn,sans-serif; font-size:15px;">بارکردنی پەڕەکانی قورئان...</div>';
 
   try {
     const quranRes = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/quran-uthmani`);
     const quranData = await quranRes.json();
 
-    if(quranData.code === 200) {
-      currentAyahs = quranData.data.ayahs; 
-
-      if (currentTafsirId === 'ku.asan') {
-        const tRes = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/ku.asan`);
-        const tData = await tRes.json();
-        currentKurdishAyahs = tData.data.ayahs;
-      } else {
-        const encRes = await fetch(`https://quranenc.com/api/v1/translation/sura/${currentTafsirId}/${surahId}`);
-        const encData = await encRes.json();
-        currentKurdishAyahs = encData.result.map(item => ({ text: item.translation }));
-      }
+    if (quranData && quranData.code === 200 && quranData.data && Array.isArray(quranData.data.ayahs)) {
+      currentAyahs = quranData.data.ayahs;
+      currentMushafPages = buildMushafPages(currentAyahs);
 
       currentReadingPage = Number(localStorage.getItem(`reading_page_${surahId}`)) || 1;
-      const totalPages = Math.ceil(currentAyahs.length / ayahsPerPage);
-      if(currentReadingPage > totalPages) currentReadingPage = 1;
-      
+      const totalPages = currentMushafPages.length;
+      if (currentReadingPage < 1 || currentReadingPage > totalPages) currentReadingPage = 1;
+
+      const pageObj = currentMushafPages[currentReadingPage - 1];
+      const pageStart = pageObj.ayahs[0].numberInSurah;
+      const pageEnd = pageObj.ayahs[pageObj.ayahs.length - 1].numberInSurah;
       const savedAyah = Number(localStorage.getItem(`reading_ayah_${surahId}`));
-      const pageStart = (currentReadingPage - 1) * ayahsPerPage + 1;
-      const pageEnd = Math.min(currentAyahs.length, currentReadingPage * ayahsPerPage);
       activeSplashAyahNum = (savedAyah >= pageStart && savedAyah <= pageEnd) ? savedAyah : pageStart;
-      
+
       renderReadingPageContent(true);
+    } else {
+      contentEl.innerHTML = 'نەتوانرا دەقی سوورەتەکە بار بکرێت.';
     }
-  } catch(e) { contentEl.innerHTML = 'تکایە دڵنیابەوە لە هێڵی ئینتەرنێت.'; }
+  } catch (e) {
+    contentEl.innerHTML = 'تکایە دڵنیابەوە لە هێڵی ئینتەرنێت.';
+  }
 }
 
 function renderReadingPageContent(resetScrollTop = true) {
   const contentEl = document.getElementById('mushafContent');
-  const start = (currentReadingPage - 1) * ayahsPerPage, end = start + ayahsPerPage;
-  const pageAyahs = currentAyahs.slice(start, end), pageKurdishAyahs = currentKurdishAyahs.slice(start, end);
-  let bismillahHeader = (currentReadingPage === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) ? `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>` : '';
+  if (!contentEl || !currentMushafPages.length) return;
+
+  const totalPages = currentMushafPages.length;
+  const pageObj = currentMushafPages[currentReadingPage - 1];
+  if (!pageObj) return;
+
+  const pageAyahs = pageObj.ayahs;
+  const isFirstPageOfSurah = (currentReadingPage === 1);
+
+  let headerHtml = '';
+  if (isFirstPageOfSurah) {
+    headerHtml += `<div class="mushaf-surah-banner">${currentReadingSurahName}</div>`;
+    if (currentSurahNumber !== 1 && currentSurahNumber !== 9) {
+      headerHtml += `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+    }
+  }
+
   let ayahsHtml = '';
-  pageAyahs.forEach((ayah, index) => {
-    let text = ayah.text; const ayahNum = ayah.numberInSurah; const isSplashActive = (ayahNum === activeSplashAyahNum);
-    if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) text = stripLeadingBismillah(text);
-    text = colorizeQuranText(text);
-    let kurdishHtml = (showTranslation && pageKurdishAyahs[index]) ? `<div class="mushaf-translation ${isSplashActive ? 'active-splash' : ''}" id="reader-trans-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${pageKurdishAyahs[index].text}</div>` : '';
-    ayahsHtml += `<span class="ayah-item ${isSplashActive ? 'active-splash' : ''}" id="reader-ayah-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${text} <span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></span> ${kurdishHtml}`;
-  });
-  contentEl.innerHTML = bismillahHeader + ayahsHtml;
+  if (showTranslation) {
+    contentEl.classList.add('tafsir-open');
+    pageAyahs.forEach(ayah => {
+      let text = ayah.text;
+      const ayahNum = ayah.numberInSurah;
+      const isSplashActive = (ayahNum === activeSplashAyahNum);
+      if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
+        text = stripLeadingBismillah(text);
+      }
+      text = colorizeQuranText(text);
+      const transObj = currentKurdishAyahs[ayah.surahArrayIndex];
+      const transText = transObj ? transObj.text : 'تەفسیری ئەم ئایەتە بەردەست نەبوو.';
+      ayahsHtml += `
+        <div class="ayah-tafsir-card ${isSplashActive ? 'active-splash' : ''}" id="reader-card-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">
+          <div class="ayah-tafsir-arabic" id="reader-ayah-${ayahNum}">${text}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></div>
+          <div class="mushaf-translation">${transText}</div>
+        </div>
+      `;
+    });
+  } else {
+    contentEl.classList.remove('tafsir-open');
+    pageAyahs.forEach(ayah => {
+      let text = ayah.text;
+      const ayahNum = ayah.numberInSurah;
+      const isSplashActive = (ayahNum === activeSplashAyahNum);
+      if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
+        text = stripLeadingBismillah(text);
+      }
+      text = colorizeQuranText(text);
+      ayahsHtml += `<span class="ayah-item ${isSplashActive ? 'active-splash' : ''}" id="reader-ayah-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${text}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></span> `;
+    });
+  }
+
+  contentEl.innerHTML = headerHtml + ayahsHtml;
+
   const scrollBox = document.getElementById('readerScrollBox');
   if (scrollBox && resetScrollTop) scrollBox.scrollTop = 0;
-  const totalPages = Math.ceil(currentAyahs.length / ayahsPerPage);
-  document.getElementById('readerPageIndicator').textContent = `پەڕەی ${currentReadingPage} لە ${totalPages}`;
-  document.getElementById('sidePrevBtn').style.visibility = currentReadingPage === 1 ? 'hidden' : 'visible';
-  document.getElementById('sideNextBtn').style.visibility = currentReadingPage >= totalPages ? 'hidden' : 'visible';
+
+  document.getElementById('readerPageIndicator').textContent = `پەڕەی ${toArabicNumbers(currentReadingPage)} لە ${toArabicNumbers(totalPages)}`;
+  const metaEl = document.getElementById('mushafPageMeta');
+  if (metaEl) {
+    metaEl.textContent = `لاپەڕەی موصحەف: ${toArabicNumbers(pageObj.mushafPage)} • جوزئی ${toArabicNumbers(pageObj.juz)}`;
+  }
+
+  const prevBtn = document.getElementById('sidePrevBtn');
+  const nextBtn = document.getElementById('sideNextBtn');
+  if (prevBtn) prevBtn.disabled = (currentReadingPage <= 1);
+  if (nextBtn) nextBtn.disabled = (currentReadingPage >= totalPages);
+
   localStorage.setItem(`reading_page_${currentSurahNumber}`, currentReadingPage);
 }
 
 function nextReadingPage() {
-  const totalPages = Math.ceil(currentAyahs.length / ayahsPerPage);
-  if(currentReadingPage < totalPages) {
+  const totalPages = currentMushafPages.length;
+  if (currentReadingPage < totalPages) {
     currentReadingPage++;
-    activeSplashAyahNum = (currentReadingPage - 1) * ayahsPerPage + 1;
+    const pageObj = currentMushafPages[currentReadingPage - 1];
+    activeSplashAyahNum = pageObj.ayahs[0].numberInSurah;
     localStorage.setItem(`reading_ayah_${currentSurahNumber}`, activeSplashAyahNum);
     renderReadingPageContent(true);
     if (isAyahAutoFollow) playCurrentSplashAyahAudio();
   }
 }
+
 function prevReadingPage() {
-  if(currentReadingPage > 1) {
+  if (currentReadingPage > 1) {
     currentReadingPage--;
-    activeSplashAyahNum = (currentReadingPage - 1) * ayahsPerPage + 1;
+    const pageObj = currentMushafPages[currentReadingPage - 1];
+    activeSplashAyahNum = pageObj.ayahs[0].numberInSurah;
     localStorage.setItem(`reading_ayah_${currentSurahNumber}`, activeSplashAyahNum);
     renderReadingPageContent(true);
     if (isAyahAutoFollow) playCurrentSplashAyahAudio();
   }
 }
+
 function backToReadingList() {
   stopAyahByAyahFollow();
   localStorage.setItem('noor_reader_is_open', 'false');
@@ -4061,7 +4346,12 @@ document.getElementById('readingSearchInput').addEventListener('input', e => {
 });
 
 const PAGE_THEME_CLASSES = ['theme-cream', 'theme-blue', 'theme-white', 'theme-green', 'theme-dark'];
-function togglePageThemesBar() { document.getElementById('pageThemesBar').classList.toggle('active'); }
+function togglePageThemesBar() {
+  const settingsBar = document.getElementById('readerSettingsBar');
+  const themesBar = document.getElementById('pageThemesBar');
+  if (settingsBar) settingsBar.classList.remove('active');
+  if (themesBar) themesBar.classList.toggle('active');
+}
 function setQuranPageTheme(themeName) {
   const readerBox = document.getElementById('readerScrollBox');
   if (!readerBox) return;
@@ -4072,7 +4362,10 @@ function setQuranPageTheme(themeName) {
     btn.classList.toggle('active', btn.getAttribute('data-theme') === themeName);
   });
 }
-function initSavedQuranPageTheme() { setQuranPageTheme(localStorage.getItem('noor_quran_page_theme') || 'theme-blue'); }
+function initSavedQuranPageTheme() {
+  setQuranPageTheme(localStorage.getItem('noor_quran_page_theme') || 'theme-blue');
+  applyMushafFontSize();
+}
 
 initSavedCity();
 updatePrayerTimes();
