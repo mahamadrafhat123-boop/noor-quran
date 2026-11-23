@@ -32,7 +32,6 @@
 
 *{box-sizing:border-box}
 body { margin: 0; color: var(--text); font-family: 'Vazirmatn', sans-serif; overflow-x: hidden; position: relative; min-height: 100vh; background: var(--main-bg-gradient); }
-body.auth-locked { overflow: hidden; height: 100vh; }
 body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 12% 14%, rgba(191, 219, 254, 0.42) 0%, transparent 42%), radial-gradient(circle at 88% 22%, rgba(224, 242, 254, 0.48) 0%, transparent 45%), radial-gradient(circle at 50% 85%, rgba(219, 234, 254, 0.38) 0%, transparent 48%); z-index: -3; pointer-events: none; }
 
 #mainBackgroundSlider { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -5; background-color: #ffffff; }
@@ -44,85 +43,48 @@ button,select,input{font:inherit} button{cursor:pointer}
 .app-layout { display: flex; min-height: 100vh; flex-direction: row; position: relative; z-index: 1; }
 
 /* ========================================================
-   WHITE MIRROR LOGIN & SIGNUP GATE
+   SETTINGS TOP LOGIN & SIGNUP CARD (INSIDE THE WEBSITE)
    ======================================================== */
-#authGateOverlay {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 99999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px 14px;
-  overflow-y: auto;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(241, 247, 255, 0.9) 50%, rgba(226, 238, 255, 0.92) 100%);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-}
-#authGateOverlay::before, #authGateOverlay::after {
-  content: "";
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-#authGateOverlay::before {
-  width: 340px;
-  height: 340px;
-  top: -80px;
-  right: -70px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.34) 0%, rgba(255, 255, 255, 0) 70%);
-}
-#authGateOverlay::after {
-  width: 320px;
-  height: 320px;
-  bottom: -90px;
-  left: -60px;
-  background: radial-gradient(circle, rgba(147, 197, 253, 0.36) 0%, rgba(255, 255, 255, 0) 70%);
-}
 .auth-mirror-card {
   position: relative;
-  z-index: 2;
   width: 100%;
-  max-width: 430px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(248, 250, 252, 0.62) 100%);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 247, 255, 0.72) 100%);
+  backdrop-filter: blur(24px) saturate(185%);
+  -webkit-backdrop-filter: blur(24px) saturate(185%);
   border: 1.5px solid rgba(255, 255, 255, 0.98);
-  border-radius: 28px;
-  padding: 26px 22px 24px;
-  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(148, 163, 184, 0.22), inset 0 2px 4px rgba(255, 255, 255, 1);
+  border-radius: 24px;
+  padding: 22px 20px 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--mirror-shadow);
   direction: rtl;
-  animation: slideFadeIn 0.45s ease forwards;
+  animation: slideFadeIn 0.35s ease forwards;
 }
 .auth-brand-head {
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .auth-brand-logo {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 10px;
-  border-radius: 18px;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 8px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  font-size: 28px;
+  font-size: 24px;
   color: #ffffff;
   background: linear-gradient(145deg, #2563eb, #60a5fa);
   border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28), inset 0 2px 3px rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), inset 0 2px 3px rgba(255, 255, 255, 0.65);
 }
 .auth-brand-head h2 {
   margin: 0 0 4px;
   font-family: 'Amiri', serif;
-  font-size: 24px;
+  font-size: 21px;
   color: #0f172a;
 }
 .auth-brand-head p {
   margin: 0;
-  font-size: 12.5px;
+  font-size: 12px;
   color: #475569;
   font-weight: 500;
 }
@@ -130,12 +92,12 @@ button,select,input{font:inherit} button{cursor:pointer}
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  background: rgba(241, 245, 249, 0.8);
+  background: rgba(241, 245, 249, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06);
   border-radius: 16px;
   padding: 5px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .auth-tab-btn {
   border: 1px solid transparent;
@@ -178,7 +140,7 @@ button,select,input{font:inherit} button{cursor:pointer}
 .auth-form-panel {
   display: none;
   flex-direction: column;
-  gap: 11px;
+  gap: 10px;
 }
 .auth-form-panel.active {
   display: flex;
@@ -195,10 +157,10 @@ button,select,input{font:inherit} button{cursor:pointer}
 }
 .auth-input-group input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   border: 1.5px solid rgba(148, 163, 184, 0.3);
   border-radius: 14px;
-  padding: 11px 14px;
+  padding: 10px 14px;
   font-size: 13.5px;
   color: #0f172a;
   outline: none;
@@ -218,7 +180,7 @@ button,select,input{font:inherit} button{cursor:pointer}
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 14px;
   padding: 11px 16px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
   box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
   transition: 0.25s;
@@ -231,7 +193,7 @@ button,select,input{font:inherit} button{cursor:pointer}
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 15px 0 13px;
+  margin: 14px 0 12px;
   color: #64748b;
   font-size: 12px;
   font-weight: 700;
@@ -288,7 +250,7 @@ button,select,input{font:inherit} button{cursor:pointer}
 }
 
 /* ========================================================
-   MY ACCOUNT SECTION STYLES
+   SETTINGS & ACCOUNT SECTION STYLES
    ======================================================== */
 .account-profile-banner {
   display: flex;
@@ -390,38 +352,28 @@ button,select,input{font:inherit} button{cursor:pointer}
   color: #475569;
   font-weight: 700;
 }
-.account-link-box {
+.account-link-box, .account-edit-box {
   background: var(--glass-card-bg);
   backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--card-shadow);
   border-radius: 20px;
   padding: 16px 18px;
   margin-bottom: 16px;
 }
-.account-link-box h4 {
-  margin: 0 0 10px;
+.account-link-box h4, .account-edit-box h4 {
+  margin: 0 0 12px;
   font-size: 14.5px;
   color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .account-link-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
-}
-.account-edit-box {
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-.account-edit-box h4 {
-  margin: 0 0 12px;
-  font-size: 15px;
-  color: #0f172a;
 }
 .account-form-grid {
   display: grid;
@@ -469,6 +421,15 @@ button,select,input{font:inherit} button{cursor:pointer}
   background: #dc2626;
   color: #ffffff;
 }
+.topbar-settings-btn svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  transition: transform 0.35s ease;
+}
+.topbar-settings-btn:hover svg {
+  transform: rotate(45deg);
+}
 
 aside.sidebar { width: 260px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-left: 1px solid var(--glass-border); padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; box-shadow: var(--card-shadow); overflow-y: auto; }
 .sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
@@ -489,7 +450,7 @@ aside.sidebar { width: 260px; background: var(--glass-bg); backdrop-filter: blur
 header.topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 15px; }
 .topbar-secret-trigger { font-family: 'Amiri', serif; font-size: 20px; font-weight: 900; color: #0f172a; cursor: pointer; user-select: none; padding-left: 10px; }
 .topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-.topbar-btn { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); color: var(--text); padding: 6px 14px; border-radius: 20px; font-family: inherit; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s; box-shadow: var(--card-shadow); }
+.topbar-btn { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); color: var(--text); padding: 6px 14px; border-radius: 20px; font-family: inherit; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; transition: 0.3s; box-shadow: var(--card-shadow); }
 .topbar-btn:hover { border-color: #93c5fd; color: #1d4ed8; transform: translateY(-2px); background: rgba(255, 255, 255, 0.94); }
 
 .search-container-box { margin-bottom: 15px; width: 100%; }
@@ -565,7 +526,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .surah-card:hover, .surah-card.active { border-color: #93c5fd; background: rgba(255, 255, 255, 0.94); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.14), inset 0 2px 2px #ffffff; }
 .surah-card h5 { margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; font-family: 'Amiri', serif; }
 .surah-card small { color: var(--muted); font-size: 11px; }
-.sound-video-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.85); background: #0f172a; display: block; margin-bottom: 4px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14); }
+.sound-video-preview { width: 100%; height: 155px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.85); background: #0f172a; display: block; margin-bottom: 4px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14); }
 .btn-fav { position: absolute; top: 8px; left: 8px; background: none; border: none; font-size: 15px; cursor: pointer; color: #94a3b8; transition: 0.2s; }
 .btn-fav.active { color: #ff4757; }
 .card-actions-row { display: flex; gap: 8px; justify-content: center; margin-top: 6px; width: 100%; }
@@ -580,12 +541,12 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reciter-info h6 { margin: 0 0 2px; font-size: 13.5px; font-weight: 700; color: #0f172a; line-height: 1.4; }
 .reciter-info small { color: var(--muted); font-size: 11px; display: block; }
 
-.nature-sounds-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; width: 100%; }
+.nature-sounds-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; width: 100%; }
 .nature-sound-item { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); border-radius: 18px; padding: 18px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; width: 100%; min-width: 0; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item:hover { border-color: #93c5fd; background: rgba(255, 255, 255, 0.94); transform: translateY(-4px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.14), inset 0 2px 2px #ffffff; }
 .nature-sound-item h6 { margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; }
 .btn-play-sound { background: rgba(239, 246, 255, 0.85); border: 1px solid rgba(147, 197, 253, 0.7); color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 10.5px; font-weight: 700; box-shadow: inset 0 1px 1px #ffffff; }
-#view-fire-select .surahs-grid, #view-river-select .surahs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sound-select-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
 /* WHITE MIRROR SMART HIFZ SYSTEM */
 #view-hifz .hifz-white-container { background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); color: #0f172a; border: 1px solid var(--glass-border); border-radius: 26px; padding: 24px 20px; box-shadow: var(--mirror-shadow); }
@@ -657,19 +618,20 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .khatm-day-card.completed { background: rgba(239, 246, 255, 0.9); border-color: #60a5fa; }
 .khatm-day-card.completed .khatm-status-badge { background: #2563eb; color: #ffffff; }
 
-/* ADHKAR STYLES — WHITE MIRROR GLASS */
-.adhkar-reminder-box { background: var(--glass-card-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 18px; padding: 14px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
+/* ADHKAR & NOTIFICATION REMINDER STYLES — WHITE MIRROR GLASS */
+.adhkar-reminder-box { background: var(--glass-card-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 20px; padding: 16px 18px; margin-bottom: 0; display: flex; flex-direction: column; gap: 12px; }
 .adhkar-reminder-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; }
-.adhkar-reminder-top h4 { margin: 0; font-size: 14px; color: #0f172a; display: flex; align-items: center; gap: 7px; }
-.adhkar-rem-toggle-btn { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(148, 163, 184, 0.35); color: #0f172a; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; transition: 0.25s; white-space: nowrap; flex-shrink: 0; }
+.adhkar-reminder-top h4 { margin: 0; font-size: 14.5px; color: #0f172a; display: flex; align-items: center; gap: 7px; }
+.adhkar-rem-toggle-btn { background: rgba(255, 255, 255, 0.9); border: 1.5px solid rgba(37, 99, 235, 0.4); color: #1d4ed8; padding: 7px 16px; border-radius: 99px; font-size: 12px; font-weight: 800; transition: 0.25s; white-space: nowrap; flex-shrink: 0; }
 .adhkar-rem-toggle-btn.active { background: #10b981; border-color: #059669; color: #ffffff; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3); }
 .adhkar-rem-times-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .adhkar-rem-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .adhkar-rem-field label { font-size: 11.5px; color: var(--muted); font-weight: 600; }
-.adhkar-rem-field input[type="time"] { background: rgba(255, 255, 255, 0.88); border: 1px solid rgba(148, 163, 184, 0.35); color: #0f172a; border-radius: 12px; padding: 7px 10px; font-size: 13px; font-weight: 700; outline: none; direction: ltr; text-align: center; width: 100%; }
+.adhkar-rem-field input[type="time"] { background: rgba(255, 255, 255, 0.88); border: 1px solid rgba(148, 163, 184, 0.35); color: #0f172a; border-radius: 12px; padding: 8px 10px; font-size: 13px; font-weight: 700; outline: none; direction: ltr; text-align: center; width: 100%; }
 .adhkar-rem-field input[type="time"]:focus { border-color: var(--gold); }
 .adhkar-rem-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 11.5px; color: #1d4ed8; font-weight: 600; }
-.adhkar-rem-test-btn { background: rgba(239, 246, 255, 0.85); border: 1px solid #60a5fa; color: #1d4ed8; padding: 5px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; transition: 0.25s; }
+.adhkar-rem-note { font-size: 11px; color: #475569; background: rgba(239, 246, 255, 0.72); border: 1px solid rgba(147, 197, 253, 0.5); border-radius: 12px; padding: 8px 12px; line-height: 1.7; }
+.adhkar-rem-test-btn { background: rgba(239, 246, 255, 0.85); border: 1px solid #60a5fa; color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; transition: 0.25s; }
 .adhkar-rem-test-btn:hover { background: #2563eb; color: #ffffff; }
 .adhkar-auto-toast { display: none; position: fixed; top: 18px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 440px; background: var(--nav-bg); border: 1.5px solid var(--glass-border); border-radius: 22px; padding: 16px 18px; z-index: 9999999; box-shadow: var(--mirror-shadow); backdrop-filter: blur(26px) saturate(180%); -webkit-backdrop-filter: blur(26px) saturate(180%); color: #0f172a; direction: rtl; animation: slideFadeIn 0.4s ease forwards; }
 .adhkar-auto-toast.active { display: flex; flex-direction: column; gap: 10px; }
@@ -892,16 +854,16 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 }
 
 /* TALL FULL-SCREEN PLAYER PAGE */
-.tall-player-wrapper { position: relative; width: 100vw; height: 100vh; max-width: 100%; min-height: 100vh; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; backdrop-filter: blur(15px); display: flex; flex-direction: column; justify-content: space-between; padding: 25px 22px 40px; z-index: 1; }
+.tall-player-wrapper { position: relative; width: 100vw; height: 100vh; max-width: 100%; min-height: 100vh; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; backdrop-filter: blur(15px); display: flex; flex-direction: column; justify-content: space-between; padding: 25px 22px 40px; z-index: 1; transition: background 0.6s ease; }
 #tallPlayerBgVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; display: none; pointer-events: none; }
 #tallEffectCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; display: block; pointer-events: none; }
-.tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.45); z-index: -1; pointer-events: none; }
+.tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.42); z-index: -1; pointer-events: none; }
 .tall-player-top, .tall-player-center, .tall-player-bottom { position: relative; z-index: 3; max-width: 520px; margin-left: auto; margin-right: auto; width: 100%; }
 .tall-player-top { display: flex; justify-content: flex-start; align-items: center; }
 .tall-player-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; flex: 1; }
-.tall-sounds-menu { display: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px; background: rgba(2, 6, 23, 0.85); padding: 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(20px); max-width: 320px; margin-left: auto; margin-right: auto; }
+.tall-sounds-menu { display: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; background: rgba(2, 6, 23, 0.88); padding: 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(20px); max-width: 340px; margin-left: auto; margin-right: auto; }
 .tall-sounds-menu.active { display: flex; }
-.tall-sounds-menu div { background: rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 12px; cursor: pointer; font-size: 13px; color: #fff; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; font-weight: 600; }
+.tall-sounds-menu div { background: rgba(255,255,255,0.1); padding: 9px 14px; border-radius: 12px; cursor: pointer; font-size: 12.5px; color: #fff; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; font-weight: 600; }
 .tall-sounds-menu div:hover { background: #ffffff; color: #0f172a; border-color: #ffffff; }
 .tall-player-bottom { display: flex; flex-direction: column; gap: 18px; }
 .tall-timeline-box { display: flex; flex-direction: column; gap: 10px; width: 100%; direction: ltr; }
@@ -978,16 +940,15 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .card-section { padding: 14px 8px; border-radius: 16px; }
   #view-hifz .hifz-white-container { padding: 14px 8px; border-radius: 16px; }
   .topbar-btn .tb-text { display: none; }
-  header.topbar .topbar-btn { padding: 6px; border-radius: 50%; width: 34px; height: 34px; justify-content: center; }
+  header.topbar .topbar-btn { padding: 6px; border-radius: 50%; width: 36px; height: 36px; justify-content: center; }
   .section-header { flex-wrap: nowrap; gap: 6px; margin-bottom: 14px; }
   .section-header h3, .section-header h4 { font-size: 16.5px !important; }
   .section-header .topbar-btn { width: auto !important; height: auto !important; border-radius: 20px !important; padding: 6px 12px !important; font-size: 11.5px; flex-shrink: 0; }
   .surahs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-  #view-fire-select .surahs-grid, #view-river-select .surahs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .surah-card { padding: 12px 6px; border-radius: 14px; gap: 4px; }
   .surah-card h5 { font-size: 12.5px; }
   .surah-card small { font-size: 10px; }
-  .sound-video-preview { height: 110px; }
+  .sound-video-preview { height: 125px; }
   .reciters-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .reciter-item { padding: 12px 8px; border-radius: 14px; }
   .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
@@ -1031,7 +992,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .bang-time-row { padding: 8px 2px; border-radius: 11px; }
   .bang-name-cell { font-size: 10.5px; }
   .bang-clock-cell { font-size: 12px; }
-  .auth-mirror-card { padding: 22px 16px 20px; border-radius: 22px; }
+  .auth-mirror-card { padding: 18px 14px; border-radius: 20px; }
 }
 </style>
 </head>
@@ -1042,69 +1003,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   <div class="bg-slide" style="background-image: url('58751.png');"></div>
 </div>
 <div class="bg-overlay"></div>
-
-<!-- WHITE MIRROR LOGIN / REGISTER GATE (CONNECTED TO REAL GOOGLE & EMAIL AUTH) -->
-<div id="authGateOverlay">
-  <div class="auth-mirror-card">
-    <div class="auth-brand-head">
-      <div class="auth-brand-logo">☾</div>
-      <h2>NOOR QURAN · نووری قورئان</h2>
-      <p>بە هەژماری ئیمێڵ یان گۆگڵەکەت (Google) ببەسترێوە و بچۆ ناو سایتەکە</p>
-    </div>
-
-    <div class="auth-tabs-row">
-      <button type="button" class="auth-tab-btn active" id="authTabLogin" onclick="switchAuthTab('login')">چوونەژوورەوە</button>
-      <button type="button" class="auth-tab-btn" id="authTabRegister" onclick="switchAuthTab('register')">دروستکردنی هەژمار</button>
-    </div>
-
-    <div id="authFeedbackMsg" class="auth-feedback"></div>
-
-    <!-- LOGIN WITH EMAIL -->
-    <form id="authLoginForm" class="auth-form-panel active" onsubmit="handleEmailLogin(event)">
-      <div class="auth-input-group">
-        <label for="loginEmailInput">ئیمێڵ (Email):</label>
-        <input type="email" id="loginEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
-      </div>
-      <div class="auth-input-group">
-        <label for="loginPasswordInput">وشەی نهێنی (Password):</label>
-        <input type="password" id="loginPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" required>
-      </div>
-      <button type="submit" class="auth-submit-btn">چوونەژوورەوە بە ئیمێڵ ✉️</button>
-    </form>
-
-    <!-- CREATE ACCOUNT WITH EMAIL -->
-    <form id="authRegisterForm" class="auth-form-panel" onsubmit="handleEmailRegister(event)">
-      <div class="auth-input-group">
-        <label for="regNameInput">ناوی تەواو:</label>
-        <input type="text" id="regNameInput" placeholder="ناوەکەت لێرە بنووسە..." required>
-      </div>
-      <div class="auth-input-group">
-        <label for="regEmailInput">ئیمێڵ (Email):</label>
-        <input type="email" id="regEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
-      </div>
-      <div class="auth-input-group">
-        <label for="regPasswordInput">وشەی نهێنی (لانیکەم ٦ پیت):</label>
-        <input type="password" id="regPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
-      </div>
-      <div class="auth-input-group">
-        <label for="regConfirmInput">دووبارەکردنەوەی وشەی نهێنی:</label>
-        <input type="password" id="regConfirmInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
-      </div>
-      <button type="submit" class="auth-submit-btn">دروستکردنی هەژمار و چوونەژوورەوە ✨</button>
-    </form>
-
-    <div class="auth-divider">یان بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ</div>
-
-    <div class="auth-social-stack">
-      <button type="button" class="auth-google-btn" onclick="handleGoogleOAuthLogin()">
-        <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-        <span>چوونەژوورەوە بە ئیمێڵی گۆگڵ (Google / Gmail)</span>
-      </button>
-    </div>
-
-    <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthOverlayIfLoggedIn()">← گەڕانەوە بۆ هەژمارەکەم</button>
-  </div>
-</div>
 
 <!-- AUTOMATIC ADHKAR REMINDER TOAST -->
 <div id="adhkarAutoToast" class="adhkar-auto-toast">
@@ -1161,7 +1059,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <li><a onclick="switchView('view-khatm')" id="menuKhatm">📅 خەتمی قورئان</a></li>
         <li><a onclick="switchView('view-adhkar')" id="menuAdhkar">📿 زیکرەکان</a></li>
         <li><a onclick="switchView('view-sounds')" id="menuSounds">🌧️ دەنگەکان</a></li>
-        <li><a onclick="switchView('view-account')" id="menuAccount">👤 هەژماری خۆم</a></li>
+        <li><a onclick="switchView('view-settings')" id="menuSettings">⚙️ سێتینگ و هەژمار</a></li>
       </ul>
     </div>
     <div class="sidebar-footer">«قورئان ڕووناکییە بۆ دڵەکان»<br>— نووری قورئان ٢٠٢٦</div>
@@ -1171,8 +1069,11 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <header class="topbar" id="mainTopbar">
       <div class="topbar-secret-trigger" onclick="handleSecretClick()">NOOR QURAN</div>
       <div class="topbar-actions">
-        <button class="topbar-btn" onclick="switchView('view-account')" title="هەژماری خۆم"><span>👤</span> <span class="tb-text" id="topbarUserName">هەژماری خۆم</span></button>
         <button class="topbar-btn" onclick="switchView('view-favorites')" title="دڵخوازەکان"><span>❤️</span> <span class="tb-text">دڵخوازەکان</span></button>
+        <button class="topbar-btn topbar-settings-btn" onclick="switchView('view-settings')" title="سێتینگ و هەژمار">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span class="tb-text" id="topbarUserName">سێتینگ</span>
+        </button>
       </div>
     </header>
 
@@ -1327,6 +1228,10 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             <div id="tallSoundsMenu" class="tall-sounds-menu">
               <div onclick="quickPlayAmbient('fire')">🔥 ئاگر</div>
               <div onclick="quickPlayAmbient('river')">🌊 ڕووبار و دەریا</div>
+              <div onclick="quickPlayAmbient('birds')">🐦 تەیر</div>
+              <div onclick="quickPlayAmbient('rain')">🌧️ باران</div>
+              <div onclick="quickPlayAmbient('thunder')">⛈️ هەورەبروسکە</div>
+              <div onclick="quickPlayAmbient('wind')">💨 با</div>
               <div onclick="stopAmbientSound(); toggleTallSoundsMenu();" style="background: rgba(255,50,50,0.2); border-color: rgba(255,50,50,0.5); width: 100%; text-align: center; margin-top: 5px;">❌ کوژاندنەوەی سروشت</div>
             </div>
           </div>
@@ -1564,30 +1469,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           <button onclick="switchView('view-home')" class="topbar-btn" style="padding: 6px 14px; font-size: 11px; width: auto; height: auto; border-radius: 20px;">← گەڕانەوە</button>
         </div>
 
-        <div class="adhkar-reminder-box">
-          <div class="adhkar-reminder-top">
-            <h4>🔔 نامەی ئۆتۆماتیکی زیکری بەیانیان و ئێواران</h4>
-            <button class="adhkar-rem-toggle-btn" id="adhkarRemToggleBtn" onclick="toggleAdhkarReminder()">چالاککردن</button>
-          </div>
-          <div class="adhkar-rem-times-row">
-            <div class="adhkar-rem-field">
-              <label for="morningRemTimeInput">کاتی نامەی بەیانیان 🌅:</label>
-              <input type="time" id="morningRemTimeInput" value="06:30" onchange="saveAdhkarReminderTimes()">
-            </div>
-            <div class="adhkar-rem-field">
-              <label for="eveningRemTimeInput">کاتی نامەی ئێواران 🌇:</label>
-              <input type="time" id="eveningRemTimeInput" value="16:30" onchange="saveAdhkarReminderTimes()">
-            </div>
-          </div>
-          <div class="adhkar-rem-footer">
-            <span id="adhkarRemStatusTxt">ئاگادارکردنەوەی ئۆتۆماتیک ناچالاکە</span>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('morning', true)">تاقیکردنەوەی بەیانی</button>
-              <button class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('evening', true)">تاقیکردنەوەی ئێوارە</button>
-            </div>
-          </div>
-        </div>
-
         <div class="khatm-presets-row" style="margin-bottom: 20px;">
           <button class="khatm-preset-btn active" id="tabMorning" onclick="showAdhkarTab('morning')">بەیانیان 🌅</button>
           <button class="khatm-preset-btn" id="tabEvening" onclick="showAdhkarTab('evening')">ئێواران 🌇</button>
@@ -1663,20 +1544,24 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           <button onclick="switchView('view-home')" class="topbar-btn" style="padding: 6px 14px; font-size: 11px; width: auto; height: auto; border-radius: 20px;">← گەڕانەوە</button>
         </div>
         <div class="nature-sounds-section">
-          <p style="text-align: center; color: var(--muted); font-size: 12px; margin: 0 0 20px;">هەر دەنگێک هەڵبژێریت باکگراوندە درێژەکە ئۆتۆماتیکی دەگۆڕێت بۆ دیمەنی زیندووی ئەو دەنگە</p>
+          <p style="text-align: center; color: var(--muted); font-size: 12px; margin: 0 0 16px;">هەر دەنگێک هەڵبژێریت باکگراوندە درێژەکە ئۆتۆماتیکی دەگۆڕێت بۆ دیمەنی زیندووی ئەو دەنگە</p>
           <div class="nature-sounds-grid">
             <div class="nature-sound-item" onclick="switchView('view-fire-select')"><h6>🔥 ئاگر</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
             <div class="nature-sound-item" onclick="switchView('view-river-select')"><h6>🌊 ڕووبار و دەریا</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
+            <div class="nature-sound-item" onclick="switchView('view-birds-select')"><h6>🐦 تەیر</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
+            <div class="nature-sound-item" onclick="switchView('view-rain-select')"><h6>🌧️ باران</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
+            <div class="nature-sound-item" onclick="switchView('view-thunder-select')"><h6>⛈️ هەورەبروسکە</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
+            <div class="nature-sound-item" onclick="switchView('view-wind-select')"><h6>💨 با</h6><button class="btn-play-sound">هەڵبژاردن</button></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SELECTION PAGES -->
+    <!-- SELECTION PAGES (ALL 6 WITH CORRECTED MP4 VIDEOS) -->
     <div id="view-fire-select" class="page-view">
       <div class="card-section">
         <div class="section-header"><h3>🔥 دەنگەکانی ئاگر</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
-        <div class="surahs-grid">
+        <div class="surahs-grid sound-select-grid">
           <div class="surah-card">
             <video class="sound-video-preview" src="21345.mp4" autoplay loop muted playsinline preload="metadata"></video>
             <h5>ئاگری شەوی دارستان</h5>
@@ -1689,11 +1574,63 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <div id="view-river-select" class="page-view">
       <div class="card-section">
         <div class="section-header"><h3>🌊 دەنگەکانی ڕووبار و دەریا</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
-        <div class="surahs-grid">
+        <div class="surahs-grid sound-select-grid">
           <div class="surah-card">
             <video class="sound-video-preview" src="65789.mp4" autoplay loop muted playsinline preload="metadata"></video>
             <h5>شەپۆلی دەریا و کەنار ئاو</h5>
             <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('65789.mp4', 'river', true)">لێدان ▶</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-birds-select" class="page-view">
+      <div class="card-section">
+        <div class="section-header"><h3>🐦 دەنگی تەیر و باڵندە</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
+        <div class="surahs-grid sound-select-grid">
+          <div class="surah-card">
+            <video class="sound-video-preview" src="90879.mp4" autoplay loop muted playsinline preload="metadata"></video>
+            <h5>جریوەی تەیر لە سروشت</h5>
+            <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('90879.mp4', 'birds', true)">لێدان ▶</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-rain-select" class="page-view">
+      <div class="card-section">
+        <div class="section-header"><h3>🌧️ دەنگی باران</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
+        <div class="surahs-grid sound-select-grid">
+          <div class="surah-card">
+            <video class="sound-video-preview" src="11324.mp4" autoplay loop muted playsinline preload="metadata"></video>
+            <h5>بارانی ئارام لای پەنجەرە</h5>
+            <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('11324.mp4', 'rain', true)">لێدان ▶</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-thunder-select" class="page-view">
+      <div class="card-section">
+        <div class="section-header"><h3>⛈️ دەنگی هەورەبروسکە</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
+        <div class="surahs-grid sound-select-grid">
+          <div class="surah-card">
+            <video class="sound-video-preview" src="50743.mp4" autoplay loop muted playsinline preload="metadata"></video>
+            <h5>هەورەبروسکەی شەوی دەریا</h5>
+            <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('50743.mp4', 'thunder', true)">لێدان ▶</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-wind-select" class="page-view">
+      <div class="card-section">
+        <div class="section-header"><h3>💨 دەنگی با</h3><button onclick="switchView('view-sounds')" class="topbar-btn">← گەڕانەوە</button></div>
+        <div class="surahs-grid sound-select-grid">
+          <div class="surah-card">
+            <video class="sound-video-preview" src="55997.mp4" autoplay loop muted playsinline preload="metadata"></video>
+            <h5>بای نەرم و ئارامی سروشت</h5>
+            <div class="card-actions-row"><button class="btn-card-action" onclick="playAmbientVideo('55997.mp4', 'wind', true)">لێدان ▶</button></div>
           </div>
         </div>
       </div>
@@ -1707,76 +1644,166 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- VIEW 11: MY ACCOUNT -->
-    <div id="view-account" class="page-view">
+    <!-- VIEW 11: SETTINGS (LOGIN AT TOP + ADHKAR MOBILE NOTIFICATION ACTIVATION) -->
+    <div id="view-settings" class="page-view">
       <div class="card-section">
         <div class="section-header">
-          <h3>👤 هەژماری خۆم</h3>
+          <h3>⚙️ سێتینگ و هەژمار</h3>
           <button onclick="switchView('view-home')" class="topbar-btn" style="padding: 6px 14px; font-size: 11px; width: auto; height: auto; border-radius: 20px;">← گەڕانەوە</button>
         </div>
 
-        <div class="account-profile-banner">
-          <div class="account-identity">
-            <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
-            <div class="account-meta">
-              <h4 id="accountDisplayName">بەکارهێنەر</h4>
-              <small id="accountDisplayEmail">user@example.com</small>
-              <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+        <!-- TOP OF SETTINGS: LOGIN / REGISTER PANEL -->
+        <div id="settingsLoginSection" class="auth-mirror-card">
+          <div class="auth-brand-head">
+            <div class="auth-brand-logo">☾</div>
+            <h2>چوونەژوورەوە · هەژماری نووری قورئان</h2>
+            <p>بە ئیمێڵ یان هەژماری گۆگڵەکەت (Google) بچۆ ژوورەوە</p>
+          </div>
+
+          <div class="auth-tabs-row">
+            <button type="button" class="auth-tab-btn active" id="authTabLogin" onclick="switchAuthTab('login')">چوونەژوورەوە</button>
+            <button type="button" class="auth-tab-btn" id="authTabRegister" onclick="switchAuthTab('register')">دروستکردنی هەژمار</button>
+          </div>
+
+          <div id="authFeedbackMsg" class="auth-feedback"></div>
+
+          <form id="authLoginForm" class="auth-form-panel active" onsubmit="handleEmailLogin(event)">
+            <div class="auth-input-group">
+              <label for="loginEmailInput">ئیمێڵ (Email):</label>
+              <input type="email" id="loginEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
             </div>
-          </div>
-          <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 11.5px; font-weight: 600;"></small>
-        </div>
+            <div class="auth-input-group">
+              <label for="loginPasswordInput">وشەی نهێنی (Password):</label>
+              <input type="password" id="loginPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" required>
+            </div>
+            <button type="submit" class="auth-submit-btn">چوونەژوورەوە بە ئیمێڵ ✉️</button>
+          </form>
 
-        <div class="account-stats-grid">
-          <div class="account-stat-card">
-            <strong id="accStatFav">٠</strong>
-            <span>سوورەتی دڵخواز</span>
-          </div>
-          <div class="account-stat-card">
-            <strong id="accStatHifz">٠</strong>
-            <span>بەشی لەبەرکراو</span>
-          </div>
-          <div class="account-stat-card">
-            <strong id="accStatKhatm">٠٪</strong>
-            <span>پێشکەوتنی خەتم</span>
-          </div>
-          <div class="account-stat-card">
-            <strong id="accStatTasbih">٠</strong>
-            <span>تەسبیح</span>
-          </div>
-        </div>
+          <form id="authRegisterForm" class="auth-form-panel" onsubmit="handleEmailRegister(event)">
+            <div class="auth-input-group">
+              <label for="regNameInput">ناوی تەواو:</label>
+              <input type="text" id="regNameInput" placeholder="ناوەکەت لێرە بنووسە..." required>
+            </div>
+            <div class="auth-input-group">
+              <label for="regEmailInput">ئیمێڵ (Email):</label>
+              <input type="email" id="regEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
+            </div>
+            <div class="auth-input-group">
+              <label for="regPasswordInput">وشەی نهێنی (لانیکەم ٦ پیت):</label>
+              <input type="password" id="regPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+            </div>
+            <div class="auth-input-group">
+              <label for="regConfirmInput">دووبارەکردنەوەی وشەی نهێنی:</label>
+              <input type="password" id="regConfirmInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+            </div>
+            <button type="submit" class="auth-submit-btn">دروستکردنی هەژمار و چوونەژوورەوە ✨</button>
+          </form>
 
-        <div class="account-link-box">
-          <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ (Google)</h4>
-          <div class="account-link-row">
-            <button type="button" class="auth-google-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('google')">
+          <div class="auth-divider">یان بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ</div>
+
+          <div class="auth-social-stack">
+            <button type="button" class="auth-google-btn" onclick="handleGoogleOAuthLogin()">
               <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-              <span>بەستنەوە بە گۆگڵ / ئیمێڵ</span>
+              <span>چوونەژوورەوە بە ئیمێڵی گۆگڵ (Google / Gmail)</span>
             </button>
           </div>
+
+          <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthPanelInSettings()">← گەڕانەوە بۆ هەژمارەکەم</button>
         </div>
 
-        <div class="account-edit-box">
-          <h4>✏️ دەستکاریکردنی زانیارییەکانی هەژمارەکەم</h4>
-          <div id="accountEditMsg" class="auth-feedback"></div>
-          <div class="account-form-grid">
-            <div class="auth-input-group">
-              <label for="accEditName">ناوی تەواو:</label>
-              <input type="text" id="accEditName" placeholder="ناوی خۆت...">
+        <!-- TOP OF SETTINGS: LOGGED-IN ACCOUNT PROFILE -->
+        <div id="settingsProfileSection" style="display:none;">
+          <div class="account-profile-banner">
+            <div class="account-identity">
+              <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
+              <div class="account-meta">
+                <h4 id="accountDisplayName">بەکارهێنەر</h4>
+                <small id="accountDisplayEmail">user@example.com</small>
+                <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+              </div>
             </div>
-            <div class="auth-input-group">
-              <label for="accEditEmail">ئیمێڵ (Email):</label>
-              <input type="email" id="accEditEmail" placeholder="example@gmail.com" style="direction:ltr; text-align:left;">
+            <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 11.5px; font-weight: 600;"></small>
+          </div>
+
+          <div class="account-stats-grid">
+            <div class="account-stat-card">
+              <strong id="accStatFav">٠</strong>
+              <span>سوورەتی دڵخواز</span>
             </div>
-            <div class="auth-input-group" style="grid-column: 1 / -1;">
-              <label for="accEditPassword">وشەی نهێنی نوێ (ئارەزوومەندانە):</label>
-              <input type="password" id="accEditPassword" placeholder="ئەگەر ناتەوێت بیگۆڕیت بە بەتاڵی بیهێڵەرەوە..." style="direction:ltr; text-align:left;">
+            <div class="account-stat-card">
+              <strong id="accStatHifz">٠</strong>
+              <span>بەشی لەبەرکراو</span>
+            </div>
+            <div class="account-stat-card">
+              <strong id="accStatKhatm">٠٪</strong>
+              <span>پێشکەوتنی خەتم</span>
+            </div>
+            <div class="account-stat-card">
+              <strong id="accStatTasbih">٠</strong>
+              <span>تەسبیح</span>
             </div>
           </div>
-          <div class="account-actions-grid">
-            <button type="button" class="account-btn-primary" onclick="saveAccountProfileChanges()">پاشەکەوتکردن 💾</button>
-            <button type="button" class="account-btn-secondary" onclick="openAuthGateForNewAccount()">دروستکردنی هەژماری نوێ ➕</button>
-            <button type="button" class="account-btn-danger" onclick="logoutUser()">دەرچوون لە هەژمار 🚪</button>
+
+          <div class="account-link-box">
+            <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ (Google)</h4>
+            <div class="account-link-row">
+              <button type="button" class="auth-google-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('google')">
+                <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                <span>بەستنەوە بە گۆگڵ / ئیمێڵ</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="account-edit-box">
+            <h4>✏️ دەستکاریکردنی زانیارییەکانی هەژمارەکەم</h4>
+            <div id="accountEditMsg" class="auth-feedback"></div>
+            <div class="account-form-grid">
+              <div class="auth-input-group">
+                <label for="accEditName">ناوی تەواو:</label>
+                <input type="text" id="accEditName" placeholder="ناوی خۆت...">
+              </div>
+              <div class="auth-input-group">
+                <label for="accEditEmail">ئیمێڵ (Email):</label>
+                <input type="email" id="accEditEmail" placeholder="example@gmail.com" style="direction:ltr; text-align:left;">
+              </div>
+              <div class="auth-input-group" style="grid-column: 1 / -1;">
+                <label for="accEditPassword">وشەی نهێنی نوێ (ئارەزوومەندانە):</label>
+                <input type="password" id="accEditPassword" placeholder="ئەگەر ناتەوێت بیگۆڕیت بە بەتاڵی بیهێڵەرەوە..." style="direction:ltr; text-align:left;">
+              </div>
+            </div>
+            <div class="account-actions-grid">
+              <button type="button" class="account-btn-primary" onclick="saveAccountProfileChanges()">پاشەکەوتکردن 💾</button>
+              <button type="button" class="account-btn-secondary" onclick="openAuthPanelInSettings('register')">هەژماری نوێ ➕</button>
+              <button type="button" class="account-btn-danger" onclick="logoutUser()">دەرچوون 🚪</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADHKAR MORNING & EVENING MOBILE SCREEN NOTIFICATION ACTIVATION -->
+        <div class="adhkar-reminder-box">
+          <div class="adhkar-reminder-top">
+            <h4>🔔 ئاگادارکردنەوەی زیکری بەیانیان و ئێواران</h4>
+            <button type="button" class="adhkar-rem-toggle-btn" id="adhkarRemToggleBtn" onclick="toggleAdhkarReminder()">چالاککردن</button>
+          </div>
+          <div class="adhkar-rem-times-row">
+            <div class="adhkar-rem-field">
+              <label for="morningRemTimeInput">کاتی زیکری بەیانیان 🌅:</label>
+              <input type="time" id="morningRemTimeInput" value="06:30" onchange="saveAdhkarReminderTimes()">
+            </div>
+            <div class="adhkar-rem-field">
+              <label for="eveningRemTimeInput">کاتی زیکری ئێواران 🌇:</label>
+              <input type="time" id="eveningRemTimeInput" value="16:30" onchange="saveAdhkarReminderTimes()">
+            </div>
+          </div>
+          <div class="adhkar-rem-note">
+            📱 بۆ ئەوەی ئاگادارکردنەوەکە بێتە سەر شاشەی مۆبایلەکەت، دوای کلیککردن لە «چالاککردن» بژاردەی <b>Allow</b> (ڕێگەپێدان) دابگرە.
+          </div>
+          <div class="adhkar-rem-footer">
+            <span id="adhkarRemStatusTxt">ئاگادارکردنەوەی سەر شاشە ناچالاکە</span>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('morning', true)">تاقیکردنەوەی بەیانی</button>
+              <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('evening', true)">تاقیکردنەوەی ئێوارە</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1941,9 +1968,10 @@ let showTranslation = false;
 let isAyahAutoFollow = false;
 
 /* ========================================================
-   REAL FIREBASE AUTH (GOOGLE/GMAIL & EMAIL) + ACCOUNT
+   REAL FIREBASE AUTH (POPUP ONLY — NO REDIRECT ERROR) + ACCOUNT
    ======================================================== */
 let activeUser = JSON.parse(localStorage.getItem('noor_active_user') || 'null');
+let isForcingAuthInSettings = false;
 
 function getKurdishAuthError(err) {
   const code = err?.code || '';
@@ -1961,12 +1989,14 @@ function getKurdishAuthError(err) {
       return 'وشەی نهێنی زۆر لاوازە، تکایە لانیکەم ٦ پیت یان ژمارە بنووسە.';
     case 'auth/popup-closed-by-user':
       return 'پەنجەرەی چوونەژوورەوە داخرا پێش تەواوکردنی کردارەکە.';
+    case 'auth/cancelled-popup-request':
+      return 'کردارەکە هەڵوەشایەوە، تکایە جارێکی تر کلیک بکە.';
     case 'auth/popup-blocked':
-      return 'وێبگەڕەکەت ڕێگری لە پەنجەرەی چوونەژوورەوە کرد؛ تکایە ڕێگە بە Pop-up بدە.';
+      return 'وێبگەڕەکەت پەنجەرەی گۆگڵی ڕاگرت؛ تکایە بژاردەی Always show / Allow بۆ Pop-up دابگرە، یان بە ئیمێڵ و وشەی نهێنی بچۆ ژوورەوە.';
     case 'auth/unauthorized-domain':
       return 'دۆمەینی ئەم سایتە هێشتا لە Firebase زیاد نەکراوە (Authentication → Settings → Authorized domains).';
     case 'auth/operation-not-supported-in-this-environment':
-      return 'تکایە سایتەکە لەسەر Netlify یان Live Server (localhost) بکەرەوە؛ گۆگڵ ڕێگە بە کردنەوەی ڕاستەوخۆی فایل (file://) نادات.';
+      return 'تکایە سایتەکە لەناو وێبگەڕی Chrome بکەرەوە نەک لەناو بەرنامەکانی تر یان فایلی ناوخۆیی (file://).';
     case 'auth/operation-not-allowed':
       return 'ئەم شێوازەی چوونەژوورەوە هێشتا لە Firebase چالاک نەکراوە (Sign-in method).';
     case 'auth/account-exists-with-different-credential':
@@ -2016,6 +2046,7 @@ function setActiveUser(userObj) {
     localStorage.removeItem('noor_active_user');
   }
   updateAccountHeaderUI();
+  updateSettingsAuthPanels();
   renderAccountView();
 }
 
@@ -2051,24 +2082,32 @@ function switchAuthTab(tabName) {
   }
 }
 
-function hideAuthOverlay() {
-  const overlay = document.getElementById('authGateOverlay');
-  if (overlay) overlay.style.display = 'none';
-  document.body.classList.remove('auth-locked');
-  showAuthFeedback('');
-}
-
-function showAuthOverlay(allowReturn = false, defaultTab = 'login') {
-  const overlay = document.getElementById('authGateOverlay');
+function updateSettingsAuthPanels() {
+  const loginSec = document.getElementById('settingsLoginSection');
+  const profileSec = document.getElementById('settingsProfileSection');
   const returnBtn = document.getElementById('authReturnBtn');
-  if (overlay) overlay.style.display = 'flex';
-  document.body.classList.add('auth-locked');
-  if (returnBtn) returnBtn.style.display = (allowReturn && activeUser) ? 'block' : 'none';
-  switchAuthTab(defaultTab);
+
+  if (activeUser && !isForcingAuthInSettings) {
+    if (loginSec) loginSec.style.display = 'none';
+    if (profileSec) profileSec.style.display = 'block';
+  } else {
+    if (loginSec) loginSec.style.display = 'block';
+    if (profileSec) profileSec.style.display = 'none';
+    if (returnBtn) returnBtn.style.display = activeUser ? 'block' : 'none';
+  }
 }
 
-function closeAuthOverlayIfLoggedIn() {
-  if (activeUser) hideAuthOverlay();
+function openAuthPanelInSettings(defaultTab = 'login') {
+  isForcingAuthInSettings = true;
+  switchAuthTab(defaultTab);
+  updateSettingsAuthPanels();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeAuthPanelInSettings() {
+  isForcingAuthInSettings = false;
+  showAuthFeedback('');
+  updateSettingsAuthPanels();
 }
 
 async function handleEmailLogin(event) {
@@ -2088,12 +2127,10 @@ async function handleEmailLogin(event) {
   showAuthFeedback('تکایە چاوەڕێ بکە...', 'success');
   try {
     const cred = await fbAuth.signInWithEmailAndPassword(email, password);
+    isForcingAuthInSettings = false;
     setActiveUser(mapFirebaseUserToLocal(cred.user));
-    showAuthFeedback('بە سەرکەوتوویی چوویتە ژوورەوە ✅', 'success');
-    setTimeout(() => {
-      document.getElementById('authLoginForm')?.reset();
-      hideAuthOverlay();
-    }, 350);
+    document.getElementById('authLoginForm')?.reset();
+    showAuthFeedback('', 'success');
   } catch (err) {
     showAuthFeedback(getKurdishAuthError(err), 'error');
   }
@@ -2128,12 +2165,10 @@ async function handleEmailRegister(event) {
     const cred = await fbAuth.createUserWithEmailAndPassword(email, password);
     await cred.user.updateProfile({ displayName: name });
     await cred.user.reload();
+    isForcingAuthInSettings = false;
     setActiveUser(mapFirebaseUserToLocal(fbAuth.currentUser || cred.user));
-    showAuthFeedback('هەژمارەکەت بە سەرکەوتوویی دروست کرا ✨', 'success');
-    setTimeout(() => {
-      document.getElementById('authRegisterForm')?.reset();
-      hideAuthOverlay();
-    }, 450);
+    document.getElementById('authRegisterForm')?.reset();
+    showAuthFeedback('', 'success');
   } catch (err) {
     showAuthFeedback(getKurdishAuthError(err), 'error');
   }
@@ -2145,7 +2180,7 @@ async function handleGoogleOAuthLogin() {
     return;
   }
   if (window.location.protocol === 'file:') {
-    showAuthFeedback('تکایە سایتەکە لەسەر Netlify یان Live Server (localhost) بکەرەوە؛ گۆگڵ ڕێگە بە کردنەوەی ڕاستەوخۆی فایل (file://) نادات.', 'error');
+    showAuthFeedback('تکایە سایتەکە لەسەر GitHub Pages یان Netlify یان Live Server بکەرەوە؛ گۆگڵ ڕێگە بە (file://) نادات.', 'error');
     return;
   }
 
@@ -2155,19 +2190,10 @@ async function handleGoogleOAuthLogin() {
 
   try {
     const result = await fbAuth.signInWithPopup(provider);
+    isForcingAuthInSettings = false;
     setActiveUser(mapFirebaseUserToLocal(result.user));
-    showAuthFeedback('بە سەرکەوتوویی بە ئیمێڵی گۆگڵ چوویتە ژوورەوە ✅', 'success');
-    setTimeout(() => hideAuthOverlay(), 350);
+    showAuthFeedback('', 'success');
   } catch (err) {
-    if (err?.code === 'auth/popup-blocked') {
-      try {
-        await fbAuth.signInWithRedirect(provider);
-        return;
-      } catch (e2) {
-        showAuthFeedback(getKurdishAuthError(e2), 'error');
-        return;
-      }
-    }
     showAuthFeedback(getKurdishAuthError(err), 'error');
   }
 }
@@ -2178,7 +2204,7 @@ async function linkSocialProvider(type) {
     return;
   }
   if (window.location.protocol === 'file:') {
-    showAuthFeedback('بۆ بەستنەوە بە گۆگڵ پێویستە سایتەکە لەسەر Netlify یان localhost کراوە بێت.', 'error', 'accountEditMsg');
+    showAuthFeedback('بۆ بەستنەوە بە گۆگڵ پێویستە سایتەکە لەسەر ئینتەرنێت یان localhost کراوە بێت.', 'error', 'accountEditMsg');
     return;
   }
 
@@ -2198,11 +2224,13 @@ async function linkSocialProvider(type) {
 function updateAccountHeaderUI() {
   const topbarName = document.getElementById('topbarUserName');
   if (topbarName) {
-    topbarName.textContent = activeUser ? activeUser.name : 'هەژماری خۆم';
+    topbarName.textContent = activeUser ? activeUser.name : 'سێتینگ';
   }
 }
 
 function renderAccountView() {
+  updateSettingsAuthPanels();
+
   const avatarEl = document.getElementById('accountAvatarLetter');
   const nameEl = document.getElementById('accountDisplayName');
   const emailEl = document.getElementById('accountDisplayEmail');
@@ -2285,43 +2313,28 @@ async function saveAccountProfileChanges() {
   }
 }
 
-function openAuthGateForNewAccount() {
-  showAuthOverlay(true, 'register');
-}
-
 async function logoutUser() {
   try {
     if (fbAuth) await fbAuth.signOut();
   } catch (e) {}
+  isForcingAuthInSettings = false;
   setActiveUser(null);
-  switchView('view-home', true);
-  showAuthOverlay(false, 'login');
-  showAuthFeedback('لە هەژمارەکەت دەرچوویت؛ دەتوانیت بە هەر ئیمێڵ یان هەژمارێکی تر بچیتەوە ژوورەوە.', 'success');
+  switchAuthTab('login');
+  showAuthFeedback('لە هەژمارەکەت دەرچوویت؛ هەر کاتێک بتەوێت دەتوانیت دووبارە بچیتەوە ژوورەوە.', 'success');
 }
 
 function initAuthSystem() {
   updateAccountHeaderUI();
-  if (!fbAuth) {
-    showAuthOverlay(false, 'login');
-    return;
-  }
-
-  fbAuth.getRedirectResult().then(result => {
-    if (result && result.user) {
-      setActiveUser(mapFirebaseUserToLocal(result.user));
-      hideAuthOverlay();
-    }
-  }).catch(err => {
-    if (err) showAuthFeedback(getKurdishAuthError(err), 'error');
-  });
+  updateSettingsAuthPanels();
+  if (!fbAuth) return;
 
   fbAuth.onAuthStateChanged(user => {
     if (user) {
+      isForcingAuthInSettings = false;
       setActiveUser(mapFirebaseUserToLocal(user));
-      hideAuthOverlay();
     } else {
+      isForcingAuthInSettings = false;
       setActiveUser(null);
-      showAuthOverlay(false, 'login');
     }
   });
 }
@@ -2376,6 +2389,7 @@ function setPlayIcon(isPlaying) {
 }
 
 function switchView(viewId, isRestore = false) {
+  if (viewId === 'view-account') viewId = 'view-settings';
   let target = document.getElementById(viewId);
   if (!target) {
     viewId = 'view-home';
@@ -2407,7 +2421,7 @@ function switchView(viewId, isRestore = false) {
     'view-khatm': ['menuKhatm'],
     'view-adhkar': ['menuAdhkar', 'navBtnAdhkar'],
     'view-sounds': ['menuSounds', 'navBtnSounds'],
-    'view-account': ['menuAccount']
+    'view-settings': ['menuSettings']
   };
 
   document.querySelectorAll('.side-menu a, .bottom-nav-item').forEach(el => el.classList.remove('active'));
@@ -2422,10 +2436,12 @@ function switchView(viewId, isRestore = false) {
   if (viewId === 'view-khatm') renderKhatmPlanner();
   if (viewId === 'view-adhkar') {
     showAdhkarTab(localStorage.getItem('noor_adhkar_active_tab') || 'morning');
-    updateAdhkarReminderUI();
   }
   if (viewId === 'view-favorites') renderFavoritesGrid();
-  if (viewId === 'view-account') renderAccountView();
+  if (viewId === 'view-settings') {
+    renderAccountView();
+    updateAdhkarReminderUI();
+  }
   if (!isRestore) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2612,10 +2628,16 @@ ayahAudioPlayer.addEventListener('ended', () => {
   }
 });
 
-/* USER AMBIENT VIDEOS & FULL PLAYER */
+/* ========================================================
+   AMBIENT NATURE VIDEOS ENGINE (ALL 6 CORRECTED MP4 VIDEOS)
+   ======================================================== */
 const AMBIENT_DEFAULT_VIDEOS = {
-  fire: '21345.mp4',
-  river: '65789.mp4'
+  fire:    '21345.mp4',
+  river:   '65789.mp4',
+  birds:   '90879.mp4',
+  rain:    '11324.mp4',
+  thunder: '50743.mp4',
+  wind:    '55997.mp4'
 };
 
 let canvasAnimId = null;
@@ -2629,17 +2651,23 @@ function startCanvasEffect(type) {
   canvas.height = window.innerHeight;
 
   const particles = [];
-  const count = type === 'fire' ? 65 : 80;
+  const count = (type === 'rain' || type === 'thunder') ? 85 : (type === 'wind' ? 40 : 50);
 
   for (let i = 0; i < count; i++) {
     particles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      len: Math.random() * 14 + 6,
-      speedY: type === 'fire' ? -(Math.random() * 2.5 + 1) : (Math.random() * 3 + 1.5),
-      speedX: (Math.random() - 0.5) * 1.2,
-      radius: Math.random() * 3 + 1,
-      alpha: Math.random() * 0.5 + 0.15
+      len: (type === 'wind') ? (Math.random() * 40 + 20) : (Math.random() * 14 + 6),
+      speedY: type === 'fire' ? -(Math.random() * 2.2 + 0.8)
+            : (type === 'rain' || type === 'thunder') ? (Math.random() * 8 + 6)
+            : type === 'birds' ? (Math.random() - 0.5) * 0.6
+            : type === 'wind' ? (Math.random() - 0.5) * 0.5
+            : (Math.random() * 2.5 + 1.2),
+      speedX: type === 'wind' ? -(Math.random() * 5.5 + 3)
+            : (type === 'rain' || type === 'thunder') ? -1.2
+            : (Math.random() - 0.5) * 1,
+      radius: Math.random() * 2.5 + 1,
+      alpha: Math.random() * 0.4 + 0.1
     });
   }
 
@@ -2652,12 +2680,31 @@ function startCanvasEffect(type) {
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(251, 146, 60, ${p.alpha})`;
         ctx.fill();
+      } else if (type === 'birds') {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(254, 249, 195, ${p.alpha})`;
+        ctx.fill();
+      } else if (type === 'rain' || type === 'thunder') {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + p.speedX * 1.3, p.y + p.len);
+        ctx.strokeStyle = `rgba(191, 219, 254, ${p.alpha})`;
+        ctx.lineWidth = 1.1;
+        ctx.stroke();
+      } else if (type === 'wind') {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + p.len, p.y + p.speedY * 2);
+        ctx.strokeStyle = `rgba(224, 242, 254, ${p.alpha * 0.6})`;
+        ctx.lineWidth = 1.3;
+        ctx.stroke();
       } else {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.x + p.speedX * 2, p.y + 2);
         ctx.strokeStyle = `rgba(147, 197, 253, ${p.alpha})`;
-        ctx.lineWidth = 1.3;
+        ctx.lineWidth = 1.2;
         ctx.stroke();
       }
 
@@ -2666,8 +2713,9 @@ function startCanvasEffect(type) {
 
       if (type === 'fire' && p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
       else if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
-      if (p.x > canvas.width) p.x = 0;
-      if (p.x < 0) p.x = canvas.width;
+      else if (p.y < -20) { p.y = canvas.height + 10; }
+      if (p.x > canvas.width + 40) p.x = -30;
+      if (p.x < -50) p.x = canvas.width + 30;
     });
 
     canvasAnimId = requestAnimationFrame(draw);
@@ -2728,8 +2776,7 @@ function toggleAmbientSound() {
   if (ambientAudio.paused) {
     const savedType = localStorage.getItem('noor_active_nature_type');
     const activeType = (savedType && AMBIENT_DEFAULT_VIDEOS[savedType]) ? savedType : 'fire';
-    const savedUrl = localStorage.getItem('noor_active_nature_url');
-    const activeUrl = (savedUrl === '21345.mp4' || savedUrl === '65789.mp4') ? savedUrl : AMBIENT_DEFAULT_VIDEOS[activeType];
+    const activeUrl = AMBIENT_DEFAULT_VIDEOS[activeType];
     if (!ambientAudio.src || !ambientAudio.src.endsWith(activeUrl)) {
       ambientAudio.src = activeUrl;
     }
@@ -3688,7 +3735,9 @@ const dailyAdhkarList = [
 let adhkarCounts = JSON.parse(localStorage.getItem('noor_adhkar_counts') || '{}');
 let currentTasbihCount = Number(localStorage.getItem('noor_tasbih_count')) || 0;
 
-/* AUTOMATIC MORNING & EVENING ADHKAR REMINDER ENGINE */
+/* ========================================================
+   MOBILE SCREEN NOTIFICATION ENGINE (MORNING & EVENING ADHKAR)
+   ======================================================== */
 let adhkarRemEnabled = localStorage.getItem('noor_adhkar_rem_enabled') === 'true';
 let adhkarRemMorningTime = localStorage.getItem('noor_adhkar_rem_morning') || '06:30';
 let adhkarRemEveningTime = localStorage.getItem('noor_adhkar_rem_evening') || '16:30';
@@ -3716,12 +3765,58 @@ function updateAdhkarReminderUI() {
 
   if (statusTxt) {
     if (!adhkarRemEnabled) {
-      statusTxt.textContent = 'ئاگادارکردنەوەی ئۆتۆماتیک ناچالاکە';
-    } else if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
-      statusTxt.textContent = `چالاکە لەناو بەرنامەکەدا (بەیانی ${adhkarRemMorningTime} • ئێوارە ${adhkarRemEveningTime})`;
+      statusTxt.textContent = 'ئاگادارکردنەوەی سەر شاشە ناچالاکە';
+    } else if (typeof Notification === 'undefined') {
+      statusTxt.textContent = `چالاکە لەناو سایتدا (بەیانی ${adhkarRemMorningTime} • ئێوارە ${adhkarRemEveningTime})`;
+    } else if (Notification.permission === 'granted') {
+      statusTxt.textContent = `✅ چالاکە بۆ سەر شاشەی مۆبایل: بەیانی ${adhkarRemMorningTime} • ئێوارە ${adhkarRemEveningTime}`;
+    } else if (Notification.permission === 'denied') {
+      statusTxt.textContent = '⚠️ ڕێگەی Notification لە مۆبایلدا داخراوە (لە سێتینگی وێبگەڕ ڕێگەی پێبدە)';
     } else {
-      statusTxt.textContent = `چالاکە: بەیانی ${adhkarRemMorningTime} • ئێوارە ${adhkarRemEveningTime}`;
+      statusTxt.textContent = `چالاکە (تکایە Allow دابگرە): بەیانی ${adhkarRemMorningTime} • ئێوارە ${adhkarRemEveningTime}`;
     }
+  }
+}
+
+async function sendMobileScreenNotification(title, body, period) {
+  if (typeof Notification === 'undefined') return false;
+  if (Notification.permission === 'default') {
+    try {
+      await Notification.requestPermission();
+      updateAdhkarReminderUI();
+    } catch (e) {}
+  }
+  if (Notification.permission !== 'granted') return false;
+
+  const options = {
+    body: body,
+    dir: 'rtl',
+    lang: 'ku',
+    tag: `noor-adhkar-${period}`,
+    renotify: true,
+    vibrate: [220, 100, 220]
+  };
+
+  try {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      const reg = await navigator.serviceWorker.ready;
+      if (reg && typeof reg.showNotification === 'function') {
+        await reg.showNotification(title, options);
+        return true;
+      }
+    }
+  } catch (e) {}
+
+  try {
+    const notif = new Notification(title, options);
+    notif.onclick = () => {
+      window.focus();
+      openAdhkarFromNotification(period);
+      notif.close();
+    };
+    return true;
+  } catch (e) {
+    return false;
   }
 }
 
@@ -3729,14 +3824,24 @@ async function toggleAdhkarReminder() {
   adhkarRemEnabled = !adhkarRemEnabled;
   localStorage.setItem('noor_adhkar_rem_enabled', String(adhkarRemEnabled));
 
-  if (adhkarRemEnabled && typeof Notification !== 'undefined' && Notification.permission === 'default') {
-    try {
-      await Notification.requestPermission();
-    } catch (e) {}
+  if (adhkarRemEnabled) {
+    if (navigator.vibrate) navigator.vibrate(70);
+    if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+      try {
+        await Notification.requestPermission();
+      } catch (e) {}
+    }
+    if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+      sendMobileScreenNotification(
+        '🔔 ئاگادارکردنەوەی نووری قورئان چالاک کرا',
+        `زیکری بەیانیان کاتژمێر ${adhkarRemMorningTime} و ئێواران کاتژمێر ${adhkarRemEveningTime} دێتە سەر شاشەکەت.`,
+        'morning'
+      );
+    }
+    checkAdhkarReminders();
   }
 
   updateAdhkarReminderUI();
-  if (adhkarRemEnabled) checkAdhkarReminders();
 }
 
 function saveAdhkarReminderTimes() {
@@ -3777,7 +3882,7 @@ function playGentleReminderChime() {
   } catch (e) {}
 }
 
-function triggerAdhkarNotification(period, isTest = false) {
+async function triggerAdhkarNotification(period, isTest = false) {
   const isMorning = period === 'morning';
   const title = isMorning ? '🌅 کاتی زیکرەکانی بەیانیانە' : '🌇 کاتی زیکرەکانی ئێوارانە';
   const body = isMorning
@@ -3803,39 +3908,9 @@ function triggerAdhkarNotification(period, isTest = false) {
     }, 30000);
   }
 
+  if (navigator.vibrate) navigator.vibrate([220, 100, 220]);
   playGentleReminderChime();
-
-  if (typeof Notification !== 'undefined') {
-    if (Notification.permission === 'granted') {
-      try {
-        const notif = new Notification(title, {
-          body: body,
-          dir: 'rtl',
-          lang: 'ku',
-          tag: `noor-adhkar-${period}`
-        });
-        notif.onclick = () => {
-          window.focus();
-          openAdhkarFromNotification(period);
-          notif.close();
-        };
-      } catch (e) {}
-    } else if (isTest && Notification.permission === 'default') {
-      Notification.requestPermission().then(perm => {
-        updateAdhkarReminderUI();
-        if (perm === 'granted') {
-          try {
-            const notif = new Notification(title, { body: body, dir: 'rtl', lang: 'ku' });
-            notif.onclick = () => {
-              window.focus();
-              openAdhkarFromNotification(period);
-              notif.close();
-            };
-          } catch (e) {}
-        }
-      }).catch(() => {});
-    }
-  }
+  await sendMobileScreenNotification(title, body, period);
 }
 
 function closeAdhkarToast() {
@@ -4376,12 +4451,8 @@ initAdhkarReminderSystem();
 initAuthSystem();
 
 const savedNatureType = localStorage.getItem('noor_active_nature_type');
-const savedNatureUrl = localStorage.getItem('noor_active_nature_url');
 if (savedNatureType && AMBIENT_DEFAULT_VIDEOS[savedNatureType]) {
-  const validUrl = (savedNatureUrl === '21345.mp4' || savedNatureUrl === '65789.mp4')
-    ? savedNatureUrl
-    : AMBIENT_DEFAULT_VIDEOS[savedNatureType];
-  applyTallPlayerTheme(savedNatureType, validUrl);
+  applyTallPlayerTheme(savedNatureType, AMBIENT_DEFAULT_VIDEOS[savedNatureType]);
 } else {
   localStorage.removeItem('noor_active_nature_type');
   localStorage.removeItem('noor_active_nature_url');
