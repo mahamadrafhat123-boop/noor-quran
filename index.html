@@ -59,377 +59,125 @@ button,select,input{font:inherit} button{cursor:pointer}
   direction: rtl;
   animation: slideFadeIn 0.35s ease forwards;
 }
-.auth-brand-head {
-  text-align: center;
-  margin-bottom: 16px;
-}
+.auth-brand-head { text-align: center; margin-bottom: 16px; }
 .auth-brand-logo {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 8px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-  color: #ffffff;
+  width: 50px; height: 50px; margin: 0 auto 8px; border-radius: 16px;
+  display: grid; place-items: center; font-size: 24px; color: #ffffff;
   background: linear-gradient(145deg, #2563eb, #60a5fa);
   border: 1.5px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), inset 0 2px 3px rgba(255, 255, 255, 0.65);
 }
-.auth-brand-head h2 {
-  margin: 0 0 4px;
-  font-family: 'Amiri', serif;
-  font-size: 21px;
-  color: #0f172a;
-}
-.auth-brand-head p {
-  margin: 0;
-  font-size: 12px;
-  color: #475569;
-  font-weight: 500;
-}
+.auth-brand-head h2 { margin: 0 0 4px; font-family: 'Amiri', serif; font-size: 21px; color: #0f172a; }
+.auth-brand-head p { margin: 0; font-size: 12px; color: #475569; font-weight: 500; }
 .auth-tabs-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  background: rgba(241, 245, 249, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06);
-  border-radius: 16px;
-  padding: 5px;
-  margin-bottom: 14px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+  background: rgba(241, 245, 249, 0.85); border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.06); border-radius: 16px; padding: 5px; margin-bottom: 14px;
 }
 .auth-tab-btn {
-  border: 1px solid transparent;
-  background: transparent;
-  color: #475569;
-  padding: 9px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  transition: 0.25s;
+  border: 1px solid transparent; background: transparent; color: #475569;
+  padding: 9px 10px; border-radius: 12px; font-size: 13px; font-weight: 700; transition: 0.25s;
 }
 .auth-tab-btn.active {
-  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
-  color: #1d4ed8;
-  border-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14);
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); color: #1d4ed8;
+  border-color: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14);
 }
 .auth-feedback {
-  display: none;
-  padding: 9px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  text-align: center;
-  line-height: 1.6;
+  display: none; padding: 9px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;
+  margin-bottom: 12px; text-align: center; line-height: 1.6;
 }
-.auth-feedback.error {
-  display: block;
-  background: rgba(254, 226, 226, 0.9);
-  color: #b91c1c;
-  border: 1px solid #fca5a5;
-}
-.auth-feedback.success {
-  display: block;
-  background: rgba(209, 250, 229, 0.92);
-  color: #047857;
-  border: 1px solid #6ee7b7;
-}
-.auth-form-panel {
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-}
-.auth-form-panel.active {
-  display: flex;
-}
-.auth-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.auth-input-group label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #334155;
-}
+.auth-feedback.error { display: block; background: rgba(254, 226, 226, 0.9); color: #b91c1c; border: 1px solid #fca5a5; }
+.auth-feedback.success { display: block; background: rgba(209, 250, 229, 0.92); color: #047857; border: 1px solid #6ee7b7; }
+.auth-form-panel { display: none; flex-direction: column; gap: 10px; }
+.auth-form-panel.active { display: flex; }
+.auth-input-group { display: flex; flex-direction: column; gap: 4px; }
+.auth-input-group label { font-size: 12px; font-weight: 700; color: #334155; }
 .auth-input-group input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1.5px solid rgba(148, 163, 184, 0.3);
-  border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 13.5px;
-  color: #0f172a;
-  outline: none;
-  transition: 0.25s;
+  width: 100%; background: rgba(255, 255, 255, 0.88); border: 1.5px solid rgba(148, 163, 184, 0.3);
+  border-radius: 14px; padding: 10px 14px; font-size: 13.5px; color: #0f172a; outline: none; transition: 0.25s;
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
 }
-.auth-input-group input:focus {
-  border-color: #2563eb;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
-}
+.auth-input-group input:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14); }
 .auth-submit-btn {
-  width: 100%;
-  margin-top: 4px;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 14px;
-  padding: 11px 16px;
-  font-size: 13.5px;
-  font-weight: 800;
-  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
-  transition: 0.25s;
+  width: 100%; margin-top: 4px; background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 14px; padding: 11px 16px;
+  font-size: 13.5px; font-weight: 800; box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28); transition: 0.25s;
 }
-.auth-submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.36);
-}
-.auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 14px 0 12px;
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 700;
-}
-.auth-divider::before, .auth-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: rgba(15, 23, 42, 0.12);
-}
-.auth-social-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
+.auth-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.36); }
+.auth-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0 12px; color: #64748b; font-size: 12px; font-weight: 700; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: rgba(15, 23, 42, 0.12); }
+.auth-social-stack { display: flex; flex-direction: column; gap: 9px; }
 .auth-google-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.88) 100%);
-  color: #0f172a;
-  border: 1.5px solid rgba(148, 163, 184, 0.32);
-  border-radius: 14px;
-  padding: 11px 16px;
-  font-size: 13.5px;
-  font-weight: 800;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), inset 0 2px 2px #ffffff;
-  transition: 0.25s;
+  color: #0f172a; border: 1.5px solid rgba(148, 163, 184, 0.32); border-radius: 14px; padding: 11px 16px;
+  font-size: 13.5px; font-weight: 800; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), inset 0 2px 2px #ffffff; transition: 0.25s;
 }
-.auth-google-btn:hover {
-  transform: translateY(-2px);
-  border-color: #2563eb;
-  background: #ffffff;
-  box-shadow: 0 11px 24px rgba(37, 99, 235, 0.16);
-}
-.auth-google-btn svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
+.auth-google-btn:hover { transform: translateY(-2px); border-color: #2563eb; background: #ffffff; box-shadow: 0 11px 24px rgba(37, 99, 235, 0.16); }
+.auth-google-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
 .auth-close-return-btn {
-  display: none;
-  width: 100%;
-  margin-top: 10px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  color: #334155;
-  padding: 9px 14px;
-  border-radius: 12px;
-  font-size: 12.5px;
-  font-weight: 700;
+  display: none; width: 100%; margin-top: 10px; background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.35); color: #334155; padding: 9px 14px; border-radius: 12px; font-size: 12.5px; font-weight: 700;
 }
 
 /* ========================================================
    SETTINGS & ACCOUNT SECTION STYLES
    ======================================================== */
 .account-profile-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  background: var(--glass-card-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 20px; padding: 18px; margin-bottom: 16px;
 }
-.account-identity {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  min-width: 0;
-}
+.account-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.account-avatar-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
 .account-avatar-badge {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #2563eb, #60a5fa);
-  color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-  font-weight: 800;
-  border: 2px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
-  flex-shrink: 0;
-  overflow: hidden;
+  width: 66px; height: 66px; border-radius: 50%; background: linear-gradient(145deg, #2563eb, #60a5fa);
+  color: #ffffff; display: grid; place-items: center; font-size: 24px; font-weight: 800;
+  border: 2.5px solid rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25), 0 0 0 1.5px rgba(147, 197, 253, 0.65);
+  flex-shrink: 0; overflow: hidden;
 }
-.account-avatar-badge img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.account-avatar-badge img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; animation: fadeIn 0.3s ease; }
+.account-avatar-edit-dot {
+  position: absolute; bottom: -2px; left: -2px; width: 24px; height: 24px; border-radius: 50%;
+  background: #ffffff; color: #1d4ed8; border: 1.5px solid #93c5fd; box-shadow: 0 3px 8px rgba(15, 23, 42, 0.18);
+  display: grid; place-items: center; font-size: 11px; transition: transform 0.2s ease;
 }
-.account-meta h4 {
-  margin: 0 0 3px;
-  font-size: 17px;
-  color: #0f172a;
+.account-avatar-wrap:hover .account-avatar-edit-dot { transform: scale(1.12); }
+.topbar-user-avatar {
+  width: 24px; height: 24px; border-radius: 50%; overflow: hidden; display: inline-flex; align-items: center;
+  justify-content: center; border: 1.5px solid #2563eb; background: #dbeafe; flex-shrink: 0;
 }
-.account-meta small {
-  display: block;
-  font-size: 12px;
-  color: #475569;
-  direction: ltr;
-  text-align: right;
-}
+.topbar-user-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.account-meta h4 { margin: 0 0 3px; font-size: 17px; color: #0f172a; }
+.account-meta small { display: block; font-size: 12px; color: #475569; direction: ltr; text-align: right; }
 .account-provider-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 11px;
-  font-weight: 800;
-  background: rgba(239, 246, 255, 0.9);
-  color: #1d4ed8;
-  border: 1px solid rgba(147, 197, 253, 0.7);
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 800; background: rgba(239, 246, 255, 0.9); color: #1d4ed8; border: 1px solid rgba(147, 197, 253, 0.7);
 }
-.account-provider-pill.google {
-  background: rgba(234, 67, 53, 0.1);
-  color: #c5221f;
-  border-color: rgba(234, 67, 53, 0.3);
-}
-.account-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 16px;
-}
+.account-provider-pill.google { background: rgba(234, 67, 53, 0.1); color: #c5221f; border-color: rgba(234, 67, 53, 0.3); }
+.account-stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
 .account-stat-card {
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 16px;
-  padding: 14px 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow); border-radius: 16px; padding: 14px 10px; text-align: center;
+  display: flex; flex-direction: column; gap: 4px;
 }
-.account-stat-card strong {
-  font-size: 20px;
-  color: #1d4ed8;
-  font-weight: 800;
-}
-.account-stat-card span {
-  font-size: 11.5px;
-  color: #475569;
-  font-weight: 700;
-}
+.account-stat-card strong { font-size: 20px; color: #1d4ed8; font-weight: 800; }
+.account-stat-card span { font-size: 11.5px; color: #475569; font-weight: 700; }
 .account-link-box, .account-edit-box {
-  background: var(--glass-card-bg);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  padding: 16px 18px;
-  margin-bottom: 16px;
+  background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 20px; padding: 16px 18px; margin-bottom: 16px;
 }
-.account-link-box h4, .account-edit-box h4 {
-  margin: 0 0 12px;
-  font-size: 14.5px;
-  color: #0f172a;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.account-link-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-.account-form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.account-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-.account-btn-primary {
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 12.5px;
-  font-weight: 800;
-  transition: 0.25s;
-}
-.account-btn-secondary {
-  background: var(--glass-card-bg);
-  color: #0f172a;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 12.5px;
-  font-weight: 700;
-  transition: 0.25s;
-}
-.account-btn-danger {
-  background: rgba(254, 226, 226, 0.85);
-  color: #dc2626;
-  border: 1px solid #fca5a5;
-  border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 12.5px;
-  font-weight: 800;
-  transition: 0.25s;
-}
-.account-btn-danger:hover {
-  background: #dc2626;
-  color: #ffffff;
-}
-.topbar-settings-btn svg {
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
-  transition: transform 0.35s ease;
-}
-.topbar-settings-btn:hover svg {
-  transform: rotate(45deg);
-}
+.account-link-box h4, .account-edit-box h4 { margin: 0 0 12px; font-size: 14.5px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+.account-link-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.account-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.account-actions-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.account-btn-primary { background: #2563eb; color: #ffffff; border: none; border-radius: 14px; padding: 10px 14px; font-size: 12.5px; font-weight: 800; transition: 0.25s; }
+.account-btn-secondary { background: var(--glass-card-bg); color: #0f172a; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 14px; padding: 10px 14px; font-size: 12.5px; font-weight: 700; transition: 0.25s; }
+.account-btn-danger { background: rgba(254, 226, 226, 0.85); color: #dc2626; border: 1px solid #fca5a5; border-radius: 14px; padding: 10px 14px; font-size: 12.5px; font-weight: 800; transition: 0.25s; }
+.account-btn-danger:hover { background: #dc2626; color: #ffffff; }
+.topbar-settings-btn svg { width: 17px; height: 17px; flex-shrink: 0; transition: transform 0.35s ease; }
+.topbar-settings-btn:hover svg { transform: rotate(45deg); }
 
 aside.sidebar { width: 260px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-left: 1px solid var(--glass-border); padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; box-shadow: var(--card-shadow); overflow-y: auto; }
 .sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
@@ -445,7 +193,7 @@ aside.sidebar { width: 260px; background: var(--glass-bg); backdrop-filter: blur
 .main-content.no-bottom-nav { padding-bottom: 30px !important; }
 .page-view { display: none; width: 100%; opacity: 0; position: absolute; top: 20px; left: 25px; right: 25px; transition: opacity 0.3s ease-in-out; pointer-events: none; }
 .page-view.active { display: block; opacity: 1; position: relative; top: 0; left: 0; right: 0; pointer-events: auto; }
-#view-full-player.page-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; margin: 0; padding: 0; }
+#view-full-player.page-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; margin: 0; padding: 0; }
 
 header.topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 15px; }
 .topbar-secret-trigger { font-family: 'Amiri', serif; font-size: 20px; font-weight: 900; color: #0f172a; cursor: pointer; user-select: none; padding-left: 10px; }
@@ -536,8 +284,10 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reciters-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-height: 480px; overflow-y: auto; width: 100%; padding-left: 5px; }
 .reciter-item { background: var(--glass-card-bg); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 12px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; gap: 10px; cursor: pointer; transition: 0.3s; width: 100%; min-width: 0; box-shadow: var(--card-shadow); }
 .reciter-item:hover, .reciter-item.active { border-color: #93c5fd; background: rgba(255, 255, 255, 0.94); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.14), inset 0 2px 2px #ffffff; }
-.reciter-info { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
-.reciter-avatar-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(239, 246, 255, 0.85); border: 1.5px solid #93c5fd; display: grid; place-items: center; color: #1d4ed8; font-size: 18px; flex-shrink: 0; box-shadow: inset 0 1px 2px #ffffff; }
+.reciter-info { display: flex; flex-direction: column; align-items: center; gap: 9px; width: 100%; }
+.reciter-avatar-icon { width: 66px; height: 66px; border-radius: 50%; background: linear-gradient(145deg, rgba(239, 246, 255, 0.92), rgba(219, 234, 254, 0.72)); border: 2px solid rgba(255, 255, 255, 0.98); display: grid; place-items: center; color: #1d4ed8; font-size: 24px; flex-shrink: 0; overflow: hidden; position: relative; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.16), 0 0 0 1.5px rgba(147, 197, 253, 0.75); }
+.reciter-avatar-icon img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; animation: fadeIn 0.35s ease; }
+.reciter-item.active .reciter-avatar-icon { box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28), 0 0 0 2.5px #2563eb; }
 .reciter-info h6 { margin: 0 0 2px; font-size: 13.5px; font-weight: 700; color: #0f172a; line-height: 1.4; }
 .reciter-info small { color: var(--muted); font-size: 11px; display: block; }
 
@@ -656,7 +406,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .tasbih-reset-btn { background: var(--glass-card-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); color: #0f172a; padding: 10px 30px; border-radius: 99px; font-size: 14px; font-weight: 700; transition: 0.3s; cursor: pointer; }
 .tasbih-reset-btn:hover { background: rgba(255, 255, 255, 0.95); }
 
-/* TAFSIR & QURAN READER — REAL MUSHAF PAGES */
+/* TAFSIR & QURAN READER — REAL MUSHAF PAGES + SMART RECITATION ASSISTANT */
 #readingReaderContainer { display: none; position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%); flex-direction: column; overflow: hidden; }
 #readingReaderContainer .topbar-btn, #view-full-player .topbar-btn { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.24); color: #ffffff; box-shadow: none; }
 #readingReaderContainer .topbar-btn:hover, #view-full-player .topbar-btn:hover { background: rgba(255, 255, 255, 0.22); border-color: #ffffff; color: #ffffff; }
@@ -672,6 +422,188 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .page-theme-option:hover, .page-theme-option.active { border-color: #ffffff; background: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
 .theme-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.6); display: inline-block; flex-shrink: 0; }
 .font-size-controls { display: inline-flex; align-items: center; gap: 6px; padding-right: 8px; border-right: 1px solid rgba(255, 255, 255, 0.2); }
+
+/* ========================================================
+   SMART VOICE RECITATION ASSISTANT (TARTEEL-STYLE)
+   ======================================================== */
+#smartReciteToggleBtn.listening-active {
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  border-color: #fca5a5 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.55) !important;
+}
+.recite-assistant-bar {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 11px 14px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
+  border-bottom: 1.5px solid rgba(96, 165, 250, 0.35);
+  z-index: 116;
+  flex-shrink: 0;
+  color: #f8fafc;
+  animation: fadeIn 0.25s ease;
+}
+.recite-assistant-bar.active { display: flex; }
+.recite-assistant-bar.has-error {
+  border-bottom-color: #ef4444;
+  background: linear-gradient(180deg, rgba(69, 10, 10, 0.96) 0%, rgba(15, 23, 42, 0.96) 100%);
+}
+.recite-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.recite-status-group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  flex: 1;
+}
+.recite-mic-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+}
+.recite-mic-dot.listening {
+  background: #ef4444;
+  animation: micPulse 1.3s infinite;
+}
+.recite-mic-dot.error-state {
+  background: #f87171;
+  box-shadow: 0 0 12px #ef4444;
+}
+@keyframes micPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.75); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 9px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.recite-status-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.5;
+}
+.recite-stats-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.recite-stat-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+.recite-stat-pill.good { color: #86efac; border-color: rgba(74, 222, 128, 0.4); background: rgba(22, 163, 74, 0.18); }
+.recite-stat-pill.bad { color: #fca5a5; border-color: rgba(248, 113, 113, 0.45); background: rgba(220, 38, 38, 0.22); }
+.recite-live-heard {
+  font-size: 12px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 6px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.recite-live-heard strong { color: #93c5fd; font-weight: 700; }
+.recite-live-heard .expected-hint { color: #fca5a5; font-family: 'Amiri Quran', serif; font-size: 16px; font-weight: 700; }
+.recite-bar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.recite-act-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+  padding: 6px 11px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s;
+}
+.recite-act-btn:hover { background: rgba(255, 255, 255, 0.22); border-color: #ffffff; }
+.recite-act-btn.active { background: #2563eb; border-color: #60a5fa; color: #ffffff; }
+.recite-act-btn.danger { background: rgba(220, 38, 38, 0.28); border-color: rgba(248, 113, 113, 0.65); color: #fecaca; }
+.recite-act-btn.danger:hover { background: #dc2626; color: #ffffff; }
+
+/* WORD-LEVEL HIGHLIGHTING INSIDE MUSHAF */
+.recite-word {
+  display: inline;
+  border-radius: 8px;
+  padding: 1px 3px;
+  transition: background-color 0.22s ease, color 0.22s ease, filter 0.25s ease, box-shadow 0.22s ease;
+  cursor: pointer;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.recite-word.recite-current {
+  background-color: rgba(59, 130, 246, 0.24);
+  box-shadow: 0 2px 0 0 #3b82f6;
+}
+.recite-word.recite-correct {
+  background-color: rgba(16, 185, 129, 0.22);
+  color: #10b981 !important;
+  box-shadow: none;
+}
+#readingReaderContainer .reader-box.theme-cream .recite-word.recite-correct,
+#readingReaderContainer .reader-box.theme-white .recite-word.recite-correct {
+  color: #047857 !important;
+  background-color: rgba(16, 185, 129, 0.2);
+}
+.recite-word.recite-error {
+  background-color: rgba(239, 68, 68, 0.32) !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 0 2px #ef4444, 0 0 16px rgba(239, 68, 68, 0.55) !important;
+  animation: reciteShake 0.4s ease;
+}
+#readingReaderContainer .reader-box.theme-cream .recite-word.recite-error,
+#readingReaderContainer .reader-box.theme-white .recite-word.recite-error {
+  color: #b91c1c !important;
+  background-color: rgba(239, 68, 68, 0.22) !important;
+}
+.ayah-item.ayah-has-error, .ayah-tafsir-card.ayah-has-error {
+  background-color: rgba(239, 68, 68, 0.14) !important;
+  box-shadow: 0 0 0 1.5px rgba(239, 68, 68, 0.65) !important;
+}
+.mushaf-page.recite-blind-mode .recite-word:not(.recite-correct):not(.recite-error) {
+  color: transparent !important;
+  text-shadow: 0 0 14px rgba(148, 163, 184, 0.55);
+  background: rgba(148, 163, 184, 0.16);
+  user-select: none;
+}
+.mushaf-page.recite-blind-mode .recite-word.recite-current {
+  box-shadow: 0 2px 0 0 #60a5fa;
+  background: rgba(59, 130, 246, 0.2);
+}
+@keyframes reciteShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  45% { transform: translateX(4px); }
+  70% { transform: translateX(-3px); }
+  85% { transform: translateX(2px); }
+}
 
 .reader-fullscreen-wrapper { flex: 1; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; position: relative; width: 100%; min-height: 0; overflow: hidden; }
 
@@ -699,115 +631,34 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 #readingReaderContainer .reader-box::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.4); border-radius: 10px; }
 
 .mushaf-page-container {
-  width: 100%;
-  max-width: 780px;
-  min-height: 100%;
-  margin: 0 auto;
-  background: var(--page-sheet-bg);
-  border: 2px solid var(--page-border);
-  outline: 4px solid var(--page-sheet-bg);
-  outline-offset: -8px;
-  border-radius: 20px;
-  padding: 24px 22px 28px;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  width: 100%; max-width: 780px; min-height: 100%; margin: 0 auto;
+  background: var(--page-sheet-bg); border: 2px solid var(--page-border);
+  outline: 4px solid var(--page-sheet-bg); outline-offset: -8px;
+  border-radius: 20px; padding: 24px 22px 28px; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
+  display: flex; flex-direction: column; justify-content: flex-start;
 }
 .mushaf-surah-banner {
-  text-align: center;
-  font-family: 'Amiri', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--page-accent);
-  border: 1.5px solid var(--page-border);
-  border-radius: 14px;
-  padding: 8px 16px;
-  margin-bottom: 16px;
-  background: rgba(128, 128, 128, 0.06);
+  text-align: center; font-family: 'Amiri', serif; font-size: 24px; font-weight: 700;
+  color: var(--page-accent); border: 1.5px solid var(--page-border); border-radius: 14px;
+  padding: 8px 16px; margin-bottom: 16px; background: rgba(128, 128, 128, 0.06);
 }
-.bismillah {
-  text-align: center;
-  font-family: 'Amiri Quran', serif;
-  font-size: 30px;
-  color: var(--page-accent);
-  line-height: 2;
-  margin: 4px 0 18px;
-}
+.bismillah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 30px; color: var(--page-accent); line-height: 2; margin: 4px 0 18px; }
 .mushaf-page {
-  width: 100%;
-  font-family: 'Amiri Quran', 'Amiri', serif;
-  font-size: var(--mushaf-font-size, 26px);
-  color: var(--page-text);
-  line-height: 2.55;
-  text-align: justify;
-  text-align-last: center;
-  direction: rtl;
-  word-spacing: 2px;
-  overflow-wrap: break-word;
-  word-break: normal;
-  text-rendering: optimizeLegibility;
+  width: 100%; font-family: 'Amiri Quran', 'Amiri', serif; font-size: var(--mushaf-font-size, 26px);
+  color: var(--page-text); line-height: 2.55; text-align: justify; text-align-last: center;
+  direction: rtl; word-spacing: 2px; overflow-wrap: break-word; word-break: normal; text-rendering: optimizeLegibility;
 }
-.mushaf-page.tafsir-open {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  text-align: right;
-  text-align-last: right;
-}
-.ayah-tafsir-card {
-  padding: 14px 14px 12px;
-  border-radius: 16px;
-  border: 1px solid var(--page-divider);
-  background: rgba(128, 128, 128, 0.04);
-  transition: 0.3s ease;
-  cursor: pointer;
-}
-.ayah-tafsir-card.active-splash {
-  background-color: var(--splash-bg);
-  border-color: var(--splash-border);
-  box-shadow: 0 0 18px var(--splash-glow);
-}
-.ayah-tafsir-arabic {
-  font-family: 'Amiri Quran', 'Amiri', serif;
-  font-size: var(--mushaf-font-size, 26px);
-  line-height: 2.35;
-  color: var(--page-text);
-  margin-bottom: 10px;
-  text-align: right;
-}
+.mushaf-page.tafsir-open { display: flex; flex-direction: column; gap: 14px; text-align: right; text-align-last: right; }
+.ayah-tafsir-card { padding: 14px 14px 12px; border-radius: 16px; border: 1px solid var(--page-divider); background: rgba(128, 128, 128, 0.04); transition: 0.3s ease; cursor: pointer; }
+.ayah-tafsir-card.active-splash { background-color: var(--splash-bg); border-color: var(--splash-border); box-shadow: 0 0 18px var(--splash-glow); }
+.ayah-tafsir-arabic { font-family: 'Amiri Quran', 'Amiri', serif; font-size: var(--mushaf-font-size, 26px); line-height: 2.35; color: var(--page-text); margin-bottom: 10px; text-align: right; }
 
-.ayah-item {
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 2px 4px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  display: inline;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
+.ayah-item { cursor: pointer; border-radius: 10px; padding: 2px 4px; transition: background-color 0.3s ease, box-shadow 0.3s ease; display: inline; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .ayah-item:hover { background-color: rgba(128, 128, 128, 0.12); }
 .ayah-item.active-splash { background-color: var(--splash-bg); box-shadow: 0 0 0 1.5px var(--splash-border), 0 0 16px var(--splash-glow); }
 
-.ayah-num-mark {
-  color: var(--page-accent, #0284c7);
-  font-size: 0.78em;
-  margin-right: 4px;
-  margin-left: 6px;
-  font-weight: bold;
-  white-space: nowrap;
-  display: inline-block;
-}
-.mushaf-translation {
-  display: block;
-  font-family: 'Vazirmatn', sans-serif;
-  font-size: 14.5px;
-  color: var(--page-muted);
-  line-height: 1.95;
-  border-top: 1px dashed var(--page-divider);
-  padding-top: 10px;
-  text-align: right;
-}
+.ayah-num-mark { color: var(--page-accent, #0284c7); font-size: 0.78em; margin-right: 4px; margin-left: 6px; font-weight: bold; white-space: nowrap; display: inline-block; }
+.mushaf-translation { display: block; font-family: 'Vazirmatn', sans-serif; font-size: 14.5px; color: var(--page-muted); line-height: 1.95; border-top: 1px dashed var(--page-divider); padding-top: 10px; text-align: right; }
 .ayah-tafsir-card.active-splash .mushaf-translation { color: var(--page-text); }
 
 .waqf-qala { color: #e74c3c; font-weight: bold; font-size: 1.1em; }
@@ -819,65 +670,98 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .allah-word { color: var(--page-accent); font-weight: bold; }
 
 /* DEDICATED BOTTOM MUSHAF PAGE BAR (ZERO OVERLAP ON TEXT) */
-.reader-footer-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 16px;
-  background: rgba(15, 23, 42, 0.96);
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  flex-shrink: 0;
-  z-index: 120;
-}
-.reader-nav-btn {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 99px;
-  font-size: 13px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: 0.25s;
-}
+.reader-footer-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; background: rgba(15, 23, 42, 0.96); border-top: 1px solid rgba(255, 255, 255, 0.16); flex-shrink: 0; z-index: 120; }
+.reader-nav-btn { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.28); color: #ffffff; padding: 8px 16px; border-radius: 99px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; transition: 0.25s; }
 .reader-nav-btn:hover:not(:disabled) { background: #ffffff; color: #0f172a; }
 .reader-nav-btn:disabled { opacity: 0.32; cursor: not-allowed; }
-.reader-footer-meta {
-  text-align: center;
-  color: #e2e8f0;
-  font-size: 12.5px;
-  font-weight: 700;
-  line-height: 1.5;
-}
+.reader-footer-meta { text-align: center; color: #e2e8f0; font-size: 12.5px; font-weight: 700; line-height: 1.5; }
 
-/* TALL FULL-SCREEN PLAYER PAGE — PURE USER VIDEOS ONLY */
-.tall-player-wrapper { position: relative; width: 100vw; height: 100vh; max-width: 100%; min-height: 100vh; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; display: flex; flex-direction: column; justify-content: space-between; padding: 25px 22px 40px; z-index: 1; transition: background 0.6s ease; }
+/* TALL FULL-SCREEN PLAYER PAGE — PURE USER VIDEOS + TOP-RIGHT RECITER PHOTO + BOTTOM 3-LINE MENU */
+.tall-player-wrapper { position: relative; width: 100vw; height: 100vh; height: 100dvh; max-width: 100%; min-height: 100vh; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 20px 26px; z-index: 1; transition: background 0.6s ease; }
 #tallPlayerBgVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; display: none; pointer-events: none; }
-.tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(2, 6, 23, 0.35) 0%, rgba(2, 6, 23, 0.05) 45%, rgba(2, 6, 23, 0.55) 100%); z-index: -1; pointer-events: none; }
+.tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(2, 6, 23, 0.42) 0%, rgba(2, 6, 23, 0.08) 45%, rgba(2, 6, 23, 0.62) 100%); z-index: -1; pointer-events: none; }
 .tall-player-top, .tall-player-center, .tall-player-bottom { position: relative; z-index: 3; max-width: 520px; margin-left: auto; margin-right: auto; width: 100%; }
-.tall-player-top { display: flex; justify-content: flex-start; align-items: center; }
+.tall-player-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; direction: rtl; }
+.tall-reciter-photo-badge {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 2px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(255, 255, 255, 0.14);
+  display: grid; place-items: center; color: #ffffff; font-size: 24px; overflow: hidden; flex-shrink: 0;
+  cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tall-reciter-photo-badge:hover { transform: scale(1.06); box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45), 0 0 0 3px rgba(147, 197, 253, 0.55); }
+.tall-reciter-photo-badge img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; animation: fadeIn 0.35s ease; }
+
 .tall-player-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; flex: 1; }
 .tall-sounds-menu { display: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; background: rgba(2, 6, 23, 0.88); padding: 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(20px); max-width: 340px; margin-left: auto; margin-right: auto; }
 .tall-sounds-menu.active { display: flex; }
 .tall-sounds-menu div { background: rgba(255,255,255,0.1); padding: 9px 14px; border-radius: 12px; cursor: pointer; font-size: 12.5px; color: #fff; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; font-weight: 600; }
 .tall-sounds-menu div:hover { background: #ffffff; color: #0f172a; border-color: #ffffff; }
-.tall-player-bottom { display: flex; flex-direction: column; gap: 18px; }
-.tall-timeline-box { display: flex; flex-direction: column; gap: 10px; width: 100%; direction: ltr; }
+.tall-player-bottom { display: flex; flex-direction: column; gap: 14px; }
+.tall-timeline-box { display: flex; flex-direction: column; gap: 8px; width: 100%; direction: ltr; }
 .tall-time-labels { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.95); font-weight: 500; }
 .tall-controls-row { display: flex; align-items: center; justify-content: center; gap: 28px; direction: ltr; }
 .tall-btn-circle { width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; display: grid; place-items: center; transition: 0.3s; backdrop-filter: blur(8px); font-size: 18px; }
 .tall-btn-circle:hover { background: rgba(255, 255, 255, 0.25); border-color: #fff; }
 .tall-btn-circle svg { width: 22px; height: 22px; fill: currentColor; }
-.tall-btn-play-main { width: 70px; height: 70px; border-radius: 50%; background: #ffffff; border: none; color: #0f172a; display: grid; place-items: center; box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25); transition: transform 0.2s; }
+.tall-btn-play-main { width: 68px; height: 68px; border-radius: 50%; background: #ffffff; border: none; color: #0f172a; display: grid; place-items: center; box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25); transition: transform 0.2s; }
 .tall-btn-play-main:hover { transform: scale(1.08); }
-.tall-btn-play-main svg { width: 34px; height: 34px; fill: #0f172a; }
-.tall-volume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255, 255, 255, 0.08); padding: 10px 18px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(12px); direction: ltr; }
+.tall-btn-play-main svg { width: 32px; height: 32px; fill: #0f172a; }
+.tall-volume-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255, 255, 255, 0.08); padding: 9px 16px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(12px); direction: ltr; }
 .tall-volume-row span { font-size: 11px; color: #fff; white-space: nowrap; font-weight: 600; }
 .tall-player-wrapper .timeline-slider { background: rgba(255, 255, 255, 0.28); }
 .tall-player-wrapper .timeline-slider::-webkit-slider-thumb { background: #ffffff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); }
+
+.tall-bottom-menu-row { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 2px; }
+.tall-hamburger-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.34); color: #ffffff; padding: 10px 22px; border-radius: 99px;
+  font-size: 13px; font-weight: 700; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transition: all 0.25s ease;
+}
+.tall-hamburger-btn:hover, .tall-hamburger-btn.open { background: rgba(255, 255, 255, 0.26); border-color: #ffffff; transform: translateY(-2px); }
+.tall-hamburger-btn .ham-lines { display: flex; flex-direction: column; justify-content: center; gap: 4px; width: 20px; height: 16px; }
+.tall-hamburger-btn .ham-lines span { display: block; width: 100%; height: 2.2px; background: #ffffff; border-radius: 4px; transition: transform 0.28s ease, opacity 0.22s ease; }
+.tall-hamburger-btn.open .ham-lines span:nth-child(1) { transform: translateY(6.2px) rotate(45deg); }
+.tall-hamburger-btn.open .ham-lines span:nth-child(2) { opacity: 0; }
+.tall-hamburger-btn.open .ham-lines span:nth-child(3) { transform: translateY(-6.2px) rotate(-45deg); }
+
+.tall-reciters-backdrop { position: absolute; inset: 0; background: rgba(2, 6, 23, 0.58); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 20; opacity: 0; pointer-events: none; transition: opacity 0.28s ease; }
+.tall-reciters-backdrop.active { opacity: 1; pointer-events: auto; }
+.tall-reciters-drawer {
+  position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 105%); width: 100%; max-width: 520px; max-height: 72vh;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(15, 23, 42, 0.86) 100%);
+  backdrop-filter: blur(26px) saturate(180%); -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.24); border-bottom: none; border-radius: 28px 28px 0 0;
+  padding: 12px 16px 22px; z-index: 25; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.55); transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1); direction: rtl;
+}
+.tall-reciters-drawer.active { transform: translate(-50%, 0); }
+.tall-drawer-handle { width: 44px; height: 4px; border-radius: 99px; background: rgba(255, 255, 255, 0.35); margin: 0 auto 2px; }
+.tall-drawer-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tall-drawer-header h4 { margin: 0; font-family: 'Amiri', serif; font-size: 19px; color: #ffffff; }
+.tall-drawer-close { width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.24); color: #ffffff; display: grid; place-items: center; font-size: 13px; transition: 0.2s; }
+.tall-drawer-close:hover { background: rgba(255, 255, 255, 0.28); }
+.tall-drawer-search input { width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 14px; padding: 10px 14px; color: #ffffff; font-size: 13px; outline: none; }
+.tall-drawer-search input::placeholder { color: rgba(226, 232, 240, 0.72); }
+.tall-drawer-search input:focus { border-color: #60a5fa; background: rgba(255, 255, 255, 0.16); }
+.tall-drawer-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-left: 4px; }
+.tall-drawer-list::-webkit-scrollbar { width: 4px; }
+.tall-drawer-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.28); border-radius: 99px; }
+.tall-reciter-row-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); cursor: pointer; transition: 0.22s ease; }
+.tall-reciter-row-item:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(147, 197, 253, 0.65); }
+.tall-reciter-row-item.active { background: linear-gradient(135deg, rgba(37, 99, 235, 0.42), rgba(59, 130, 246, 0.28)); border-color: #93c5fd; }
+.tall-reciter-row-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.tall-reciter-row-avatar { width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); border: 1.5px solid rgba(255, 255, 255, 0.65); display: grid; place-items: center; color: #ffffff; font-size: 18px; overflow: hidden; flex-shrink: 0; }
+.tall-reciter-row-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.tall-reciter-row-meta { min-width: 0; text-align: right; }
+.tall-reciter-row-meta h6 { margin: 0 0 2px; font-size: 13.5px; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tall-reciter-row-meta small { font-size: 11px; color: rgba(226, 232, 240, 0.78); }
+.tall-reciter-row-status { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.12); color: #e2e8f0; white-space: nowrap; flex-shrink: 0; }
+.tall-reciter-row-item.active .tall-reciter-row-status { background: #ffffff; color: #1d4ed8; }
 
 /* Secret Admin Panel */
 #secretAdminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.96); border: 2px solid #ffffff; border-radius: 20px; padding: 25px; z-index: 999999; box-shadow: 0 20px 50px rgba(0,0,0,0.85); width: 92%; max-width: 420px; color: #fff; direction: rtl; text-align: center; backdrop-filter: blur(25px); max-height: 88vh; overflow-y: auto; }
@@ -889,6 +773,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .btn-close { background: rgba(255,255,255,0.1); color: #fff; border: none; }
 .add-reciter-box { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 18px; border: 1px dashed rgba(255,255,255,0.35); text-align: right; }
 .add-reciter-box h4 { margin: 0 0 10px; font-size: 14px; color: #93c5fd; }
+.admin-field-hint { display: block; font-size: 11px; color: #cbd5e1; margin-bottom: 5px; line-height: 1.5; }
 
 /* Bottom Navigation Stack — WHITE MIRROR GLASS */
 .bottom-nav-container { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 95; width: 96%; max-width: 480px; display: flex; flex-direction: column; gap: 10px; }
@@ -950,6 +835,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .sound-video-preview { height: 125px; }
   .reciters-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .reciter-item { padding: 12px 8px; border-radius: 14px; }
+  .reciter-avatar-icon { width: 58px; height: 58px; font-size: 20px; }
+  .tall-reciter-photo-badge { width: 52px; height: 52px; font-size: 21px; }
   .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
   .khatm-day-card { padding: 11px 6px; border-radius: 14px; }
   .khatm-day-card h5 { font-size: 13px; }
@@ -980,6 +867,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .bismillah { font-size: 25px; margin-bottom: 14px; }
   .reader-nav-btn { padding: 7px 12px; font-size: 12px; }
   .reader-footer-meta { font-size: 11.5px; }
+  .recite-act-btn { padding: 5px 9px; font-size: 11px; }
   .hifz-stage-box { padding: 22px 38px; }
   .hifz-arrow-right { right: -6px; width: 38px; height: 38px; font-size: 17px; }
   .hifz-arrow-left { left: -6px; width: 38px; height: 38px; font-size: 17px; }
@@ -1015,9 +903,9 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </div>
 </div>
 
-<!-- HIDDEN CUSTOM MP3 & RECITER MANAGER -->
+<!-- HIDDEN CUSTOM MP3, RECITER & PHOTO MANAGER -->
 <div id="secretAdminPanel">
-  <h3>بەڕێوەبردنی قاریئ و دەنگەکان</h3>
+  <h3>بەڕێوەبردنی قاریئ، وێنە و دەنگەکان</h3>
   <div class="add-reciter-box">
     <h4>زیادکردنی قاریئی نوێ (١ تا ١١٤ سوورەت)</h4>
     <select id="apiReciterPreset" onchange="onSelectApiPreset()">
@@ -1025,12 +913,17 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     </select>
     <input type="text" id="newReciterName" placeholder="ناوی قاریئ لێرە بنووسە...">
     <input type="text" id="newReciterServer" placeholder="لینکی سێرڤەری دەنگ (ئارەزوومەندانە)..." style="direction:ltr; text-align:left;">
-    <button class="btn-save" onclick="addNewReciter()">زیادکردنی قاریئ لەگەڵ دەنگەکەی ➕</button>
+    <span class="admin-field-hint">🖼️ وێنەی قاریئ (ئارەزوومەندانە — ئەگەر بەتاڵ بێت خۆکارانە وێنەی قاریئەکە دەهێنێت):</span>
+    <input type="file" id="newReciterPhotoInput" accept="image/*">
+    <button class="btn-save" onclick="addNewReciter()">زیادکردنی قاریئ لەگەڵ وێنە و دەنگەکەی ➕</button>
   </div>
   <div class="add-reciter-box" style="margin-bottom: 12px;">
-    <h4>قاریئە خەزنکراوەکان و بارکردنی فایلی MP3</h4>
+    <h4>قاریئە خەزنکراوەکان، گۆڕینی وێنە و بارکردنی MP3</h4>
     <select id="secretReciter"></select>
     <button class="btn-del" onclick="deleteSelectedReciter()" style="margin-top: -4px; margin-bottom: 12px; padding: 8px; font-size: 12px;">سڕینەوەی یەکجاری ئەم قاریئە ❌</button>
+    <span class="admin-field-hint">🖼️ دانان یان گۆڕینی وێنەی قاریئی هەڵبژێردراو:</span>
+    <input type="file" id="secretReciterPhotoInput" accept="image/*">
+    <button class="btn-save" onclick="saveSelectedReciterPhoto()" style="background: #38bdf8; color: #0f172a;">پاشەکەوتکردنی وێنەی ئەم قاریئە 🖼️</button>
     <select id="secretSurah"></select>
     <input type="file" id="secretFileInput" accept="audio/*">
     <button class="btn-save" onclick="saveSecretAudio()">پاشەکەوتکردنی دەنگی تایبەت 💾</button>
@@ -1070,7 +963,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <div class="topbar-actions">
         <button class="topbar-btn" onclick="switchView('view-favorites')" title="دڵخوازەکان"><span>❤️</span> <span class="tb-text">دڵخوازەکان</span></button>
         <button class="topbar-btn topbar-settings-btn" onclick="switchView('view-settings')" title="سێتینگ و هەژمار">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span id="topbarUserAvatarWrap" class="topbar-user-avatar" style="display:none;"></span>
+          <svg id="topbarSettingsSvg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           <span class="tb-text" id="topbarUserName">سێتینگ</span>
         </button>
       </div>
@@ -1208,13 +1102,15 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </section>
     </div>
 
-    <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE (NO EXTRA CANVAS OVERLAY) -->
+    <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE (TOP-RIGHT RECITER PHOTO + BOTTOM 3-LINE MENU) -->
     <div id="view-full-player" class="page-view">
       <div class="tall-player-wrapper" id="tallPlayerBox">
         <video id="tallPlayerBgVideo" autoplay loop muted playsinline></video>
         <div class="tall-player-video-mask" id="tallVideoMask"></div>
 
+        <!-- TOP BAR: RECITER PHOTO ON TOP-RIGHT (RTL FIRST CHILD) + BACK ON TOP-LEFT -->
         <div class="tall-player-top">
+          <div class="tall-reciter-photo-badge" id="tallTopReciterAvatar" onclick="toggleTallRecitersDrawer()" title="قاریئی ئێستا — کرتە بکە بۆ گۆڕین">🎙️</div>
           <button onclick="switchView('view-home')" class="topbar-btn" style="padding: 8px 16px; font-size: 12px; width: auto; height: auto; border-radius: 20px;">
             <span>←</span> <span>گەڕانەوە</span>
           </button>
@@ -1236,9 +1132,9 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         </div>
 
         <div class="tall-player-bottom">
-          <div style="text-align: center; margin-bottom: 10px;">
-            <h2 id="fullPlayingTitle" style="margin: 0 0 5px; font-family: 'Amiri', serif; font-size: 28px; color: #fff;">سُورَةُ الفَاتِحَةِ</h2>
-            <p id="fullPlayingReciter" style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600;">محمد صديق المنشاوي</p>
+          <div style="text-align: center; margin-bottom: 4px;">
+            <h2 id="fullPlayingTitle" style="margin: 0 0 4px; font-family: 'Amiri', serif; font-size: 26px; color: #fff;">سُورَةُ الفَاتِحَةِ</h2>
+            <p id="fullPlayingReciter" style="margin: 0; font-size: 13.5px; color: rgba(255,255,255,0.85); font-weight: 600;">محمد صديق المنشاوي</p>
           </div>
           <div class="tall-timeline-box">
             <input type="range" id="fullSeekSlider" class="timeline-slider" value="0" max="100" step="1" style="height: 6px;">
@@ -1258,6 +1154,32 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             <span style="margin-left:8px;">سروشت</span>
             <input type="range" id="ambientVolSlider" class="timeline-slider" value="25" min="0" max="100" step="1" oninput="changeAmbientVolume(this.value)">
           </div>
+
+          <!-- BOTTOM 3-LINE HAMBURGER MENU TO SWITCH RECITERS RIGHT HERE -->
+          <div class="tall-bottom-menu-row">
+            <button type="button" class="tall-hamburger-btn" id="tallHamburgerBtn" onclick="toggleTallRecitersDrawer()" title="لیستی قارییەکان">
+              <span class="ham-lines" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              <span>گۆڕینی قاریئ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SLIDE-UP RECITERS PICKER DRAWER -->
+        <div id="tallRecitersBackdrop" class="tall-reciters-backdrop" onclick="closeTallRecitersDrawer()"></div>
+        <div id="tallRecitersDrawer" class="tall-reciters-drawer">
+          <div class="tall-drawer-handle"></div>
+          <div class="tall-drawer-header">
+            <h4>🎙️ هەڵبژاردنی قاریئ</h4>
+            <button type="button" class="tall-drawer-close" onclick="closeTallRecitersDrawer()" title="داخستن">✖</button>
+          </div>
+          <div class="tall-drawer-search">
+            <input type="text" id="tallReciterSearchInput" placeholder="گەڕان بەدوای ناوی قاریئ..." oninput="filterTallRecitersList(this.value)">
+          </div>
+          <div id="tallRecitersList" class="tall-drawer-list"></div>
         </div>
       </div>
     </div>
@@ -1482,11 +1404,12 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- FULL SCREEN READER MODAL WITH TAFSIRS -->
+    <!-- FULL SCREEN READER MODAL WITH TAFSIRS & SMART VOICE RECITATION CHECKER -->
     <div id="readingReaderContainer">
       <div class="reader-header-fullscreen">
         <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
           <button class="topbar-btn" onclick="backToReadingList()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;"><span>←</span> <span>گەڕانەوە</span></button>
+          <button class="topbar-btn" id="smartReciteToggleBtn" onclick="toggleSmartReciteAssistant()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;"><span id="smartReciteBtnIcon">🎙️</span> <span id="smartReciteBtnText">گوێگری زیرەک</span></button>
           <button class="topbar-btn" id="readerSettingsToggleBtn" onclick="toggleReaderSettingsBar()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;"><span>📖</span> <span>تەفسیر</span></button>
           <button class="topbar-btn" id="ayahFollowToggleBtn" onclick="toggleAyahByAyahFollow()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;"><span id="ayahFollowIcon">🔊</span> <span id="ayahFollowText">لەگەڵم بێت</span></button>
           <button class="topbar-btn" id="pageThemesToggleBtn" onclick="togglePageThemesBar()" style="background: rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 20px; width: auto; height: auto;"><span>🎨</span> <span>شێوازی پەڕە</span></button>
@@ -1516,6 +1439,31 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <div class="font-size-controls">
           <button class="page-theme-option" onclick="adjustMushafFontSize(-2)" title="بچووککردنەوەی نووسین">A-</button>
           <button class="page-theme-option" onclick="adjustMushafFontSize(2)" title="گەورەکردنەوەی نووسین">A+</button>
+        </div>
+      </div>
+
+      <!-- SMART VOICE RECITATION ASSISTANT BAR -->
+      <div class="recite-assistant-bar" id="reciteAssistantBar">
+        <div class="recite-bar-top">
+          <div class="recite-status-group">
+            <span class="recite-mic-dot" id="reciteMicDot"></span>
+            <span class="recite-status-text" id="reciteStatusText">🎙️ گوێگری زیرەک ئامادەیە؛ دەست بکە بە خوێندنەوەی قورئان...</span>
+          </div>
+          <div class="recite-stats-pills">
+            <span class="recite-stat-pill good" id="reciteAccuracyPill">دروستی: ١٠٠٪</span>
+            <span class="recite-stat-pill bad" id="reciteMistakesPill">هەڵە: ٠</span>
+          </div>
+        </div>
+        <div class="recite-live-heard" id="reciteLiveHeardBox">
+          <span>گوێم لێبوو: <strong id="reciteHeardText">...</strong></span>
+          <span class="expected-hint" id="reciteExpectedHint"></span>
+        </div>
+        <div class="recite-bar-actions">
+          <button type="button" class="recite-act-btn" onclick="playCurrentReciteTargetAyah()" title="گوێگرتن لە خوێندنی ڕاستی ئەم ئایەتە">🔊 گوێگرتن لەم ئایەتە</button>
+          <button type="button" class="recite-act-btn" id="reciteBlindBtn" onclick="toggleReciteBlindMode()" title="شاردنەوەی وشەکان بۆ تاقیکردنەوەی غەیب">🙈 غەیب</button>
+          <button type="button" class="recite-act-btn" onclick="skipCurrentReciteWord()" title="تێپەڕاندنی وشەی ئێستا">⏭️ تێپەڕاندن</button>
+          <button type="button" class="recite-act-btn" onclick="restartSmartRecitePage()" title="دەستپێکردنەوە لە سەرەتای پەڕە">🔄 لەسەرەتاوە</button>
+          <button type="button" class="recite-act-btn danger" onclick="stopSmartReciteAssistant()" title="کوژاندنەوەی گوێگری زیرەک">⏹️ وەستان</button>
         </div>
       </div>
 
@@ -1713,7 +1661,11 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <div id="settingsProfileSection" style="display:none;">
           <div class="account-profile-banner">
             <div class="account-identity">
-              <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
+              <div class="account-avatar-wrap" onclick="document.getElementById('accountPhotoUploadInput').click()" title="وێنەی هەژمار — کرتە بکە بۆ گۆڕینی وێنە">
+                <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
+                <span class="account-avatar-edit-dot" aria-hidden="true">📷</span>
+                <input type="file" id="accountPhotoUploadInput" accept="image/*" style="display:none;" onchange="handleCustomAccountPhotoUpload(event)">
+              </div>
               <div class="account-meta">
                 <h4 id="accountDisplayName">بەکارهێنەر</h4>
                 <small id="accountDisplayEmail">user@example.com</small>
@@ -1743,11 +1695,11 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           </div>
 
           <div class="account-link-box">
-            <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ (Google)</h4>
+            <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ (بۆ هێنانی وێنەی جیمێڵەکەت)</h4>
             <div class="account-link-row">
               <button type="button" class="auth-google-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('google')">
                 <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                <span>بەستنەوە بە گۆگڵ / ئیمێڵ</span>
+                <span>بەستنەوە بە گۆگڵ / جیمێڵ (وێنەی ئیمێڵەکەت دەهێنێت)</span>
               </button>
             </div>
           </div>
@@ -1974,6 +1926,278 @@ let showTranslation = false;
 let isAyahAutoFollow = false;
 
 /* ========================================================
+   AUTO RECITER PHOTO ENGINE + TALL PLAYER TOP-RIGHT AVATAR & DRAWER
+   ======================================================== */
+const reciterPhotoStore = localforage.createInstance({
+  name: "NoorQuranFiles_v6",
+  storeName: "ReciterPhotos"
+});
+const userAccountPhotoStore = localforage.createInstance({
+  name: "NoorQuranFiles_v6",
+  storeName: "UserAccountPhotos"
+});
+let reciterPhotoCache = JSON.parse(localStorage.getItem('noor_reciter_photo_cache_v1') || '{}');
+const reciterPhotoInFlight = new Map();
+let tallAvatarRequestToken = 0;
+
+const RECITER_WIKI_TITLES = {
+  "محمد صديق المنشاوي": { ar: "محمد صديق المنشاوي", en: "Muhammad Siddiq al-Minshawi" },
+  "مشاري راشد العفاسي": { ar: "مشاري العفاسي", en: "Mishary Rashid Alafasy" },
+  "عبدالباسط عبدالصمد": { ar: "عبد الباسط عبد الصمد", en: "Abdul Basit 'Abd us-Samad" },
+  "ماهر المعيقلي": { ar: "ماهر المعيقلي", en: "Maher Al Muaiqly" },
+  "سعد الغامدي": { ar: "سعد الغامدي", en: "Saad El Ghamidi" },
+  "إسلام صبحي": { ar: "إسلام صبحي", en: "Islam Sobhi" },
+  "هزاع البلوشي": { ar: "هزاع البلوشي", en: "Hazza Al Balushi" },
+  "محمود خليل الحصري": { ar: "محمود خليل الحصري", en: "Mahmoud Khalil Al-Hussary" },
+  "عبدالرحمن السديس": { ar: "عبد الرحمن السديس", en: "Abdul Rahman Al-Sudais" },
+  "ياسر الدوسري": { ar: "ياسر الدوسري", en: "Yasser Al-Dosari" },
+  "ناصر القطامي": { ar: "ناصر القطامي", en: "Nasser Al Qatami" },
+  "أحمد بن علي العجمي": { ar: "أحمد بن علي العجمي", en: "Ahmed Al-Ajmi" },
+  "رعد محمد الكردي": { ar: "رعد محمد الكردي", ckb: "ڕەعد محەممەد کوردی", en: "Raad Mohammad al-Kurdi" },
+  "پێشەوا قادر الکردي": { ckb: "پێشەوا قادر کوردی", ar: "بيشوا قادر الكردي" },
+  "سعود الشريم": { ar: "سعود الشريم", en: "Saud Al-Shuraim" },
+  "فارس عباد": { ar: "فارس عباد", en: "Fares Abbad" },
+  "وديع اليمني": { ar: "وديع اليمني", en: "Wadee Al-Yamani" },
+  "خالد الجليل": { ar: "خالد الجليل", en: "Khalid Al Jaleel" },
+  "بندر بليلة": { ar: "بندر بليلة", en: "Bandar Baleela" },
+  "أبو بكر الشاطري": { ar: "أبو بكر الشاطري", en: "Abu Bakr Al-Shatri" }
+};
+
+function isValidPortraitUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  const low = url.toLowerCase();
+  if (low.endsWith('.svg') || low.includes('.svg.png') || low.includes('flag_of_') || low.includes('commons-logo') || low.includes('question_book')) {
+    return false;
+  }
+  return true;
+}
+
+async function queryWikiPortrait(lang, titleOrQuery, isExactTitle = false) {
+  try {
+    const base = `https://${lang}.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=260&redirects=1`;
+    const url = isExactTitle
+      ? `${base}&titles=${encodeURIComponent(titleOrQuery)}`
+      : `${base}&generator=search&gsrsearch=${encodeURIComponent(titleOrQuery)}&gsrlimit=3`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const pages = data?.query?.pages;
+    if (!pages) return null;
+    const pageList = Object.values(pages).sort((a, b) => (a.index || 0) - (b.index || 0));
+    for (const page of pageList) {
+      const thumb = page?.thumbnail?.source;
+      if (isValidPortraitUrl(thumb)) return thumb;
+    }
+  } catch (e) {}
+  return null;
+}
+
+async function resolveReciterPhotoUrl(reciterName, forceRefresh = false) {
+  if (!reciterName) return null;
+
+  try {
+    const uploadedDataUrl = await reciterPhotoStore.getItem(reciterName);
+    if (uploadedDataUrl) return uploadedDataUrl;
+  } catch (e) {}
+
+  if (!forceRefresh && reciterPhotoCache[reciterName]) {
+    return reciterPhotoCache[reciterName];
+  }
+
+  if (reciterPhotoInFlight.has(reciterName)) {
+    return reciterPhotoInFlight.get(reciterName);
+  }
+
+  const fetchPromise = (async () => {
+    let foundUrl = null;
+    const mapped = RECITER_WIKI_TITLES[reciterName];
+
+    if (mapped) {
+      if (mapped.ar && !foundUrl) foundUrl = await queryWikiPortrait('ar', mapped.ar, true);
+      if (mapped.en && !foundUrl) foundUrl = await queryWikiPortrait('en', mapped.en, true);
+      if (mapped.ckb && !foundUrl) foundUrl = await queryWikiPortrait('ckb', mapped.ckb, true);
+    }
+    if (!foundUrl) foundUrl = await queryWikiPortrait('ar', reciterName, true);
+    if (!foundUrl) foundUrl = await queryWikiPortrait('ar', reciterName, false);
+    if (!foundUrl) foundUrl = await queryWikiPortrait('ckb', reciterName, false);
+    if (!foundUrl) foundUrl = await queryWikiPortrait('en', reciterName, false);
+
+    if (foundUrl) {
+      reciterPhotoCache[reciterName] = foundUrl;
+      try {
+        localStorage.setItem('noor_reciter_photo_cache_v1', JSON.stringify(reciterPhotoCache));
+      } catch (e) {}
+    }
+    reciterPhotoInFlight.delete(reciterName);
+    return foundUrl;
+  })();
+
+  reciterPhotoInFlight.set(reciterName, fetchPromise);
+  return fetchPromise;
+}
+
+function applyPhotoToAvatarEl(avatarEl, photoUrl, reciterName) {
+  if (!avatarEl || !photoUrl) return;
+  const img = document.createElement('img');
+  img.src = photoUrl;
+  img.alt = reciterName || 'قاریئ';
+  img.loading = 'lazy';
+  img.referrerPolicy = 'no-referrer';
+  img.onerror = () => {
+    avatarEl.innerHTML = '🎙️';
+  };
+  avatarEl.innerHTML = '';
+  avatarEl.appendChild(img);
+}
+
+function updateTallTopReciterPhoto(reciterName, forceRefresh = false) {
+  const badge = document.getElementById('tallTopReciterAvatar');
+  if (!badge) return;
+  const targetName = reciterName || selectedReciterName;
+  badge.title = targetName ? `${targetName} — کرتە بکە بۆ گۆڕینی قاریئ` : 'گۆڕینی قاریئ';
+
+  const myToken = ++tallAvatarRequestToken;
+  if (!targetName) {
+    badge.innerHTML = '🎙️';
+    return;
+  }
+
+  if (!forceRefresh && reciterPhotoCache[targetName]) {
+    applyPhotoToAvatarEl(badge, reciterPhotoCache[targetName], targetName);
+  } else {
+    badge.innerHTML = '🎙️';
+  }
+
+  resolveReciterPhotoUrl(targetName, forceRefresh).then(photoUrl => {
+    if (myToken !== tallAvatarRequestToken) return;
+    if (photoUrl) {
+      applyPhotoToAvatarEl(badge, photoUrl, targetName);
+    } else {
+      badge.innerHTML = '🎙️';
+    }
+  });
+}
+
+function renderTallRecitersDrawerList(recitersList) {
+  const container = document.getElementById('tallRecitersList');
+  if (!container) return;
+  container.innerHTML = '';
+
+  if (!recitersList || recitersList.length === 0) {
+    container.innerHTML = '<div style="text-align:center; color:rgba(226,232,240,0.75); padding:24px 10px; font-size:13px;">هیچ قاریئێک بەو ناوە نەدۆزرایەوە.</div>';
+    return;
+  }
+
+  recitersList.forEach(reciter => {
+    const moshaf = reciter.moshaf[0];
+    const isActive = reciter.name === selectedReciterName;
+    const row = document.createElement('div');
+    row.className = `tall-reciter-row-item ${isActive ? 'active' : ''}`;
+    row.innerHTML = `
+      <div class="tall-reciter-row-main">
+        <div class="tall-reciter-row-avatar">🎙️</div>
+        <div class="tall-reciter-row-meta">
+          <h6>${reciter.name}</h6>
+          <small>${moshaf?.name || 'مرتل'}</small>
+        </div>
+      </div>
+      <span class="tall-reciter-row-status">${isActive ? 'چالاکە ✓' : 'هەڵبژاردن ▶'}</span>
+    `;
+
+    const avatarEl = row.querySelector('.tall-reciter-row-avatar');
+    resolveReciterPhotoUrl(reciter.name).then(photoUrl => {
+      if (photoUrl) applyPhotoToAvatarEl(avatarEl, photoUrl, reciter.name);
+    });
+
+    row.addEventListener('click', () => {
+      selectedMoshaf = moshaf;
+      selectedReciterName = reciter.name;
+      localStorage.setItem('noor_reciter_name', reciter.name);
+      syncPlayerLabels(currentSurahName, reciter.name);
+      playSurahAudio(currentSurahId, currentSurahName, true);
+
+      document.querySelectorAll('#recitersList .reciter-item').forEach(el => {
+        const title = el.querySelector('h6')?.textContent || '';
+        el.classList.toggle('active', title === reciter.name);
+      });
+
+      closeTallRecitersDrawer();
+    });
+
+    container.appendChild(row);
+  });
+}
+
+function filterTallRecitersList(query) {
+  const q = (query || '').toLowerCase().trim();
+  const filtered = customReciters.filter(r => r.name.toLowerCase().includes(q));
+  renderTallRecitersDrawerList(filtered);
+}
+
+function openTallRecitersDrawer() {
+  const drawer = document.getElementById('tallRecitersDrawer');
+  const backdrop = document.getElementById('tallRecitersBackdrop');
+  const hamBtn = document.getElementById('tallHamburgerBtn');
+  const soundsMenu = document.getElementById('tallSoundsMenu');
+  const searchInput = document.getElementById('tallReciterSearchInput');
+
+  if (soundsMenu) soundsMenu.classList.remove('active');
+  if (searchInput) searchInput.value = '';
+  renderTallRecitersDrawerList(customReciters);
+
+  if (backdrop) backdrop.classList.add('active');
+  if (drawer) drawer.classList.add('active');
+  if (hamBtn) hamBtn.classList.add('open');
+}
+
+function closeTallRecitersDrawer() {
+  const drawer = document.getElementById('tallRecitersDrawer');
+  const backdrop = document.getElementById('tallRecitersBackdrop');
+  const hamBtn = document.getElementById('tallHamburgerBtn');
+
+  if (drawer) drawer.classList.remove('active');
+  if (backdrop) backdrop.classList.remove('active');
+  if (hamBtn) hamBtn.classList.remove('open');
+}
+
+function toggleTallRecitersDrawer() {
+  const drawer = document.getElementById('tallRecitersDrawer');
+  if (drawer && drawer.classList.contains('active')) {
+    closeTallRecitersDrawer();
+  } else {
+    openTallRecitersDrawer();
+  }
+}
+
+function resizeImageFileToDataUrl(file, maxSize = 260) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width;
+        let h = img.height;
+        if (w > h) {
+          if (w > maxSize) { h = Math.round((h * maxSize) / w); w = maxSize; }
+        } else {
+          if (h > maxSize) { w = Math.round((w * maxSize) / h); h = maxSize; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.84));
+      };
+      img.onerror = () => resolve(e.target.result);
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ========================================================
    SMART AUDIO BALANCE (RECITER ALWAYS LOUDER THAN AMBIENT)
    ======================================================== */
 function applyBalancedVolumes() {
@@ -1989,7 +2213,6 @@ function applyBalancedVolumes() {
 
   let effectiveAmbient = Math.min(1, Math.max(0, currentAmbientVolume));
   if (isQuranPlaying) {
-    // لە کاتی خوێندنی قورئاندا دەنگی سروشت نزمتر دەبێتەوە تا هەمیشە دەنگی قاریئەکە بەرزتر و ڕوونتر بێت
     effectiveAmbient = Math.min(effectiveAmbient * 0.45, reciterVol * 0.35);
   } else {
     effectiveAmbient = effectiveAmbient * 0.85;
@@ -1998,10 +2221,153 @@ function applyBalancedVolumes() {
 }
 
 /* ========================================================
-   REAL FIREBASE AUTH (POPUP ONLY — NO REDIRECT ERROR) + ACCOUNT
+   REAL FIREBASE AUTH + EMAIL / GMAIL / GRAVATAR PHOTO ENGINE
    ======================================================== */
 let activeUser = JSON.parse(localStorage.getItem('noor_active_user') || 'null');
 let isForcingAuthInSettings = false;
+let userAvatarRenderToken = 0;
+
+function upgradeGooglePhotoUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  if (url.includes('googleusercontent.com')) {
+    if (/=s\d+(-c)?$/.test(url)) {
+      return url.replace(/=s\d+(-c)?$/, '=s256-c');
+    }
+    return `${url}=s256-c`;
+  }
+  return url;
+}
+
+async function computeSha256Hex(text) {
+  try {
+    if (!window.crypto || !window.crypto.subtle) return null;
+    const data = new TextEncoder().encode(text.trim().toLowerCase());
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  } catch (e) {
+    return null;
+  }
+}
+
+async function getGravatarPhotoUrl(email) {
+  if (!email) return '';
+  const hash = await computeSha256Hex(email);
+  if (!hash) return '';
+  return `https://gravatar.com/avatar/${hash}?s=256&d=404`;
+}
+
+function getUserPhotoStorageKey(userObj) {
+  if (!userObj) return '';
+  return userObj.uid || (userObj.email ? userObj.email.trim().toLowerCase() : '');
+}
+
+async function resolveActiveUserPhotoUrl(userObj) {
+  if (!userObj) return '';
+  const key = getUserPhotoStorageKey(userObj);
+
+  if (key) {
+    try {
+      const localPhoto = await userAccountPhotoStore.getItem(key);
+      if (localPhoto) return localPhoto;
+    } catch (e) {}
+  }
+
+  if (userObj.photoURL) {
+    return upgradeGooglePhotoUrl(userObj.photoURL);
+  }
+
+  if (userObj.email) {
+    return await getGravatarPhotoUrl(userObj.email);
+  }
+
+  return '';
+}
+
+function renderUserPhotoIntoElements(userObj) {
+  const token = ++userAvatarRenderToken;
+  const avatarEl = document.getElementById('accountAvatarLetter');
+  const topbarWrap = document.getElementById('topbarUserAvatarWrap');
+  const topbarGear = document.getElementById('topbarSettingsSvg');
+
+  const fallbackLetter = (userObj?.name || 'ن').trim().charAt(0).toUpperCase();
+
+  const applyFallback = () => {
+    if (avatarEl) avatarEl.textContent = fallbackLetter;
+    if (topbarWrap) {
+      topbarWrap.style.display = 'none';
+      topbarWrap.innerHTML = '';
+    }
+    if (topbarGear) topbarGear.style.display = 'block';
+  };
+
+  if (!userObj) {
+    applyFallback();
+    return;
+  }
+
+  applyFallback();
+
+  resolveActiveUserPhotoUrl(userObj).then(photoUrl => {
+    if (token !== userAvatarRenderToken || !photoUrl) return;
+
+    const testImg = new Image();
+    testImg.referrerPolicy = 'no-referrer';
+    testImg.onload = () => {
+      if (token !== userAvatarRenderToken) return;
+
+      if (avatarEl) {
+        const bigImg = document.createElement('img');
+        bigImg.src = photoUrl;
+        bigImg.alt = userObj.name || 'avatar';
+        bigImg.referrerPolicy = 'no-referrer';
+        bigImg.onerror = () => { avatarEl.textContent = fallbackLetter; };
+        avatarEl.innerHTML = '';
+        avatarEl.appendChild(bigImg);
+      }
+
+      if (topbarWrap) {
+        const smallImg = document.createElement('img');
+        smallImg.src = photoUrl;
+        smallImg.alt = userObj.name || 'avatar';
+        smallImg.referrerPolicy = 'no-referrer';
+        smallImg.onerror = () => {
+          topbarWrap.style.display = 'none';
+          topbarWrap.innerHTML = '';
+          if (topbarGear) topbarGear.style.display = 'block';
+        };
+        topbarWrap.innerHTML = '';
+        topbarWrap.appendChild(smallImg);
+        topbarWrap.style.display = 'inline-flex';
+        if (topbarGear) topbarGear.style.display = 'none';
+      }
+    };
+    testImg.onerror = () => {
+      if (token !== userAvatarRenderToken) return;
+      applyFallback();
+    };
+    testImg.src = photoUrl;
+  });
+}
+
+async function handleCustomAccountPhotoUpload(event) {
+  const file = event?.target?.files?.[0];
+  if (!file || !activeUser) return;
+  const key = getUserPhotoStorageKey(activeUser);
+  if (!key) return;
+
+  try {
+    const dataUrl = await resizeImageFileToDataUrl(file, 260);
+    await userAccountPhotoStore.setItem(key, dataUrl);
+    event.target.value = '';
+    renderUserPhotoIntoElements(activeUser);
+    showAuthFeedback('وێنەی هەژمارەکەت بە سەرکەوتوویی نوێکرایەوە ✅', 'success', 'accountEditMsg');
+    setTimeout(() => showAuthFeedback('', 'success', 'accountEditMsg'), 2500);
+  } catch (err) {
+    showAuthFeedback('نەتوانرا وێنەکە هەڵبگیرێت، تکایە وێنەیەکی تر تاقی بکەرەوە.', 'error', 'accountEditMsg');
+  }
+}
 
 function getKurdishAuthError(err) {
   const code = err?.code || '';
@@ -2046,9 +2412,14 @@ function getKurdishAuthError(err) {
 
 function mapFirebaseUserToLocal(fbUser) {
   if (!fbUser) return null;
-  const providerIds = (fbUser.providerData || []).map(p => p.providerId);
+  const providerList = fbUser.providerData || [];
+  const providerIds = providerList.map(p => p.providerId);
   let mainProvider = 'email';
   if (providerIds.includes('google.com')) mainProvider = 'google';
+
+  const googleProviderData = providerList.find(p => p.providerId === 'google.com');
+  const rawPhoto = fbUser.photoURL || googleProviderData?.photoURL || providerList.find(p => p.photoURL)?.photoURL || '';
+  const finalPhotoUrl = upgradeGooglePhotoUrl(rawPhoto);
 
   let createdDate = '';
   try {
@@ -2059,9 +2430,9 @@ function mapFirebaseUserToLocal(fbUser) {
 
   return {
     uid: fbUser.uid,
-    name: fbUser.displayName || (fbUser.email ? fbUser.email.split('@')[0] : 'بەکارهێنەر'),
-    email: fbUser.email || '',
-    photoURL: fbUser.photoURL || '',
+    name: fbUser.displayName || googleProviderData?.displayName || (fbUser.email ? fbUser.email.split('@')[0] : 'بەکارهێنەر'),
+    email: fbUser.email || googleProviderData?.email || '',
+    photoURL: finalPhotoUrl,
     provider: mainProvider,
     providers: providerIds,
     createdAt: createdDate
@@ -2215,6 +2586,8 @@ async function handleGoogleOAuthLogin() {
   }
 
   const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('profile');
+  provider.addScope('email');
   provider.setCustomParameters({ prompt: 'select_account' });
   showAuthFeedback('کردنەوەی لیستی ئیمێڵەکانی گۆگڵ...', 'success');
 
@@ -2239,12 +2612,26 @@ async function linkSocialProvider(type) {
   }
 
   const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('profile');
+  provider.addScope('email');
   provider.setCustomParameters({ prompt: 'select_account' });
 
   try {
     const result = await fbAuth.currentUser.linkWithPopup(provider);
-    setActiveUser(mapFirebaseUserToLocal(result.user));
-    showAuthFeedback('هەژمارەکەت بە سەرکەوتوویی بە گۆگڵەوە بەسترایەوە ✅', 'success', 'accountEditMsg');
+    const googleData = (result.user.providerData || []).find(p => p.providerId === 'google.com');
+    const googlePhoto = googleData?.photoURL || result.additionalUserInfo?.profile?.picture || '';
+    if (googlePhoto) {
+      try {
+        await result.user.updateProfile({ photoURL: upgradeGooglePhotoUrl(googlePhoto) });
+        await result.user.reload();
+      } catch (e) {}
+    }
+    const mapped = mapFirebaseUserToLocal(fbAuth.currentUser || result.user);
+    if (mapped) {
+      await userAccountPhotoStore.removeItem(getUserPhotoStorageKey(mapped)).catch(() => {});
+    }
+    setActiveUser(mapped);
+    showAuthFeedback('هەژمارەکەت بە سەرکەوتوویی بە گۆگڵەوە بەسترایەوە و وێنەی ئیمێڵەکەت هێنرا ✅', 'success', 'accountEditMsg');
     setTimeout(() => showAuthFeedback('', 'success', 'accountEditMsg'), 3000);
   } catch (err) {
     showAuthFeedback(getKurdishAuthError(err), 'error', 'accountEditMsg');
@@ -2256,12 +2643,12 @@ function updateAccountHeaderUI() {
   if (topbarName) {
     topbarName.textContent = activeUser ? activeUser.name : 'سێتینگ';
   }
+  renderUserPhotoIntoElements(activeUser);
 }
 
 function renderAccountView() {
   updateSettingsAuthPanels();
 
-  const avatarEl = document.getElementById('accountAvatarLetter');
   const nameEl = document.getElementById('accountDisplayName');
   const emailEl = document.getElementById('accountDisplayEmail');
   const providerEl = document.getElementById('accountProviderBadge');
@@ -2271,14 +2658,6 @@ function renderAccountView() {
   const editPass = document.getElementById('accEditPassword');
 
   if (activeUser) {
-    const firstChar = (activeUser.name || 'ن').trim().charAt(0).toUpperCase();
-    if (avatarEl) {
-      if (activeUser.photoURL) {
-        avatarEl.innerHTML = `<img src="${activeUser.photoURL}" alt="avatar">`;
-      } else {
-        avatarEl.textContent = firstChar;
-      }
-    }
     if (nameEl) nameEl.textContent = activeUser.name || 'بەکارهێنەر';
     if (emailEl) emailEl.textContent = activeUser.email || '';
     if (providerEl) {
@@ -2299,6 +2678,8 @@ function renderAccountView() {
     }
     if (editPass) editPass.value = '';
   }
+
+  renderUserPhotoIntoElements(activeUser);
 
   const statFav = document.getElementById('accStatFav');
   const statHifz = document.getElementById('accStatHifz');
@@ -2406,6 +2787,7 @@ function syncPlayerLabels(surahTitle, reciterName) {
   if (pr) pr.textContent = reciterName;
   if (fpt) fpt.textContent = surahTitle;
   if (fpr) fpr.textContent = reciterName;
+  updateTallTopReciterPhoto(reciterName);
 }
 
 function setPlayIcon(isPlaying) {
@@ -2428,6 +2810,15 @@ function switchView(viewId, isRestore = false) {
   document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
   if (target) target.classList.add('active');
 
+  if (viewId !== 'view-full-player') {
+    closeTallRecitersDrawer();
+    const soundsMenu = document.getElementById('tallSoundsMenu');
+    if (soundsMenu) soundsMenu.classList.remove('active');
+    localStorage.setItem('noor_active_view', viewId);
+  } else {
+    updateTallTopReciterPhoto(selectedReciterName);
+  }
+
   const bottomNav = document.getElementById('mainBottomNav');
   const mainContent = document.getElementById('mainContentArea');
   if (viewId === 'view-home') {
@@ -2436,10 +2827,6 @@ function switchView(viewId, isRestore = false) {
   } else {
     if (bottomNav) bottomNav.style.display = 'none';
     if (mainContent) mainContent.classList.add('no-bottom-nav');
-  }
-
-  if (viewId !== 'view-full-player') {
-    localStorage.setItem('noor_active_view', viewId);
   }
 
   const navMap = {
@@ -2619,6 +3006,7 @@ function toggleAyahByAyahFollow() {
   if (isAyahAutoFollow) {
     stopAyahByAyahFollow();
   } else {
+    if (smartReciteActive) stopSmartReciteAssistant();
     isAyahAutoFollow = true;
     const btn = document.getElementById('ayahFollowToggleBtn');
     if (btn) { btn.style.background = '#ffffff'; btn.style.color = '#0f172a'; }
@@ -2647,6 +3035,14 @@ ayahAudioPlayer.addEventListener('play', () => applyBalancedVolumes());
 ayahAudioPlayer.addEventListener('pause', () => applyBalancedVolumes());
 ayahAudioPlayer.addEventListener('ended', () => {
   applyBalancedVolumes();
+  if (recitePausedForAyahAudio) {
+    recitePausedForAyahAudio = false;
+    if (smartReciteActive) {
+      setReciteStatus('🎙️ ئێستا بە دەنگی خۆت بیخوێنەوە...', false);
+      startSpeechReciteEngine();
+    }
+    return;
+  }
   if (!isAyahAutoFollow) return;
   if (activeSplashAyahNum < currentAyahs.length) {
     const nextNum = activeSplashAyahNum + 1;
@@ -2665,6 +3061,653 @@ ayahAudioPlayer.addEventListener('ended', () => {
 });
 
 /* ========================================================
+   SMART VOICE RECITATION CHECKER ENGINE (TARTEEL-STYLE PRO)
+   ======================================================== */
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+let smartReciteRecognition = null;
+let smartReciteActive = false;
+let smartReciteBlindMode = false;
+let recitePausedForAyahAudio = false;
+let recitePageWords = [];
+let reciteWordIdx = 0;
+let reciteCorrectCount = 0;
+let reciteMistakesCount = 0;
+let reciteWordHadErrorAt = -1;
+let reciteRestartTimer = null;
+let reciteLastResultIndex = -1;
+let reciteConsumedInSegment = 0;
+let reciteLastErrorTime = 0;
+let reciteLastErrorSpoken = '';
+
+const HURUF_MUQATTAAT_MAP = {
+  'الم': ['الم', 'الف لام ميم'],
+  'المص': ['المص', 'الف لام ميم صاد'],
+  'الر': ['الر', 'الف لام را'],
+  'المر': ['المر', 'الف لام ميم را'],
+  'كهيعص': ['كهيعص', 'كاف ها يا عين صاد'],
+  'طه': ['طه', 'طاها', 'طا ها'],
+  'طسم': ['طسم', 'طا سين ميم'],
+  'طس': ['طس', 'طا سين'],
+  'يس': ['يس', 'ياسين', 'يا سين'],
+  'ص': ['ص', 'صاد'],
+  'حم': ['حم', 'حاميم', 'حا ميم'],
+  'ق': ['ق', 'قاف'],
+  'ن': ['ن', 'نون']
+};
+
+const BISMILLAH_SKIP_TOKENS = ['بسم', 'الله', 'الرحمن', 'الرحيم'];
+
+function isWaqfOnlyToken(tok) {
+  return /^[\u06D6-\u06ED\u06DE\u06E9\u06DD\uFD3E\uFD3F\s]+$/.test(tok);
+}
+
+function normalizeArabicBase(str, daggerToAlef = false) {
+  if (!str) return '';
+  let s = str.replace(/^\uFEFF/, '');
+  if (daggerToAlef) {
+    s = s.replace(/و[\u0670]/g, 'ا').replace(/ى[\u0670]/g, 'ا').replace(/\u0670/g, 'ا');
+  } else {
+    s = s.replace(/\u0670/g, '');
+  }
+  s = s
+    .replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED\u0640\u06DF\u06E0\u06E2\u06E5\u06E6\u06E7\u06E8\u06EA\u06EB\u06EC\u06ED\u06DE\u06E9\uFEFF]/g, '')
+    .replace(/[ٱأإآ]/g, 'ا')
+    .replace(/[ىی]/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/ؤ/g, 'و')
+    .replace(/ئ/g, 'ي')
+    .replace(/[^\u0621-\u064A]/g, '');
+  return s.trim();
+}
+
+function buildQuranWordVariants(rawUthmani) {
+  const variants = new Set();
+  const v1 = normalizeArabicBase(rawUthmani, false);
+  const v2 = normalizeArabicBase(rawUthmani, true);
+  if (v1) variants.add(v1);
+  if (v2) variants.add(v2);
+
+  // هەندێک وشەی عوسمانی کە واوی زیادەی تێدایە وەک أولئك / أولوا / سأوريكم
+  if (v1.includes('اول')) variants.add(v1.replace('اول', 'ال'));
+  if (v2.includes('اول')) variants.add(v2.replace('اول', 'ال'));
+  if (v1.startsWith('يايها')) variants.add('يا ايها');
+  if (v2.startsWith('ياايها')) variants.add('يا ايها');
+  if (v1.startsWith('يا')) variants.add(v1.slice(2));
+  if (v2.startsWith('يا')) variants.add(v2.slice(2));
+  if (v1.includes('السموت')) variants.add(v1.replace('السموت', 'السماوات'));
+  if (v1.includes('صلوه')) variants.add(v1.replace('صلوه', 'صلاه'));
+  if (v1.includes('زكوه')) variants.add(v1.replace('زكوه', 'زكاه'));
+  if (v1.includes('حيوه')) variants.add(v1.replace('حيوه', 'حياه'));
+  if (v1.includes('ربوا')) variants.add(v1.replace('ربوا', 'ربا'));
+  if (v1.endsWith('وا')) variants.add(v1.slice(0, -1));
+  if (v2.endsWith('وا')) variants.add(v2.slice(0, -1));
+
+  if (HURUF_MUQATTAAT_MAP[v1]) {
+    HURUF_MUQATTAAT_MAP[v1].forEach(h => variants.add(h.replace(/\s+/g, '')));
+  }
+
+  return Array.from(variants).filter(Boolean);
+}
+
+function levenshteinDist(a, b) {
+  if (a === b) return 0;
+  const al = a.length, bl = b.length;
+  if (al === 0) return bl;
+  if (bl === 0) return al;
+  const dp = Array.from({ length: al + 1 }, () => new Array(bl + 1));
+  for (let i = 0; i <= al; i++) dp[i][0] = i;
+  for (let j = 0; j <= bl; j++) dp[0][j] = j;
+  for (let i = 1; i <= al; i++) {
+    for (let j = 1; j <= bl; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+    }
+  }
+  return dp[al][bl];
+}
+
+function wordsMatchSmart(spokenNorm, targetWordObj) {
+  if (!spokenNorm || !targetWordObj) return false;
+  const variants = targetWordObj.variants || [targetWordObj.norm];
+
+  for (const v of variants) {
+    if (!v) continue;
+    if (spokenNorm === v) return true;
+
+    // جیاوازیی ئەلیفی سەرەتا وەک (الـ) یان پیتی پەیوەندیی (و / ف / ب)
+    if (v.length >= 4 && spokenNorm.length >= 4) {
+      if (v.includes(spokenNorm) && spokenNorm.length >= v.length - 1) return true;
+      if (spokenNorm.includes(v) && v.length >= spokenNorm.length - 1) return true;
+    }
+
+    const maxLen = Math.max(spokenNorm.length, v.length);
+    const dist = levenshteinDist(spokenNorm, v);
+
+    if (maxLen <= 2) {
+      if (dist === 0) return true;
+    } else if (maxLen === 3) {
+      if (dist <= 1 && (spokenNorm[0] === v[0] || spokenNorm[spokenNorm.length - 1] === v[v.length - 1])) return true;
+    } else if (maxLen <= 5) {
+      if (dist <= 1) return true;
+    } else {
+      const sim = 1 - (dist / maxLen);
+      if (sim >= 0.72) return true;
+    }
+  }
+  return false;
+}
+
+function playReciteFeedbackTone(type) {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    if (type === 'error') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(310, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(210, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.001, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.14, ctx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.24);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.25);
+    } else if (type === 'pageDone') {
+      const freqs = [523.25, 659.25, 783.99];
+      freqs.forEach((f, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, ctx.currentTime + idx * 0.11);
+        g.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.11);
+        g.gain.linearRampToValueAtTime(0.11, ctx.currentTime + idx * 0.11 + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.11 + 0.35);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(ctx.currentTime + idx * 0.11);
+        o.stop(ctx.currentTime + idx * 0.11 + 0.38);
+      });
+    }
+  } catch (e) {}
+}
+
+function setReciteStatus(message, isError = false) {
+  const bar = document.getElementById('reciteAssistantBar');
+  const dot = document.getElementById('reciteMicDot');
+  const txt = document.getElementById('reciteStatusText');
+  if (txt) txt.textContent = message;
+  if (bar) bar.classList.toggle('has-error', isError);
+  if (dot) {
+    dot.classList.toggle('error-state', isError);
+    dot.classList.toggle('listening', smartReciteActive && !isError && !recitePausedForAyahAudio);
+  }
+}
+
+function updateReciteStatsUI() {
+  const accEl = document.getElementById('reciteAccuracyPill');
+  const misEl = document.getElementById('reciteMistakesPill');
+  const totalAttempts = reciteCorrectCount + reciteMistakesCount;
+  const pct = totalAttempts === 0 ? 100 : Math.max(0, Math.round((reciteCorrectCount / totalAttempts) * 100));
+  if (accEl) accEl.textContent = `دروستی: ${toArabicNumbers(pct)}٪`;
+  if (misEl) misEl.textContent = `هەڵە: ${toArabicNumbers(reciteMistakesCount)}`;
+}
+
+function clearAyahErrorHighlights() {
+  document.querySelectorAll('.ayah-item.ayah-has-error, .ayah-tafsir-card.ayah-has-error').forEach(el => {
+    el.classList.remove('ayah-has-error');
+  });
+}
+
+function syncReciteWordHighlights(scrollIntoView = true) {
+  document.querySelectorAll('.recite-word.recite-current').forEach(el => el.classList.remove('recite-current'));
+
+  if (!smartReciteActive || reciteWordIdx >= recitePageWords.length) return;
+  const target = recitePageWords[reciteWordIdx];
+  const el = document.getElementById(target.domId);
+  if (el) {
+    el.classList.add('recite-current');
+    if (scrollIntoView) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // دیاریکردنی ئایەتی چالاک
+  activeSplashAyahNum = target.ayahNum;
+  document.querySelectorAll('.ayah-item, .ayah-tafsir-card').forEach(x => x.classList.remove('active-splash'));
+  const aEl = document.getElementById(`reader-ayah-${target.ayahNum}`);
+  const cEl = document.getElementById(`reader-card-${target.ayahNum}`);
+  if (aEl) aEl.classList.add('active-splash');
+  if (cEl) cEl.classList.add('active-splash');
+}
+
+function onReciteWordClicked(event, wordIndex, ayahNum) {
+  event.stopPropagation();
+  if (!smartReciteActive) {
+    selectAyahSplash(ayahNum);
+    return;
+  }
+  // لە کاتی چالاکبوونی گوێگری زیرەک، کلیک لە هەر وشەیەک دەکەیت دەچێتە سەر ئەو وشەیە
+  clearAyahErrorHighlights();
+  recitePageWords.forEach((w, idx) => {
+    const wEl = document.getElementById(w.domId);
+    if (!wEl) return;
+    wEl.classList.remove('recite-error', 'recite-current');
+    if (idx < wordIndex) wEl.classList.add('recite-correct');
+    else wEl.classList.remove('recite-correct');
+  });
+  reciteWordIdx = wordIndex;
+  reciteWordHadErrorAt = -1;
+  const hintEl = document.getElementById('reciteExpectedHint');
+  if (hintEl) hintEl.textContent = '';
+  setReciteStatus(`🎙️ لە ئایەتی ${toArabicNumbers(ayahNum)} بەردەوام بە...`, false);
+  syncReciteWordHighlights(true);
+}
+
+function markCurrentReciteWordCorrect(advanceCount = 1) {
+  clearAyahErrorHighlights();
+  for (let k = 0; k < advanceCount; k++) {
+    if (reciteWordIdx >= recitePageWords.length) break;
+    const wObj = recitePageWords[reciteWordIdx];
+    const wEl = document.getElementById(wObj.domId);
+    if (wEl) {
+      wEl.classList.remove('recite-error', 'recite-current');
+      wEl.classList.add('recite-correct');
+    }
+    reciteCorrectCount++;
+    reciteWordIdx++;
+  }
+
+  reciteWordHadErrorAt = -1;
+  reciteLastErrorSpoken = '';
+  const hintEl = document.getElementById('reciteExpectedHint');
+  if (hintEl) hintEl.textContent = '';
+  updateReciteStatsUI();
+
+  if (reciteWordIdx >= recitePageWords.length) {
+    playReciteFeedbackTone('pageDone');
+    const totalPages = currentMushafPages.length;
+    if (currentReadingPage < totalPages) {
+      setReciteStatus('🌟 ئافەرین! ئەم پەڕەیەت بە سەرکەوتوویی تەواو کرد — چوونە پەڕەی داهاتوو...', false);
+      setTimeout(() => {
+        if (smartReciteActive) nextReadingPage();
+      }, 1300);
+    } else {
+      setReciteStatus('🏆 پیرۆزە! تەواوی سوورەتەکەت بە سەرکەوتوویی خوێندەوە!', false);
+    }
+    return;
+  }
+
+  setReciteStatus(`✅ نایابە! بەردەوام بە لە خوێندنەوە...`, false);
+  syncReciteWordHighlights(true);
+}
+
+function triggerCurrentReciteWordError(spokenRaw) {
+  if (reciteWordIdx >= recitePageWords.length) return;
+  const now = Date.now();
+  const target = recitePageWords[reciteWordIdx];
+
+  // ڕێگری لە دووبارە زەنگ لێدان بۆ هەمان وشە لە ماوەی ١.٤ چرکەدا
+  if (spokenRaw === reciteLastErrorSpoken && (now - reciteLastErrorTime) < 1400) return;
+  reciteLastErrorTime = now;
+  reciteLastErrorSpoken = spokenRaw;
+
+  const wEl = document.getElementById(target.domId);
+  if (wEl) {
+    wEl.classList.remove('recite-error');
+    void wEl.offsetWidth; // دووبارە چالاککردنەوەی لەرزینی سوور
+    wEl.classList.add('recite-error');
+    wEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  clearAyahErrorHighlights();
+  const aEl = document.getElementById(`reader-ayah-${target.ayahNum}`);
+  const cEl = document.getElementById(`reader-card-${target.ayahNum}`);
+  if (aEl) aEl.classList.add('ayah-has-error');
+  if (cEl) cEl.classList.add('ayah-has-error');
+
+  if (reciteWordHadErrorAt !== reciteWordIdx) {
+    reciteMistakesCount++;
+    reciteWordHadErrorAt = reciteWordIdx;
+    updateReciteStatsUI();
+  }
+
+  if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+  playReciteFeedbackTone('error');
+
+  const hintEl = document.getElementById('reciteExpectedHint');
+  if (hintEl) hintEl.textContent = `وشەی ڕاست: ${target.raw}`;
+  setReciteStatus(`⚠️ هەڵەت لە ئایەتی ${toArabicNumbers(target.ayahNum)} کرد! وشە سوورەکە بە ڕاستی دووبارە بکەرەوە:`, true);
+}
+
+function processSpokenRecitationTokens(rawTranscript, isFinal, resultIndex) {
+  if (!smartReciteActive || recitePausedForAyahAudio || reciteWordIdx >= recitePageWords.length) return;
+
+  const heardEl = document.getElementById('reciteHeardText');
+  if (heardEl && rawTranscript.trim()) {
+    const tail = rawTranscript.trim().split(/\s+/).slice(-6).join(' ');
+    heardEl.textContent = tail;
+  }
+
+  if (resultIndex !== reciteLastResultIndex) {
+    reciteLastResultIndex = resultIndex;
+    reciteConsumedInSegment = 0;
+  }
+
+  const rawTokens = rawTranscript.trim().split(/\s+/).filter(Boolean);
+  if (rawTokens.length === 0) return;
+
+  let i = reciteConsumedInSegment;
+  while (i < rawTokens.length && reciteWordIdx < recitePageWords.length) {
+    const spokenRaw = rawTokens[i];
+    const spokenNorm = normalizeArabicBase(spokenRaw, false);
+    if (!spokenNorm) {
+      i++;
+      reciteConsumedInSegment = i;
+      continue;
+    }
+
+    const curTarget = recitePageWords[reciteWordIdx];
+    const nextTarget = recitePageWords[reciteWordIdx + 1] || null;
+    const prevTarget = reciteWordIdx > 0 ? recitePageWords[reciteWordIdx - 1] : null;
+
+    // ١. چاوپۆشی لە بسم اللە ئەگەر لە سەرەتای پەڕەی یەکەمی سوورەتدا بخوێنرێتەوە (جگە لە فاتیحە)
+    if (reciteWordIdx === 0 && currentReadingPage === 1 && currentSurahNumber !== 1 && BISMILLAH_SKIP_TOKENS.includes(spokenNorm)) {
+      if (!wordsMatchSmart(spokenNorm, curTarget)) {
+        i++;
+        reciteConsumedInSegment = i;
+        continue;
+      }
+    }
+
+    // ٢. پشکنینی ڕاستەوخۆ بۆ وشەی ئێستا
+    if (wordsMatchSmart(spokenNorm, curTarget)) {
+      markCurrentReciteWordCorrect(1);
+      i++;
+      reciteConsumedInSegment = i;
+      continue;
+    }
+
+    // ٣. ئەگەر وێبگەڕ دوو وشەی قورئانی پێکەوە لکاندبێت (وەک يا ايها -> يايها)
+    if (nextTarget) {
+      const mergedTarget = {
+        norm: curTarget.norm + nextTarget.norm,
+        variants: [
+          curTarget.norm + nextTarget.norm,
+          (curTarget.variants[1] || curTarget.norm) + (nextTarget.variants[1] || nextTarget.norm)
+        ]
+      };
+      if (wordsMatchSmart(spokenNorm, mergedTarget)) {
+        markCurrentReciteWordCorrect(2);
+        i++;
+        reciteConsumedInSegment = i;
+        continue;
+      }
+    }
+
+    // ٤. ئەگەر وێبگەڕ یەک وشەی قورئانی کردبێت بە دوو بەش (وەک بسم الله یان حروف مقطعة)
+    if (i + 1 < rawTokens.length) {
+      const nextSpokenNorm = normalizeArabicBase(rawTokens[i + 1], false);
+      const mergedSpoken = spokenNorm + nextSpokenNorm;
+      if (wordsMatchSmart(mergedSpoken, curTarget)) {
+        markCurrentReciteWordCorrect(1);
+        i += 2;
+        reciteConsumedInSegment = i;
+        continue;
+      }
+      if (i + 2 < rawTokens.length) {
+        const thirdSpokenNorm = normalizeArabicBase(rawTokens[i + 2], false);
+        if (wordsMatchSmart(mergedSpoken + thirdSpokenNorm, curTarget)) {
+          markCurrentReciteWordCorrect(1);
+          i += 3;
+          reciteConsumedInSegment = i;
+          continue;
+        }
+      }
+    }
+
+    // ٥. ئەگەر خوێنەر تەنها وشەی پێشووی دووبارە کردەوە (بۆ هەناسەدان) بە هەڵە هەژماری مەکە
+    if (prevTarget && wordsMatchSmart(spokenNorm, prevTarget)) {
+      i++;
+      reciteConsumedInSegment = i;
+      continue;
+    }
+
+    // ٦. بڕیاردان لەسەر هەڵە: کاتێک ئەنجامەکە کۆتاییە (isFinal) یان خوێنەر وشەی تریشی دوای وتووە
+    const hasFollowingWord = (i + 1 < rawTokens.length);
+    if (isFinal || hasFollowingWord) {
+      // ئەگەر تەنیا یەک پیتی کورتی نەناسراو بێت لە کاتی قسەدا، لە interim چاوەڕێی بکە
+      if (!isFinal && spokenNorm.length <= 1) {
+        break;
+      }
+      triggerCurrentReciteWordError(spokenRaw);
+      i++;
+      reciteConsumedInSegment = i;
+    } else {
+      // هێشتا interimـە و دوا وشەیە؛ چاوەڕێی تەواوبوونی دەنگەکە دەکەین
+      break;
+    }
+  }
+}
+
+function startSpeechReciteEngine() {
+  if (!SpeechRecognitionAPI) {
+    setReciteStatus('⚠️ وێبگەڕەکەت پشتگیریی مایکرۆفۆنی زیرەک ناکات؛ تکایە بە Google Chrome بیکەرەوە.', true);
+    return;
+  }
+
+  clearTimeout(reciteRestartTimer);
+  if (smartReciteRecognition) {
+    try { smartReciteRecognition.onend = null; smartReciteRecognition.abort(); } catch (e) {}
+    smartReciteRecognition = null;
+  }
+
+  try {
+    const rec = new SpeechRecognitionAPI();
+    rec.lang = 'ar-SA';
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.maxAlternatives = 3;
+
+    rec.onstart = () => {
+      if (!smartReciteActive) return;
+      reciteLastResultIndex = -1;
+      reciteConsumedInSegment = 0;
+      const bar = document.getElementById('reciteAssistantBar');
+      const isErr = bar && bar.classList.contains('has-error');
+      if (!isErr) {
+        setReciteStatus('🎙️ گوێم لێتە... بە ڕوونی دەست بکە بە خوێندنەوەی قورئان', false);
+      }
+    };
+
+    rec.onresult = (event) => {
+      if (!smartReciteActive || recitePausedForAyahAudio) return;
+      for (let r = event.resultIndex; r < event.results.length; r++) {
+        const resObj = event.results[r];
+        const isFinal = resObj.isFinal;
+
+        // ئەگەر یەکێک لە ئەڵتەرنەتیڤەکانی گۆگڵ لەگەڵ وشەکە بگونجێت، ئەوە هەڵبژێرە بۆ وردیی زۆرتر
+        let bestTranscript = resObj[0]?.transcript || '';
+        if (reciteWordIdx < recitePageWords.length && resObj.length > 1) {
+          const curTarget = recitePageWords[reciteWordIdx];
+          for (let alt = 0; alt < resObj.length; alt++) {
+            const altText = resObj[alt]?.transcript || '';
+            const altTokens = altText.trim().split(/\s+/);
+            if (altTokens.some(t => wordsMatchSmart(normalizeArabicBase(t, false), curTarget))) {
+              bestTranscript = altText;
+              break;
+            }
+          }
+        }
+        processSpokenRecitationTokens(bestTranscript, isFinal, r);
+      }
+    };
+
+    rec.onerror = (event) => {
+      if (!smartReciteActive) return;
+      const errCode = event?.error || '';
+      if (errCode === 'not-allowed' || errCode === 'service-not-allowed') {
+        setReciteStatus('⚠️ ڕێگە بە مایکرۆفۆن نەدراوە؛ تکایە لە سەرەوەی Chrome بژاردەی Allow بۆ مایکرۆفۆن دابگرە.', true);
+        smartReciteActive = false;
+        updateSmartReciteButtonUI();
+        return;
+      }
+      if (errCode === 'network') {
+        setReciteStatus('⚠️ پێویستە ئینتەرنێتت هەبێت بۆ کارکردنی گوێگری زیرەک.', true);
+      }
+    };
+
+    rec.onend = () => {
+      if (smartReciteActive && !recitePausedForAyahAudio) {
+        reciteRestartTimer = setTimeout(() => {
+          if (smartReciteActive && !recitePausedForAyahAudio) {
+            startSpeechReciteEngine();
+          }
+        }, 260);
+      }
+    };
+
+    smartReciteRecognition = rec;
+    rec.start();
+  } catch (e) {
+    setReciteStatus('⚠️ نەتوانرا مایکرۆفۆن پێ بکرێت، تکایە جارێکی تر کلیک بکە.', true);
+  }
+}
+
+function updateSmartReciteButtonUI() {
+  const btn = document.getElementById('smartReciteToggleBtn');
+  const txt = document.getElementById('smartReciteBtnText');
+  const bar = document.getElementById('reciteAssistantBar');
+  if (btn) btn.classList.toggle('listening-active', smartReciteActive);
+  if (txt) txt.textContent = smartReciteActive ? 'گوێگر کارایە' : 'گوێگری زیرەک';
+  if (bar) bar.classList.toggle('active', smartReciteActive);
+}
+
+function toggleSmartReciteAssistant() {
+  if (smartReciteActive) {
+    stopSmartReciteAssistant();
+  } else {
+    startSmartReciteAssistant();
+  }
+}
+
+function startSmartReciteAssistant() {
+  if (!SpeechRecognitionAPI) {
+    alert('ببوورە، ئەم وێبگەڕە پشتگیریی گوێگری دەنگی ناکات. تکایە لەسەر ئەندرۆید بە Google Chrome بیکەرەوە.');
+    return;
+  }
+
+  // وەستاندنی هەر دەنگێکی تر تا تێکەڵی مایکرۆفۆن نەبێت
+  stopAyahByAyahFollow();
+  if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); }
+  if (!ambientAudio.paused) { ambientAudio.pause(); }
+
+  const settingsBar = document.getElementById('readerSettingsBar');
+  const themesBar = document.getElementById('pageThemesBar');
+  if (settingsBar) settingsBar.classList.remove('active');
+  if (themesBar) themesBar.classList.remove('active');
+
+  smartReciteActive = true;
+  recitePausedForAyahAudio = false;
+  reciteWordIdx = 0;
+  reciteCorrectCount = 0;
+  reciteMistakesCount = 0;
+  reciteWordHadErrorAt = -1;
+  reciteLastErrorSpoken = '';
+
+  const heardEl = document.getElementById('reciteHeardText');
+  const hintEl = document.getElementById('reciteExpectedHint');
+  if (heardEl) heardEl.textContent = '...';
+  if (hintEl) hintEl.textContent = '';
+
+  updateSmartReciteButtonUI();
+  updateReciteStatsUI();
+  renderReadingPageContent(false);
+  syncReciteWordHighlights(true);
+  setReciteStatus('🎙️ گوێگری زیرەک کارایە؛ دەست بکە بە خوێندنەوەی قورئان...', false);
+  startSpeechReciteEngine();
+}
+
+function stopSmartReciteAssistant() {
+  smartReciteActive = false;
+  recitePausedForAyahAudio = false;
+  smartReciteBlindMode = false;
+  clearTimeout(reciteRestartTimer);
+  if (smartReciteRecognition) {
+    try { smartReciteRecognition.onend = null; smartReciteRecognition.stop(); } catch (e) {}
+    smartReciteRecognition = null;
+  }
+  const contentEl = document.getElementById('mushafContent');
+  if (contentEl) contentEl.classList.remove('recite-blind-mode');
+  const blindBtn = document.getElementById('reciteBlindBtn');
+  if (blindBtn) blindBtn.classList.remove('active');
+  const bar = document.getElementById('reciteAssistantBar');
+  if (bar) bar.classList.remove('has-error', 'active');
+  clearAyahErrorHighlights();
+  document.querySelectorAll('.recite-word').forEach(el => {
+    el.classList.remove('recite-current', 'recite-correct', 'recite-error');
+  });
+  updateSmartReciteButtonUI();
+}
+
+function toggleReciteBlindMode() {
+  smartReciteBlindMode = !smartReciteBlindMode;
+  const contentEl = document.getElementById('mushafContent');
+  const btn = document.getElementById('reciteBlindBtn');
+  if (contentEl) contentEl.classList.toggle('recite-blind-mode', smartReciteBlindMode);
+  if (btn) btn.classList.toggle('active', smartReciteBlindMode);
+}
+
+function skipCurrentReciteWord() {
+  if (!smartReciteActive || reciteWordIdx >= recitePageWords.length) return;
+  markCurrentReciteWordCorrect(1);
+}
+
+function restartSmartRecitePage() {
+  if (!smartReciteActive) return;
+  reciteWordIdx = 0;
+  reciteCorrectCount = 0;
+  reciteMistakesCount = 0;
+  reciteWordHadErrorAt = -1;
+  reciteLastErrorSpoken = '';
+  const heardEl = document.getElementById('reciteHeardText');
+  const hintEl = document.getElementById('reciteExpectedHint');
+  if (heardEl) heardEl.textContent = '...';
+  if (hintEl) hintEl.textContent = '';
+  clearAyahErrorHighlights();
+  document.querySelectorAll('.recite-word').forEach(el => {
+    el.classList.remove('recite-current', 'recite-correct', 'recite-error');
+  });
+  updateReciteStatsUI();
+  setReciteStatus('🔄 دەستپێکردنەوە لە سەرەتای پەڕە؛ بخوێنەوە...', false);
+  syncReciteWordHighlights(true);
+}
+
+function playCurrentReciteTargetAyah() {
+  if (!recitePageWords.length) return;
+  const idx = Math.min(reciteWordIdx, recitePageWords.length - 1);
+  const target = recitePageWords[idx];
+  if (!target || !target.ayahGlobalNumber) return;
+
+  recitePausedForAyahAudio = true;
+  clearTimeout(reciteRestartTimer);
+  if (smartReciteRecognition) {
+    try { smartReciteRecognition.onend = null; smartReciteRecognition.stop(); } catch (e) {}
+    smartReciteRecognition = null;
+  }
+
+  setReciteStatus(`🔊 گوێگرتن لە خوێندنی ڕاستی ئایەتی ${toArabicNumbers(target.ayahNum)}...`, false);
+  ayahAudioPlayer.src = `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${target.ayahGlobalNumber}.mp3`;
+  applyBalancedVolumes();
+  ayahAudioPlayer.play().catch(() => {
+    recitePausedForAyahAudio = false;
+    if (smartReciteActive) startSpeechReciteEngine();
+  });
+}
+
+/* ========================================================
    AMBIENT NATURE VIDEOS ENGINE (PURE USER VIDEOS ONLY)
    ======================================================== */
 const AMBIENT_DEFAULT_VIDEOS = {
@@ -2677,6 +3720,7 @@ const AMBIENT_DEFAULT_VIDEOS = {
 };
 
 function toggleTallSoundsMenu() {
+  closeTallRecitersDrawer();
   const menu = document.getElementById('tallSoundsMenu');
   if (menu) menu.classList.toggle('active');
 }
@@ -2767,7 +3811,7 @@ function changeAmbientVolume(val) {
   applyBalancedVolumes();
 }
 
-/* SECRET ADMIN PANEL */
+/* SECRET ADMIN PANEL (WITH AUTO & CUSTOM RECITER PHOTOS) */
 let secretClickCount = 0;
 let secretClickTimer = null;
 
@@ -2826,17 +3870,54 @@ function onSelectApiPreset() {
   }
 }
 
-function addNewReciter() {
+async function addNewReciter() {
   const name = document.getElementById('newReciterName').value.trim();
   const server = document.getElementById('newReciterServer').value.trim();
+  const photoInput = document.getElementById('newReciterPhotoInput');
   if (!name) return alert('تکایە ناوی قاریئ بنووسە');
+
+  if (photoInput && photoInput.files && photoInput.files.length > 0) {
+    try {
+      const dataUrl = await resizeImageFileToDataUrl(photoInput.files[0], 260);
+      await reciterPhotoStore.setItem(name, dataUrl);
+      photoInput.value = '';
+    } catch (e) {
+      console.warn('Reciter photo save error:', e);
+    }
+  } else {
+    resolveReciterPhotoUrl(name, true);
+  }
+
   customReciters.push({ name, moshaf: [{ name: 'مرتل', server: server || 'https://server8.mp3quran.net/afs/' }] });
   localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
   displayRecitersList(customReciters);
+  renderTallRecitersDrawerList(customReciters);
   populateSecretAdmin();
   document.getElementById('newReciterName').value = '';
   document.getElementById('newReciterServer').value = '';
-  alert('قاریئی نوێ زیادکرا');
+  alert('قاریئی نوێ لەگەڵ وێنەکەی بە سەرکەوتوویی زیادکرا ✅');
+}
+
+async function saveSelectedReciterPhoto() {
+  const recName = document.getElementById('secretReciter')?.value;
+  const photoInput = document.getElementById('secretReciterPhotoInput');
+  if (!recName) return alert('تکایە قاریئێک هەڵبژێرە');
+  if (!photoInput || !photoInput.files || photoInput.files.length === 0) {
+    return alert('تکایە سەرەتا وێنەیەک هەڵبژێرە');
+  }
+  try {
+    const dataUrl = await resizeImageFileToDataUrl(photoInput.files[0], 260);
+    await reciterPhotoStore.setItem(recName, dataUrl);
+    photoInput.value = '';
+    displayRecitersList(customReciters);
+    renderTallRecitersDrawerList(customReciters);
+    if (recName === selectedReciterName) {
+      updateTallTopReciterPhoto(recName, true);
+    }
+    alert(`وێنەی (${recName}) بە سەرکەوتوویی پاشەکەوت کرا ✅`);
+  } catch (err) {
+    alert('نەتوانرا وێنەکە پاشەکەوت بکرێت: ' + err);
+  }
 }
 
 function deleteSelectedReciter() {
@@ -2844,7 +3925,11 @@ function deleteSelectedReciter() {
   if (!recName || customReciters.length <= 1) return;
   customReciters = customReciters.filter(r => r.name !== recName);
   localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
+  reciterPhotoStore.removeItem(recName).catch(() => {});
+  delete reciterPhotoCache[recName];
+  localStorage.setItem('noor_reciter_photo_cache_v1', JSON.stringify(reciterPhotoCache));
   displayRecitersList(customReciters);
+  renderTallRecitersDrawerList(customReciters);
   populateSecretAdmin();
 }
 
@@ -3982,7 +5067,7 @@ function resetTasbih() {
 }
 
 /* ========================================================
-   TAFSIR & QURAN READER — REAL MUSHAF PAGES (TAFSIR OFF BY DEFAULT)
+   TAFSIR & QURAN READER — REAL MUSHAF PAGES (WORD-LEVEL TRACKING)
    ======================================================== */
 let currentTafsirId = localStorage.getItem('noor_reader_tafsir') || 'ku.asan';
 let currentMushafPages = [];
@@ -4096,6 +5181,7 @@ async function changeTafsir(val) {
 
 async function openSurahReader(surahId, surahName) {
   stopAyahByAyahFollow();
+  stopSmartReciteAssistant();
   currentReadingSurahName = surahName;
   currentSurahNumber = surahId;
   localStorage.setItem('noor_reader_is_open', 'true');
@@ -4153,6 +5239,34 @@ async function openSurahReader(surahId, surahName) {
   }
 }
 
+function buildInteractiveAyahWordsHtml(cleanText, ayahNum, ayahGlobalNumber) {
+  const tokens = cleanText.split(/\s+/).filter(Boolean);
+  return tokens.map(tok => {
+    if (isWaqfOnlyToken(tok)) {
+      return colorizeQuranText(tok);
+    }
+    const norm = normalizeArabicBase(tok, false);
+    if (!norm) {
+      return colorizeQuranText(tok);
+    }
+    const wordIdx = recitePageWords.length;
+    const domId = `recite-w-${wordIdx}`;
+    recitePageWords.push({
+      index: wordIdx,
+      ayahNum,
+      ayahGlobalNumber,
+      raw: tok,
+      norm,
+      variants: buildQuranWordVariants(tok),
+      domId
+    });
+    const statusClass = smartReciteActive
+      ? (wordIdx < reciteWordIdx ? ' recite-correct' : (wordIdx === reciteWordIdx ? ' recite-current' : ''))
+      : '';
+    return `<span class="recite-word${statusClass}" id="${domId}" onclick="onReciteWordClicked(event, ${wordIdx}, ${ayahNum})">${colorizeQuranText(tok)}</span>`;
+  }).join(' ');
+}
+
 function renderReadingPageContent(resetScrollTop = true) {
   const contentEl = document.getElementById('mushafContent');
   if (!contentEl || !currentMushafPages.length) return;
@@ -4163,6 +5277,7 @@ function renderReadingPageContent(resetScrollTop = true) {
 
   const pageAyahs = pageObj.ayahs;
   const isFirstPageOfSurah = (currentReadingPage === 1);
+  recitePageWords = [];
 
   let headerHtml = '';
   if (isFirstPageOfSurah) {
@@ -4182,12 +5297,12 @@ function renderReadingPageContent(resetScrollTop = true) {
       if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = stripLeadingBismillah(text);
       }
-      text = colorizeQuranText(text);
+      const wordsHtml = buildInteractiveAyahWordsHtml(text, ayahNum, ayah.number);
       const transObj = currentKurdishAyahs[ayah.surahArrayIndex];
       const transText = transObj ? transObj.text : 'تەفسیری ئەم ئایەتە بەردەست نەبوو.';
       ayahsHtml += `
         <div class="ayah-tafsir-card ${isSplashActive ? 'active-splash' : ''}" id="reader-card-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">
-          <div class="ayah-tafsir-arabic" id="reader-ayah-${ayahNum}">${text}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></div>
+          <div class="ayah-tafsir-arabic" id="reader-ayah-${ayahNum}">${wordsHtml}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></div>
           <div class="mushaf-translation">${transText}</div>
         </div>
       `;
@@ -4201,12 +5316,13 @@ function renderReadingPageContent(resetScrollTop = true) {
       if (ayahNum === 1 && currentSurahNumber !== 1 && currentSurahNumber !== 9) {
         text = stripLeadingBismillah(text);
       }
-      text = colorizeQuranText(text);
-      ayahsHtml += `<span class="ayah-item ${isSplashActive ? 'active-splash' : ''}" id="reader-ayah-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${text}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></span> `;
+      const wordsHtml = buildInteractiveAyahWordsHtml(text, ayahNum, ayah.number);
+      ayahsHtml += `<span class="ayah-item ${isSplashActive ? 'active-splash' : ''}" id="reader-ayah-${ayahNum}" onclick="selectAyahSplash(${ayahNum})">${wordsHtml}\u00A0<span class="ayah-num-mark">﴿${toArabicNumbers(ayahNum)}﴾</span></span> `;
     });
   }
 
   contentEl.innerHTML = headerHtml + ayahsHtml;
+  contentEl.classList.toggle('recite-blind-mode', smartReciteActive && smartReciteBlindMode);
 
   const scrollBox = document.getElementById('readerScrollBox');
   if (scrollBox && resetScrollTop) scrollBox.scrollTop = 0;
@@ -4223,6 +5339,11 @@ function renderReadingPageContent(resetScrollTop = true) {
   if (nextBtn) nextBtn.disabled = (currentReadingPage >= totalPages);
 
   localStorage.setItem(`reading_page_${currentSurahNumber}`, currentReadingPage);
+
+  if (smartReciteActive) {
+    if (reciteWordIdx >= recitePageWords.length) reciteWordIdx = 0;
+    syncReciteWordHighlights(false);
+  }
 }
 
 function nextReadingPage() {
@@ -4232,6 +5353,12 @@ function nextReadingPage() {
     const pageObj = currentMushafPages[currentReadingPage - 1];
     activeSplashAyahNum = pageObj.ayahs[0].numberInSurah;
     localStorage.setItem(`reading_ayah_${currentSurahNumber}`, activeSplashAyahNum);
+    if (smartReciteActive) {
+      reciteWordIdx = 0;
+      reciteWordHadErrorAt = -1;
+      reciteLastErrorSpoken = '';
+      setReciteStatus(`🎙️ پەڕەی ${toArabicNumbers(currentReadingPage)} — بەردەوام بە لە خوێندنەوە...`, false);
+    }
     renderReadingPageContent(true);
     if (isAyahAutoFollow) playCurrentSplashAyahAudio();
   }
@@ -4243,6 +5370,12 @@ function prevReadingPage() {
     const pageObj = currentMushafPages[currentReadingPage - 1];
     activeSplashAyahNum = pageObj.ayahs[0].numberInSurah;
     localStorage.setItem(`reading_ayah_${currentSurahNumber}`, activeSplashAyahNum);
+    if (smartReciteActive) {
+      reciteWordIdx = 0;
+      reciteWordHadErrorAt = -1;
+      reciteLastErrorSpoken = '';
+      setReciteStatus(`🎙️ پەڕەی ${toArabicNumbers(currentReadingPage)} — بەردەوام بە لە خوێندنەوە...`, false);
+    }
     renderReadingPageContent(true);
     if (isAyahAutoFollow) playCurrentSplashAyahAudio();
   }
@@ -4250,6 +5383,7 @@ function prevReadingPage() {
 
 function backToReadingList() {
   stopAyahByAyahFollow();
+  stopSmartReciteAssistant();
   localStorage.setItem('noor_reader_is_open', 'false');
   document.getElementById('readingReaderContainer').style.display = 'none';
   document.getElementById('readingListContainer').style.display = 'block';
@@ -4259,20 +5393,33 @@ function backToReadingList() {
 }
 
 function displayRecitersList(recitersList) {
-  const container = document.getElementById('recitersList'); container.innerHTML = '';
+  const container = document.getElementById('recitersList');
+  if (!container) return;
+  container.innerHTML = '';
   const savedName = localStorage.getItem('noor_reciter_name');
   let activeReciterObj = customReciters.find(r => r.name === savedName) || customReciters[0];
-  if (activeReciterObj) { selectedMoshaf = activeReciterObj.moshaf[0]; selectedReciterName = activeReciterObj.name; syncPlayerLabels(currentSurahName, selectedReciterName); }
+  if (activeReciterObj) {
+    selectedMoshaf = activeReciterObj.moshaf[0];
+    selectedReciterName = activeReciterObj.name;
+    syncPlayerLabels(currentSurahName, selectedReciterName);
+  }
 
   recitersList.forEach(reciter => {
     const moshaf = reciter.moshaf[0];
     const item = document.createElement('div');
     item.className = `reciter-item ${reciter.name === selectedReciterName ? 'active' : ''}`;
     item.innerHTML = `<div class="reciter-info"><div class="reciter-avatar-icon">🎙️</div><div><h6>${reciter.name}</h6><small>${moshaf.name || 'ڕیوایەت'}</small></div></div><button class="btn-play-sound">گوێگرتن ▶</button>`;
+
+    const avatarEl = item.querySelector('.reciter-avatar-icon');
+    resolveReciterPhotoUrl(reciter.name).then(photoUrl => {
+      if (photoUrl) applyPhotoToAvatarEl(avatarEl, photoUrl, reciter.name);
+    });
+
     item.addEventListener('click', () => {
       document.querySelectorAll('.reciter-item').forEach(el => el.classList.remove('active'));
       item.classList.add('active');
-      selectedMoshaf = moshaf; selectedReciterName = reciter.name;
+      selectedMoshaf = moshaf;
+      selectedReciterName = reciter.name;
       localStorage.setItem('noor_reciter_name', reciter.name);
       syncPlayerLabels(currentSurahName, reciter.name);
       playSurahAudio(currentSurahId, currentSurahName, true);
@@ -4397,7 +5544,7 @@ function initSavedQuranPageTheme() {
 initSavedCity();
 updatePrayerTimes();
 renderSpiritualGems();
-initBgSlider(); 
+initBgSlider();
 initSavedQuranPageTheme();
 initAdhkarReminderSystem();
 initAuthSystem();
