@@ -63,21 +63,8 @@ button, a { cursor: pointer; touch-action: manipulation; }
 /* ========================================================
    REORGANIZED CLEAN SETTINGS & GLASS ACCOUNT HUB
    ======================================================== */
-.settings-hub-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.settings-group-title {
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #334155;
-  padding: 0 6px;
-  margin-bottom: -6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+.settings-hub-stack { display: flex; flex-direction: column; gap: 14px; }
+.settings-group-title { font-size: 11.5px; font-weight: 800; color: #334155; padding: 0 6px; margin-bottom: -6px; display: flex; align-items: center; gap: 6px; }
 .settings-glass-group {
   background: var(--glass-card-mirror);
   backdrop-filter: blur(18px) saturate(170%);
@@ -88,41 +75,18 @@ button, a { cursor: pointer; touch-action: manipulation; }
   overflow: hidden;
 }
 .settings-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 15px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  background: transparent;
-  width: 100%;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  text-align: right;
-  color: #0f172a;
-  transition: background 0.18s ease;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 15px; border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  background: transparent; width: 100%; border-left: none; border-right: none; border-top: none;
+  text-align: right; color: #0f172a; transition: background 0.18s ease;
 }
 .settings-row:last-child { border-bottom: none; }
 .settings-row:active { background: rgba(37, 99, 235, 0.07); }
-.settings-row-main {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-  flex: 1;
-}
+.settings-row-main { display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1; }
 .settings-row-ico {
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  flex-shrink: 0;
-  background: rgba(37, 99, 235, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  color: #1d4ed8;
+  width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center;
+  font-size: 16px; flex-shrink: 0; background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.7); color: #1d4ed8;
 }
 .settings-row-ico.google-ico { background: rgba(255, 255, 255, 0.85); }
 .settings-row-ico.danger-ico { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
@@ -134,12 +98,7 @@ button, a { cursor: pointer; touch-action: manipulation; }
 .settings-row-chevron { color: #94a3b8; font-size: 14px; font-weight: 800; flex-shrink: 0; }
 .settings-row.danger-row .settings-row-text strong { color: #dc2626; }
 
-.settings-drawer-body {
-  display: none;
-  padding: 12px 15px 15px;
-  background: rgba(255, 255, 255, 0.42);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-}
+.settings-drawer-body { display: none; padding: 12px 15px 15px; background: rgba(255, 255, 255, 0.42); border-bottom: 1px solid rgba(15, 23, 42, 0.06); }
 .settings-drawer-body.open { display: block; }
 
 /* SETTINGS TOP LOGIN & SIGNUP CARD */
@@ -180,7 +139,7 @@ button, a { cursor: pointer; touch-action: manipulation; }
 .auth-google-btn svg { width: 19px; height: 19px; flex-shrink: 0; }
 .auth-close-return-btn { display: none; width: 100%; margin-top: 9px; background: rgba(255, 255, 255, 0.65); border: 1px solid rgba(148, 163, 184, 0.35); color: #334155; padding: 8px 14px; border-radius: 11px; font-size: 12px; font-weight: 700; }
 
-/* UNIFIED ACCOUNT HERO CARD (PROFILE + 4 MINI STATS TOGETHER) */
+/* UNIFIED ACCOUNT HERO CARD */
 .account-hero-card {
   background: var(--glass-card-mirror);
   backdrop-filter: blur(18px) saturate(170%);
@@ -190,13 +149,7 @@ button, a { cursor: pointer; touch-action: manipulation; }
   box-shadow: var(--mirror-shadow);
   overflow: hidden;
 }
-.account-hero-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px;
-}
+.account-hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; }
 .account-identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .account-avatar-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
 .account-avatar-badge { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(145deg, #2563eb, #60a5fa); color: #ffffff; display: grid; place-items: center; font-size: 22px; font-weight: 800; border: 2px solid #ffffff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); flex-shrink: 0; overflow: hidden; }
@@ -210,20 +163,8 @@ button, a { cursor: pointer; touch-action: manipulation; }
 .account-provider-pill { display: inline-flex; align-items: center; gap: 5px; margin-top: 5px; padding: 2px 9px; border-radius: 99px; font-size: 10.5px; font-weight: 800; background: rgba(37, 99, 235, 0.1); color: #1d4ed8; border: 1px solid rgba(147, 197, 253, 0.6); }
 .account-provider-pill.google { background: rgba(239, 68, 68, 0.1); color: #c5221f; border-color: rgba(252, 165, 165, 0.7); }
 
-.account-hero-stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid rgba(15, 23, 42, 0.06);
-  background: rgba(255, 255, 255, 0.36);
-}
-.account-mini-stat {
-  padding: 10px 4px;
-  text-align: center;
-  border-left: 1px solid rgba(15, 23, 42, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+.account-hero-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(15, 23, 42, 0.06); background: rgba(255, 255, 255, 0.36); }
+.account-mini-stat { padding: 10px 4px; text-align: center; border-left: 1px solid rgba(15, 23, 42, 0.06); display: flex; flex-direction: column; gap: 2px; }
 .account-mini-stat:last-child { border-left: none; }
 .account-mini-stat strong { font-size: 16px; color: #1d4ed8; font-weight: 800; }
 .account-mini-stat span { font-size: 10px; color: #475569; font-weight: 700; }
@@ -232,7 +173,7 @@ button, a { cursor: pointer; touch-action: manipulation; }
 .account-btn-primary { width: 100%; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border: none; border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; }
 .topbar-settings-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
 
-/* ADHKAR REMINDER CLEAN GLASS BLOCK INSIDE SETTINGS */
+/* ADHKAR REMINDER BLOCK INSIDE SETTINGS */
 .adhkar-rem-body { padding: 12px 15px 14px; display: flex; flex-direction: column; gap: 10px; }
 .adhkar-rem-toggle-btn { background: rgba(255, 255, 255, 0.75); border: 1.5px solid #2563eb; color: #1d4ed8; padding: 5px 13px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
 .adhkar-rem-toggle-btn.active { background: #10b981; border-color: #059669; color: #ffffff; }
@@ -294,7 +235,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reciter-search-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.92); }
 .reciter-search-box span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
 
-/* SMART AYAH SEARCH VIEW */
+/* SMART AYAH SEARCH VIEW + YELLOW HIGHLIGHT */
 .ayah-search-bar-form { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .ayah-search-input-wrap { position: relative; flex: 1; min-width: 0; }
 .ayah-search-input-wrap input { width: 100%; background: rgba(255, 255, 255, 0.78); border: 1px solid var(--glass-border); border-radius: 14px; padding: 11px 14px 11px 36px; font-size: 13.5px; font-weight: 600; color: #0f172a; outline: none; box-shadow: var(--card-shadow); }
@@ -314,7 +255,14 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .ayah-result-num { font-size: 11px; font-weight: 800; color: #64748b; }
 .ayah-result-arabic { font-family: 'Amiri Quran', 'Amiri', serif; font-size: 22px; line-height: 2.15; color: #0f172a; text-align: right; }
 .ayah-result-kurdish { font-size: 13px; line-height: 1.85; color: #334155; border-top: 1px dashed rgba(15, 23, 42, 0.12); padding-top: 8px; text-align: right; }
-.ayah-search-mark { background: #fef08a; color: #0f172a; padding: 0 3px; border-radius: 5px; font-weight: 800; }
+.ayah-search-mark {
+  background: linear-gradient(120deg, #fde047 0%, #fef08a 100%);
+  color: #0f172a;
+  padding: 0 4px;
+  border-radius: 6px;
+  font-weight: 800;
+  box-shadow: 0 1px 4px rgba(234, 179, 8, 0.35);
+}
 .ayah-result-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
 .ayah-res-btn { background: rgba(255, 255, 255, 0.72); border: 1px solid var(--glass-border); color: #0f172a; padding: 6px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05); }
 .ayah-res-btn.primary { background: #2563eb; border-color: #2563eb; color: #ffffff; }
@@ -448,7 +396,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .btn-play-sound { background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(147, 197, 253, 0.65); color: #1d4ed8; padding: 5px 12px; border-radius: 99px; font-size: 10.5px; font-weight: 700; }
 .sound-select-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
-/* NEXT-GEN SMART HIFZ STUDIO — GLASS MIRROR */
+/* NEXT-GEN SMART HIFZ STUDIO */
 .hifz-studio-shell { background: var(--glass-mirror); backdrop-filter: blur(18px) saturate(170%); -webkit-backdrop-filter: blur(18px) saturate(170%); border: 1px solid var(--glass-border); border-radius: 22px; padding: 18px 16px; box-shadow: var(--mirror-shadow); display: flex; flex-direction: column; gap: 12px; }
 .hifz-studio-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .hifz-studio-top h3 { margin: 0; font-family: 'Amiri', serif; font-size: 20px; color: #0f172a; display: flex; align-items: center; gap: 7px; }
@@ -541,7 +489,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .hifz-srs-card.due-now .hifz-srs-review-btn { background: #f59e0b; border-color: #d97706; color: #ffffff; }
 .btn-card-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 9px; padding: 5px 9px; font-size: 11.5px; }
 
-/* KHATM PLANNER — GLASS MIRROR */
+/* KHATM PLANNER */
 .khatm-setup-box { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 14px; box-shadow: var(--card-shadow); }
 .khatm-presets-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
 .khatm-preset-btn { flex: 1; min-width: 65px; background: rgba(255, 255, 255, 0.72); border: 1px solid var(--glass-border); color: #0f172a; padding: 8px; border-radius: 11px; font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04); }
@@ -562,7 +510,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .khatm-day-card.completed { background: rgba(219, 234, 254, 0.78); border-color: #60a5fa; }
 .khatm-day-card.completed .khatm-status-badge { background: #2563eb; color: #ffffff; }
 
-/* ADHKAR & TOAST — GLASS MIRROR */
+/* ADHKAR & TOAST */
 .adhkar-auto-toast { display: none; position: fixed; top: 14px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 440px; background: var(--glass-nav-mirror); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); border: 1.5px solid var(--glass-border); border-radius: 18px; padding: 14px 16px; z-index: 9999999; box-shadow: var(--nav-mirror-shadow); color: #0f172a; direction: rtl; }
 .adhkar-auto-toast.active { display: flex; flex-direction: column; gap: 8px; }
 .adhkar-toast-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -690,7 +638,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reader-nav-btn:disabled { opacity: 0.32; cursor: not-allowed; }
 .reader-footer-meta { text-align: center; color: #e2e8f0; font-size: 11.5px; font-weight: 700; }
 
-/* TALL FULL-SCREEN PLAYER PAGE — GLASS CONTROLS */
+/* TALL FULL-SCREEN PLAYER PAGE */
 .tall-player-wrapper { position: relative; width: 100vw; height: 100vh; height: 100dvh; max-width: 100%; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 18px 24px; z-index: 1; }
 #tallPlayerBgVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; display: none; pointer-events: none; }
 .tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(2, 6, 23, 0.44) 0%, rgba(2, 6, 23, 0.1) 45%, rgba(2, 6, 23, 0.64) 100%); z-index: -1; pointer-events: none; }
@@ -761,7 +709,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .admin-field-hint { display: block; font-size: 11px; color: #cbd5e1; margin-bottom: 5px; line-height: 1.5; }
 
 /* ========================================================
-   TWO BOTTOM FLOATING BARS — POLISHED MIRROR GLASS (ئاوێنەیی)
+   TWO BOTTOM FLOATING BARS — MIRROR GLASS + SLIDING CIRCLE
    ======================================================== */
 .bottom-nav-container {
   position: fixed;
@@ -825,17 +773,57 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   background: var(--glass-nav-mirror);
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
-  padding: 6px 5px;
+  padding: 7px 6px;
+  min-height: 62px;
   border-radius: 34px;
   border: 1.2px solid rgba(255, 255, 255, 0.88);
   box-shadow: var(--nav-mirror-shadow);
   width: 100%;
 }
-.bottom-nav-item { cursor: pointer; padding: 6px 4px; border-radius: 24px; background: transparent; border: 1px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #334155; min-width: 44px; flex: 1; text-align: center; transition: background 0.2s ease; }
-.bottom-nav-item svg { width: 21px; height: 21px; display: block; color: #334155; opacity: 0.72; }
-.bottom-nav-item img { width: 21px; height: 21px; display: block; filter: brightness(0); opacity: 0.58; }
-.bottom-nav-label { font-size: 9.5px; font-weight: 700; color: #334155; white-space: nowrap; opacity: 0.85; }
-.bottom-nav-item.active { background: rgba(255, 255, 255, 0.76); border-color: rgba(255, 255, 255, 0.95); box-shadow: 0 3px 10px rgba(37, 99, 235, 0.12); }
+.bottom-nav-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.96) 0%, rgba(219, 234, 254, 0.65) 56%, rgba(147, 197, 253, 0.34) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 6px 16px rgba(37, 99, 235, 0.18),
+    inset 0 2px 4px rgba(255, 255, 255, 0.98),
+    inset 0 -2px 5px rgba(37, 99, 235, 0.14);
+  transform: translate3d(0, -50%, 0);
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  will-change: transform;
+}
+.bottom-nav-item {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 24px;
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #334155;
+  min-width: 44px;
+  flex: 1;
+  text-align: center;
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+}
+.bottom-nav-item svg { width: 21px; height: 21px; display: block; color: #334155; opacity: 0.72; transition: transform 0.24s ease, opacity 0.2s ease; }
+.bottom-nav-item img { width: 21px; height: 21px; display: block; filter: brightness(0); opacity: 0.58; transition: transform 0.24s ease, opacity 0.2s ease; }
+.bottom-nav-label { font-size: 9.5px; font-weight: 700; color: #334155; white-space: nowrap; opacity: 0.85; transition: color 0.2s ease, opacity 0.2s ease; }
+.bottom-nav-item.active { background: transparent; border-color: transparent; box-shadow: none; transform: translateY(-1px) scale(1.04); }
 .bottom-nav-item.active svg { opacity: 1; color: #1d4ed8; }
 .bottom-nav-item.active img { opacity: 1; filter: brightness(0) saturate(100%) invert(27%) sepia(92%) saturate(2420%) hue-rotate(215deg) brightness(94%) contrast(96%); }
 .bottom-nav-item.active .bottom-nav-label { opacity: 1; color: #1d4ed8; }
@@ -1166,7 +1154,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- VIEW 12: SMART AYAH SEARCH -->
+    <!-- VIEW 12: EXACT AYAH SEARCH -->
     <div id="view-ayah-search" class="page-view">
       <div class="card-section">
         <div class="section-header">
@@ -1176,21 +1164,21 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 
         <form class="ayah-search-bar-form" onsubmit="handleAyahSearchSubmit(event)">
           <div class="ayah-search-input-wrap">
-            <input type="text" id="ayahSearchInput" placeholder="بنووسە: ئارامگرتن، صبر، ترس، دڵتەنگی، ڕۆزی..." autocomplete="off">
+            <input type="text" id="ayahSearchInput" placeholder="بنووسە: موسا، ئارامگرتن، صبر، نوێژ، بەهەشت..." autocomplete="off">
             <button type="button" id="ayahSearchClearBtn" class="ayah-search-clear-btn" onclick="clearAyahSearch()" title="سڕینەوە">✖</button>
           </div>
           <button type="submit" class="ayah-search-submit-btn">گەڕان 🔍</button>
         </form>
 
         <div class="ayah-topics-strip" id="ayahTopicsStrip">
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامگرتن', this)">🌿 ئارامگرتن (صبر)</button>
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامگرتن', this)">🌿 ئارامگرتن</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ترس', this)">🛡️ ترس</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دڵتەنگی', this)">💙 دڵتەنگی</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ڕۆزی', this)">🌾 ڕۆزی</button>
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('تەوبە', this)">✨ تەوبە و لێخۆشبوون</button>
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('تەوبە', this)">✨ تەوبە</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دوعا', this)">🤲 دوعا</button>
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دایک و باوک', this)">❤️ دایک و باوک</button>
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامی', this)">🌙 ئارامیی دڵ</button>
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دایک', this)">❤️ دایک</button>
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامی', this)">🌙 ئارامی</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('بەهەشت', this)">🏞️ بەهەشت</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('نوێژ', this)">🕌 نوێژ</button>
         </div>
@@ -1741,7 +1729,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         </div>
 
         <div class="settings-hub-stack">
-          <!-- AUTH CARD (SHOWN WHEN LOGGED OUT OR ADDING ACCOUNT) -->
           <div id="settingsLoginSection" class="auth-mirror-card">
             <div class="auth-brand-head">
               <div class="auth-brand-logo">☾</div>
@@ -1800,7 +1787,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthPanelInSettings()">← گەڕانەوە بۆ هەژمارەکەم</button>
           </div>
 
-          <!-- UNIFIED ACCOUNT SECTION (SHOWN WHEN LOGGED IN) -->
           <div id="settingsProfileSection" style="display:none;" class="settings-hub-stack">
             <div class="account-hero-card">
               <div class="account-hero-top">
@@ -1895,7 +1881,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             </div>
           </div>
 
-          <!-- QUICK TOOLS GROUP -->
           <div class="settings-group-title">🧭 ئامرازە خێراکان</div>
           <div class="settings-glass-group">
             <button type="button" class="settings-row" onclick="switchView('view-khatm')">
@@ -1932,7 +1917,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             </button>
           </div>
 
-          <!-- ADHKAR REMINDER GROUP -->
           <div class="settings-group-title">🔔 ئاگادارکردنەوەکان</div>
           <div class="settings-glass-group">
             <div class="settings-row">
@@ -1969,7 +1953,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </main>
 </div>
 
-<!-- TWO FLOATING MIRROR-GLASS BARS AT BOTTOM -->
+<!-- TWO FLOATING MIRROR-GLASS BARS AT BOTTOM + SLIDING CIRCLE INDICATOR -->
 <div class="bottom-nav-container" id="mainBottomNav">
   <div class="floating-player-bar" onclick="switchView('view-full-player')">
     <div class="fp-left-controls" onclick="event.stopPropagation()">
@@ -2002,7 +1986,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <audio id="ambientAudio" loop preload="none" style="display:none;"></audio>
   </div>
 
-  <div class="bottom-nav-bar">
+  <div class="bottom-nav-bar" id="bottomNavBar">
+    <span class="bottom-nav-indicator" id="bottomNavIndicator" aria-hidden="true"></span>
     <a onclick="switchView('view-home')" class="bottom-nav-item active" id="navBtnHome">
       <svg width="20" height="20" viewBox="0 0 30 30" fill="currentColor"><path d="M27.9167 30H20.4167C19.2658 30 18.3333 29.1392 18.3333 28.0769V21.1538C18.3333 20.3038 17.5875 19.6154 16.6667 19.6154H13.3333C12.4125 19.6154 11.6667 20.3038 11.6667 21.1538V28.0769C11.6667 29.1392 10.7342 30 9.58333 30H2.08333C0.9325 30 0 29.1392 0 28.0769V13.3946C0 11.6262 0.878334 9.95539 2.3825 8.86154L14.2258 0.246923C14.68 -0.0823077 15.32 -0.0823077 15.7733 0.246923L27.6183 8.86154C29.1225 9.95539 30 11.6254 30 11.6254V28.0769C30 29.1392 29.0675 30 27.9167 30Z"/></svg>
       <span class="bottom-nav-label">سەرەتا</span>
@@ -2474,57 +2459,146 @@ function detectQiblaGPS() {
 }
 
 /* ========================================================
-   SMART AYAH SEARCH ENGINE (CLEAN, NO DEFAULT BOX)
+   EXACT AYAH SEARCH ENGINE + YELLOW HIGHLIGHT (ARABIC & KURDISH)
    ======================================================== */
 let fullQuranSearchIndex = null, quranSearchLoadingPromise = null;
-let lastAyahSearchMatches = [], ayahSearchShownCount = 0, lastAyahHighlightTerms = [];
+let lastAyahSearchMatches = [], ayahSearchShownCount = 0;
+let lastAyahQueryArWords = [], lastAyahQueryKuWords = [];
 
-const AYAH_SEARCH_SYNONYMS = {
-  'ئارامگرتن': ['ئارامگر', 'ئارام بگر', 'خۆڕاگر', 'سەبر', 'صبر', 'صابر', 'اصبر'],
-  'صبر': ['ئارامگر', 'ئارام بگر', 'خۆڕاگر', 'سەبر', 'صبر', 'صابر', 'اصبر'],
-  'سەبر': ['ئارامگر', 'ئارام بگر', 'خۆڕاگر', 'سەبر', 'صبر', 'صابر', 'اصبر'],
-  'سبر': ['ئارامگر', 'ئارام بگر', 'خۆڕاگر', 'سەبر', 'صبر', 'صابر', 'اصبر'],
-  'ارامگرتن': ['ئارامگر', 'ئارام بگر', 'خۆڕاگر', 'سەبر', 'صبر', 'صابر', 'اصبر'],
-  'ترس': ['ترس', 'بترس', 'مەترس', 'تۆقین', 'خوف', 'تخاف', 'خاف', 'يخاف', 'خشيه', 'رهب'],
-  'خوف': ['ترس', 'بترس', 'مەترس', 'خوف', 'تخاف', 'خاف', 'يخاف', 'خشيه'],
-  'دڵتەنگی': ['دڵتەنگ', 'خەم', 'خەفەت', 'غەم', 'مەخابن', 'حزن', 'يحزن', 'تحزن', 'غم', 'ضيق'],
-  'خەم': ['دڵتەنگ', 'خەم', 'خەفەت', 'غەم', 'حزن', 'يحزن', 'تحزن', 'غم'],
-  'غەم': ['دڵتەنگ', 'خەم', 'خەفەت', 'غەم', 'حزن', 'يحزن', 'تحزن', 'غم'],
-  'حزن': ['دڵتەنگ', 'خەم', 'خەفەت', 'غەم', 'حزن', 'يحزن', 'تحزن'],
-  'ڕۆزی': ['ڕۆزی', 'رۆزی', 'بژێوی', 'ڕزق', 'رزق', 'يرزق', 'الرزاق'],
-  'رۆزی': ['ڕۆزی', 'رۆزی', 'بژێوی', 'ڕزق', 'رزق', 'يرزق', 'الرزاق'],
-  'رزق': ['ڕۆزی', 'رۆزی', 'بژێوی', 'ڕزق', 'رزق', 'يرزق', 'الرزاق'],
-  'تەوبە': ['تەوبە', 'پەشیمان', 'لێخۆشبوون', 'گەڕانەوە', 'توب', 'تواب', 'غفر', 'استغفر', 'مغفره'],
-  'توبة': ['تەوبە', 'پەشیمان', 'لێخۆشبوون', 'توب', 'تواب', 'غفر', 'استغفر'],
-  'لێخۆشبوون': ['لێخۆشبوون', 'ببوورە', 'تەوبە', 'غفر', 'مغفره', 'عفو', 'استغفر'],
-  'دوعا': ['دوعا', 'نزا', 'بپاڕێ', 'پاڕانەوە', 'دعا', 'ادع', 'يدعو', 'ربنا'],
-  'نزا': ['دوعا', 'نزا', 'بپاڕێ', 'پاڕانەوە', 'دعا', 'ادع', 'يدعو'],
-  'دعاء': ['دوعا', 'نزا', 'بپاڕێ', 'پاڕانەوە', 'دعا', 'ادع', 'يدعو'],
-  'دایک و باوک': ['دایک', 'باوک', 'والد', 'والديه', 'والدين'],
-  'دایک': ['دایک', 'والد', 'والديه', 'والدين', 'ام'],
-  'باوک': ['باوک', 'والد', 'والديه', 'والدين', 'اب'],
-  'ئارامی': ['ئارامی', 'ئاسوودە', 'ئارام', 'دڵنیا', 'تطمئن', 'سكينه', 'اطمئن'],
-  'بەهەشت': ['بەهەشت', 'جنه', 'جنات', 'فردوس', 'نعيم'],
-  'نوێژ': ['نوێژ', 'صلوه', 'صلاه', 'صلوات', 'مصلي'],
-  'ڕەحمەت': ['ڕەحمەت', 'بەزەیی', 'میهرەبان', 'رحم', 'رحمه', 'رحمن', 'رحيم']
-};
+const AR_EXACT_PREFIXES = ['', 'و', 'ف', 'ب', 'ل', 'ك', 'ا', 'ال', 'وال', 'فال', 'بال', 'لل', 'كال', 'ولل', 'فلل', 'وب', 'ول', 'فب', 'فل'];
+const KU_EXACT_SUFFIX_RE = /^(|ە|ی|ێک|ێکی|ێکە|ێکدا|ەکە|ەکەی|ەکەدا|ەکان|ەکانی|ەکاندا|ان|انی|انە|اندا|دا|ت|م|مان|تان|یان|یش|یشی|یشدا|ەوە|ێت|ن)$/;
 
 function normalizeKurdishSearch(str) {
   if (!str) return '';
-  return str.toLowerCase().replace(/[\u064B-\u065F\u0670\u0640\uFEFF]/g, '')
+  return str.toLowerCase()
+    .replace(/[\u064B-\u065F\u0670\u0640\uFEFF]/g, '')
     .replace(/[ڕ]/g, 'ر').replace(/[ێىي]/g, 'ی').replace(/[ك]/g, 'ک')
-    .replace(/[أإآٱ]/g, 'ا').replace(/[ەة]/g, 'ه').replace(/[ۆ]/g, 'و').replace(/[ڵ]/g, 'ل').trim();
+    .replace(/[أإآٱ]/g, 'ا').replace(/[ەة]/g, 'ه').replace(/[ۆ]/g, 'و').replace(/[ڵ]/g, 'ل')
+    .replace(/[^\u0600-\u06FFa-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
 }
 
-function escapeHtml(str) { return String(str || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>'); }
+function escapeHtml(str) {
+  return String(str || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+}
 
-function highlightMatchTerms(text, rawTerms) {
-  let safe = escapeHtml(text);
-  const terms = Array.from(new Set(rawTerms.filter(t => t && t.length >= 2))).sort((a, b) => b.length - a.length);
-  for (const term of terms.slice(0, 6)) {
-    try { safe = safe.replace(new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark class="ayah-search-mark">$1</mark>'); } catch (e) {}
+function arabicWordMatchesQuery(rawToken, qWord) {
+  if (!rawToken || !qWord) return false;
+  const w1 = normalizeArabicBase(rawToken, false);
+  const w2 = normalizeArabicBase(rawToken, true);
+  if (!w1 && !w2) return false;
+
+  const qCore = qWord.startsWith('ال') && qWord.length > 3 ? qWord.slice(2) : qWord;
+  const candidates = [w1, w2];
+
+  for (const w of candidates) {
+    if (!w) continue;
+    if (w === qWord || w === qCore) return true;
+    for (const pre of AR_EXACT_PREFIXES) {
+      if (w === pre + qWord || w === pre + qCore) return true;
+      if (qCore.length >= 3 && (w === pre + qWord + 'ا' || w === pre + qCore + 'ا')) return true;
+    }
   }
-  return safe;
+  return false;
+}
+
+function kurdishWordMatchesQuery(rawToken, qWord) {
+  if (!rawToken || !qWord) return false;
+  const w = normalizeKurdishSearch(rawToken).trim();
+  if (!w) return false;
+  if (w === qWord) return true;
+  if (qWord.length >= 3 && w.startsWith(qWord)) {
+    const rest = w.slice(qWord.length);
+    if (KU_EXACT_SUFFIX_RE.test(rest)) return true;
+  }
+  return false;
+}
+
+function ayahMatchesExactQuery(item, qArWords, qKuWords) {
+  let arHit = false, kuHit = false;
+
+  if (qArWords.length > 0) {
+    const arTokens = item.ar.split(/\s+/).filter(t => t && !isWaqfOnlyToken(t) && normalizeArabicBase(t, false));
+    if (qArWords.length === 1) {
+      arHit = arTokens.some(t => arabicWordMatchesQuery(t, qArWords[0]));
+    } else {
+      for (let i = 0; i <= arTokens.length - qArWords.length; i++) {
+        let ok = true;
+        for (let k = 0; k < qArWords.length; k++) {
+          if (!arabicWordMatchesQuery(arTokens[i + k], qArWords[k])) { ok = false; break; }
+        }
+        if (ok) { arHit = true; break; }
+      }
+    }
+  }
+
+  if (!arHit && qKuWords.length > 0 && item.ku) {
+    const kuTokens = item.ku.split(/\s+/).filter(Boolean);
+    if (qKuWords.length === 1) {
+      kuHit = kuTokens.some(t => kurdishWordMatchesQuery(t, qKuWords[0]));
+    } else {
+      for (let i = 0; i <= kuTokens.length - qKuWords.length; i++) {
+        let ok = true;
+        for (let k = 0; k < qKuWords.length; k++) {
+          if (!kurdishWordMatchesQuery(kuTokens[i + k], qKuWords[k])) { ok = false; break; }
+        }
+        if (ok) { kuHit = true; break; }
+      }
+    }
+  }
+
+  return arHit || kuHit;
+}
+
+function highlightArabicExact(arText, qArWords) {
+  if (!qArWords.length) return colorizeQuranText(arText);
+  const tokens = arText.split(/\s+/).filter(Boolean);
+  const matched = new Array(tokens.length).fill(false);
+
+  if (qArWords.length === 1) {
+    tokens.forEach((tok, idx) => {
+      if (!isWaqfOnlyToken(tok) && arabicWordMatchesQuery(tok, qArWords[0])) matched[idx] = true;
+    });
+  } else {
+    const wordIdxs = [];
+    tokens.forEach((tok, idx) => { if (!isWaqfOnlyToken(tok) && normalizeArabicBase(tok, false)) wordIdxs.push(idx); });
+    for (let i = 0; i <= wordIdxs.length - qArWords.length; i++) {
+      let ok = true;
+      for (let k = 0; k < qArWords.length; k++) {
+        if (!arabicWordMatchesQuery(tokens[wordIdxs[i + k]], qArWords[k])) { ok = false; break; }
+      }
+      if (ok) { for (let k = 0; k < qArWords.length; k++) matched[wordIdxs[i + k]] = true; }
+    }
+  }
+
+  return tokens.map((tok, idx) => {
+    const colored = colorizeQuranText(tok);
+    return matched[idx] ? `<mark class="ayah-search-mark">${colored}</mark>` : colored;
+  }).join(' ');
+}
+
+function highlightKurdishExact(kuText, qKuWords) {
+  if (!kuText) return '';
+  if (!qKuWords.length) return escapeHtml(kuText);
+  const tokens = kuText.split(/\s+/).filter(Boolean);
+  const matched = new Array(tokens.length).fill(false);
+
+  if (qKuWords.length === 1) {
+    tokens.forEach((tok, idx) => { if (kurdishWordMatchesQuery(tok, qKuWords[0])) matched[idx] = true; });
+  } else {
+    for (let i = 0; i <= tokens.length - qKuWords.length; i++) {
+      let ok = true;
+      for (let k = 0; k < qKuWords.length; k++) {
+        if (!kurdishWordMatchesQuery(tokens[i + k], qKuWords[k])) { ok = false; break; }
+      }
+      if (ok) { for (let k = 0; k < qKuWords.length; k++) matched[i + k] = true; }
+    }
+  }
+
+  return tokens.map((tok, idx) => {
+    const safe = escapeHtml(tok);
+    return matched[idx] ? `<mark class="ayah-search-mark">${safe}</mark>` : safe;
+  }).join(' ');
 }
 
 async function ensureFullQuranSearchIndex(onProgress) {
@@ -2536,7 +2610,10 @@ async function ensureFullQuranSearchIndex(onProgress) {
       if (Array.isArray(cached) && cached.length > 6000) { fullQuranSearchIndex = cached; return fullQuranSearchIndex; }
     } catch (e) {}
     if (onProgress) onProgress('⏳ بارکردنی ئایەتەکانی قورئان...');
-    const [arRes, kuRes] = await Promise.all([fetch('https://api.alquran.cloud/v1/quran/quran-uthmani'), fetch('https://api.alquran.cloud/v1/quran/ku.asan')]);
+    const [arRes, kuRes] = await Promise.all([
+      fetch('https://api.alquran.cloud/v1/quran/quran-uthmani'),
+      fetch('https://api.alquran.cloud/v1/quran/ku.asan')
+    ]);
     const [arData, kuData] = await Promise.all([arRes.json(), kuRes.json()]);
     if (arData?.code !== 200 || kuData?.code !== 200) throw new Error('Failed');
     const arSurahs = arData.data.surahs, kuSurahs = kuData.data.surahs, indexArr = [];
@@ -2547,7 +2624,7 @@ async function ensureFullQuranSearchIndex(onProgress) {
         let arText = arA.text || '';
         if (arA.numberInSurah === 1 && sId !== 1 && sId !== 9) arText = stripLeadingBismillah(arText);
         const kuText = kuA?.text || '';
-        indexArr.push({ sId, sName, aNum: arA.numberInSurah, gNum: arA.number, page: arA.page || 1, ar: arText, arN: normalizeArabicBase(arText, false), arN2: normalizeArabicBase(arText, true), ku: kuText, kuN: normalizeKurdishSearch(kuText) });
+        indexArr.push({ sId, sName, aNum: arA.numberInSurah, gNum: arA.number, page: arA.page || 1, ar: arText, ku: kuText });
       }
     }
     fullQuranSearchIndex = indexArr;
@@ -2591,32 +2668,25 @@ async function runSmartAyahSearch(rawQuery) {
   const c = document.getElementById('ayahSearchClearBtn'); if (c) c.style.display = 'grid';
   setAyahSearchStatus(`🔍 خەریکی گەڕانین بۆ «${escapeHtml(query)}»...`);
   if (resultsEl) resultsEl.innerHTML = '';
+
   let index;
   try { index = await ensureFullQuranSearchIndex(msg => setAyahSearchStatus(msg)); }
   catch (e) { setAyahSearchStatus('⚠️ تکایە دڵنیابەوە لە هێڵی ئینتەرنێت.'); return; }
 
-  const qKu = normalizeKurdishSearch(query), qAr = normalizeArabicBase(query, false);
-  const rawTerms = [query], expandedKu = new Set(), expandedAr = new Set();
-  if (qKu) expandedKu.add(qKu); if (qAr) expandedAr.add(qAr);
-  const exactSyn = AYAH_SEARCH_SYNONYMS[query] || AYAH_SEARCH_SYNONYMS[qKu];
-  if (exactSyn) exactSyn.forEach(s => { rawTerms.push(s); const sk = normalizeKurdishSearch(s), sa = normalizeArabicBase(s, false); if (sk) expandedKu.add(sk); if (sa) expandedAr.add(sa); });
+  const rawWords = query.split(/\s+/).filter(Boolean);
+  const qArWords = rawWords.map(w => normalizeArabicBase(w, false)).filter(Boolean);
+  const qKuWords = rawWords.map(w => normalizeKurdishSearch(w)).filter(Boolean);
 
-  const kuList = Array.from(expandedKu).filter(t => t.length >= 2), arList = Array.from(expandedAr).filter(t => t.length >= 2);
-  const scored = [];
-  for (let i = 0; i < index.length; i++) {
-    const item = index[i]; let score = 0;
-    if (qAr && qAr.length >= 2 && (item.arN.includes(qAr) || item.arN2.includes(qAr))) score += 10;
-    if (qKu && qKu.length >= 2 && item.kuN.includes(qKu)) score += 9;
-    if (score === 0) {
-      for (const t of arList) { if (item.arN.includes(t) || item.arN2.includes(t)) { score += 5; break; } }
-      for (const t of kuList) { if (item.kuN.includes(t)) { score += 4; break; } }
-    }
-    if (score > 0) scored.push({ item, score });
+  lastAyahQueryArWords = qArWords;
+  lastAyahQueryKuWords = qKuWords;
+  lastAyahSearchMatches = index.filter(item => ayahMatchesExactQuery(item, qArWords, qKuWords));
+  ayahSearchShownCount = 0;
+
+  if (!lastAyahSearchMatches.length) {
+    setAyahSearchStatus(`هیچ ئایەتێک کە «${escapeHtml(query)}»ـی تێدابێت نەدۆزرایەوە.`);
+    return;
   }
-  scored.sort((a, b) => b.score - a.score || a.item.gNum - b.item.gNum);
-  lastAyahSearchMatches = scored.map(x => x.item); lastAyahHighlightTerms = rawTerms; ayahSearchShownCount = 0;
-  if (!lastAyahSearchMatches.length) { setAyahSearchStatus(`هیچ ئایەتێک بۆ «${escapeHtml(query)}» نەدۆزرایەوە.`); return; }
-  setAyahSearchStatus(`✅ ${toArabicNumbers(lastAyahSearchMatches.length)} ئایەت بۆ «${escapeHtml(query)}» دۆزرایەوە`);
+  setAyahSearchStatus(`✅ ${toArabicNumbers(lastAyahSearchMatches.length)} ئایەت دۆزرایەوە بۆ «${escapeHtml(query)}»`);
   renderMoreAyahSearchResults();
 }
 
@@ -2629,8 +2699,8 @@ function renderMoreAyahSearchResults() {
     const safeSurahName = item.sName.replace(/'/g, "\\'");
     card.innerHTML = `
       <div class="ayah-result-head"><span class="ayah-result-surah-badge">📖 ${item.sName}</span><span class="ayah-result-num">ئایەتی ${toArabicNumbers(item.aNum)} • لاپەڕە ${toArabicNumbers(item.page)}</span></div>
-      <div class="ayah-result-arabic">${colorizeQuranText(item.ar)} <span class="ayah-num-mark">﴿${toArabicNumbers(item.aNum)}﴾</span></div>
-      <div class="ayah-result-kurdish">${highlightMatchTerms(item.ku, lastAyahHighlightTerms)}</div>
+      <div class="ayah-result-arabic">${highlightArabicExact(item.ar, lastAyahQueryArWords)} <span class="ayah-num-mark">﴿${toArabicNumbers(item.aNum)}﴾</span></div>
+      <div class="ayah-result-kurdish">${highlightKurdishExact(item.ku, lastAyahQueryKuWords)}</div>
       <div class="ayah-result-actions">
         <button type="button" class="ayah-res-btn primary" onclick="jumpToAyahInReader(${item.sId}, '${safeSurahName}', ${item.aNum})">📖 قورئان</button>
         <button type="button" class="ayah-res-btn" onclick="playSearchResultAyahAudio(${item.sId}, ${item.aNum}, ${item.gNum}, this)">🔊 ماهر</button>
@@ -3052,8 +3122,48 @@ function setPlayIcon(isPlaying) {
 }
 
 /* ========================================================
-   FAST VIEW SWITCHER + LAZY VIDEO & LIST RENDERING
+   SMOOTH SLIDING MIRROR CIRCLE + VIEW SWITCHER
    ======================================================== */
+const MAIN_BOTTOM_NAV_VIEWS = [
+  'view-home',
+  'view-reciters',
+  'view-surahs',
+  'view-reading',
+  'view-hifz',
+  'view-adhkar',
+  'view-sounds'
+];
+
+function moveBottomNavIndicator(instant = false) {
+  const bar = document.getElementById('bottomNavBar') || document.querySelector('.bottom-nav-bar');
+  const indicator = document.getElementById('bottomNavIndicator');
+  const activeItem = bar?.querySelector('.bottom-nav-item.active');
+  if (!bar || !indicator || !activeItem) return;
+
+  const barRect = bar.getBoundingClientRect();
+  const itemRect = activeItem.getBoundingClientRect();
+  if (!barRect.width || !itemRect.width) return;
+
+  const size = Math.min(52, Math.max(46, Math.round(barRect.height - 8)));
+  const targetX = (itemRect.left - barRect.left) + (itemRect.width - size) / 2;
+
+  indicator.style.width = `${size}px`;
+  indicator.style.height = `${size}px`;
+  if (instant) {
+    indicator.style.transition = 'none';
+    indicator.style.transform = `translate3d(${targetX.toFixed(1)}px, -50%, 0)`;
+    indicator.style.opacity = '1';
+    indicator.offsetHeight;
+    indicator.style.transition = '';
+  } else {
+    indicator.style.opacity = '1';
+    indicator.style.transform = `translate3d(${targetX.toFixed(1)}px, -50%, 0)`;
+  }
+}
+
+window.addEventListener('resize', () => moveBottomNavIndicator(true));
+window.addEventListener('load', () => moveBottomNavIndicator(true));
+
 function managePreviewVideosForView(activeViewId) {
   document.querySelectorAll('.sound-video-preview').forEach(vid => {
     const parentView = vid.closest('.page-view');
@@ -3088,9 +3198,15 @@ function switchView(viewId, isRestore = false) {
     updateTallTopReciterPhoto(selectedReciterName);
   }
 
+  const showBottomBars = MAIN_BOTTOM_NAV_VIEWS.includes(viewId);
   const bottomNav = document.getElementById('mainBottomNav'), mainContent = document.getElementById('mainContentArea');
-  if (viewId === 'view-home') { if (bottomNav) bottomNav.style.display = 'flex'; mainContent?.classList.remove('no-bottom-nav'); }
-  else { if (bottomNav) bottomNav.style.display = 'none'; mainContent?.classList.add('no-bottom-nav'); }
+  if (showBottomBars) {
+    if (bottomNav) bottomNav.style.display = 'flex';
+    mainContent?.classList.remove('no-bottom-nav');
+  } else {
+    if (bottomNav) bottomNav.style.display = 'none';
+    mainContent?.classList.add('no-bottom-nav');
+  }
 
   const navMap = {
     'view-home': ['menuHome', 'navBtnHome'], 'view-ayah-search': ['menuAyahSearch'], 'view-qibla': ['menuQibla'],
@@ -3101,6 +3217,8 @@ function switchView(viewId, isRestore = false) {
   };
   document.querySelectorAll('.side-menu a.active, .bottom-nav-item.active').forEach(el => el.classList.remove('active'));
   if (navMap[viewId]) navMap[viewId].forEach(id => document.getElementById(id)?.classList.add('active'));
+
+  if (showBottomBars) requestAnimationFrame(() => moveBottomNavIndicator(isRestore));
 
   if (viewId === 'view-qibla') initQiblaFromSelectedCity();
   if (viewId === 'view-surahs' && !renderedViewsCache.surahs) { renderSurahsList(surahsData); renderedViewsCache.surahs = true; }
@@ -4496,7 +4614,10 @@ function backToReadingList() {
   stopAyahByAyahFollow(); stopSmartReciteAssistant(); closeReaderPopBars(); localStorage.setItem('noor_reader_is_open', 'false');
   document.getElementById('readingReaderContainer').style.display = 'none'; document.getElementById('readingListContainer').style.display = 'block';
   document.getElementById('mainTopbar').style.display = 'flex';
-  document.getElementById('mainBottomNav').style.display = document.getElementById('view-home')?.classList.contains('active') ? 'flex' : 'none';
+  const activeViewId = document.querySelector('.page-view.active')?.id || 'view-home';
+  const showNav = MAIN_BOTTOM_NAV_VIEWS.includes(activeViewId);
+  document.getElementById('mainBottomNav').style.display = showNav ? 'flex' : 'none';
+  if (showNav) requestAnimationFrame(() => moveBottomNavIndicator(true));
 }
 
 function displayRecitersList(recitersList) {
