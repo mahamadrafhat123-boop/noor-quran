@@ -16,19 +16,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --main-bg-gradient: linear-gradient(180deg, #f8fbff 0%, #eff5ff 100%);
-  --glass-bg: rgba(255, 255, 255, 0.88);
-  --glass-card-bg: rgba(255, 255, 255, 0.94);
-  --glass-solid: #ffffff;
-  --glass-border: rgba(226, 232, 240, 0.95);
+  --glass-mirror: linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.44) 100%);
+  --glass-card-mirror: linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.52) 100%);
+  --glass-nav-mirror: linear-gradient(145deg, rgba(255, 255, 255, 0.74) 0%, rgba(239, 246, 255, 0.42) 100%);
+  --glass-border: rgba(255, 255, 255, 0.82);
+  --glass-border-soft: rgba(148, 163, 184, 0.24);
   --gold: #2563eb;
   --gold2: #0f172a;
   --text: #0f172a;
   --muted: #475569;
   --line: rgba(15, 23, 42, 0.08);
-  --nav-bg: rgba(255, 255, 255, 0.92);
-  --card-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-  --mirror-shadow: 0 8px 24px rgba(15, 23, 42, 0.09);
+  --card-shadow: 0 6px 20px rgba(30, 58, 138, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  --mirror-shadow: 0 10px 30px rgba(15, 23, 42, 0.09), inset 0 1.5px 1px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(37, 99, 235, 0.06);
+  --nav-mirror-shadow: 0 14px 34px rgba(15, 23, 42, 0.14), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.98), inset 0 -1px 3px rgba(37, 99, 235, 0.1);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -40,7 +40,20 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
-  background: var(--main-bg-gradient);
+  background: #e9f1ff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(147, 197, 253, 0.55) 0%, transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(196, 181, 253, 0.36) 0%, transparent 44%),
+    radial-gradient(circle at 82% 80%, rgba(125, 211, 252, 0.45) 0%, transparent 46%),
+    radial-gradient(circle at 18% 85%, rgba(191, 219, 254, 0.55) 0%, transparent 48%),
+    linear-gradient(160deg, #eff6ff 0%, #e0ecff 50%, #f1f5ff 100%);
 }
 
 button, select, input { font: inherit; }
@@ -48,77 +61,206 @@ button, a { cursor: pointer; touch-action: manipulation; }
 .app-layout { display: flex; min-height: 100vh; flex-direction: row; position: relative; z-index: 1; }
 
 /* ========================================================
-   SETTINGS TOP LOGIN & SIGNUP CARD
+   REORGANIZED CLEAN SETTINGS & GLASS ACCOUNT HUB
    ======================================================== */
+.settings-hub-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.settings-group-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #334155;
+  padding: 0 6px;
+  margin-bottom: -6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.settings-glass-group {
+  background: var(--glass-card-mirror);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--mirror-shadow);
+  overflow: hidden;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 15px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  background: transparent;
+  width: 100%;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: right;
+  color: #0f172a;
+  transition: background 0.18s ease;
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row:active { background: rgba(37, 99, 235, 0.07); }
+.settings-row-main {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+.settings-row-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #1d4ed8;
+}
+.settings-row-ico.google-ico { background: rgba(255, 255, 255, 0.85); }
+.settings-row-ico.danger-ico { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+.settings-row-ico.amber-ico { background: rgba(245, 158, 11, 0.14); color: #b45309; }
+.settings-row-ico.emerald-ico { background: rgba(16, 185, 129, 0.14); color: #047857; }
+.settings-row-text { min-width: 0; }
+.settings-row-text strong { display: block; font-size: 13.5px; font-weight: 700; color: #0f172a; }
+.settings-row-text small { display: block; font-size: 11px; color: #64748b; margin-top: 1px; }
+.settings-row-chevron { color: #94a3b8; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+.settings-row.danger-row .settings-row-text strong { color: #dc2626; }
+
+.settings-drawer-body {
+  display: none;
+  padding: 12px 15px 15px;
+  background: rgba(255, 255, 255, 0.42);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+.settings-drawer-body.open { display: block; }
+
+/* SETTINGS TOP LOGIN & SIGNUP CARD */
 .auth-mirror-card {
-  position: relative; width: 100%; background: #ffffff; border: 1px solid var(--glass-border);
-  border-radius: 22px; padding: 20px 18px; margin-bottom: 16px; box-shadow: var(--mirror-shadow); direction: rtl;
+  position: relative; width: 100%;
+  background: var(--glass-card-mirror);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px; padding: 18px 16px;
+  box-shadow: var(--mirror-shadow); direction: rtl;
 }
-.auth-brand-head { text-align: center; margin-bottom: 14px; }
+.auth-brand-head { text-align: center; margin-bottom: 12px; }
 .auth-brand-logo {
-  width: 48px; height: 48px; margin: 0 auto 8px; border-radius: 14px;
-  display: grid; place-items: center; font-size: 22px; color: #ffffff;
-  background: linear-gradient(145deg, #2563eb, #60a5fa); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22);
+  width: 46px; height: 46px; margin: 0 auto 8px; border-radius: 14px;
+  display: grid; place-items: center; font-size: 21px; color: #ffffff;
+  background: linear-gradient(145deg, #2563eb, #60a5fa); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24);
 }
-.auth-brand-head h2 { margin: 0 0 4px; font-family: 'Amiri', serif; font-size: 20px; color: #0f172a; }
+.auth-brand-head h2 { margin: 0 0 3px; font-family: 'Amiri', serif; font-size: 19px; color: #0f172a; }
 .auth-brand-head p { margin: 0; font-size: 12px; color: #475569; font-weight: 500; }
-.auth-tabs-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; background: #f1f5f9; border-radius: 14px; padding: 4px; margin-bottom: 14px; }
-.auth-tab-btn { border: none; background: transparent; color: #475569; padding: 9px 10px; border-radius: 11px; font-size: 13px; font-weight: 700; transition: background 0.2s, color 0.2s; }
-.auth-tab-btn.active { background: #ffffff; color: #1d4ed8; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
-.auth-feedback { display: none; padding: 9px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-bottom: 12px; text-align: center; line-height: 1.6; }
-.auth-feedback.error { display: block; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-.auth-feedback.success { display: block; background: #d1fae5; color: #047857; border: 1px solid #6ee7b7; }
-.auth-form-panel { display: none; flex-direction: column; gap: 10px; }
+.auth-tabs-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; background: rgba(15, 23, 42, 0.06); border-radius: 13px; padding: 4px; margin-bottom: 12px; }
+.auth-tab-btn { border: none; background: transparent; color: #475569; padding: 8px 10px; border-radius: 10px; font-size: 12.5px; font-weight: 700; transition: background 0.2s, color 0.2s; }
+.auth-tab-btn.active { background: rgba(255, 255, 255, 0.92); color: #1d4ed8; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+.auth-feedback { display: none; padding: 8px 12px; border-radius: 11px; font-size: 12px; font-weight: 700; margin-bottom: 10px; text-align: center; line-height: 1.6; }
+.auth-feedback.error { display: block; background: rgba(254, 226, 226, 0.9); color: #b91c1c; border: 1px solid #fca5a5; }
+.auth-feedback.success { display: block; background: rgba(209, 250, 229, 0.9); color: #047857; border: 1px solid #6ee7b7; }
+.auth-form-panel { display: none; flex-direction: column; gap: 9px; }
 .auth-form-panel.active { display: flex; }
 .auth-input-group { display: flex; flex-direction: column; gap: 4px; }
-.auth-input-group label { font-size: 12px; font-weight: 700; color: #334155; }
-.auth-input-group input { width: 100%; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px 13px; font-size: 13.5px; color: #0f172a; outline: none; }
+.auth-input-group label { font-size: 11.5px; font-weight: 700; color: #334155; }
+.auth-input-group input { width: 100%; background: rgba(255, 255, 255, 0.72); border: 1.5px solid rgba(148, 163, 184, 0.35); border-radius: 12px; padding: 9px 12px; font-size: 13px; color: #0f172a; outline: none; }
 .auth-input-group input:focus { border-color: #2563eb; background: #ffffff; }
-.auth-submit-btn { width: 100%; margin-top: 4px; background: #2563eb; color: #ffffff; border: none; border-radius: 12px; padding: 11px 16px; font-size: 13.5px; font-weight: 800; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22); }
-.auth-divider { display: flex; align-items: center; gap: 10px; margin: 14px 0 12px; color: #64748b; font-size: 12px; font-weight: 700; }
-.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: rgba(15, 23, 42, 0.12); }
-.auth-social-stack { display: flex; flex-direction: column; gap: 9px; }
-.auth-google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 800; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05); }
-.auth-google-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
-.auth-close-return-btn { display: none; width: 100%; margin-top: 10px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 9px 14px; border-radius: 12px; font-size: 12.5px; font-weight: 700; }
+.auth-submit-btn { width: 100%; margin-top: 3px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border: none; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 800; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24); }
+.auth-divider { display: flex; align-items: center; gap: 10px; margin: 12px 0 10px; color: #64748b; font-size: 11.5px; font-weight: 700; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: rgba(15, 23, 42, 0.1); }
+.auth-social-stack { display: flex; flex-direction: column; gap: 8px; }
+.auth-google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 255, 255, 0.85); color: #0f172a; border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 12px; padding: 10px 14px; font-size: 12.5px; font-weight: 800; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05); }
+.auth-google-btn svg { width: 19px; height: 19px; flex-shrink: 0; }
+.auth-close-return-btn { display: none; width: 100%; margin-top: 9px; background: rgba(255, 255, 255, 0.65); border: 1px solid rgba(148, 163, 184, 0.35); color: #334155; padding: 8px 14px; border-radius: 11px; font-size: 12px; font-weight: 700; }
 
-/* ========================================================
-   SETTINGS & ACCOUNT SECTION STYLES
-   ======================================================== */
-.account-profile-banner { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; background: #ffffff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
+/* UNIFIED ACCOUNT HERO CARD (PROFILE + 4 MINI STATS TOGETHER) */
+.account-hero-card {
+  background: var(--glass-card-mirror);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--mirror-shadow);
+  overflow: hidden;
+}
+.account-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+}
 .account-identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .account-avatar-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
-.account-avatar-badge { width: 62px; height: 62px; border-radius: 50%; background: linear-gradient(145deg, #2563eb, #60a5fa); color: #ffffff; display: grid; place-items: center; font-size: 23px; font-weight: 800; border: 2px solid #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22); flex-shrink: 0; overflow: hidden; }
+.account-avatar-badge { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(145deg, #2563eb, #60a5fa); color: #ffffff; display: grid; place-items: center; font-size: 22px; font-weight: 800; border: 2px solid #ffffff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); flex-shrink: 0; overflow: hidden; }
 .account-avatar-badge img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .account-avatar-edit-dot { position: absolute; bottom: -2px; left: -2px; width: 22px; height: 22px; border-radius: 50%; background: #ffffff; color: #1d4ed8; border: 1.5px solid #93c5fd; display: grid; place-items: center; font-size: 10px; }
 .topbar-user-avatar { width: 24px; height: 24px; border-radius: 50%; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid #2563eb; background: #dbeafe; flex-shrink: 0; }
 .topbar-user-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.account-meta h4 { margin: 0 0 3px; font-size: 16px; color: #0f172a; }
-.account-meta small { display: block; font-size: 12px; color: #475569; direction: ltr; text-align: right; }
-.account-provider-pill { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-.account-provider-pill.google { background: #fef2f2; color: #c5221f; border-color: #fecaca; }
-.account-stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
-.account-stat-card { background: #ffffff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 14px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 3px; }
-.account-stat-card strong { font-size: 19px; color: #1d4ed8; font-weight: 800; }
-.account-stat-card span { font-size: 11px; color: #475569; font-weight: 700; }
-.account-link-box, .account-edit-box { background: #ffffff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 18px; padding: 15px 16px; margin-bottom: 14px; }
-.account-link-box h4, .account-edit-box h4 { margin: 0 0 10px; font-size: 14px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
-.account-link-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.account-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
-.account-actions-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.account-btn-primary { background: #2563eb; color: #ffffff; border: none; border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; }
-.account-btn-secondary { background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 700; }
-.account-btn-danger { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; }
+.account-meta { min-width: 0; }
+.account-meta h4 { margin: 0 0 2px; font-size: 15.5px; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.account-meta small { display: block; font-size: 11.5px; color: #475569; direction: ltr; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.account-provider-pill { display: inline-flex; align-items: center; gap: 5px; margin-top: 5px; padding: 2px 9px; border-radius: 99px; font-size: 10.5px; font-weight: 800; background: rgba(37, 99, 235, 0.1); color: #1d4ed8; border: 1px solid rgba(147, 197, 253, 0.6); }
+.account-provider-pill.google { background: rgba(239, 68, 68, 0.1); color: #c5221f; border-color: rgba(252, 165, 165, 0.7); }
+
+.account-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  background: rgba(255, 255, 255, 0.36);
+}
+.account-mini-stat {
+  padding: 10px 4px;
+  text-align: center;
+  border-left: 1px solid rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.account-mini-stat:last-child { border-left: none; }
+.account-mini-stat strong { font-size: 16px; color: #1d4ed8; font-weight: 800; }
+.account-mini-stat span { font-size: 10px; color: #475569; font-weight: 700; }
+
+.account-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-bottom: 10px; }
+.account-btn-primary { width: 100%; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border: none; border-radius: 12px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; }
 .topbar-settings-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
 
-aside.sidebar { width: 255px; background: #ffffff; border-left: 1px solid var(--glass-border); padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0; box-shadow: var(--card-shadow); overflow-y: auto; }
+/* ADHKAR REMINDER CLEAN GLASS BLOCK INSIDE SETTINGS */
+.adhkar-rem-body { padding: 12px 15px 14px; display: flex; flex-direction: column; gap: 10px; }
+.adhkar-rem-toggle-btn { background: rgba(255, 255, 255, 0.75); border: 1.5px solid #2563eb; color: #1d4ed8; padding: 5px 13px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
+.adhkar-rem-toggle-btn.active { background: #10b981; border-color: #059669; color: #ffffff; }
+.adhkar-rem-times-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.adhkar-rem-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.adhkar-rem-field label { font-size: 11px; color: var(--muted); font-weight: 700; }
+.adhkar-rem-field input[type="time"] { background: rgba(255, 255, 255, 0.76); border: 1px solid rgba(148, 163, 184, 0.35); color: #0f172a; border-radius: 11px; padding: 7px 8px; font-size: 13px; font-weight: 700; outline: none; direction: ltr; text-align: center; width: 100%; }
+.adhkar-rem-test-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.adhkar-rem-test-btn { background: rgba(37, 99, 235, 0.09); border: 1px solid rgba(147, 197, 253, 0.65); color: #1d4ed8; padding: 7px 10px; border-radius: 11px; font-size: 11px; font-weight: 700; }
+
+/* SIDEBAR — GLASS MIRROR */
+aside.sidebar {
+  width: 255px;
+  background: var(--glass-mirror);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border-left: 1px solid var(--glass-border);
+  padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between;
+  position: sticky; top: 0; height: 100vh; z-index: 100; flex-shrink: 0;
+  box-shadow: var(--mirror-shadow); overflow-y: auto;
+}
 .sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
 .sidebar-brand .mark { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #ffffff; background: linear-gradient(145deg, #2563eb, #60a5fa); font-size: 21px; cursor: pointer; user-select: none; }
 .sidebar-brand h1 { font-size: 16px; margin: 0; color: var(--text); font-weight: 700; cursor: pointer; user-select: none; }
 .sidebar-brand small { display: block; color: var(--muted); font-size: 10px; }
 .side-menu { list-style: none; padding: 0; margin: 18px 0; display: flex; flex-direction: column; gap: 5px; }
 .side-menu a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: var(--muted); text-decoration: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
-.side-menu a:hover, .side-menu a.active { background: #eff6ff; color: #1d4ed8; border-right: 3px solid var(--gold); }
+.side-menu a:hover, .side-menu a.active { background: rgba(255, 255, 255, 0.72); color: #1d4ed8; border-color: rgba(255, 255, 255, 0.9); border-right: 3px solid var(--gold); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08); }
 .sidebar-footer { text-align: center; font-size: 11px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--line); line-height: 1.8; }
 
 .main-content { flex: 1; padding: 18px 22px 190px; width: 100%; min-width: 0; position: relative; }
@@ -127,75 +269,83 @@ aside.sidebar { width: 255px; background: #ffffff; border-left: 1px solid var(--
 .page-view.active { display: block; }
 #view-full-player.page-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; margin: 0; padding: 0; }
 
-header.topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+header.topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid rgba(15, 23, 42, 0.08); margin-bottom: 14px; }
 .topbar-secret-trigger { font-family: 'Amiri', serif; font-size: 20px; font-weight: 900; color: #0f172a; cursor: pointer; user-select: none; padding-left: 10px; }
 .topbar-actions { display: flex; align-items: center; gap: 7px; flex-wrap: nowrap; justify-content: flex-end; }
-.topbar-btn { background: #ffffff; border: 1px solid var(--glass-border); color: var(--text); padding: 6px 12px; border-radius: 20px; font-family: inherit; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: var(--card-shadow); }
+.topbar-btn {
+  background: var(--glass-card-mirror);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  color: var(--text); padding: 6px 12px; border-radius: 20px; font-family: inherit;
+  font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+  cursor: pointer; box-shadow: var(--card-shadow);
+}
 .topbar-btn:active { transform: scale(0.96); }
 
 .search-container-box { margin-bottom: 12px; width: 100%; }
 .reciter-search-box { position: relative; width: 100%; }
-.reciter-search-box input { width: 100%; background: #ffffff; border: 1px solid var(--glass-border); border-radius: 13px; padding: 11px 14px 11px 38px; color: var(--text); font-size: 13px; outline: none; box-shadow: var(--card-shadow); }
+.reciter-search-box input {
+  width: 100%; background: var(--glass-card-mirror); border: 1px solid var(--glass-border);
+  border-radius: 13px; padding: 11px 14px 11px 38px; color: var(--text); font-size: 13px;
+  outline: none; box-shadow: var(--card-shadow);
+}
 .reciter-search-box input::placeholder { color: var(--muted); }
-.reciter-search-box input:focus { border-color: var(--gold); }
+.reciter-search-box input:focus { border-color: var(--gold); background: rgba(255, 255, 255, 0.92); }
 .reciter-search-box span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
 
-/* ========================================================
-   SMART AYAH SEARCH VIEW STYLES
-   ======================================================== */
+/* SMART AYAH SEARCH VIEW */
 .ayah-search-bar-form { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .ayah-search-input-wrap { position: relative; flex: 1; min-width: 0; }
-.ayah-search-input-wrap input { width: 100%; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 11px 14px 11px 36px; font-size: 13.5px; font-weight: 600; color: #0f172a; outline: none; box-shadow: var(--card-shadow); }
-.ayah-search-input-wrap input:focus { border-color: #2563eb; }
-.ayah-search-clear-btn { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: #f1f5f9; color: #64748b; font-size: 11px; display: none; place-items: center; }
-.ayah-search-submit-btn { background: #2563eb; color: #ffffff; border: none; border-radius: 14px; padding: 11px 18px; font-size: 13px; font-weight: 800; white-space: nowrap; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+.ayah-search-input-wrap input { width: 100%; background: rgba(255, 255, 255, 0.78); border: 1px solid var(--glass-border); border-radius: 14px; padding: 11px 14px 11px 36px; font-size: 13.5px; font-weight: 600; color: #0f172a; outline: none; box-shadow: var(--card-shadow); }
+.ayah-search-input-wrap input:focus { border-color: #2563eb; background: #ffffff; }
+.ayah-search-clear-btn { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: rgba(15, 23, 42, 0.08); color: #64748b; font-size: 11px; display: none; place-items: center; }
+.ayah-search-submit-btn { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border: none; border-radius: 14px; padding: 11px 18px; font-size: 13px; font-weight: 800; white-space: nowrap; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28); }
 .ayah-topics-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .ayah-topics-strip::-webkit-scrollbar { display: none; }
-.ayah-topic-chip { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.ayah-topic-chip { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); color: #334155; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; flex-shrink: 0; box-shadow: var(--card-shadow); }
 .ayah-topic-chip.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
-.ayah-search-status { font-size: 12px; font-weight: 700; color: #1d4ed8; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; display: none; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.ayah-search-status { font-size: 12px; font-weight: 700; color: #1d4ed8; background: rgba(239, 246, 255, 0.85); border: 1px solid rgba(147, 197, 253, 0.7); border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; display: none; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .ayah-search-status.visible { display: flex; }
 .ayah-search-results { display: flex; flex-direction: column; gap: 10px; }
-.ayah-result-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 14px 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 8px; content-visibility: auto; contain-intrinsic-size: 185px; }
+.ayah-result-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 14px 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 8px; content-visibility: auto; contain-intrinsic-size: 185px; }
 .ayah-result-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.ayah-result-surah-badge { display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 3px 11px; border-radius: 99px; font-size: 12px; font-weight: 800; font-family: 'Amiri', serif; }
+.ayah-result-surah-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(37, 99, 235, 0.1); color: #1d4ed8; border: 1px solid rgba(147, 197, 253, 0.6); padding: 3px 11px; border-radius: 99px; font-size: 12px; font-weight: 800; font-family: 'Amiri', serif; }
 .ayah-result-num { font-size: 11px; font-weight: 800; color: #64748b; }
 .ayah-result-arabic { font-family: 'Amiri Quran', 'Amiri', serif; font-size: 22px; line-height: 2.15; color: #0f172a; text-align: right; }
-.ayah-result-kurdish { font-size: 13px; line-height: 1.85; color: #334155; border-top: 1px dashed #e2e8f0; padding-top: 8px; text-align: right; }
+.ayah-result-kurdish { font-size: 13px; line-height: 1.85; color: #334155; border-top: 1px dashed rgba(15, 23, 42, 0.12); padding-top: 8px; text-align: right; }
 .ayah-search-mark { background: #fef08a; color: #0f172a; padding: 0 3px; border-radius: 5px; font-weight: 800; }
 .ayah-result-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
-.ayah-res-btn { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; padding: 6px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+.ayah-res-btn { background: rgba(255, 255, 255, 0.72); border: 1px solid var(--glass-border); color: #0f172a; padding: 6px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05); }
 .ayah-res-btn.primary { background: #2563eb; border-color: #2563eb; color: #ffffff; }
-.ayah-load-more-btn { width: 100%; margin-top: 8px; background: #eff6ff; border: 1.5px solid #93c5fd; color: #1d4ed8; padding: 10px 14px; border-radius: 13px; font-size: 13px; font-weight: 800; }
+.ayah-load-more-btn { width: 100%; margin-top: 8px; background: var(--glass-card-mirror); border: 1.5px solid #93c5fd; color: #1d4ed8; padding: 10px 14px; border-radius: 13px; font-size: 13px; font-weight: 800; }
 
-/* 1:1 PRAYER TIMES CARD + QIBLA SHORTCUT */
-.prayer-times-card { width: 100%; max-width: 420px; aspect-ratio: 1 / 1; margin: 0 auto 16px; background: linear-gradient(180deg, #0b1630 0%, #0f1d3d 55%, #071022 100%); border: 1px solid rgba(15, 23, 42, 0.14); border-radius: 24px; padding: 16px 12px; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18); color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+/* 1:1 PRAYER TIMES CARD */
+.prayer-times-card { width: 100%; max-width: 420px; aspect-ratio: 1 / 1; margin: 0 auto 16px; background: linear-gradient(180deg, rgba(11, 22, 48, 0.94) 0%, rgba(15, 29, 61, 0.92) 55%, rgba(7, 16, 34, 0.96) 100%); border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 24px; padding: 16px 12px; box-shadow: 0 14px 32px rgba(15, 23, 42, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.25); color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
 .prayer-times-card::after { content: ""; position: absolute; top: 56px; left: 20px; width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffffff 0%, #dbeafe 45%, rgba(96, 165, 250, 0) 75%); pointer-events: none; z-index: 1; }
 .bang-top-strip-row { position: relative; z-index: 3; display: flex; align-items: center; gap: 6px; width: 100%; }
 .bang-cities-pills-bar { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .bang-cities-pills-bar::-webkit-scrollbar { display: none; }
-.bang-qibla-quick-btn { background: rgba(251, 191, 36, 0.18); border: 1px solid rgba(251, 191, 36, 0.55); color: #fde68a; padding: 5px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; }
-.bang-city-pill { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); color: #f8fafc; padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.bang-qibla-quick-btn { background: rgba(251, 191, 36, 0.2); border: 1px solid rgba(251, 191, 36, 0.55); color: #fde68a; padding: 5px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; }
+.bang-city-pill { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.22); color: #f8fafc; padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; }
 .bang-city-pill.active { background: #ffffff; color: #0f172a; border-color: #ffffff; }
 .bang-top-clock-area { position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .bang-active-city-title { margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; }
 .bang-live-clock { font-family: 'Vazirmatn', sans-serif; font-size: 38px; font-weight: 800; color: #ffffff; direction: ltr; letter-spacing: 1px; line-height: 1.15; margin: 2px 0; }
 .bang-date-line { font-size: 13.5px; font-weight: 700; color: #f1f5f9; }
 .bang-hijri-line { font-size: 13px; font-weight: 700; color: #cbd5e1; }
-.bang-pill-bar { position: relative; z-index: 2; width: 100%; height: 34px; background: #d1d5db; border-radius: 99px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.bang-pill-bar { position: relative; z-index: 2; width: 100%; height: 34px; background: rgba(226, 232, 240, 0.85); border-radius: 99px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .bang-pill-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 25%; background: #ffffff; border-radius: 99px 0 0 99px; z-index: 1; }
 .bang-pill-countdown { position: relative; z-index: 2; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 800; color: #0f172a; direction: ltr; }
 .bang-pill-next-name { position: absolute; right: 14px; z-index: 2; font-size: 13px; font-weight: 800; color: #0f172a; }
 .bang-times-list { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; width: 100%; }
-.bang-time-row { background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 9px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.bang-time-row { background: rgba(255, 255, 255, 0.92); border: 1.5px solid rgba(255, 255, 255, 0.95); border-radius: 12px; padding: 9px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
 .bang-name-cell { font-size: 11px; font-weight: 800; color: #334155; text-align: center; white-space: nowrap; }
 .bang-clock-cell { font-family: 'Vazirmatn', sans-serif; font-size: 12.5px; font-weight: 800; color: #0f172a; direction: ltr; text-align: center; }
 .bang-time-row.active-next-row { background: #eff6ff; border: 2px solid #2563eb; }
 .bang-time-row.active-next-row .bang-name-cell, .bang-time-row.active-next-row .bang-clock-cell { color: #1d4ed8; }
 
-/* ========================================================
-   QIBLA COMPASS VIEW STYLES (SMOOTH, NO JITTER)
-   ======================================================== */
+/* QIBLA COMPASS */
 .qibla-stage-panel { display: flex; flex-direction: column; align-items: center; gap: 14px; background: linear-gradient(165deg, #0b1630 0%, #0f1d3d 60%, #071022 100%); border-radius: 22px; padding: 22px 14px 18px; color: #ffffff; text-align: center; }
 .qibla-status-pill { padding: 6px 15px; border-radius: 99px; font-size: 12.5px; font-weight: 800; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.22); color: #e2e8f0; }
 .qibla-status-pill.aligned { background: #10b981; border-color: #6ee7b7; color: #ffffff; box-shadow: 0 0 20px rgba(16, 185, 129, 0.55); }
@@ -220,12 +370,10 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .qibla-btn { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; padding: 10px 10px; border-radius: 13px; font-size: 12px; font-weight: 800; }
 .qibla-btn.primary { background: #fbbf24; border-color: #fbbf24; color: #0f172a; }
 
-/* ========================================================
-   AYAH STORY CARD GENERATOR MODAL (9:16 IMAGE CREATOR)
-   ======================================================== */
+/* AYAH STORY CARD GENERATOR MODAL */
 #storyCardModal { display: none; position: fixed; inset: 0; z-index: 999999; background: rgba(2, 6, 23, 0.82); padding: 14px; align-items: center; justify-content: center; overflow-y: auto; }
 #storyCardModal.active { display: flex; }
-.story-modal-box { width: 100%; max-width: 400px; background: #0f172a; border: 1.5px solid rgba(147, 197, 253, 0.45); border-radius: 22px; padding: 14px; color: #ffffff; display: flex; flex-direction: column; gap: 10px; direction: rtl; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); }
+.story-modal-box { width: 100%; max-width: 400px; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1.5px solid rgba(147, 197, 253, 0.45); border-radius: 22px; padding: 14px; color: #ffffff; display: flex; flex-direction: column; gap: 10px; direction: rtl; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); }
 .story-modal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .story-modal-head h4 { margin: 0; font-family: 'Amiri', serif; font-size: 18px; color: #fde68a; }
 .story-modal-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.14); color: #ffffff; font-size: 13px; }
@@ -238,86 +386,91 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .story-btn-save { background: #fbbf24; color: #0f172a; border: none; border-radius: 12px; padding: 10px; font-size: 12.5px; font-weight: 800; }
 .story-btn-share { background: #2563eb; color: #ffffff; border: none; border-radius: 12px; padding: 10px; font-size: 12.5px; font-weight: 800; }
 
-/* FLOATING AYAH SHOWCASE */
+/* FLOATING AYAH SHOWCASE — GLASS CARDS */
 .floating-ayah-showcase { margin-top: 16px; padding: 6px 4px; text-align: center; }
 .ayah-ornament-badge { display: inline-flex; align-items: center; gap: 10px; color: #1d4ed8; font-size: 12px; font-weight: 800; margin-bottom: 8px; }
 .ayah-ornament-badge::before, .ayah-ornament-badge::after { content: ""; width: 30px; height: 1px; background: linear-gradient(90deg, transparent, #2563eb, transparent); }
 .hero-text-content { width: 100%; }
 .quote-slide { display: none; width: 100%; }
 .quote-slide.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .quran-ayah { font-family: 'Amiri Quran', serif; font-size: 28px; color: #0f172a; line-height: 1.9; margin-bottom: 8px; }
 .quote-meaning { font-family: 'Vazirmatn', sans-serif; font-size: 13.5px; color: #334155; line-height: 1.9; font-weight: 500; max-width: 94%; margin: 0 auto 8px; }
-.ayah-surah-ref { display: inline-block; font-family: 'Amiri', serif; font-size: 13px; color: #1d4ed8; background: #eff6ff; font-weight: 700; padding: 2px 12px; border-radius: 99px; border: 1px solid #dbeafe; margin-bottom: 10px; }
+.ayah-surah-ref { display: inline-block; font-family: 'Amiri', serif; font-size: 13px; color: #1d4ed8; background: rgba(255, 255, 255, 0.72); font-weight: 700; padding: 2px 12px; border-radius: 99px; border: 1px solid var(--glass-border); margin-bottom: 10px; }
 .ayah-actions-row { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 4px; flex-wrap: wrap; }
-.ayah-mini-btn { background: #ffffff; border: 1px solid var(--glass-border); color: #0f172a; padding: 6px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: var(--card-shadow); }
+.ayah-mini-btn { background: var(--glass-card-mirror); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); color: #0f172a; padding: 6px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; box-shadow: var(--card-shadow); }
 .islamic-divider-line { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px auto; max-width: 240px; color: #2563eb; font-size: 13px; }
 .islamic-divider-line::before, .islamic-divider-line::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.16), transparent); }
 .blessed-surahs-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
-.blessed-pill { background: #ffffff; border: 1px solid var(--glass-border); color: #0f172a; padding: 10px 6px; border-radius: 14px; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; box-shadow: var(--card-shadow); }
+.blessed-pill { background: var(--glass-card-mirror); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%); border: 1px solid var(--glass-border); color: #0f172a; padding: 10px 6px; border-radius: 15px; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; box-shadow: var(--card-shadow); }
 .blessed-pill small { color: #2563eb; font-size: 10px; font-weight: 600; }
 .spiritual-gems-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; text-align: center; margin-top: 4px; }
-.gem-item-box { padding: 12px 10px; border-radius: 16px; border: 1px solid var(--glass-border); background: #ffffff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 5px; box-shadow: var(--card-shadow); min-width: 0; }
+.gem-item-box { padding: 14px 10px; border-radius: 18px; border: 1px solid var(--glass-border); background: var(--glass-card-mirror); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 5px; box-shadow: var(--card-shadow); min-width: 0; }
 .gem-tag { font-size: 11px; color: #1d4ed8; font-weight: 800; }
 .gem-arabic { font-family: 'Amiri Quran', serif; font-size: 20px; color: #0f172a; line-height: 1.6; margin: 2px 0; }
 .gem-kurdish { font-size: 11.5px; color: #475569; line-height: 1.55; }
 
-/* Content Section */
-.card-section { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px; box-shadow: var(--mirror-shadow); width: 100%; }
+/* MAIN CONTENT GLASS SECTIONS */
+.card-section {
+  background: var(--glass-mirror);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px; padding: 20px; box-shadow: var(--mirror-shadow); width: 100%;
+}
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: nowrap; gap: 10px; }
 .section-header h3 { margin: 0; font-size: 19px; color: #0f172a; font-family: 'Amiri', serif; display: flex; align-items: center; gap: 8px; }
 
-/* FAST VIRTUALIZED GRIDS */
+/* GLASS MIRROR GRIDS */
 .surahs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; }
-.surah-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 15px; padding: 14px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; width: 100%; min-width: 0; position: relative; box-shadow: var(--card-shadow); content-visibility: auto; contain-intrinsic-size: 86px; }
-.surah-card.active { border-color: #60a5fa; background: #eff6ff; }
+.surah-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; width: 100%; min-width: 0; position: relative; box-shadow: var(--card-shadow); content-visibility: auto; contain-intrinsic-size: 86px; }
+.surah-card.active { border-color: #60a5fa; background: rgba(219, 234, 254, 0.8); }
 .surah-card h5 { margin: 0; font-size: 13.5px; font-weight: 700; color: #0f172a; font-family: 'Amiri', serif; }
 .surah-card small { color: var(--muted); font-size: 10.5px; }
-.sound-video-preview { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; border: 1px solid #e2e8f0; background: #0f172a; display: block; margin-bottom: 4px; }
+.sound-video-preview { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.7); background: #0f172a; display: block; margin-bottom: 4px; }
 .btn-fav { position: absolute; top: 6px; left: 6px; background: none; border: none; font-size: 15px; cursor: pointer; color: #94a3b8; padding: 2px 4px; }
 .btn-fav.active { color: #ff4757; }
 .card-actions-row { display: flex; gap: 8px; justify-content: center; margin-top: 6px; width: 100%; }
-.btn-card-action { background: #2563eb; border: none; color: #ffffff; padding: 7px 14px; border-radius: 99px; font-size: 11.5px; font-weight: 700; }
+.btn-card-action { background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; color: #ffffff; padding: 7px 14px; border-radius: 99px; font-size: 11.5px; font-weight: 700; }
 
 .reciters-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; }
-.reciter-item { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; gap: 8px; cursor: pointer; width: 100%; min-width: 0; box-shadow: var(--card-shadow); content-visibility: auto; contain-intrinsic-size: 145px; }
-.reciter-item.active { border-color: #60a5fa; background: #eff6ff; }
+.reciter-item { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 17px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; gap: 8px; cursor: pointer; width: 100%; min-width: 0; box-shadow: var(--card-shadow); content-visibility: auto; contain-intrinsic-size: 145px; }
+.reciter-item.active { border-color: #60a5fa; background: rgba(219, 234, 254, 0.8); }
 .reciter-info { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
-.reciter-avatar-icon { width: 62px; height: 62px; border-radius: 50%; background: #eff6ff; border: 2px solid #bfdbfe; display: grid; place-items: center; color: #1d4ed8; font-size: 22px; flex-shrink: 0; overflow: hidden; }
+.reciter-avatar-icon { width: 62px; height: 62px; border-radius: 50%; background: rgba(239, 246, 255, 0.85); border: 2px solid rgba(255, 255, 255, 0.9); display: grid; place-items: center; color: #1d4ed8; font-size: 22px; flex-shrink: 0; overflow: hidden; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14); }
 .reciter-avatar-icon img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 .reciter-item.active .reciter-avatar-icon { border-color: #2563eb; }
 .reciter-info h6 { margin: 0 0 2px; font-size: 13px; font-weight: 700; color: #0f172a; line-height: 1.4; }
 .reciter-info small { color: var(--muted); font-size: 11px; display: block; }
 
 .nature-sounds-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 8px; width: 100%; }
-.nature-sound-item { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 100%; min-width: 0; cursor: pointer; box-shadow: var(--card-shadow); }
+.nature-sound-item { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 17px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; width: 100%; min-width: 0; cursor: pointer; box-shadow: var(--card-shadow); }
 .nature-sound-item h6 { margin: 0; font-size: 14px; font-weight: 700; color: #0f172a; }
-.btn-play-sound { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 5px 12px; border-radius: 99px; font-size: 10.5px; font-weight: 700; }
+.btn-play-sound { background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(147, 197, 253, 0.65); color: #1d4ed8; padding: 5px 12px; border-radius: 99px; font-size: 10.5px; font-weight: 700; }
 .sound-select-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
-/* NEXT-GEN SMART HIFZ STUDIO */
-.hifz-studio-shell { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px; padding: 18px 16px; box-shadow: var(--mirror-shadow); display: flex; flex-direction: column; gap: 12px; }
+/* NEXT-GEN SMART HIFZ STUDIO — GLASS MIRROR */
+.hifz-studio-shell { background: var(--glass-mirror); backdrop-filter: blur(18px) saturate(170%); -webkit-backdrop-filter: blur(18px) saturate(170%); border: 1px solid var(--glass-border); border-radius: 22px; padding: 18px 16px; box-shadow: var(--mirror-shadow); display: flex; flex-direction: column; gap: 12px; }
 .hifz-studio-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .hifz-studio-top h3 { margin: 0; font-family: 'Amiri', serif; font-size: 20px; color: #0f172a; display: flex; align-items: center; gap: 7px; }
-.hifz-setup-toggle-btn { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; }
-.hifz-studio-config { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px; box-shadow: var(--card-shadow); }
+.hifz-setup-toggle-btn { background: rgba(255, 255, 255, 0.72); border: 1px solid var(--glass-border); color: #1d4ed8; padding: 6px 12px; border-radius: 99px; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; box-shadow: var(--card-shadow); }
+.hifz-studio-config { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px; box-shadow: var(--card-shadow); }
 .hifz-studio-config.collapsed { display: none; }
 .hifz-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .hifz-field label { font-size: 11px; color: #475569; font-weight: 700; }
-.hifz-field select, .hifz-field input { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; padding: 8px 10px; border-radius: 10px; font-size: 12.5px; font-weight: 700; outline: none; width: 100%; min-width: 0; }
+.hifz-field select, .hifz-field input { background: rgba(255, 255, 255, 0.78); border: 1px solid rgba(148, 163, 184, 0.35); color: #0f172a; padding: 8px 10px; border-radius: 10px; font-size: 12.5px; font-weight: 700; outline: none; width: 100%; min-width: 0; }
 
-.hifz-smart-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; background: #e2e8f0; padding: 4px; border-radius: 15px; }
+.hifz-smart-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; background: rgba(15, 23, 42, 0.06); padding: 4px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.5); }
 .hifz-smart-tab { border: none; background: transparent; color: #475569; padding: 8px 4px; border-radius: 11px; font-size: 11px; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: background 0.2s, color 0.2s; }
 .hifz-smart-tab .ht-ico { font-size: 15px; }
-.hifz-smart-tab.active { background: #ffffff; color: #1d4ed8; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+.hifz-smart-tab.active { background: rgba(255, 255, 255, 0.92); color: #1d4ed8; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08); }
 
-.hifz-fade-toolbar { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.hifz-fade-toolbar { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--card-shadow); }
 .hifz-fade-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .hifz-fade-label { font-size: 11.5px; font-weight: 800; color: #0f172a; white-space: nowrap; }
 .hifz-fade-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 6px; background: #dbeafe; border-radius: 99px; outline: none; }
 .hifz-fade-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #2563eb; border: 2px solid #ffffff; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35); }
 .hifz-fade-quick-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
-.hifz-chip-mini { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 5px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+.hifz-chip-mini { background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(148, 163, 184, 0.35); color: #334155; padding: 5px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
 .hifz-chip-mini.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
 
 .hifz-voice-hud { display: none; flex-direction: column; gap: 8px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; border-radius: 16px; padding: 12px 14px; }
@@ -330,53 +483,53 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .hifz-v-btn.primary { background: #ef4444; border-color: #fca5a5; }
 .hifz-v-btn.listening { background: #10b981; border-color: #6ee7b7; }
 
-.hifz-link-bar { display: none; flex-direction: column; gap: 7px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 10px 12px; }
+.hifz-link-bar { display: none; flex-direction: column; gap: 7px; background: rgba(239, 246, 255, 0.8); border: 1px solid rgba(147, 197, 253, 0.65); border-radius: 14px; padding: 10px 12px; }
 .hifz-link-bar.active { display: flex; }
 .hifz-link-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 800; color: #1d4ed8; }
 .hifz-link-steps-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .hifz-link-steps-strip::-webkit-scrollbar { display: none; }
-.hifz-link-pill { background: #ffffff; border: 1px solid #93c5fd; color: #1e3a8a; padding: 5px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
+.hifz-link-pill { background: rgba(255, 255, 255, 0.85); border: 1px solid #93c5fd; color: #1e3a8a; padding: 5px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
 .hifz-link-pill.active { background: #2563eb; border-color: #2563eb; color: #ffffff; }
 
-.hifz-stage-card { background: #ffffff; border: 2px solid #93c5fd; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08); display: flex; flex-direction: column; }
-.hifz-stage-progress-track { width: 100%; height: 5px; background: #e2e8f0; }
+.hifz-stage-card { background: var(--glass-card-mirror); border: 1.5px solid rgba(147, 197, 253, 0.75); border-radius: 20px; overflow: hidden; box-shadow: var(--mirror-shadow); display: flex; flex-direction: column; }
+.hifz-stage-progress-track { width: 100%; height: 5px; background: rgba(15, 23, 42, 0.08); }
 .hifz-stage-progress-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #2563eb, #10b981); transition: width 0.25s ease; }
-.hifz-stage-meta-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 11.5px; font-weight: 800; color: #334155; }
-.hifz-stage-meta-badge { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 2px 10px; border-radius: 99px; font-size: 11px; }
+.hifz-stage-meta-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 14px; background: rgba(255, 255, 255, 0.45); border-bottom: 1px solid rgba(15, 23, 42, 0.06); font-size: 11.5px; font-weight: 800; color: #334155; }
+.hifz-stage-meta-badge { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; border: 1px solid rgba(147, 197, 253, 0.6); padding: 2px 10px; border-radius: 99px; font-size: 11px; }
 .hifz-stage-body { padding: 20px 16px; min-height: 185px; max-height: 46vh; overflow-y: auto; -webkit-overflow-scrolling: touch; text-align: center; font-family: 'Amiri Quran', 'Amiri', serif; font-size: 27px; line-height: 2.5; color: #0f172a; direction: rtl; }
 .hifz-word-chip { display: inline-block; padding: 0 5px; margin: 1px 2px; border-radius: 8px; cursor: pointer; transition: background 0.2s, color 0.2s; }
-.hifz-word-chip.blurred { color: transparent; text-shadow: 0 0 13px rgba(15, 23, 42, 0.42); background: #e2e8f0; user-select: none; }
+.hifz-word-chip.blurred { color: transparent; text-shadow: 0 0 13px rgba(15, 23, 42, 0.42); background: rgba(148, 163, 184, 0.28); user-select: none; }
 .hifz-word-chip.peeked { color: #047857; background: #d1fae5; text-shadow: none; }
 .hifz-word-chip.voice-cur { box-shadow: 0 2px 0 0 #2563eb; background: rgba(59, 130, 246, 0.16); }
 .hifz-word-chip.voice-ok { color: #047857; background: #d1fae5; text-shadow: none; }
 .hifz-word-chip.voice-err { color: #b91c1c; background: #fee2e2; text-shadow: none; box-shadow: 0 0 0 1.5px #ef4444; }
-.hifz-kurdish-meaning-box { display: none; padding: 10px 14px; background: #f8fafc; border-top: 1px dashed #cbd5e1; font-family: 'Vazirmatn', sans-serif; font-size: 12.5px; line-height: 1.8; color: #334155; text-align: right; }
+.hifz-kurdish-meaning-box { display: none; padding: 10px 14px; background: rgba(255, 255, 255, 0.55); border-top: 1px dashed rgba(15, 23, 42, 0.14); font-family: 'Vazirmatn', sans-serif; font-size: 12.5px; line-height: 1.8; color: #334155; text-align: right; }
 .hifz-kurdish-meaning-box.active { display: block; }
 
-.hifz-puzzle-slots { min-height: 64px; padding: 10px; border-radius: 14px; background: #f8fafc; border: 1.5px dashed #93c5fd; margin-bottom: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-family: 'Amiri Quran', 'Amiri', serif; font-size: 24px; line-height: 1.8; }
+.hifz-puzzle-slots { min-height: 64px; padding: 10px; border-radius: 14px; background: rgba(255, 255, 255, 0.55); border: 1.5px dashed #93c5fd; margin-bottom: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-family: 'Amiri Quran', 'Amiri', serif; font-size: 24px; line-height: 1.8; }
 .hifz-puzzle-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; padding-top: 6px; }
-.hifz-puzzle-pill { background: #ffffff; border: 1.5px solid #cbd5e1; color: #0f172a; padding: 5px 12px; border-radius: 12px; font-family: 'Amiri Quran', 'Amiri', serif; font-size: 22px; line-height: 1.6; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06); }
+.hifz-puzzle-pill { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--glass-border); color: #0f172a; padding: 5px 12px; border-radius: 12px; font-family: 'Amiri Quran', 'Amiri', serif; font-size: 22px; line-height: 1.6; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06); }
 .hifz-puzzle-pill.placed { background: #d1fae5; border-color: #6ee7b7; color: #047857; }
 .hifz-puzzle-pill.used { opacity: 0.28; pointer-events: none; }
 .hifz-puzzle-pill.wrong-tap { background: #fee2e2; border-color: #ef4444; color: #b91c1c; }
 
 .hifz-dots-row { display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap; }
-.hifz-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+.hifz-dot { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--glass-border); background: var(--glass-card-mirror); color: #475569; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
 .hifz-dot.active { background: #2563eb; color: #ffffff; border-color: #2563eb; }
 .hifz-dot.done-dot { background: #10b981; color: #ffffff; border-color: #10b981; }
 
 .hifz-action-dock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-.hifz-dock-btn { background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 9px 8px; border-radius: 13px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 5px; box-shadow: var(--card-shadow); }
-.hifz-dock-btn.primary { background: #2563eb; border-color: #2563eb; color: #ffffff; }
-.hifz-dock-btn.success { background: #ecfdf5; border-color: #10b981; color: #047857; }
+.hifz-dock-btn { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); color: #0f172a; padding: 9px 8px; border-radius: 13px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 5px; box-shadow: var(--card-shadow); }
+.hifz-dock-btn.primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); border-color: #2563eb; color: #ffffff; }
+.hifz-dock-btn.success { background: rgba(236, 253, 245, 0.88); border-color: #10b981; color: #047857; }
 .hifz-dock-btn.recording { background: #fee2e2; border-color: #ef4444; color: #dc2626; }
 
-.hifz-srs-section { border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 4px; }
+.hifz-srs-section { border-top: 1px solid rgba(15, 23, 42, 0.08); padding-top: 12px; margin-top: 4px; }
 .hifz-srs-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
 .hifz-srs-header h4 { margin: 0; font-size: 14.5px; color: #0f172a; }
 .hifz-srs-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.hifz-srs-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: var(--card-shadow); }
-.hifz-srs-card.due-now { border-color: #f59e0b; background: #fffbeb; }
+.hifz-srs-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: var(--card-shadow); }
+.hifz-srs-card.due-now { border-color: #f59e0b; background: rgba(255, 251, 235, 0.88); }
 .hifz-srs-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
 .hifz-srs-card h6 { margin: 0 0 2px; font-size: 13.5px; color: #0f172a; font-family: 'Amiri', serif; }
 .hifz-srs-card small { color: #64748b; font-size: 11px; display: block; }
@@ -384,69 +537,56 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .hifz-srs-badge.due { background: #fef3c7; color: #b45309; }
 .hifz-srs-badge.strong { background: #d1fae5; color: #047857; }
 .hifz-srs-card-actions { display: flex; align-items: center; gap: 6px; }
-.hifz-srs-review-btn { flex: 1; background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; padding: 5px 8px; border-radius: 9px; font-size: 11px; font-weight: 800; }
+.hifz-srs-review-btn { flex: 1; background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(147, 197, 253, 0.7); color: #1d4ed8; padding: 5px 8px; border-radius: 9px; font-size: 11px; font-weight: 800; }
 .hifz-srs-card.due-now .hifz-srs-review-btn { background: #f59e0b; border-color: #d97706; color: #ffffff; }
 .btn-card-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 9px; padding: 5px 9px; font-size: 11.5px; }
 
-/* KHATM PLANNER STYLES */
-.khatm-setup-box { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+/* KHATM PLANNER — GLASS MIRROR */
+.khatm-setup-box { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 14px; box-shadow: var(--card-shadow); }
 .khatm-presets-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-.khatm-preset-btn { flex: 1; min-width: 65px; background: #f8fafc; border: 1px solid var(--glass-border); color: #0f172a; padding: 8px; border-radius: 10px; font-size: 12px; font-weight: 700; }
+.khatm-preset-btn { flex: 1; min-width: 65px; background: rgba(255, 255, 255, 0.72); border: 1px solid var(--glass-border); color: #0f172a; padding: 8px; border-radius: 11px; font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04); }
 .khatm-preset-btn.active { background: #2563eb; color: #ffffff; border-color: #2563eb; }
 .khatm-custom-row { display: flex; gap: 8px; align-items: center; }
-.khatm-custom-row input { flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 9px 12px; color: #0f172a; font-size: 13px; outline: none; min-width: 0; }
+.khatm-custom-row input { flex: 1; background: rgba(255, 255, 255, 0.78); border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 10px; padding: 9px 12px; color: #0f172a; font-size: 13px; outline: none; min-width: 0; }
 .khatm-custom-row button { background: #2563eb; color: #ffffff; border: none; padding: 9px 16px; border-radius: 10px; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
-.khatm-progress-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+.khatm-progress-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 14px; box-shadow: var(--card-shadow); }
 .khatm-stats-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; font-size: 12.5px; font-weight: 600; color: #0f172a; }
-.khatm-bar-bg { width: 100%; height: 9px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+.khatm-bar-bg { width: 100%; height: 9px; background: rgba(15, 23, 42, 0.08); border-radius: 99px; overflow: hidden; }
 .khatm-bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; border-radius: 99px; }
 .khatm-days-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.khatm-day-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 14px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 5px; cursor: pointer; box-shadow: var(--card-shadow); min-width: 0; content-visibility: auto; contain-intrinsic-size: 105px; }
+.khatm-day-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 15px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 5px; cursor: pointer; box-shadow: var(--card-shadow); min-width: 0; content-visibility: auto; contain-intrinsic-size: 105px; }
 .khatm-day-card h5 { margin: 0; font-size: 14px; color: #0f172a; }
 .khatm-pages { font-size: 12px; color: #2563eb; font-weight: 700; }
 .khatm-day-card small { color: var(--muted); font-size: 10.5px; }
-.khatm-status-badge { display: inline-block; padding: 3px 9px; border-radius: 99px; font-size: 10.5px; font-weight: 700; background: #e2e8f0; color: #334155; margin-top: 3px; }
-.khatm-day-card.completed { background: #eff6ff; border-color: #60a5fa; }
+.khatm-status-badge { display: inline-block; padding: 3px 9px; border-radius: 99px; font-size: 10.5px; font-weight: 700; background: rgba(15, 23, 42, 0.08); color: #334155; margin-top: 3px; }
+.khatm-day-card.completed { background: rgba(219, 234, 254, 0.78); border-color: #60a5fa; }
 .khatm-day-card.completed .khatm-status-badge { background: #2563eb; color: #ffffff; }
 
-/* ADHKAR & NOTIFICATION REMINDER STYLES */
-.adhkar-reminder-box { background: #ffffff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
-.adhkar-reminder-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.adhkar-reminder-top h4 { margin: 0; font-size: 14px; color: #0f172a; display: flex; align-items: center; gap: 6px; }
-.adhkar-rem-toggle-btn { background: #ffffff; border: 1.5px solid #2563eb; color: #1d4ed8; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
-.adhkar-rem-toggle-btn.active { background: #10b981; border-color: #059669; color: #ffffff; }
-.adhkar-rem-times-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.adhkar-rem-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.adhkar-rem-field label { font-size: 11px; color: var(--muted); font-weight: 600; }
-.adhkar-rem-field input[type="time"] { background: #f8fafc; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 10px; padding: 7px 8px; font-size: 13px; font-weight: 700; outline: none; direction: ltr; text-align: center; width: 100%; }
-.adhkar-rem-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 11.5px; color: #1d4ed8; font-weight: 600; }
-.adhkar-rem-test-btn { background: #eff6ff; border: 1px solid #93c5fd; color: #1d4ed8; padding: 5px 11px; border-radius: 99px; font-size: 11px; font-weight: 700; }
-.adhkar-auto-toast { display: none; position: fixed; top: 14px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 440px; background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 18px; padding: 14px 16px; z-index: 9999999; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.22); color: #0f172a; direction: rtl; }
+/* ADHKAR & TOAST — GLASS MIRROR */
+.adhkar-auto-toast { display: none; position: fixed; top: 14px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 440px; background: var(--glass-nav-mirror); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); border: 1.5px solid var(--glass-border); border-radius: 18px; padding: 14px 16px; z-index: 9999999; box-shadow: var(--nav-mirror-shadow); color: #0f172a; direction: rtl; }
 .adhkar-auto-toast.active { display: flex; flex-direction: column; gap: 8px; }
 .adhkar-toast-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .adhkar-toast-title { font-size: 14.5px; font-weight: 800; color: #1d4ed8; }
-.adhkar-toast-close { background: #f1f5f9; border: none; color: #0f172a; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; }
+.adhkar-toast-close { background: rgba(15, 23, 42, 0.08); border: none; color: #0f172a; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; }
 .adhkar-toast-body { font-size: 12.5px; color: #334155; line-height: 1.7; }
 .adhkar-toast-actions { display: flex; gap: 8px; justify-content: flex-end; }
 .adhkar-toast-open-btn { background: #2563eb; color: #ffffff; border: none; padding: 7px 14px; border-radius: 99px; font-size: 12px; font-weight: 800; }
 
 #adhkarListContainer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.adhkar-card { background: #ffffff; border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 10px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; content-visibility: auto; contain-intrinsic-size: 160px; }
+.adhkar-card { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); border-radius: 17px; padding: 14px 10px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; content-visibility: auto; contain-intrinsic-size: 160px; }
 .adhkar-arabic { font-family: 'Amiri Quran', serif; font-size: 19px; color: #0f172a; text-align: center; line-height: 1.7; }
-.adhkar-kurdish { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.65; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; width: 100%; }
+.adhkar-kurdish { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.65; border-bottom: 1px dashed rgba(15, 23, 42, 0.12); padding-bottom: 10px; width: 100%; }
 .adhkar-actions-row { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
-.adhkar-count-btn { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #2563eb; border-radius: 99px; padding: 7px 10px; font-size: 12px; font-weight: 700; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.adhkar-count-btn { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; border: 1.5px solid #2563eb; border-radius: 99px; padding: 7px 10px; font-size: 12px; font-weight: 700; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .adhkar-count-btn.done { background: #10b981; color: #ffffff; border-color: #10b981; }
-.adhkar-reset-item-btn { background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; border-radius: 99px; padding: 7px 10px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
-.tasbih-circle { width: 190px; height: 190px; border-radius: 50%; border: 4px solid #ffffff; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: 800; color: #0f172a; margin: 28px auto; cursor: pointer; background: #ffffff; user-select: none; box-shadow: 0 10px 26px rgba(37, 99, 235, 0.16), 0 0 0 2px #93c5fd; }
+.adhkar-reset-item-btn { background: rgba(255, 255, 255, 0.72); color: #475569; border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 99px; padding: 7px 10px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.tasbih-circle { width: 190px; height: 190px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: 800; color: #0f172a; margin: 28px auto; cursor: pointer; background: var(--glass-card-mirror); user-select: none; box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18), inset 0 2px 4px rgba(255, 255, 255, 0.95); }
 .tasbih-circle:active { transform: scale(0.95); }
-.tasbih-reset-btn { background: #ffffff; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); color: #0f172a; padding: 10px 26px; border-radius: 99px; font-size: 13.5px; font-weight: 700; }
+.tasbih-reset-btn { background: var(--glass-card-mirror); border: 1px solid var(--glass-border); box-shadow: var(--card-shadow); color: #0f172a; padding: 10px 26px; border-radius: 99px; font-size: 13.5px; font-weight: 700; }
 
-/* ========================================================
-   QURAN READER — CLEAN MOBILE TOP DOCK + STORY BUTTON + VOICE
-   ======================================================== */
+/* QURAN READER */
 #readingReaderContainer { display: none; position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; background: #0b1326; flex-direction: column; overflow: hidden; }
-#readingReaderContainer .topbar-btn, #view-full-player .topbar-btn { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.22); color: #ffffff; box-shadow: none; }
+#readingReaderContainer .topbar-btn, #view-full-player .topbar-btn { background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.28); color: #ffffff; box-shadow: none; }
 
 .reader-header-fullscreen { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 9px; border-bottom: 1px solid rgba(255, 255, 255, 0.14); background: #0f172a; flex-shrink: 0; position: relative; z-index: 120; }
 .reader-top-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
@@ -478,7 +618,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .font-size-bar-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 11px; padding: 5px 10px; color: #cbd5e1; font-size: 11.5px; font-weight: 700; }
 .font-size-btn { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; padding: 4px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; }
 
-/* SMART VOICE RECITATION ASSISTANT BAR */
 .recite-assistant-bar { display: none; flex-direction: column; gap: 7px; padding: 9px 12px; background: #111827; border-bottom: 1.5px solid rgba(96, 165, 250, 0.35); z-index: 116; flex-shrink: 0; color: #f8fafc; }
 .recite-assistant-bar.active { display: flex; }
 .recite-assistant-bar.has-error { border-bottom-color: #ef4444; background: #3b0a0a; }
@@ -551,36 +690,36 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .reader-nav-btn:disabled { opacity: 0.32; cursor: not-allowed; }
 .reader-footer-meta { text-align: center; color: #e2e8f0; font-size: 11.5px; font-weight: 700; }
 
-/* TALL FULL-SCREEN PLAYER PAGE + SLEEP TIMER */
+/* TALL FULL-SCREEN PLAYER PAGE — GLASS CONTROLS */
 .tall-player-wrapper { position: relative; width: 100vw; height: 100vh; height: 100dvh; max-width: 100%; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 18px 24px; z-index: 1; }
 #tallPlayerBgVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; display: none; pointer-events: none; }
 .tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(2, 6, 23, 0.44) 0%, rgba(2, 6, 23, 0.1) 45%, rgba(2, 6, 23, 0.64) 100%); z-index: -1; pointer-events: none; }
 .tall-player-top, .tall-player-center, .tall-player-bottom { position: relative; z-index: 3; max-width: 520px; margin-left: auto; margin-right: auto; width: 100%; }
 .tall-player-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; direction: rtl; }
-.tall-reciter-photo-badge { width: 54px; height: 54px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); border: 2px solid rgba(255, 255, 255, 0.88); display: grid; place-items: center; color: #ffffff; font-size: 22px; overflow: hidden; flex-shrink: 0; cursor: pointer; }
+.tall-reciter-photo-badge { width: 54px; height: 54px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.88); display: grid; place-items: center; color: #ffffff; font-size: 22px; overflow: hidden; flex-shrink: 0; cursor: pointer; }
 .tall-reciter-photo-badge img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 .tall-player-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; flex: 1; }
 .tall-center-actions { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
-.tall-center-pill { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.28); color: #ffffff; padding: 11px 18px; border-radius: 30px; font-size: 13.5px; font-weight: 700; }
+.tall-center-pill { background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.34); color: #ffffff; padding: 11px 18px; border-radius: 30px; font-size: 13.5px; font-weight: 700; box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35); }
 .tall-center-pill.sleep-running { background: rgba(251, 191, 36, 0.24); border-color: #fbbf24; color: #fde68a; }
-.tall-sounds-menu { display: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; background: rgba(2, 6, 23, 0.92); padding: 14px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); max-width: 330px; margin-left: auto; margin-right: auto; }
+.tall-sounds-menu { display: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; background: rgba(2, 6, 23, 0.84); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); padding: 14px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.24); max-width: 330px; margin-left: auto; margin-right: auto; }
 .tall-sounds-menu.active { display: flex; }
 .tall-sounds-menu div { background: rgba(255,255,255,0.12); padding: 8px 13px; border-radius: 11px; cursor: pointer; font-size: 12.5px; color: #fff; border: 1px solid rgba(255,255,255,0.2); font-weight: 600; }
 .tall-player-bottom { display: flex; flex-direction: column; gap: 13px; }
 .tall-timeline-box { display: flex; flex-direction: column; gap: 7px; width: 100%; direction: ltr; }
 .tall-time-labels { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.95); font-weight: 500; }
 .tall-controls-row { display: flex; align-items: center; justify-content: center; gap: 26px; direction: ltr; }
-.tall-btn-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; display: grid; place-items: center; }
+.tall-btn-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; display: grid; place-items: center; }
 .tall-btn-circle svg { width: 22px; height: 22px; fill: currentColor; }
-.tall-btn-play-main { width: 66px; height: 66px; border-radius: 50%; background: #ffffff; border: none; color: #0f172a; display: grid; place-items: center; }
+.tall-btn-play-main { width: 66px; height: 66px; border-radius: 50%; background: #ffffff; border: none; color: #0f172a; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
 .tall-btn-play-main svg { width: 32px; height: 32px; fill: #0f172a; }
-.tall-volume-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255, 255, 255, 0.1); padding: 9px 15px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.18); direction: ltr; }
+.tall-volume-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 9px 15px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.24); direction: ltr; }
 .tall-volume-row span { font-size: 11px; color: #fff; white-space: nowrap; font-weight: 600; }
 .tall-player-wrapper .timeline-slider { background: rgba(255, 255, 255, 0.28); }
 .tall-player-wrapper .timeline-slider::-webkit-slider-thumb { background: #ffffff; }
 
 .tall-bottom-menu-row { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 2px; }
-.tall-hamburger-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.34); color: #ffffff; padding: 9px 20px; border-radius: 99px; font-size: 13px; font-weight: 700; }
+.tall-hamburger-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.36); color: #ffffff; padding: 9px 20px; border-radius: 99px; font-size: 13px; font-weight: 700; }
 .tall-hamburger-btn .ham-lines { display: flex; flex-direction: column; justify-content: center; gap: 4px; width: 18px; height: 15px; }
 .tall-hamburger-btn .ham-lines span { display: block; width: 100%; height: 2px; background: #ffffff; border-radius: 4px; transition: transform 0.22s ease, opacity 0.2s ease; }
 .tall-hamburger-btn.open .ham-lines span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -589,7 +728,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 
 .tall-reciters-backdrop { position: absolute; inset: 0; background: rgba(2, 6, 23, 0.65); z-index: 20; opacity: 0; pointer-events: none; transition: opacity 0.22s ease; }
 .tall-reciters-backdrop.active { opacity: 1; pointer-events: auto; }
-.tall-reciters-drawer { position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 105%); width: 100%; max-width: 520px; max-height: 72vh; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.2); border-bottom: none; border-radius: 24px 24px 0 0; padding: 12px 14px 20px; z-index: 25; display: flex; flex-direction: column; gap: 10px; transition: transform 0.26s ease; direction: rtl; }
+.tall-reciters-drawer { position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 105%); width: 100%; max-width: 520px; max-height: 72vh; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border: 1px solid rgba(255, 255, 255, 0.22); border-bottom: none; border-radius: 24px 24px 0 0; padding: 12px 14px 20px; z-index: 25; display: flex; flex-direction: column; gap: 10px; transition: transform 0.26s ease; direction: rtl; }
 .tall-reciters-drawer.active { transform: translate(-50%, 0); }
 .tall-drawer-handle { width: 42px; height: 4px; border-radius: 99px; background: rgba(255, 255, 255, 0.35); margin: 0 auto 2px; }
 .tall-drawer-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -610,7 +749,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .tall-reciter-row-item.active .tall-reciter-row-status { background: #ffffff; color: #1d4ed8; }
 
 /* Secret Admin Panel */
-#secretAdminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f172a; border: 2px solid #ffffff; border-radius: 18px; padding: 20px; z-index: 999999; box-shadow: 0 18px 45px rgba(0,0,0,0.8); width: 92%; max-width: 420px; color: #fff; direction: rtl; text-align: center; max-height: 88vh; overflow-y: auto; }
+#secretAdminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 18px; padding: 20px; z-index: 999999; box-shadow: 0 18px 45px rgba(0,0,0,0.8); width: 92%; max-width: 420px; color: #fff; direction: rtl; text-align: center; max-height: 88vh; overflow-y: auto; }
 #secretAdminPanel select, #secretAdminPanel input { width: 100%; padding: 9px; margin-bottom: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 13px; }
 #secretAdminPanel select option { background: #0f172a; color: #fff; }
 #secretAdminPanel button { width: 100%; padding: 10px; border-radius: 10px; margin-bottom: 8px; font-weight: bold; font-size: 13px; }
@@ -621,27 +760,82 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .add-reciter-box h4 { margin: 0 0 8px; font-size: 13.5px; color: #93c5fd; }
 .admin-field-hint { display: block; font-size: 11px; color: #cbd5e1; margin-bottom: 5px; line-height: 1.5; }
 
-/* Bottom Navigation Stack */
-.bottom-nav-container { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 95; width: 96%; max-width: 480px; display: flex; flex-direction: column; gap: 8px; }
-.floating-player-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 10px 16px; border-radius: 30px; border: 1px solid var(--glass-border); box-shadow: var(--mirror-shadow); width: 100%; direction: ltr; cursor: pointer; }
+/* ========================================================
+   TWO BOTTOM FLOATING BARS — POLISHED MIRROR GLASS (ئاوێنەیی)
+   ======================================================== */
+.bottom-nav-container {
+  position: fixed;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  width: 96%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.floating-player-bar {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--glass-nav-mirror);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  padding: 10px 16px;
+  border-radius: 30px;
+  border: 1.2px solid rgba(255, 255, 255, 0.88);
+  box-shadow: var(--nav-mirror-shadow);
+  width: 100%;
+  direction: ltr;
+  cursor: pointer;
+}
+.floating-player-bar::before,
+.bottom-nav-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.98), transparent);
+  pointer-events: none;
+}
 .fp-left-controls { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .fp-icon-btn { background: none; border: none; color: #0f172a; padding: 4px; display: flex; align-items: center; justify-content: center; }
 .fp-icon-btn svg { width: 23px; height: 23px; fill: currentColor; }
-.speed-select { background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; border-radius: 99px; padding: 3px 7px; font-size: 11px; font-weight: 700; outline: none; }
+.speed-select { background: rgba(255, 255, 255, 0.65); border: 1px solid rgba(255, 255, 255, 0.9); color: #0f172a; border-radius: 99px; padding: 3px 7px; font-size: 11px; font-weight: 700; outline: none; }
 .fp-right-details { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; direction: rtl; }
 .fp-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .fp-meta-row h4 { margin: 0; color: #0f172a; font-size: 14.5px; font-weight: 700; font-family: 'Amiri', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fp-meta-row small { color: #475569; font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fp-timeline-row { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; color: #475569; direction: ltr; }
+.fp-meta-row small { color: #334155; font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fp-timeline-row { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; color: #334155; direction: ltr; }
 .timeline-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 5px; background: rgba(15, 23, 42, 0.14); border-radius: 99px; outline: none; cursor: pointer; width: 100%; }
 .timeline-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #2563eb; cursor: pointer; }
 
-.bottom-nav-bar { display: flex; justify-content: space-around; align-items: center; background: var(--nav-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 6px 5px; border-radius: 34px; border: 1px solid var(--glass-border); box-shadow: var(--mirror-shadow); width: 100%; }
-.bottom-nav-item { cursor: pointer; padding: 6px 4px; border-radius: 24px; background: transparent; border: 1px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #334155; min-width: 44px; flex: 1; text-align: center; }
+.bottom-nav-bar {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--glass-nav-mirror);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  padding: 6px 5px;
+  border-radius: 34px;
+  border: 1.2px solid rgba(255, 255, 255, 0.88);
+  box-shadow: var(--nav-mirror-shadow);
+  width: 100%;
+}
+.bottom-nav-item { cursor: pointer; padding: 6px 4px; border-radius: 24px; background: transparent; border: 1px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #334155; min-width: 44px; flex: 1; text-align: center; transition: background 0.2s ease; }
 .bottom-nav-item svg { width: 21px; height: 21px; display: block; color: #334155; opacity: 0.72; }
 .bottom-nav-item img { width: 21px; height: 21px; display: block; filter: brightness(0); opacity: 0.58; }
-.bottom-nav-label { font-size: 9.5px; font-weight: 700; color: #334155; white-space: nowrap; opacity: 0.8; }
-.bottom-nav-item.active { background: #eff6ff; border-color: #dbeafe; }
+.bottom-nav-label { font-size: 9.5px; font-weight: 700; color: #334155; white-space: nowrap; opacity: 0.85; }
+.bottom-nav-item.active { background: rgba(255, 255, 255, 0.76); border-color: rgba(255, 255, 255, 0.95); box-shadow: 0 3px 10px rgba(37, 99, 235, 0.12); }
 .bottom-nav-item.active svg { opacity: 1; color: #1d4ed8; }
 .bottom-nav-item.active img { opacity: 1; filter: brightness(0) saturate(100%) invert(27%) sepia(92%) saturate(2420%) hue-rotate(215deg) brightness(94%) contrast(96%); }
 .bottom-nav-item.active .bottom-nav-label { opacity: 1; color: #1d4ed8; }
@@ -652,33 +846,32 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   aside.sidebar { display: none; }
   .main-content { max-width: 100%; padding: 10px 8px 185px; width: 100%; }
   .main-content.no-bottom-nav { padding: 10px 6px 24px !important; }
-  .card-section, .hifz-studio-shell { padding: 14px 10px; border-radius: 16px; }
+  .card-section, .hifz-studio-shell { padding: 14px 10px; border-radius: 18px; }
   .surahs-grid, .reciters-list, .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .hifz-srs-list, #adhkarListContainer { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nature-sounds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .account-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media(max-width: 520px) {
   .main-content { padding: 10px 6px 185px; }
   .main-content.no-bottom-nav { padding: 8px 5px 22px !important; }
-  .card-section, .hifz-studio-shell { padding: 12px 8px; border-radius: 15px; }
+  .card-section, .hifz-studio-shell { padding: 12px 9px; border-radius: 17px; }
   .topbar-btn .tb-text { display: none; }
   header.topbar .topbar-btn { padding: 6px; border-radius: 50%; width: 36px; height: 36px; justify-content: center; }
   .section-header { flex-wrap: nowrap; gap: 6px; margin-bottom: 12px; }
   .section-header h3, .section-header h4 { font-size: 16.5px !important; }
   .section-header .topbar-btn { width: auto !important; height: auto !important; border-radius: 20px !important; padding: 6px 12px !important; font-size: 11.5px; flex-shrink: 0; }
   .surahs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-  .surah-card { padding: 11px 6px; border-radius: 13px; gap: 3px; }
+  .surah-card { padding: 11px 6px; border-radius: 14px; gap: 3px; }
   .surah-card h5 { font-size: 12.5px; }
   .surah-card small { font-size: 10px; }
   .sound-video-preview { height: 125px; }
   .reciters-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .reciter-item { padding: 12px 8px; border-radius: 14px; }
+  .reciter-item { padding: 12px 8px; border-radius: 15px; }
   .reciter-avatar-icon { width: 56px; height: 56px; font-size: 20px; }
   .tall-reciter-photo-badge { width: 50px; height: 50px; font-size: 20px; }
   .khatm-days-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-  .khatm-day-card { padding: 10px 6px; border-radius: 13px; }
+  .khatm-day-card { padding: 10px 6px; border-radius: 14px; }
   .khatm-day-card h5 { font-size: 13px; }
   .khatm-pages { font-size: 11px; }
   .khatm-presets-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
@@ -688,9 +881,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .hifz-stage-body { font-size: 24px; padding: 16px 10px; }
   .hifz-puzzle-pill { font-size: 19px; padding: 4px 10px; }
   .hifz-dock-btn { font-size: 11px; padding: 8px 6px; }
-  .account-stats-grid, .account-form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .account-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .adhkar-card { padding: 11px 8px; border-radius: 14px; gap: 7px; }
+  .account-form-grid { grid-template-columns: 1fr; gap: 8px; }
+  .adhkar-card { padding: 11px 8px; border-radius: 15px; gap: 7px; }
   .adhkar-arabic { font-size: 16px; line-height: 1.6; }
   .adhkar-kurdish { font-size: 11px; padding-bottom: 7px; }
   .adhkar-actions-row { gap: 4px; }
@@ -896,8 +1088,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
         <div class="ayah-actions-row">
           <button class="ayah-mini-btn" onclick="nextQuoteSlideManual()">🔄 ئایەتی دواتر</button>
           <button class="ayah-mini-btn" onclick="copyCurrentQuoteAyah()" id="copyAyahBtn">📋 کۆپیکردن</button>
-          <button class="ayah-mini-btn" onclick="openCurrentQuoteStoryCard()" style="border-color:#fbbf24; color:#b45309; background:#fffbeb;">🖼️ ستۆری</button>
-          <button class="ayah-mini-btn" onclick="switchView('view-ayah-search')" style="border-color:#93c5fd; color:#1d4ed8;">🔍 گەڕانی ئایەت</button>
+          <button class="ayah-mini-btn" onclick="openCurrentQuoteStoryCard()" style="border-color:rgba(251,191,36,0.7); color:#b45309;">🖼️ ستۆری</button>
+          <button class="ayah-mini-btn" onclick="switchView('view-ayah-search')" style="border-color:rgba(147,197,253,0.8); color:#1d4ed8;">🔍 گەڕانی ئایەت</button>
         </div>
 
         <div class="islamic-divider-line">❖ ✧ ❖</div>
@@ -1008,7 +1200,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE (WITH SLEEP TIMER) -->
+    <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE -->
     <div id="view-full-player" class="page-view">
       <div class="tall-player-wrapper" id="tallPlayerBox">
         <video id="tallPlayerBgVideo" loop muted playsinline preload="none"></video>
@@ -1323,7 +1515,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- FULL SCREEN READER MODAL (5 CLEAN TOOLS INCLUDING STORY CARD) -->
+    <!-- FULL SCREEN READER MODAL -->
     <div id="readingReaderContainer">
       <div class="reader-header-fullscreen">
         <div class="reader-top-row">
@@ -1540,7 +1732,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- VIEW 11: SETTINGS -->
+    <!-- VIEW 11: REORGANIZED CLEAN MIRROR GLASS SETTINGS HUB -->
     <div id="view-settings" class="page-view">
       <div class="card-section">
         <div class="section-header">
@@ -1548,143 +1740,227 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           <button onclick="switchView('view-home')" class="topbar-btn">← گەڕانەوە</button>
         </div>
 
-        <div id="settingsLoginSection" class="auth-mirror-card">
-          <div class="auth-brand-head">
-            <div class="auth-brand-logo">☾</div>
-            <h2>چوونەژوورەوە · هەژماری نووری قورئان</h2>
-            <p>بە ئیمێڵ یان هەژماری گۆگڵەکەت (Google) بچۆ ژوورەوە</p>
-          </div>
-
-          <div class="auth-tabs-row">
-            <button type="button" class="auth-tab-btn active" id="authTabLogin" onclick="switchAuthTab('login')">چوونەژوورەوە</button>
-            <button type="button" class="auth-tab-btn" id="authTabRegister" onclick="switchAuthTab('register')">دروستکردنی هەژمار</button>
-          </div>
-
-          <div id="authFeedbackMsg" class="auth-feedback"></div>
-
-          <form id="authLoginForm" class="auth-form-panel active" onsubmit="handleEmailLogin(event)">
-            <div class="auth-input-group">
-              <label for="loginEmailInput">ئیمێڵ (Email):</label>
-              <input type="email" id="loginEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
+        <div class="settings-hub-stack">
+          <!-- AUTH CARD (SHOWN WHEN LOGGED OUT OR ADDING ACCOUNT) -->
+          <div id="settingsLoginSection" class="auth-mirror-card">
+            <div class="auth-brand-head">
+              <div class="auth-brand-logo">☾</div>
+              <h2>چوونەژوورەوە · نووری قورئان</h2>
+              <p>بە ئیمێڵ یان هەژماری گۆگڵەکەت بچۆ ژوورەوە</p>
             </div>
-            <div class="auth-input-group">
-              <label for="loginPasswordInput">وشەی نهێنی (Password):</label>
-              <input type="password" id="loginPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" required>
-            </div>
-            <button type="submit" class="auth-submit-btn">چوونەژوورەوە بە ئیمێڵ ✉️</button>
-          </form>
 
-          <form id="authRegisterForm" class="auth-form-panel" onsubmit="handleEmailRegister(event)">
-            <div class="auth-input-group">
-              <label for="regNameInput">ناوی تەواو:</label>
-              <input type="text" id="regNameInput" placeholder="ناوەکەت لێرە بنووسە..." required>
+            <div class="auth-tabs-row">
+              <button type="button" class="auth-tab-btn active" id="authTabLogin" onclick="switchAuthTab('login')">چوونەژوورەوە</button>
+              <button type="button" class="auth-tab-btn" id="authTabRegister" onclick="switchAuthTab('register')">دروستکردنی هەژمار</button>
             </div>
-            <div class="auth-input-group">
-              <label for="regEmailInput">ئیمێڵ (Email):</label>
-              <input type="email" id="regEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
-            </div>
-            <div class="auth-input-group">
-              <label for="regPasswordInput">وشەی نهێنی (لانیکەم ٦ پیت):</label>
-              <input type="password" id="regPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
-            </div>
-            <div class="auth-input-group">
-              <label for="regConfirmInput">دووبارەکردنەوەی وشەی نهێنی:</label>
-              <input type="password" id="regConfirmInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
-            </div>
-            <button type="submit" class="auth-submit-btn">دروستکردنی هەژمار و چوونەژوورەوە ✨</button>
-          </form>
 
-          <div class="auth-divider">یان بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ</div>
+            <div id="authFeedbackMsg" class="auth-feedback"></div>
 
-          <div class="auth-social-stack">
-            <button type="button" class="auth-google-btn" onclick="handleGoogleOAuthLogin()">
-              <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-              <span>چوونەژوورەوە بە ئیمێڵی گۆگڵ (Google / Gmail)</span>
-            </button>
-          </div>
-
-          <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthPanelInSettings()">← گەڕانەوە بۆ هەژمارەکەم</button>
-        </div>
-
-        <div id="settingsProfileSection" style="display:none;">
-          <div class="account-profile-banner">
-            <div class="account-identity">
-              <div class="account-avatar-wrap" onclick="document.getElementById('accountPhotoUploadInput').click()" title="وێنەی هەژمار — کرتە بکە بۆ گۆڕینی وێنە">
-                <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
-                <span class="account-avatar-edit-dot" aria-hidden="true">📷</span>
-                <input type="file" id="accountPhotoUploadInput" accept="image/*" style="display:none;" onchange="handleCustomAccountPhotoUpload(event)">
+            <form id="authLoginForm" class="auth-form-panel active" onsubmit="handleEmailLogin(event)">
+              <div class="auth-input-group">
+                <label for="loginEmailInput">ئیمێڵ (Email):</label>
+                <input type="email" id="loginEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
               </div>
-              <div class="account-meta">
-                <h4 id="accountDisplayName">بەکارهێنەر</h4>
-                <small id="accountDisplayEmail">user@example.com</small>
-                <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+              <div class="auth-input-group">
+                <label for="loginPasswordInput">وشەی نهێنی (Password):</label>
+                <input type="password" id="loginPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" required>
               </div>
-            </div>
-            <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 11.5px; font-weight: 600;"></small>
-          </div>
+              <button type="submit" class="auth-submit-btn">چوونەژوورەوە بە ئیمێڵ ✉️</button>
+            </form>
 
-          <div class="account-stats-grid">
-            <div class="account-stat-card"><strong id="accStatFav">٠</strong><span>سوورەتی دڵخواز</span></div>
-            <div class="account-stat-card"><strong id="accStatHifz">٠</strong><span>بەشی لەبەرکراو</span></div>
-            <div class="account-stat-card"><strong id="accStatKhatm">٠٪</strong><span>پێشکەوتنی خەتم</span></div>
-            <div class="account-stat-card"><strong id="accStatTasbih">٠</strong><span>تەسبیح</span></div>
-          </div>
+            <form id="authRegisterForm" class="auth-form-panel" onsubmit="handleEmailRegister(event)">
+              <div class="auth-input-group">
+                <label for="regNameInput">ناوی تەواو:</label>
+                <input type="text" id="regNameInput" placeholder="ناوەکەت لێرە بنووسە..." required>
+              </div>
+              <div class="auth-input-group">
+                <label for="regEmailInput">ئیمێڵ (Email):</label>
+                <input type="email" id="regEmailInput" placeholder="example@gmail.com" style="direction:ltr; text-align:left;" required>
+              </div>
+              <div class="auth-input-group">
+                <label for="regPasswordInput">وشەی نهێنی (لانیکەم ٦ پیت):</label>
+                <input type="password" id="regPasswordInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+              </div>
+              <div class="auth-input-group">
+                <label for="regConfirmInput">دووبارەکردنەوەی وشەی نهێنی:</label>
+                <input type="password" id="regConfirmInput" placeholder="••••••••" style="direction:ltr; text-align:left;" minlength="6" required>
+              </div>
+              <button type="submit" class="auth-submit-btn">دروستکردنی هەژمار و چوونەژوورەوە ✨</button>
+            </form>
 
-          <div class="account-link-box">
-            <h4>🔗 بەستنەوەی ڕاستەوخۆ بە هەژماری گۆگڵ</h4>
-            <div class="account-link-row">
-              <button type="button" class="auth-google-btn" style="padding: 9px 12px; font-size: 12px;" onclick="linkSocialProvider('google')">
+            <div class="auth-divider">یان بە گۆگڵ</div>
+
+            <div class="auth-social-stack">
+              <button type="button" class="auth-google-btn" onclick="handleGoogleOAuthLogin()">
                 <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-                <span>بەستنەوە بە گۆگڵ / جیمێڵ</span>
+                <span>چوونەژوورەوە بە گۆگڵ (Google)</span>
+              </button>
+            </div>
+
+            <button type="button" id="authReturnBtn" class="auth-close-return-btn" onclick="closeAuthPanelInSettings()">← گەڕانەوە بۆ هەژمارەکەم</button>
+          </div>
+
+          <!-- UNIFIED ACCOUNT SECTION (SHOWN WHEN LOGGED IN) -->
+          <div id="settingsProfileSection" style="display:none;" class="settings-hub-stack">
+            <div class="account-hero-card">
+              <div class="account-hero-top">
+                <div class="account-identity">
+                  <div class="account-avatar-wrap" onclick="document.getElementById('accountPhotoUploadInput').click()" title="گۆڕینی وێنەی هەژمار">
+                    <div class="account-avatar-badge" id="accountAvatarLetter">ن</div>
+                    <span class="account-avatar-edit-dot" aria-hidden="true">📷</span>
+                    <input type="file" id="accountPhotoUploadInput" accept="image/*" style="display:none;" onchange="handleCustomAccountPhotoUpload(event)">
+                  </div>
+                  <div class="account-meta">
+                    <h4 id="accountDisplayName">بەکارهێنەر</h4>
+                    <small id="accountDisplayEmail">user@example.com</small>
+                    <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+                  </div>
+                </div>
+                <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 10.5px; font-weight: 600;"></small>
+              </div>
+
+              <div class="account-hero-stats">
+                <div class="account-mini-stat"><strong id="accStatFav">٠</strong><span>دڵخواز</span></div>
+                <div class="account-mini-stat"><strong id="accStatHifz">٠</strong><span>لەبەرکراو</span></div>
+                <div class="account-mini-stat"><strong id="accStatKhatm">٠٪</strong><span>خەتم</span></div>
+                <div class="account-mini-stat"><strong id="accStatTasbih">٠</strong><span>تەسبیح</span></div>
+              </div>
+            </div>
+
+            <div class="settings-group-title">👤 بەڕێوەبردنی هەژمار</div>
+            <div class="settings-glass-group">
+              <button type="button" class="settings-row" onclick="toggleSettingsEditDrawer()">
+                <div class="settings-row-main">
+                  <span class="settings-row-ico">✏️</span>
+                  <div class="settings-row-text">
+                    <strong>دەستکاریکردنی ناو و وشەی نهێنی</strong>
+                    <small>گۆڕینی زانیارییەکانی پرۆفایل</small>
+                  </div>
+                </div>
+                <span class="settings-row-chevron" id="settingsEditChevron">❮</span>
+              </button>
+
+              <div class="settings-drawer-body" id="settingsEditDrawer">
+                <div id="accountEditMsg" class="auth-feedback"></div>
+                <div class="account-form-grid">
+                  <div class="auth-input-group">
+                    <label for="accEditName">ناوی تەواو:</label>
+                    <input type="text" id="accEditName" placeholder="ناوی خۆت...">
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="accEditEmail">ئیمێڵ (Email):</label>
+                    <input type="email" id="accEditEmail" style="direction:ltr; text-align:left;" readonly>
+                  </div>
+                  <div class="auth-input-group" style="grid-column: 1 / -1;">
+                    <label for="accEditPassword">وشەی نهێنی نوێ (ئارەزوومەندانە):</label>
+                    <input type="password" id="accEditPassword" placeholder="ئەگەر ناتەوێت بیگۆڕیت بە بەتاڵی بیهێڵەرەوە..." style="direction:ltr; text-align:left;">
+                  </div>
+                </div>
+                <button type="button" class="account-btn-primary" onclick="saveAccountProfileChanges()">پاشەکەوتکردنی گۆڕانکارییەکان 💾</button>
+              </div>
+
+              <button type="button" class="settings-row" onclick="linkSocialProvider('google')">
+                <div class="settings-row-main">
+                  <span class="settings-row-ico google-ico">
+                    <svg viewBox="0 0 48 48" style="width:19px; height:19px;"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+                  </span>
+                  <div class="settings-row-text">
+                    <strong>بەستنەوە بە گۆگڵ (Google)</strong>
+                    <small>بەستنەوەی ڕاستەوخۆ بە جیمێڵەکەت</small>
+                  </div>
+                </div>
+                <span class="settings-row-chevron">❮</span>
+              </button>
+
+              <button type="button" class="settings-row" onclick="openAuthPanelInSettings('register')">
+                <div class="settings-row-main">
+                  <span class="settings-row-ico">➕</span>
+                  <div class="settings-row-text">
+                    <strong>دروستکردن یان گۆڕینی هەژمار</strong>
+                    <small>چوونەژوورەوە بە هەژمارێکی تر</small>
+                  </div>
+                </div>
+                <span class="settings-row-chevron">❮</span>
+              </button>
+
+              <button type="button" class="settings-row danger-row" onclick="logoutUser()">
+                <div class="settings-row-main">
+                  <span class="settings-row-ico danger-ico">🚪</span>
+                  <div class="settings-row-text">
+                    <strong>دەرچوون لە هەژمار</strong>
+                  </div>
+                </div>
+                <span class="settings-row-chevron">❮</span>
               </button>
             </div>
           </div>
 
-          <div class="account-edit-box">
-            <h4>✏️ دەستکاریکردنی زانیارییەکانی هەژمارەکەم</h4>
-            <div id="accountEditMsg" class="auth-feedback"></div>
-            <div class="account-form-grid">
-              <div class="auth-input-group">
-                <label for="accEditName">ناوی تەواو:</label>
-                <input type="text" id="accEditName" placeholder="ناوی خۆت...">
+          <!-- QUICK TOOLS GROUP -->
+          <div class="settings-group-title">🧭 ئامرازە خێراکان</div>
+          <div class="settings-glass-group">
+            <button type="button" class="settings-row" onclick="switchView('view-khatm')">
+              <div class="settings-row-main">
+                <span class="settings-row-ico emerald-ico">📅</span>
+                <div class="settings-row-text">
+                  <strong>خەتمی قورئان</strong>
+                  <small>ڕێکخستنی پلانی ڕۆژانەی خەتمکردن</small>
+                </div>
               </div>
-              <div class="auth-input-group">
-                <label for="accEditEmail">ئیمێڵ (Email):</label>
-                <input type="email" id="accEditEmail" placeholder="example@gmail.com" style="direction:ltr; text-align:left;">
-              </div>
-              <div class="auth-input-group" style="grid-column: 1 / -1;">
-                <label for="accEditPassword">وشەی نهێنی نوێ (ئارەزوومەندانە):</label>
-                <input type="password" id="accEditPassword" placeholder="ئەگەر ناتەوێت بیگۆڕیت بە بەتاڵی بیهێڵەرەوە..." style="direction:ltr; text-align:left;">
-              </div>
-            </div>
-            <div class="account-actions-grid">
-              <button type="button" class="account-btn-primary" onclick="saveAccountProfileChanges()">پاشەکەوتکردن 💾</button>
-              <button type="button" class="account-btn-secondary" onclick="openAuthPanelInSettings('register')">هەژماری نوێ ➕</button>
-              <button type="button" class="account-btn-danger" onclick="logoutUser()">دەرچوون 🚪</button>
-            </div>
-          </div>
-        </div>
+              <span class="settings-row-chevron">❮</span>
+            </button>
 
-        <div class="adhkar-reminder-box">
-          <div class="adhkar-reminder-top">
-            <h4>🔔 ئاگادارکردنەوەی زیکری بەیانیان و ئێواران</h4>
-            <button type="button" class="adhkar-rem-toggle-btn" id="adhkarRemToggleBtn" onclick="toggleAdhkarReminder()">چالاککردن</button>
+            <button type="button" class="settings-row" onclick="switchView('view-qibla')">
+              <div class="settings-row-main">
+                <span class="settings-row-ico amber-ico">🧭</span>
+                <div class="settings-row-text">
+                  <strong>قیبلەنما</strong>
+                  <small>دیاریکردنی ئاراستەی کەعبەی پیرۆز</small>
+                </div>
+              </div>
+              <span class="settings-row-chevron">❮</span>
+            </button>
+
+            <button type="button" class="settings-row" onclick="switchView('view-favorites')">
+              <div class="settings-row-main">
+                <span class="settings-row-ico danger-ico">❤️</span>
+                <div class="settings-row-text">
+                  <strong>سوورەتە دڵخوازەکانم</strong>
+                  <small>دەستگەیشتنی خێرا بە دڵخوازەکان</small>
+                </div>
+              </div>
+              <span class="settings-row-chevron">❮</span>
+            </button>
           </div>
-          <div class="adhkar-rem-times-row">
-            <div class="adhkar-rem-field">
-              <label for="morningRemTimeInput">کاتی زیکری بەیانیان 🌅:</label>
-              <input type="time" id="morningRemTimeInput" value="06:30" onchange="saveAdhkarReminderTimes()">
+
+          <!-- ADHKAR REMINDER GROUP -->
+          <div class="settings-group-title">🔔 ئاگادارکردنەوەکان</div>
+          <div class="settings-glass-group">
+            <div class="settings-row">
+              <div class="settings-row-main">
+                <span class="settings-row-ico">🔔</span>
+                <div class="settings-row-text">
+                  <strong>زیکری بەیانیان و ئێواران</strong>
+                  <small id="adhkarRemStatusTxt">ئاگادارکردنەوەی سەر شاشە ناچالاکە</small>
+                </div>
+              </div>
+              <button type="button" class="adhkar-rem-toggle-btn" id="adhkarRemToggleBtn" onclick="toggleAdhkarReminder()">چالاککردن</button>
             </div>
-            <div class="adhkar-rem-field">
-              <label for="eveningRemTimeInput">کاتی زیکری ئێواران 🌇:</label>
-              <input type="time" id="eveningRemTimeInput" value="16:30" onchange="saveAdhkarReminderTimes()">
-            </div>
-          </div>
-          <div class="adhkar-rem-footer">
-            <span id="adhkarRemStatusTxt">ئاگادارکردنەوەی سەر شاشە ناچالاکە</span>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('morning', true)">تاقیکردنەوەی بەیانی</button>
-              <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('evening', true)">تاقیکردنەوەی ئێوارە</button>
+
+            <div class="adhkar-rem-body">
+              <div class="adhkar-rem-times-row">
+                <div class="adhkar-rem-field">
+                  <label for="morningRemTimeInput">بەیانیان 🌅:</label>
+                  <input type="time" id="morningRemTimeInput" value="06:30" onchange="saveAdhkarReminderTimes()">
+                </div>
+                <div class="adhkar-rem-field">
+                  <label for="eveningRemTimeInput">ئێواران 🌇:</label>
+                  <input type="time" id="eveningRemTimeInput" value="16:30" onchange="saveAdhkarReminderTimes()">
+                </div>
+              </div>
+              <div class="adhkar-rem-test-row">
+                <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('morning', true)">تاقیکردنەوەی بەیانی</button>
+                <button type="button" class="adhkar-rem-test-btn" onclick="triggerAdhkarNotification('evening', true)">تاقیکردنەوەی ئێوارە</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1693,7 +1969,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </main>
 </div>
 
-<!-- STACKED FLOATING BARS -->
+<!-- TWO FLOATING MIRROR-GLASS BARS AT BOTTOM -->
 <div class="bottom-nav-container" id="mainBottomNav">
   <div class="floating-player-bar" onclick="switchView('view-full-player')">
     <div class="fp-left-controls" onclick="event.stopPropagation()">
@@ -2534,10 +2810,18 @@ function resizeImageFileToDataUrl(file, maxSize = 240) {
 }
 
 /* ========================================================
-   FIREBASE AUTH + EMAIL / GMAIL / GRAVATAR PHOTO ENGINE
+   FIREBASE AUTH + REORGANIZED SETTINGS HUB LOGIC
    ======================================================== */
 let activeUser = JSON.parse(localStorage.getItem('noor_active_user') || 'null');
 let isForcingAuthInSettings = false, userAvatarRenderToken = 0;
+
+function toggleSettingsEditDrawer() {
+  const drawer = document.getElementById('settingsEditDrawer');
+  const chev = document.getElementById('settingsEditChevron');
+  if (!drawer) return;
+  const isOpen = drawer.classList.toggle('open');
+  if (chev) chev.textContent = isOpen ? '⌄' : '❮';
+}
 
 function upgradeGooglePhotoUrl(url) {
   if (!url || typeof url !== 'string') return '';
@@ -2655,7 +2939,7 @@ function switchAuthTab(tabName) {
 
 function updateSettingsAuthPanels() {
   const l = document.getElementById('settingsLoginSection'), p = document.getElementById('settingsProfileSection'), r = document.getElementById('authReturnBtn');
-  if (activeUser && !isForcingAuthInSettings) { if (l) l.style.display = 'none'; if (p) p.style.display = 'block'; }
+  if (activeUser && !isForcingAuthInSettings) { if (l) l.style.display = 'none'; if (p) p.style.display = 'flex'; }
   else { if (l) l.style.display = 'block'; if (p) p.style.display = 'none'; if (r) r.style.display = activeUser ? 'block' : 'none'; }
 }
 
@@ -2702,9 +2986,9 @@ async function linkSocialProvider() {
     if (googlePhoto) { try { await result.user.updateProfile({ photoURL: upgradeGooglePhotoUrl(googlePhoto) }); await result.user.reload(); } catch (e) {} }
     const mapped = mapFirebaseUserToLocal(fbAuth.currentUser || result.user);
     if (mapped) await userAccountPhotoStore.removeItem(getUserPhotoStorageKey(mapped)).catch(() => {});
-    setActiveUser(mapped); showAuthFeedback('بە سەرکەوتوویی بە گۆگڵەوە بەسترایەوە ✅', 'success', 'accountEditMsg');
-    setTimeout(() => showAuthFeedback('', 'success', 'accountEditMsg'), 3000);
-  } catch (err) { showAuthFeedback(getKurdishAuthError(err), 'error', 'accountEditMsg'); }
+    setActiveUser(mapped);
+    alert('هەژمارەکەت بە سەرکەوتوویی بە گۆگڵەوە بەسترایەوە ✅');
+  } catch (err) { alert(getKurdishAuthError(err)); }
 }
 
 function updateAccountHeaderUI() { const n = document.getElementById('topbarUserName'); if (n) n.textContent = activeUser ? activeUser.name : 'سێتینگ'; renderUserPhotoIntoElements(activeUser); }
@@ -2716,8 +3000,8 @@ function renderAccountView() {
     document.getElementById('accountDisplayEmail').textContent = activeUser.email || '';
     const pEl = document.getElementById('accountProviderBadge'), isG = activeUser.provider === 'google' || (activeUser.providers || []).includes('google.com');
     pEl.className = isG ? 'account-provider-pill google' : 'account-provider-pill';
-    pEl.textContent = isG ? '🔴 بەستراوە بە گۆگڵ (Google / Gmail)' : '✉️ بەستراوە بە ئیمێڵ (Email)';
-    document.getElementById('accountJoinDateTxt').textContent = activeUser.createdAt ? `تۆمارکردن: ${activeUser.createdAt}` : '';
+    pEl.textContent = isG ? '🔴 گۆگڵ (Google)' : '✉️ ئیمێڵ (Email)';
+    document.getElementById('accountJoinDateTxt').textContent = activeUser.createdAt ? activeUser.createdAt : '';
     document.getElementById('accEditName').value = activeUser.name || '';
     const em = document.getElementById('accEditEmail'); em.value = activeUser.email || ''; em.readOnly = true;
     document.getElementById('accEditPassword').value = '';
