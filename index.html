@@ -8,9 +8,10 @@
 
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-<!-- FIREBASE AUTH SDK (REAL GOOGLE & EMAIL AUTH) -->
+<!-- FIREBASE AUTH + CLOUD FIRESTORE REAL-TIME DATABASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap');
@@ -100,6 +101,13 @@ button, a { cursor: pointer; touch-action: manipulation; }
 
 .settings-drawer-body { display: none; padding: 12px 15px 15px; background: rgba(255, 255, 255, 0.42); border-bottom: 1px solid rgba(15, 23, 42, 0.06); }
 .settings-drawer-body.open { display: block; }
+
+.db-sync-pill {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 5px;
+  padding: 2px 9px; border-radius: 99px; font-size: 10.5px; font-weight: 800;
+  background: rgba(16, 185, 129, 0.12); color: #047857; border: 1px solid rgba(110, 231, 183, 0.7);
+}
+.db-sync-pill.offline { background: rgba(245, 158, 11, 0.14); color: #b45309; border-color: rgba(252, 211, 77, 0.7); }
 
 /* SETTINGS TOP LOGIN & SIGNUP CARD */
 .auth-mirror-card {
@@ -334,7 +342,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .story-btn-save { background: #fbbf24; color: #0f172a; border: none; border-radius: 12px; padding: 10px; font-size: 12.5px; font-weight: 800; }
 .story-btn-share { background: #2563eb; color: #ffffff; border: none; border-radius: 12px; padding: 10px; font-size: 12.5px; font-weight: 800; }
 
-/* FLOATING AYAH SHOWCASE — GLASS CARDS */
+/* FLOATING AYAH SHOWCASE */
 .floating-ayah-showcase { margin-top: 16px; padding: 6px 4px; text-align: center; }
 .ayah-ornament-badge { display: inline-flex; align-items: center; gap: 10px; color: #1d4ed8; font-size: 12px; font-weight: 800; margin-bottom: 8px; }
 .ayah-ornament-badge::before, .ayah-ornament-badge::after { content: ""; width: 30px; height: 1px; background: linear-gradient(90deg, transparent, #2563eb, transparent); }
@@ -696,7 +704,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .tall-reciter-row-status { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.14); color: #e2e8f0; white-space: nowrap; flex-shrink: 0; }
 .tall-reciter-row-item.active .tall-reciter-row-status { background: #ffffff; color: #1d4ed8; }
 
-/* Secret Admin Panel */
+/* Secret Admin Panel (Cloud Synced) */
 #secretAdminPanel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1.5px solid rgba(255, 255, 255, 0.45); border-radius: 18px; padding: 20px; z-index: 999999; box-shadow: 0 18px 45px rgba(0,0,0,0.8); width: 92%; max-width: 420px; color: #fff; direction: rtl; text-align: center; max-height: 88vh; overflow-y: auto; }
 #secretAdminPanel select, #secretAdminPanel input { width: 100%; padding: 9px; margin-bottom: 10px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 13px; }
 #secretAdminPanel select option { background: #0f172a; color: #fff; }
@@ -707,6 +715,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .add-reciter-box { background: rgba(255,255,255,0.05); padding: 14px; border-radius: 12px; margin-bottom: 14px; border: 1px dashed rgba(255,255,255,0.3); text-align: right; }
 .add-reciter-box h4 { margin: 0 0 8px; font-size: 13.5px; color: #93c5fd; }
 .admin-field-hint { display: block; font-size: 11px; color: #cbd5e1; margin-bottom: 5px; line-height: 1.5; }
+.admin-cloud-badge { display: block; padding: 7px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 700; margin-bottom: 12px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(110, 231, 183, 0.55); color: #a7f3d0; line-height: 1.5; }
+.admin-cloud-badge.warn { background: rgba(245, 158, 11, 0.2); border-color: rgba(251, 191, 36, 0.55); color: #fde68a; }
 
 /* ========================================================
    TWO BOTTOM FLOATING BARS — MIRROR GLASS + SLIDING CIRCLE
@@ -928,9 +938,11 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </div>
 </div>
 
-<!-- HIDDEN CUSTOM MP3, RECITER & PHOTO MANAGER -->
+<!-- HIDDEN CLOUD ADMIN PANEL (SYNCED TO ALL PHONES VIA FIRESTORE) -->
 <div id="secretAdminPanel">
-  <h3>بەڕێوەبردنی قاریئ، وێنە و دەنگەکان</h3>
+  <h3>☁️ بەڕێوەبردنی گشتی (هەموو مۆبایلەکان)</h3>
+  <span id="adminCloudStatusBadge" class="admin-cloud-badge warn">⏳ پشکنینی هەژماری ئەدمین...</span>
+
   <div class="add-reciter-box">
     <h4>زیادکردنی قاریئی نوێ (١ تا ١١٤ سوورەت)</h4>
     <select id="apiReciterPreset" onchange="onSelectApiPreset()">
@@ -938,20 +950,26 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     </select>
     <input type="text" id="newReciterName" placeholder="ناوی قاریئ لێرە بنووسە...">
     <input type="text" id="newReciterServer" placeholder="لینکی سێرڤەری دەنگ (ئارەزوومەندانە)..." style="direction:ltr; text-align:left;">
-    <span class="admin-field-hint">🖼️ وێنەی قاریئ (ئارەزوومەندانە):</span>
+    <span class="admin-field-hint">🖼️ وێنەی قاریئ (ئارەزوومەندانە — دەچێتە داتابەیس):</span>
     <input type="file" id="newReciterPhotoInput" accept="image/*">
-    <button class="btn-save" onclick="addNewReciter()">زیادکردنی قاریئ لەگەڵ وێنە و دەنگەکەی ➕</button>
+    <button class="btn-save" onclick="addNewReciter()">زیادکردنی قاریئ بۆ هەموو مۆبایلەکان ☁️➕</button>
   </div>
+
   <div class="add-reciter-box" style="margin-bottom: 12px;">
-    <h4>قاریئە خەزنکراوەکان، گۆڕینی وێنە و بارکردنی MP3</h4>
+    <h4>قاریئەکان، گۆڕینی وێنە و دەنگی تایبەت</h4>
     <select id="secretReciter"></select>
-    <button class="btn-del" onclick="deleteSelectedReciter()" style="margin-top: -4px; margin-bottom: 12px; padding: 8px; font-size: 12px;">سڕینەوەی یەکجاری ئەم قاریئە ❌</button>
+    <button class="btn-del" onclick="deleteSelectedReciter()" style="margin-top: -4px; margin-bottom: 12px; padding: 8px; font-size: 12px;">سڕینەوەی یەکجاری لە هەموو مۆبایلەکان ❌</button>
+
     <span class="admin-field-hint">🖼️ دانان یان گۆڕینی وێنەی قاریئی هەڵبژێردراو:</span>
     <input type="file" id="secretReciterPhotoInput" accept="image/*">
-    <button class="btn-save" onclick="saveSelectedReciterPhoto()" style="background: #38bdf8; color: #0f172a;">پاشەکەوتکردنی وێنەی ئەم قاریئە 🖼️</button>
+    <button class="btn-save" onclick="saveSelectedReciterPhoto()" style="background: #38bdf8; color: #0f172a;">پاشەکەوتکردنی وێنە بۆ هەموو مۆبایلەکان ☁️🖼️</button>
+
     <select id="secretSurah"></select>
+    <span class="admin-field-hint">🌐 لینکی ڕاستەوخۆی MP3 (لای هەموو مۆبایلەکان کار دەکات):</span>
+    <input type="url" id="secretAudioUrlInput" placeholder="https://.../001.mp3" style="direction:ltr; text-align:left;">
+    <span class="admin-field-hint">📁 یان فایلی دەنگی ناو ئامێرەکە (تەنیا بۆ ئەم مۆبایلە ئەگەر گەورە بێت):</span>
     <input type="file" id="secretFileInput" accept="audio/*">
-    <button class="btn-save" onclick="saveSecretAudio()">پاشەکەوتکردنی دەنگی تایبەت 💾</button>
+    <button class="btn-save" onclick="saveSecretAudio()">پاشەکەوتکردنی دەنگی تایبەت ☁️💾</button>
     <button class="btn-del" onclick="removeSecretAudio()">سڕینەوەی دەنگی تایبەتی ئەم سوورەتە 🗑</button>
   </div>
   <button class="btn-close" onclick="document.getElementById('secretAdminPanel').style.display='none'">داخستن ✖</button>
@@ -1164,13 +1182,15 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 
         <form class="ayah-search-bar-form" onsubmit="handleAyahSearchSubmit(event)">
           <div class="ayah-search-input-wrap">
-            <input type="text" id="ayahSearchInput" placeholder="بنووسە: موسا، ئارامگرتن، صبر، نوێژ، بەهەشت..." autocomplete="off">
+            <input type="text" id="ayahSearchInput" placeholder="بنووسە: دۆزەخ، بەهەشت، موسا، ئارامگرتن، نوێژ..." autocomplete="off">
             <button type="button" id="ayahSearchClearBtn" class="ayah-search-clear-btn" onclick="clearAyahSearch()" title="سڕینەوە">✖</button>
           </div>
           <button type="submit" class="ayah-search-submit-btn">گەڕان 🔍</button>
         </form>
 
         <div class="ayah-topics-strip" id="ayahTopicsStrip">
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('بەهەشت', this)">🏞️ بەهەشت</button>
+          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دۆزەخ', this)">🔥 دۆزەخ</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامگرتن', this)">🌿 ئارامگرتن</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ترس', this)">🛡️ ترس</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دڵتەنگی', this)">💙 دڵتەنگی</button>
@@ -1178,8 +1198,6 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('تەوبە', this)">✨ تەوبە</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دوعا', this)">🤲 دوعا</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('دایک', this)">❤️ دایک</button>
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('ئارامی', this)">🌙 ئارامی</button>
-          <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('بەهەشت', this)">🏞️ بەهەشت</button>
           <button type="button" class="ayah-topic-chip" onclick="quickSearchTopic('نوێژ', this)">🕌 نوێژ</button>
         </div>
 
@@ -1720,7 +1738,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       </div>
     </div>
 
-    <!-- VIEW 11: REORGANIZED CLEAN MIRROR GLASS SETTINGS HUB -->
+    <!-- VIEW 11: REORGANIZED CLEAN MIRROR GLASS SETTINGS HUB + CLOUD SYNC -->
     <div id="view-settings" class="page-view">
       <div class="card-section">
         <div class="section-header">
@@ -1733,7 +1751,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             <div class="auth-brand-head">
               <div class="auth-brand-logo">☾</div>
               <h2>چوونەژوورەوە · نووری قورئان</h2>
-              <p>بە ئیمێڵ یان هەژماری گۆگڵەکەت بچۆ ژوورەوە</p>
+              <p>بە ئیمێڵ یان هەژماری گۆگڵەکەت بچۆ ژوورەوە تا زانیارییەکانت لە داتابەیس پاشەکەوت ببن</p>
             </div>
 
             <div class="auth-tabs-row">
@@ -1799,7 +1817,10 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
                   <div class="account-meta">
                     <h4 id="accountDisplayName">بەکارهێنەر</h4>
                     <small id="accountDisplayEmail">user@example.com</small>
-                    <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+                    <div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">
+                      <span class="account-provider-pill" id="accountProviderBadge">✉️ بەستراوە بە ئیمێڵ</span>
+                      <span class="db-sync-pill" id="accountDbSyncBadge">☁️ داتابەیس چالاکە</span>
+                    </div>
                   </div>
                 </div>
                 <small id="accountJoinDateTxt" style="color: var(--muted); font-size: 10.5px; font-weight: 600;"></small>
@@ -2019,7 +2040,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </div>
 </div><script>
 /* ========================================================
-   FIREBASE REAL AUTHENTICATION CONFIG (NOOR QURAN)
+   FIREBASE AUTH + CLOUD FIRESTORE CONFIG (NOOR QURAN)
    ======================================================== */
 const firebaseConfig = {
   apiKey: "AIzaSyCwG3EO9pWXFuGRRODXpoGtbMKuxTC_fqY",
@@ -2031,11 +2052,18 @@ const firebaseConfig = {
   measurementId: "G-15460LWGQF"
 };
 
+const ADMIN_EMAIL = "mahamadrafhat123@gmail.com";
+
 let fbAuth = null;
+let fbDb = null;
 try {
   if (typeof firebase !== 'undefined') {
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     fbAuth = firebase.auth();
+    if (typeof firebase.firestore === 'function') {
+      fbDb = firebase.firestore();
+      fbDb.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+    }
   }
 } catch (err) {
   console.error('Firebase init error:', err);
@@ -2117,6 +2145,7 @@ const customAudioStore = localforage.createInstance({ name: "NoorQuranFiles_v6",
 function pad(n) { return String(n).padStart(3, '0'); }
 function padZero(n) { return n < 10 ? '0' + n : n; }
 function toArabicNumbers(num) { const d = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return String(num).replace(/\d/g, x => d[x]); }
+function makeSafeDocId(str) { return 'doc_' + encodeURIComponent(String(str || '').trim()).replace(/%/g, '_').replace(/\./g, '-').slice(0, 450); }
 
 function applyBalancedVolumes() {
   const reciterVol = Math.min(1, Math.max(0.1, currentReciterVolume));
@@ -2144,6 +2173,220 @@ function playMaherAyahOnPlayer(playerEl, surahNum, ayahNum, globalNum, onDone, o
   playerEl.play().catch(() => {
     if (!triedBackup && backupUrl) { triedBackup = true; playerEl.src = backupUrl; playerEl.play().catch(() => { if (onAllFail) onAllFail(); }); }
     else if (onAllFail) onAllFail();
+  });
+}
+
+/* ========================================================
+   FIREBASE CLOUD FIRESTORE REAL-TIME SYNC ENGINE
+   ======================================================== */
+let globalReciterPhotosMap = JSON.parse(localStorage.getItem('noor_global_reciter_photos_v1') || '{}');
+let globalAudioMap = JSON.parse(localStorage.getItem('noor_global_audio_map_v1') || '{}');
+let globalHiddenDefaults = JSON.parse(localStorage.getItem('noor_global_hidden_defaults_v1') || '[]');
+let globalRecitersUnsub = null, globalAudioUnsub = null, userCloudUnsub = null;
+let isApplyingUserCloudData = false, userCloudSaveTimer = null;
+
+function isCurrentUserAdmin() {
+  const email = (fbAuth?.currentUser?.email || activeUser?.email || '').trim().toLowerCase();
+  return email === ADMIN_EMAIL.toLowerCase();
+}
+
+function updateAdminCloudStatusUI() {
+  const badge = document.getElementById('adminCloudStatusBadge'); if (!badge) return;
+  if (!fbDb) {
+    badge.className = 'admin-cloud-badge warn';
+    badge.textContent = '⚠️ داتابەیسی Firestore بار نەبووە.';
+    return;
+  }
+  if (isCurrentUserAdmin()) {
+    badge.className = 'admin-cloud-badge';
+    badge.textContent = `✅ وەک ئەدمین چوویتە ژوورەوە (${ADMIN_EMAIL}) — هەر گۆڕانکارییەک بکەیت لای هەموو مۆبایلەکان دەردەکەوێت.`;
+  } else {
+    badge.className = 'admin-cloud-badge warn';
+    badge.textContent = `⚠️ بۆ بڵاوکردنەوە بۆ هەموو مۆبایلەکان، سەرەتا لە «سێتینگ» بە ئیمێڵی ${ADMIN_EMAIL} بچۆ ژوورەوە.`;
+  }
+}
+
+function updateDbSyncBadgeUI(text, isOffline = false) {
+  const el = document.getElementById('accountDbSyncBadge'); if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('offline', !!isOffline);
+}
+
+function initGlobalCloudSync() {
+  if (!fbDb) return;
+
+  if (globalRecitersUnsub) { try { globalRecitersUnsub(); } catch (e) {} }
+  globalRecitersUnsub = fbDb.collection('global_reciters').onSnapshot(snapshot => {
+    const hiddenSet = new Set();
+    const overrideMap = new Map();
+    const addedList = [];
+    const freshPhotos = {};
+
+    snapshot.forEach(doc => {
+      const data = doc.data() || {};
+      if (doc.id === '_config') {
+        if (Array.isArray(data.hiddenDefaults)) data.hiddenDefaults.forEach(n => hiddenSet.add(n));
+        return;
+      }
+      if (!data.name) return;
+      if (data.photoDataUrl) freshPhotos[data.name] = data.photoDataUrl;
+      const isDef = defaultReciters.some(d => d.name === data.name);
+      if (isDef || data.isDefaultOverride) {
+        overrideMap.set(data.name, data);
+      } else {
+        addedList.push({
+          name: data.name,
+          createdAt: data.createdAt || 0,
+          moshaf: [{ name: data.moshafName || 'مرتل', server: data.server || 'https://server8.mp3quran.net/afs/' }]
+        });
+      }
+    });
+
+    addedList.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+
+    const merged = [];
+    defaultReciters.forEach(def => {
+      if (hiddenSet.has(def.name)) return;
+      const ov = overrideMap.get(def.name);
+      merged.push({
+        name: def.name,
+        moshaf: [{ name: ov?.moshafName || def.moshaf[0].name, server: ov?.server || def.moshaf[0].server }]
+      });
+    });
+    addedList.forEach(item => {
+      if (!merged.some(r => r.name === item.name)) merged.push({ name: item.name, moshaf: item.moshaf });
+    });
+
+    if (merged.length > 0) {
+      customReciters = merged;
+      globalHiddenDefaults = Array.from(hiddenSet);
+      globalReciterPhotosMap = freshPhotos;
+      try {
+        localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
+        localStorage.setItem('noor_global_hidden_defaults_v1', JSON.stringify(globalHiddenDefaults));
+        localStorage.setItem('noor_global_reciter_photos_v1', JSON.stringify(globalReciterPhotosMap));
+      } catch (e) {}
+
+      const stillExists = customReciters.find(r => r.name === selectedReciterName);
+      if (stillExists) {
+        selectedMoshaf = stillExists.moshaf[0];
+      } else {
+        selectedReciterName = customReciters[0].name;
+        selectedMoshaf = customReciters[0].moshaf[0];
+        localStorage.setItem('noor_reciter_name', selectedReciterName);
+        if (typeof syncPlayerLabels === 'function') syncPlayerLabels(currentSurahName, selectedReciterName);
+      }
+
+      if (renderedViewsCache.reciters && typeof displayRecitersList === 'function') displayRecitersList(customReciters);
+      renderTallRecitersDrawerList(customReciters);
+      updateTallTopReciterPhoto(selectedReciterName, true);
+      if (document.getElementById('secretAdminPanel')?.style.display === 'block' && typeof populateSecretAdmin === 'function') {
+        populateSecretAdmin();
+      }
+    }
+  }, err => {
+    console.warn('Global reciters sync listener:', err?.message || err);
+  });
+
+  if (globalAudioUnsub) { try { globalAudioUnsub(); } catch (e) {} }
+  globalAudioUnsub = fbDb.collection('global_audio').onSnapshot(snapshot => {
+    const freshAudio = {};
+    snapshot.forEach(doc => {
+      const d = doc.data() || {};
+      if (d.key && d.url) freshAudio[d.key] = d.url;
+    });
+    globalAudioMap = freshAudio;
+    try { localStorage.setItem('noor_global_audio_map_v1', JSON.stringify(globalAudioMap)); } catch (e) {}
+  }, err => {
+    console.warn('Global audio sync listener:', err?.message || err);
+  });
+}
+
+function collectCurrentUserCloudPayload() {
+  return {
+    favSurahs: Array.isArray(favSurahs) ? favSurahs : [],
+    hifzSavedRecords: typeof hifzSavedRecords !== 'undefined' && Array.isArray(hifzSavedRecords) ? hifzSavedRecords : [],
+    khatmPlan: typeof khatmPlan !== 'undefined' && khatmPlan ? khatmPlan : { totalDays: 30, completedDays: [] },
+    adhkarCounts: typeof adhkarCounts !== 'undefined' && adhkarCounts ? adhkarCounts : {},
+    currentTasbihCount: typeof currentTasbihCount === 'number' ? currentTasbihCount : 0,
+    selectedCity: localStorage.getItem('noor_selected_city') || 'Erbil',
+    updatedAt: Date.now()
+  };
+}
+
+function scheduleUserCloudSave() {
+  if (isApplyingUserCloudData || !fbDb || !fbAuth?.currentUser) return;
+  const uid = fbAuth.currentUser.uid;
+  clearTimeout(userCloudSaveTimer);
+  updateDbSyncBadgeUI('⏳ پاشەکەوت دەکرێت...', false);
+  userCloudSaveTimer = setTimeout(async () => {
+    try {
+      await fbDb.collection('users').doc(uid).set(collectCurrentUserCloudPayload(), { merge: true });
+      updateDbSyncBadgeUI('☁️ لە داتابەیس پاشەکەوت کرا', false);
+    } catch (err) {
+      updateDbSyncBadgeUI('⚠️ هەڵەی پاشەکەوت', true);
+    }
+  }, 550);
+}
+
+function stopUserCloudSync() {
+  clearTimeout(userCloudSaveTimer);
+  if (userCloudUnsub) { try { userCloudUnsub(); } catch (e) {} userCloudUnsub = null; }
+}
+
+function startUserCloudSync(uid) {
+  stopUserCloudSync();
+  if (!fbDb || !uid) return;
+  updateDbSyncBadgeUI('⏳ هاوکاتکردن لەگەڵ داتابەیس...', false);
+
+  userCloudUnsub = fbDb.collection('users').doc(uid).onSnapshot(doc => {
+    if (!doc.exists) {
+      fbDb.collection('users').doc(uid).set(collectCurrentUserCloudPayload(), { merge: true })
+        .then(() => updateDbSyncBadgeUI('☁️ داتابەیس چالاکە', false))
+        .catch(() => updateDbSyncBadgeUI('⚠️ داتابەیس بەردەست نییە', true));
+      return;
+    }
+
+    const data = doc.data() || {};
+    isApplyingUserCloudData = true;
+    try {
+      if (Array.isArray(data.favSurahs)) {
+        favSurahs = data.favSurahs;
+        localStorage.setItem('noor_fav_surahs', JSON.stringify(favSurahs));
+      }
+      if (Array.isArray(data.hifzSavedRecords) && typeof hifzSavedRecords !== 'undefined') {
+        hifzSavedRecords = data.hifzSavedRecords;
+        localStorage.setItem('noor_hifz_records', JSON.stringify(hifzSavedRecords));
+      }
+      if (data.khatmPlan && typeof khatmPlan !== 'undefined') {
+        khatmPlan = data.khatmPlan;
+        localStorage.setItem('noor_khatm_plan', JSON.stringify(khatmPlan));
+      }
+      if (data.adhkarCounts && typeof adhkarCounts !== 'undefined') {
+        adhkarCounts = data.adhkarCounts;
+        localStorage.setItem('noor_adhkar_counts', JSON.stringify(adhkarCounts));
+      }
+      if (typeof data.currentTasbihCount === 'number' && typeof currentTasbihCount !== 'undefined') {
+        currentTasbihCount = data.currentTasbihCount;
+        localStorage.setItem('noor_tasbih_count', currentTasbihCount);
+        const tc = document.getElementById('tasbihCircleCount'); if (tc) tc.textContent = currentTasbihCount;
+      }
+
+      if (renderedViewsCache.surahs && typeof renderSurahsList === 'function') renderSurahsList(surahsData);
+      if (typeof renderFavoritesGrid === 'function') renderFavoritesGrid();
+      if (typeof renderHifzSavedRecords === 'function') renderHifzSavedRecords();
+      if (renderedViewsCache.khatm && typeof renderKhatmPlanner === 'function') renderKhatmPlanner();
+      if (renderedViewsCache.adhkar && typeof showAdhkarTab === 'function') {
+        showAdhkarTab(localStorage.getItem('noor_adhkar_active_tab') || 'morning');
+      }
+      renderAccountView();
+      updateDbSyncBadgeUI('☁️ هاوکاتکراو لەگەڵ داتابەیس', false);
+    } finally {
+      isApplyingUserCloudData = false;
+    }
+  }, err => {
+    console.warn('User cloud sync error:', err?.message || err);
+    updateDbSyncBadgeUI('⚠️ هەڵەی پەیوەندی', true);
   });
 }
 
@@ -2772,7 +3015,7 @@ document.getElementById('ayahSearchInput')?.addEventListener('input', e => {
 });
 
 /* ========================================================
-   AUTO RECITER PHOTO ENGINE + TALL PLAYER DRAWER
+   AUTO RECITER PHOTO ENGINE (CLOUD FIRST) + TALL PLAYER DRAWER
    ======================================================== */
 let reciterPhotoCache = JSON.parse(localStorage.getItem('noor_reciter_photo_cache_v1') || '{}');
 const reciterPhotoInFlight = new Map();
@@ -2820,6 +3063,7 @@ async function queryWikiPortrait(lang, titleOrQuery, isExactTitle = false) {
 
 async function resolveReciterPhotoUrl(reciterName, forceRefresh = false) {
   if (!reciterName) return null;
+  if (globalReciterPhotosMap[reciterName]) return globalReciterPhotosMap[reciterName];
   try { const uploaded = await reciterPhotoStore.getItem(reciterName); if (uploaded) return uploaded; } catch (e) {}
   if (!forceRefresh && reciterPhotoCache[reciterName]) return reciterPhotoCache[reciterName];
   if (reciterPhotoInFlight.has(reciterName)) return reciterPhotoInFlight.get(reciterName);
@@ -2855,6 +3099,7 @@ function updateTallTopReciterPhoto(reciterName, forceRefresh = false) {
   const targetName = reciterName || selectedReciterName, myToken = ++tallAvatarRequestToken;
   badge.title = targetName ? `${targetName} — کرتە بکە بۆ گۆڕینی قاریئ` : 'گۆڕینی قاریئ';
   if (!targetName) { badge.innerHTML = '🎙️'; return; }
+  if (globalReciterPhotosMap[targetName]) { applyPhotoToAvatarEl(badge, globalReciterPhotosMap[targetName], targetName); return; }
   if (!forceRefresh && reciterPhotoCache[targetName]) applyPhotoToAvatarEl(badge, reciterPhotoCache[targetName], targetName); else badge.innerHTML = '🎙️';
   resolveReciterPhotoUrl(targetName, forceRefresh).then(url => { if (myToken === tallAvatarRequestToken) { if (url) applyPhotoToAvatarEl(badge, url, targetName); else badge.innerHTML = '🎙️'; } });
 }
@@ -2908,7 +3153,7 @@ function resizeImageFileToDataUrl(file, maxSize = 240) {
         if (w > h) { if (w > maxSize) { h = Math.round((h * maxSize) / w); w = maxSize; } }
         else { if (h > maxSize) { w = Math.round((w * maxSize) / h); h = maxSize; } }
         canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.82));
+        resolve(canvas.toDataURL('image/jpeg', 0.80));
       };
       img.onerror = () => resolve(e.target.result); img.src = e.target.result;
     };
@@ -2917,7 +3162,7 @@ function resizeImageFileToDataUrl(file, maxSize = 240) {
 }
 
 /* ========================================================
-   FIREBASE AUTH + REORGANIZED SETTINGS HUB LOGIC
+   FIREBASE AUTH + SETTINGS HUB + CLOUD SYNC HOOKS
    ======================================================== */
 let activeUser = JSON.parse(localStorage.getItem('noor_active_user') || 'null');
 let isForcingAuthInSettings = false, userAvatarRenderToken = 0;
@@ -3027,7 +3272,7 @@ function mapFirebaseUserToLocal(fbUser) {
 function setActiveUser(userObj) {
   activeUser = userObj;
   if (userObj) localStorage.setItem('noor_active_user', JSON.stringify(userObj)); else localStorage.removeItem('noor_active_user');
-  updateAccountHeaderUI(); updateSettingsAuthPanels(); renderAccountView();
+  updateAccountHeaderUI(); updateSettingsAuthPanels(); renderAccountView(); updateAdminCloudStatusUI();
 }
 
 function showAuthFeedback(message, type = 'error', targetId = 'authFeedbackMsg') {
@@ -3136,8 +3381,24 @@ async function saveAccountProfileChanges() {
   } catch (err) { showAuthFeedback(getKurdishAuthError(err), 'error', 'accountEditMsg'); }
 }
 
-async function logoutUser() { try { if (fbAuth) await fbAuth.signOut(); } catch (e) {} isForcingAuthInSettings = false; setActiveUser(null); switchAuthTab('login'); showAuthFeedback('لە هەژمارەکەت دەرچوویت.', 'success'); }
-function initAuthSystem() { updateAccountHeaderUI(); updateSettingsAuthPanels(); if (fbAuth) fbAuth.onAuthStateChanged(u => { isForcingAuthInSettings = false; setActiveUser(u ? mapFirebaseUserToLocal(u) : null); }); }function stripLeadingBismillah(text) {
+async function logoutUser() {
+  stopUserCloudSync();
+  try { if (fbAuth) await fbAuth.signOut(); } catch (e) {}
+  isForcingAuthInSettings = false; setActiveUser(null); switchAuthTab('login');
+  showAuthFeedback('لە هەژمارەکەت دەرچوویت.', 'success');
+}
+
+function initAuthSystem() {
+  updateAccountHeaderUI(); updateSettingsAuthPanels(); updateAdminCloudStatusUI();
+  if (fbAuth) {
+    fbAuth.onAuthStateChanged(u => {
+      isForcingAuthInSettings = false;
+      setActiveUser(u ? mapFirebaseUserToLocal(u) : null);
+      if (u) startUserCloudSync(u.uid);
+      else stopUserCloudSync();
+    });
+  }
+}function stripLeadingBismillah(text) {
   if (!text) return '';
   const cleaned = text.replace(/^\uFEFF/, '').trim(), words = cleaned.split(/\s+/);
   if (words.length >= 4) {
@@ -3316,6 +3577,7 @@ function toggleFavorite(event, surahId) {
   localStorage.setItem('noor_fav_surahs', JSON.stringify(favSurahs));
   if (renderedViewsCache.surahs) renderSurahsList(surahsData);
   renderFavoritesGrid();
+  scheduleUserCloudSave();
 }
 
 function renderFavoritesGrid() {
@@ -3729,7 +3991,7 @@ function playCurrentReciteTargetAyah() {
 }
 
 /* ========================================================
-   NEXT-GEN SMART HIFZ STUDIO ENGINE
+   NEXT-GEN SMART HIFZ STUDIO ENGINE (CLOUD SYNCED)
    ======================================================== */
 let hifzSurahAyahs = [], hifzKurdishSurahAyahs = [], hifzLoadedKuSurahId = 0;
 let hifzCurrentSurahId = Number(localStorage.getItem('noor_hifz_surah_id')) || 1;
@@ -4098,6 +4360,7 @@ function markCurrentRangeMemorized() {
   if (existing) { existing.level = Math.min((existing.level || 1) + 1, SRS_INTERVAL_DAYS.length); existing.nextReviewAt = now + ((SRS_INTERVAL_DAYS[existing.level - 1] || 30) * 86400000); existing.date = new Date().toLocaleDateString('ku-IQ'); }
   else hifzSavedRecords.unshift({ id: now, surahId: hifzCurrentSurahId, surahName: found ? found.name : `سوورەتی ${hifzCurrentSurahId}`, fromAyah, toAyah, date: new Date().toLocaleDateString('ku-IQ'), level: 1, nextReviewAt: now + (SRS_INTERVAL_DAYS[0] * 86400000) });
   localStorage.setItem('noor_hifz_records', JSON.stringify(hifzSavedRecords)); playReciteFeedbackTone('pageDone'); renderHifzSavedRecords();
+  scheduleUserCloudSave();
 }
 function loadHifzRecordForReview(recordId) {
   const rec = hifzSavedRecords.find(r => r.id === recordId); if (!rec) return;
@@ -4105,7 +4368,12 @@ function loadHifzRecordForReview(recordId) {
   hifzCurrentSurahId = rec.surahId; localStorage.setItem('noor_hifz_from_ayah', rec.fromAyah); localStorage.setItem('noor_hifz_to_ayah', rec.toAyah);
   hifzActiveAyahIndex = 0; hifzLinkStepIdx = 0; hifzStudioMode = 'voice'; onHifzSurahChange(true); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function removeHifzRecord(recordId) { hifzSavedRecords = hifzSavedRecords.filter(r => r.id !== recordId); localStorage.setItem('noor_hifz_records', JSON.stringify(hifzSavedRecords)); renderHifzSavedRecords(); }
+function removeHifzRecord(recordId) {
+  hifzSavedRecords = hifzSavedRecords.filter(r => r.id !== recordId);
+  localStorage.setItem('noor_hifz_records', JSON.stringify(hifzSavedRecords));
+  renderHifzSavedRecords();
+  scheduleUserCloudSave();
+}
 
 function renderHifzSavedRecords() {
   const listEl = document.getElementById('hifzSavedList'), badgeEl = document.getElementById('hifzTotalMemorizedBadge');
@@ -4123,7 +4391,7 @@ function renderHifzSavedRecords() {
 }
 
 /* ========================================================
-   AMBIENT NATURE VIDEOS & SECRET ADMIN PANEL
+   AMBIENT NATURE VIDEOS & CLOUD ADMIN PANEL (FIRESTORE)
    ======================================================== */
 const AMBIENT_DEFAULT_VIDEOS = { fire: '21345.mp4', river: '65789.mp4', birds: '90879.mp4', rain: '11324.mp4', thunder: '50743.mp4', wind: '55997.mp4' };
 
@@ -4168,7 +4436,12 @@ function changeAmbientVolume(val) { currentAmbientVolume = Number(val) / 100; lo
 let secretClickCount = 0, secretClickTimer = null;
 function handleSecretClick() {
   secretClickCount++; clearTimeout(secretClickTimer);
-  if (secretClickCount >= 5) { secretClickCount = 0; populateSecretAdmin(); document.getElementById('secretAdminPanel').style.display = 'block'; }
+  if (secretClickCount >= 5) {
+    secretClickCount = 0;
+    populateSecretAdmin();
+    updateAdminCloudStatusUI();
+    document.getElementById('secretAdminPanel').style.display = 'block';
+  }
   else secretClickTimer = setTimeout(() => { secretClickCount = 0; }, 1500);
 }
 
@@ -4181,43 +4454,174 @@ function populateSecretAdmin() {
 function onSelectApiPreset() { const idx = document.getElementById('apiReciterPreset').value; if (idx === '') return; const p = globalBankPresets[Number(idx)]; if (p) { document.getElementById('newReciterName').value = p.name; document.getElementById('newReciterServer').value = p.server; } }
 
 async function addNewReciter() {
-  const name = document.getElementById('newReciterName').value.trim(), server = document.getElementById('newReciterServer').value.trim(), photoInput = document.getElementById('newReciterPhotoInput');
+  const name = document.getElementById('newReciterName').value.trim();
+  let server = document.getElementById('newReciterServer').value.trim() || 'https://server8.mp3quran.net/afs/';
+  if (!server.endsWith('/')) server += '/';
+  const photoInput = document.getElementById('newReciterPhotoInput');
   if (!name) return alert('تکایە ناوی قاریئ بنووسە');
-  if (photoInput?.files?.length > 0) { try { await reciterPhotoStore.setItem(name, await resizeImageFileToDataUrl(photoInput.files[0], 240)); photoInput.value = ''; } catch (e) {} } else resolveReciterPhotoUrl(name, true);
-  customReciters.push({ name, moshaf: [{ name: 'مرتل', server: server || 'https://server8.mp3quran.net/afs/' }] });
-  localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
+
+  let photoDataUrl = '';
+  if (photoInput?.files?.length > 0) {
+    try {
+      photoDataUrl = await resizeImageFileToDataUrl(photoInput.files[0], 200);
+      await reciterPhotoStore.setItem(name, photoDataUrl);
+      globalReciterPhotosMap[name] = photoDataUrl;
+      photoInput.value = '';
+    } catch (e) {}
+  } else {
+    resolveReciterPhotoUrl(name, true);
+  }
+
+  let syncedToCloud = false;
+  if (fbDb && isCurrentUserAdmin()) {
+    try {
+      const docId = makeSafeDocId(name);
+      const isDef = defaultReciters.some(d => d.name === name);
+      await fbDb.collection('global_reciters').doc(docId).set({
+        name, moshafName: 'مرتل', server,
+        photoDataUrl: photoDataUrl || globalReciterPhotosMap[name] || '',
+        isDefaultOverride: isDef,
+        createdAt: Date.now()
+      }, { merge: true });
+      if (isDef) {
+        await fbDb.collection('global_reciters').doc('_config').set({
+          hiddenDefaults: firebase.firestore.FieldValue.arrayRemove(name)
+        }, { merge: true });
+      }
+      syncedToCloud = true;
+    } catch (err) {
+      alert('⚠️ نەتوانرا بنێردرێت بۆ داتابەیس: ' + (err?.message || err));
+    }
+  }
+
+  if (!customReciters.some(r => r.name === name)) {
+    customReciters.push({ name, moshaf: [{ name: 'مرتل', server }] });
+    localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
+  }
   if (renderedViewsCache.reciters) displayRecitersList(customReciters);
-  renderTallRecitersDrawerList(customReciters); populateSecretAdmin();
-  document.getElementById('newReciterName').value = ''; document.getElementById('newReciterServer').value = ''; alert('قاریئی نوێ زیادکرا ✅');
+  renderTallRecitersDrawerList(customReciters);
+  populateSecretAdmin();
+  document.getElementById('newReciterName').value = '';
+  document.getElementById('newReciterServer').value = '';
+  alert(syncedToCloud
+    ? '✅ قاریئەکە لە داتابەیس پاشەکەوت کرا و ڕاستەوخۆ لای هەموو مۆبایلەکان دەردەکەوێت!'
+    : `تەنیا لەسەر ئەم ئامێرە زیادکرا. بۆ بڵاوکردنەوە بۆ هەموو مۆبایلەکان، سەرەتا لە «سێتینگ» بە ${ADMIN_EMAIL} بچۆ ژوورەوە.`);
 }
 
 async function saveSelectedReciterPhoto() {
   const recName = document.getElementById('secretReciter')?.value, photoInput = document.getElementById('secretReciterPhotoInput');
   if (!recName || !photoInput?.files?.length) return alert('تکایە قاریئ و وێنە هەڵبژێرە');
-  try { await reciterPhotoStore.setItem(recName, await resizeImageFileToDataUrl(photoInput.files[0], 240)); photoInput.value = ''; if (renderedViewsCache.reciters) displayRecitersList(customReciters); renderTallRecitersDrawerList(customReciters); if (recName === selectedReciterName) updateTallTopReciterPhoto(recName, true); alert('وێنەکە پاشەکەوت کرا ✅'); }
-  catch (err) { alert('هەڵە: ' + err); }
+  try {
+    const photoDataUrl = await resizeImageFileToDataUrl(photoInput.files[0], 200);
+    await reciterPhotoStore.setItem(recName, photoDataUrl);
+    globalReciterPhotosMap[recName] = photoDataUrl;
+    try { localStorage.setItem('noor_global_reciter_photos_v1', JSON.stringify(globalReciterPhotosMap)); } catch (e) {}
+    photoInput.value = '';
+
+    let syncedToCloud = false;
+    if (fbDb && isCurrentUserAdmin()) {
+      const recObj = customReciters.find(r => r.name === recName);
+      const isDef = defaultReciters.some(d => d.name === recName);
+      await fbDb.collection('global_reciters').doc(makeSafeDocId(recName)).set({
+        name: recName,
+        moshafName: recObj?.moshaf?.[0]?.name || 'مرتل',
+        server: recObj?.moshaf?.[0]?.server || 'https://server8.mp3quran.net/afs/',
+        photoDataUrl,
+        isDefaultOverride: isDef,
+        updatedAt: Date.now()
+      }, { merge: true });
+      syncedToCloud = true;
+    }
+
+    if (renderedViewsCache.reciters) displayRecitersList(customReciters);
+    renderTallRecitersDrawerList(customReciters);
+    if (recName === selectedReciterName) updateTallTopReciterPhoto(recName, true);
+    alert(syncedToCloud
+      ? '✅ وێنەکە لە داتابەیس پاشەکەوت کرا و لای هەموو مۆبایلەکان نوێ دەبێتەوە!'
+      : `تەنیا لەسەر ئەم مۆبایلە پاشەکەوت کرا. بۆ هەموو مۆبایلەکان بە ${ADMIN_EMAIL} بچۆ ژوورەوە.`);
+  } catch (err) { alert('هەڵە: ' + (err?.message || err)); }
 }
 
-function deleteSelectedReciter() {
-  const recName = document.getElementById('secretReciter').value; if (!recName || customReciters.length <= 1) return;
-  customReciters = customReciters.filter(r => r.name !== recName); localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
-  reciterPhotoStore.removeItem(recName).catch(() => {}); delete reciterPhotoCache[recName]; localStorage.setItem('noor_reciter_photo_cache_v1', JSON.stringify(reciterPhotoCache));
-  if (renderedViewsCache.reciters) displayRecitersList(customReciters); renderTallRecitersDrawerList(customReciters); populateSecretAdmin();
+async function deleteSelectedReciter() {
+  const recName = document.getElementById('secretReciter').value;
+  if (!recName || customReciters.length <= 1) return;
+  if (!confirm(`دڵنیایت دەتەوێت «${recName}» بسڕیتەوە؟`)) return;
+
+  let syncedToCloud = false;
+  if (fbDb && isCurrentUserAdmin()) {
+    try {
+      const isDef = defaultReciters.some(d => d.name === recName);
+      if (isDef) {
+        await fbDb.collection('global_reciters').doc('_config').set({
+          hiddenDefaults: firebase.firestore.FieldValue.arrayUnion(recName)
+        }, { merge: true });
+      }
+      await fbDb.collection('global_reciters').doc(makeSafeDocId(recName)).delete().catch(() => {});
+      syncedToCloud = true;
+    } catch (err) {
+      alert('⚠️ هەڵە لە سڕینەوەی داتابەیس: ' + (err?.message || err));
+    }
+  }
+
+  customReciters = customReciters.filter(r => r.name !== recName);
+  localStorage.setItem('noor_custom_reciters', JSON.stringify(customReciters));
+  reciterPhotoStore.removeItem(recName).catch(() => {});
+  delete reciterPhotoCache[recName];
+  delete globalReciterPhotosMap[recName];
+  localStorage.setItem('noor_reciter_photo_cache_v1', JSON.stringify(reciterPhotoCache));
+  localStorage.setItem('noor_global_reciter_photos_v1', JSON.stringify(globalReciterPhotosMap));
+  if (renderedViewsCache.reciters) displayRecitersList(customReciters);
+  renderTallRecitersDrawerList(customReciters);
+  populateSecretAdmin();
+  if (syncedToCloud) alert('✅ لە داتابەیس سڕرایەوە و لای هەموو مۆبایلەکان لادەچێت.');
 }
 
 let currentObjectUrl = null;
 async function saveSecretAudio() {
-  const reciterName = document.getElementById('secretReciter').value, surahId = Number(document.getElementById('secretSurah').value), fileInput = document.getElementById('secretFileInput');
-  if (!fileInput.files.length) return alert("تکایە سەرەتا فایلێکی دەنگی هەڵبژێرە");
-  try {
-    const file = fileInput.files[0]; await customAudioStore.setItem(`${reciterName}_${surahId}`, { buffer: await file.arrayBuffer(), type: file.type || 'audio/mpeg' });
-    alert(`پاشەکەوت کرا: ${reciterName} - سوورەتی ${surahId}`); fileInput.value = '';
+  const reciterName = document.getElementById('secretReciter').value;
+  const surahId = Number(document.getElementById('secretSurah').value);
+  const urlInput = document.getElementById('secretAudioUrlInput');
+  const directUrl = (urlInput?.value || '').trim();
+  const fileInput = document.getElementById('secretFileInput');
+  const key = `${reciterName}_${surahId}`;
+
+  if (directUrl) {
+    let syncedToCloud = false;
+    globalAudioMap[key] = directUrl;
+    try { localStorage.setItem('noor_global_audio_map_v1', JSON.stringify(globalAudioMap)); } catch (e) {}
+    if (fbDb && isCurrentUserAdmin()) {
+      try {
+        await fbDb.collection('global_audio').doc(makeSafeDocId(key)).set({
+          key, reciterName, surahId, url: directUrl, updatedAt: Date.now()
+        });
+        syncedToCloud = true;
+      } catch (err) {
+        alert('⚠️ هەڵەی داتابەیس: ' + (err?.message || err));
+      }
+    }
+    if (urlInput) urlInput.value = '';
     if (selectedReciterName === reciterName && currentSurahId === surahId) playSurahAudio(currentSurahId, currentSurahName, false);
+    alert(syncedToCloud
+      ? `✅ لینکی دەنگی «${reciterName} - سوورەتی ${surahId}» بۆ هەموو مۆبایلەکان پاشەکەوت کرا!`
+      : `تەنیا لەسەر ئەم ئامێرە پاشەکەوت کرا. بۆ هەموو مۆبایلەکان بە ${ADMIN_EMAIL} بچۆ ژوورەوە.`);
+    return;
+  }
+
+  if (!fileInput.files.length) return alert("تکایە یان لینکی MP3 بنووسە یان فایلێکی دەنگی هەڵبژێرە");
+  try {
+    const file = fileInput.files[0];
+    await customAudioStore.setItem(key, { buffer: await file.arrayBuffer(), type: file.type || 'audio/mpeg' });
+    fileInput.value = '';
+    if (selectedReciterName === reciterName && currentSurahId === surahId) playSurahAudio(currentSurahId, currentSurahName, false);
+    alert(`لەسەر ئەم مۆبایلە پاشەکەوت کرا ✅\nتێبینی: بۆ ئەوەی لای مۆبایلەکانی تریش کار بکات، لینکی MP3ـیەکە لە خانەی سەرەوە دابنێ.`);
   } catch (err) { alert("هەڵە: " + err); }
 }
+
 function getCustomAudio(reciterName, surahId, callback) {
   if (!reciterName) return callback(null, false);
-  customAudioStore.getItem(`${reciterName}_${Number(surahId)}`).then(stored => {
+  const key = `${reciterName}_${Number(surahId)}`;
+  if (globalAudioMap[key]) return callback(globalAudioMap[key], true);
+  customAudioStore.getItem(key).then(stored => {
     if (!stored) return callback(null, false);
     if (currentObjectUrl) { URL.revokeObjectURL(currentObjectUrl); currentObjectUrl = null; }
     if (stored.buffer) { currentObjectUrl = URL.createObjectURL(new Blob([stored.buffer], { type: stored.type || 'audio/mpeg' })); callback(currentObjectUrl, true); }
@@ -4225,7 +4629,19 @@ function getCustomAudio(reciterName, surahId, callback) {
     else if (typeof stored === 'string') callback(stored, true); else callback(null, false);
   }).catch(() => callback(null, false));
 }
-function removeSecretAudio() { customAudioStore.removeItem(`${document.getElementById('secretReciter').value}_${Number(document.getElementById('secretSurah').value)}`).then(() => alert("فایلەکە سڕرایەوە")); }
+
+async function removeSecretAudio() {
+  const key = `${document.getElementById('secretReciter').value}_${Number(document.getElementById('secretSurah').value)}`;
+  delete globalAudioMap[key];
+  try { localStorage.setItem('noor_global_audio_map_v1', JSON.stringify(globalAudioMap)); } catch (e) {}
+  await customAudioStore.removeItem(key).catch(() => {});
+  if (fbDb && isCurrentUserAdmin()) {
+    await fbDb.collection('global_audio').doc(makeSafeDocId(key)).delete().catch(() => {});
+    alert("✅ دەنگە تایبەتەکە لە داتابەیس و هەموو مۆبایلەکان سڕرایەوە.");
+  } else {
+    alert("فایلەکە لەسەر ئەم ئامێرە سڕرایەوە.");
+  }
+}
 
 /* ========================================================
    SPIRITUAL GEMS & PRAYER TIMES (KURDISTAN AWQAF)
@@ -4366,12 +4782,16 @@ function startPrayerCountdown() {
 }
 
 /* ========================================================
-   KHATM PLANNER, ADHKAR, TASBIH & NOTIFICATIONS
+   KHATM PLANNER, ADHKAR, TASBIH & NOTIFICATIONS (CLOUD SYNCED)
    ======================================================== */
 const TOTAL_QURAN_PAGES = 604;
 let khatmPlan = JSON.parse(localStorage.getItem('noor_khatm_plan')) || { totalDays: 30, completedDays: [] };
 
-function saveKhatmPlan() { localStorage.setItem('noor_khatm_plan', JSON.stringify(khatmPlan)); renderKhatmPlanner(); }
+function saveKhatmPlan() {
+  localStorage.setItem('noor_khatm_plan', JSON.stringify(khatmPlan));
+  renderKhatmPlanner();
+  scheduleUserCloudSave();
+}
 function createKhatmPlan(days) { const n = Number(days); if (!n || n < 1 || n > 365) return; if (khatmPlan.completedDays.length > 0 && khatmPlan.totalDays !== n && !confirm(`خشتەی نوێ بۆ (${n}) ڕۆژ دابنێیت؟`)) return; khatmPlan = { totalDays: n, completedDays: [] }; saveKhatmPlan(); }
 function createCustomKhatmPlan() { const i = document.getElementById('customKhatmDaysInput'), v = Number(i.value); if (!v || v < 1 || v > 365) return alert("ژمارەی ڕۆژ لە نێوان ١ تا ٣٦٥ بنووسە"); createKhatmPlan(v); i.value = ''; }
 function toggleKhatmDay(d) { const idx = khatmPlan.completedDays.indexOf(d); if (idx > -1) khatmPlan.completedDays.splice(idx, 1); else khatmPlan.completedDays.push(d); saveKhatmPlan(); }
@@ -4511,11 +4931,24 @@ function incrementAdhkar(key, target) {
     adhkarCounts[key]++; localStorage.setItem('noor_adhkar_counts', JSON.stringify(adhkarCounts));
     const btn = document.getElementById(`btn-adhkar-${key}`);
     if (adhkarCounts[key] >= target) { btn.classList.add('done'); btn.textContent = '✅ تەواو بوو'; } else btn.textContent = `${toArabicNumbers(adhkarCounts[key])} / ${toArabicNumbers(target)}`;
+    scheduleUserCloudSave();
   }
 }
-function resetAdhkarItem(key, target) { adhkarCounts[key] = 0; localStorage.setItem('noor_adhkar_counts', JSON.stringify(adhkarCounts)); const btn = document.getElementById(`btn-adhkar-${key}`); if (btn) { btn.classList.remove('done'); btn.textContent = `٠ / ${toArabicNumbers(target)}`; } }
-function incrementTasbih() { currentTasbihCount++; localStorage.setItem('noor_tasbih_count', currentTasbihCount); document.getElementById('tasbihCircleCount').textContent = currentTasbihCount; }
-function resetTasbih() { currentTasbihCount = 0; localStorage.setItem('noor_tasbih_count', 0); document.getElementById('tasbihCircleCount').textContent = 0; }
+function resetAdhkarItem(key, target) {
+  adhkarCounts[key] = 0; localStorage.setItem('noor_adhkar_counts', JSON.stringify(adhkarCounts));
+  const btn = document.getElementById(`btn-adhkar-${key}`); if (btn) { btn.classList.remove('done'); btn.textContent = `٠ / ${toArabicNumbers(target)}`; }
+  scheduleUserCloudSave();
+}
+function incrementTasbih() {
+  currentTasbihCount++; localStorage.setItem('noor_tasbih_count', currentTasbihCount);
+  document.getElementById('tasbihCircleCount').textContent = currentTasbihCount;
+  scheduleUserCloudSave();
+}
+function resetTasbih() {
+  currentTasbihCount = 0; localStorage.setItem('noor_tasbih_count', 0);
+  document.getElementById('tasbihCircleCount').textContent = 0;
+  scheduleUserCloudSave();
+}
 
 /* ========================================================
    TAFSIR & QURAN READER + AUDIO PLAYER CONTROLS
@@ -4748,6 +5181,7 @@ renderSpiritualGems();
 initSavedQuranPageTheme();
 initAdhkarReminderSystem();
 initAuthSystem();
+initGlobalCloudSync();
 initQiblaFromSelectedCity();
 
 const savedNatureType = localStorage.getItem('noor_active_nature_type');
