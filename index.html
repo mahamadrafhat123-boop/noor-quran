@@ -2459,44 +2459,97 @@ function detectQiblaGPS() {
 }
 
 /* ========================================================
-   EXACT AYAH SEARCH ENGINE + YELLOW HIGHLIGHT (ARABIC & KURDISH)
+   EXACT AYAH SEARCH ENGINE (FIXED ZWNJ + KURDISH & ARABIC + YELLOW)
    ======================================================== */
 let fullQuranSearchIndex = null, quranSearchLoadingPromise = null;
 let lastAyahSearchMatches = [], ayahSearchShownCount = 0;
-let lastAyahQueryArWords = [], lastAyahQueryKuWords = [];
+let lastAyahQueryTerms = [];
 
-const AR_EXACT_PREFIXES = ['', 'و', 'ف', 'ب', 'ل', 'ك', 'ا', 'ال', 'وال', 'فال', 'بال', 'لل', 'كال', 'ولل', 'فلل', 'وب', 'ول', 'فب', 'فل'];
-const KU_EXACT_SUFFIX_RE = /^(|ە|ی|ێک|ێکی|ێکە|ێکدا|ەکە|ەکەی|ەکەدا|ەکان|ەکانی|ەکاندا|ان|انی|انە|اندا|دا|ت|م|مان|تان|یان|یش|یشی|یشدا|ەوە|ێت|ن)$/;
-
-function normalizeKurdishSearch(str) {
-  if (!str) return '';
-  return str.toLowerCase()
-    .replace(/[\u064B-\u065F\u0670\u0640\uFEFF]/g, '')
-    .replace(/[ڕ]/g, 'ر').replace(/[ێىي]/g, 'ی').replace(/[ك]/g, 'ک')
-    .replace(/[أإآٱ]/g, 'ا').replace(/[ەة]/g, 'ه').replace(/[ۆ]/g, 'و').replace(/[ڵ]/g, 'ل')
-    .replace(/[^\u0600-\u06FFa-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ').trim();
-}
+const AR_EXACT_PREFIXES = ['', 'و', 'ف', 'ب', 'ل', 'ك', 'ا', 'ال', 'وال', 'فال', 'بال', 'وبال', 'لل', 'كال', 'ولل', 'فلل', 'وب', 'ول', 'فب', 'فل'];
+const AR_EXACT_SUFFIXES = ['', 'ا', 'ه', 'ها', 'هم', 'هما', 'هن', 'ك', 'كم', 'كما', 'كن', 'ي', 'نا', 'ون', 'ين', 'ان', 'ات'];
+const KU_EXACT_PREFIXES = ['', 'له', 'به', 'بو', 'بی', 'وه', 'نا', 'په', 'لهناو', 'بهرهو'];
+const KU_EXACT_SUFFIX_RE = /^(|ه|ی|یک|یکی|یکه|یکدا|یکیش|هکه|هکهی|هکهدا|هکهوه|هکهش|هکان|هکانی|هکاندا|هکانهوه|هکانیش|هکانیان|هکانمان|هکانتان|ان|انی|انه|اندا|انهوه|انیش|دا|ت|م|مان|تان|یان|یش|یشی|یشدا|هوه|یت|ن|یه|یهک|یهکی|یهکه|یهکان|یهکانی|یهکاندا|ین|تر|ترین|یم|یته|یانه|یاندا|مه|تدا|مدا|ماندا|تاندا|ش|شی|شدا|و)$/;
 
 function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
 }
 
+function normalizeKurdishSearch(str) {
+  if (!str) return '';
+  return String(str)
+    .toLowerCase()
+    .replace(/[\u200C\u200D\uFEFF\u0640\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+    .replace(/[ەةھۀ]/g, 'ه')
+    .replace(/[ێىيې]/g, 'ی')
+    .replace(/[ك]/g, 'ک')
+    .replace(/[ڕ]/g, 'ر')
+    .replace(/[ڵ]/g, 'ل')
+    .replace(/[ۆؤۇ]/g, 'و')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/[^\u0600-\u06FFa-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeKurdishWord(word) {
+  let w = normalizeKurdishSearch(word).replace(/\s+/g, '');
+  if (!w) return '';
+  w = w.replace(/^ئ(?=ا)/, '');
+  w = w.replace(/وو+/g, 'و').replace(/یی+/g, 'ی').replace(/مم+/g, 'م').replace(/نن+/g, 'ن');
+  return w;
+}
+
+function normalizeArabicSearch(str, expandUthmani = false) {
+  if (!str) return '';
+  let s = String(str).replace(/[\u200C\u200D\uFEFF\u0640]/g, '');
+  if (expandUthmani) {
+    s = s
+      .replace(/و\u0670/g, 'ا')
+      .replace(/ى\u0670/g, 'ا')
+      .replace(/\u0670/g, 'ا')
+      .replace(/[\u06E6\u06E7]/g, 'ي')
+      .replace(/\u06E5/g, 'و');
+  } else {
+    s = s.replace(/[\u0670\u06E5\u06E6\u06E7]/g, '');
+  }
+  return s
+    .replace(/[\u0610-\u061A\u064B-\u065F\u06D6-\u06ED\u06DE\u06E9]/g, '')
+    .replace(/[ٱأإآ]/g, 'ا')
+    .replace(/[ىیێې]/g, 'ي')
+    .replace(/[ةەھۀ]/g, 'ه')
+    .replace(/[ک]/g, 'ك')
+    .replace(/[ڕ]/g, 'ر')
+    .replace(/[ڵ]/g, 'ل')
+    .replace(/[ۆؤۇ]/g, 'و')
+    .replace(/ئ/g, 'ي')
+    .replace(/[^\u0621-\u064A]/g, '')
+    .trim();
+}
+
 function arabicWordMatchesQuery(rawToken, qWord) {
   if (!rawToken || !qWord) return false;
-  const w1 = normalizeArabicBase(rawToken, false);
-  const w2 = normalizeArabicBase(rawToken, true);
+  const w1 = normalizeArabicSearch(rawToken, false);
+  const w2 = normalizeArabicSearch(rawToken, true);
   if (!w1 && !w2) return false;
 
   const qCore = qWord.startsWith('ال') && qWord.length > 3 ? qWord.slice(2) : qWord;
-  const candidates = [w1, w2];
+  const cores = [qWord, qCore];
+  if (qCore.endsWith('ه') && qCore.length >= 3) cores.push(qCore.slice(0, -1) + 'ت');
+  const candidates = w1 === w2 ? [w1] : [w1, w2];
 
   for (const w of candidates) {
     if (!w) continue;
-    if (w === qWord || w === qCore) return true;
-    for (const pre of AR_EXACT_PREFIXES) {
-      if (w === pre + qWord || w === pre + qCore) return true;
-      if (qCore.length >= 3 && (w === pre + qWord + 'ا' || w === pre + qCore + 'ا')) return true;
+    for (const core of cores) {
+      if (w === core) return true;
+      for (const pre of AR_EXACT_PREFIXES) {
+        if (pre && !w.startsWith(pre)) continue;
+        const body = pre ? w.slice(pre.length) : w;
+        if (body === core) return true;
+        if (core.length >= 3 && body.startsWith(core)) {
+          const rest = body.slice(core.length);
+          if (AR_EXACT_SUFFIXES.includes(rest)) return true;
+        }
+      }
     }
   }
   return false;
@@ -2504,100 +2557,72 @@ function arabicWordMatchesQuery(rawToken, qWord) {
 
 function kurdishWordMatchesQuery(rawToken, qWord) {
   if (!rawToken || !qWord) return false;
-  const w = normalizeKurdishSearch(rawToken).trim();
+  const w = normalizeKurdishWord(rawToken);
   if (!w) return false;
   if (w === qWord) return true;
-  if (qWord.length >= 3 && w.startsWith(qWord)) {
-    const rest = w.slice(qWord.length);
-    if (KU_EXACT_SUFFIX_RE.test(rest)) return true;
+  for (const pre of KU_EXACT_PREFIXES) {
+    if (pre && !w.startsWith(pre)) continue;
+    const body = pre ? w.slice(pre.length) : w;
+    if (body === qWord) return true;
+    if (qWord.length >= 3 && body.startsWith(qWord)) {
+      const rest = body.slice(qWord.length);
+      if (KU_EXACT_SUFFIX_RE.test(rest)) return true;
+    }
   }
   return false;
 }
 
-function ayahMatchesExactQuery(item, qArWords, qKuWords) {
-  let arHit = false, kuHit = false;
+function scoreAyahForExactTerms(item, terms) {
+  if (!terms.length) return 0;
+  const arTokens = item.ar.split(/\s+/).filter(t => t && !isWaqfOnlyToken(t));
+  const kuTokens = (item.ku || '').split(/\s+/).filter(Boolean);
 
-  if (qArWords.length > 0) {
-    const arTokens = item.ar.split(/\s+/).filter(t => t && !isWaqfOnlyToken(t) && normalizeArabicBase(t, false));
-    if (qArWords.length === 1) {
-      arHit = arTokens.some(t => arabicWordMatchesQuery(t, qArWords[0]));
-    } else {
-      for (let i = 0; i <= arTokens.length - qArWords.length; i++) {
-        let ok = true;
-        for (let k = 0; k < qArWords.length; k++) {
-          if (!arabicWordMatchesQuery(arTokens[i + k], qArWords[k])) { ok = false; break; }
-        }
-        if (ok) { arHit = true; break; }
-      }
-    }
+  for (const term of terms) {
+    const arHit = term.ar && arTokens.some(t => arabicWordMatchesQuery(t, term.ar));
+    const kuHit = !arHit && term.ku && kuTokens.some(t => kurdishWordMatchesQuery(t, term.ku));
+    if (!arHit && !kuHit) return 0;
   }
 
-  if (!arHit && qKuWords.length > 0 && item.ku) {
-    const kuTokens = item.ku.split(/\s+/).filter(Boolean);
-    if (qKuWords.length === 1) {
-      kuHit = kuTokens.some(t => kurdishWordMatchesQuery(t, qKuWords[0]));
-    } else {
-      for (let i = 0; i <= kuTokens.length - qKuWords.length; i++) {
-        let ok = true;
-        for (let k = 0; k < qKuWords.length; k++) {
-          if (!kurdishWordMatchesQuery(kuTokens[i + k], qKuWords[k])) { ok = false; break; }
-        }
-        if (ok) { kuHit = true; break; }
+  let score = 10;
+  if (terms.length > 1) {
+    for (let i = 0; i <= arTokens.length - terms.length; i++) {
+      let ok = true;
+      for (let k = 0; k < terms.length; k++) {
+        if (!terms[k].ar || !arabicWordMatchesQuery(arTokens[i + k], terms[k].ar)) { ok = false; break; }
       }
+      if (ok) { score += 5; break; }
+    }
+    for (let i = 0; i <= kuTokens.length - terms.length; i++) {
+      let ok = true;
+      for (let k = 0; k < terms.length; k++) {
+        if (!terms[k].ku || !kurdishWordMatchesQuery(kuTokens[i + k], terms[k].ku)) { ok = false; break; }
+      }
+      if (ok) { score += 4; break; }
     }
   }
-
-  return arHit || kuHit;
+  return score;
 }
 
-function highlightArabicExact(arText, qArWords) {
-  if (!qArWords.length) return colorizeQuranText(arText);
-  const tokens = arText.split(/\s+/).filter(Boolean);
-  const matched = new Array(tokens.length).fill(false);
-
-  if (qArWords.length === 1) {
-    tokens.forEach((tok, idx) => {
-      if (!isWaqfOnlyToken(tok) && arabicWordMatchesQuery(tok, qArWords[0])) matched[idx] = true;
-    });
-  } else {
-    const wordIdxs = [];
-    tokens.forEach((tok, idx) => { if (!isWaqfOnlyToken(tok) && normalizeArabicBase(tok, false)) wordIdxs.push(idx); });
-    for (let i = 0; i <= wordIdxs.length - qArWords.length; i++) {
-      let ok = true;
-      for (let k = 0; k < qArWords.length; k++) {
-        if (!arabicWordMatchesQuery(tokens[wordIdxs[i + k]], qArWords[k])) { ok = false; break; }
-      }
-      if (ok) { for (let k = 0; k < qArWords.length; k++) matched[wordIdxs[i + k]] = true; }
-    }
-  }
-
-  return tokens.map((tok, idx) => {
+function highlightArabicExact(arText, terms) {
+  const arWords = terms.map(t => t.ar).filter(Boolean);
+  if (!arWords.length) return colorizeQuranText(arText);
+  return arText.split(/\s+/).filter(Boolean).map(tok => {
     const colored = colorizeQuranText(tok);
-    return matched[idx] ? `<mark class="ayah-search-mark">${colored}</mark>` : colored;
+    const hit = !isWaqfOnlyToken(tok) && arWords.some(qw => arabicWordMatchesQuery(tok, qw));
+    return hit ? `<mark class="ayah-search-mark">${colored}</mark>` : colored;
   }).join(' ');
 }
 
-function highlightKurdishExact(kuText, qKuWords) {
+function highlightKurdishExact(kuText, terms) {
   if (!kuText) return '';
-  if (!qKuWords.length) return escapeHtml(kuText);
-  const tokens = kuText.split(/\s+/).filter(Boolean);
-  const matched = new Array(tokens.length).fill(false);
-
-  if (qKuWords.length === 1) {
-    tokens.forEach((tok, idx) => { if (kurdishWordMatchesQuery(tok, qKuWords[0])) matched[idx] = true; });
-  } else {
-    for (let i = 0; i <= tokens.length - qKuWords.length; i++) {
-      let ok = true;
-      for (let k = 0; k < qKuWords.length; k++) {
-        if (!kurdishWordMatchesQuery(tokens[i + k], qKuWords[k])) { ok = false; break; }
-      }
-      if (ok) { for (let k = 0; k < qKuWords.length; k++) matched[i + k] = true; }
-    }
-  }
-
-  return tokens.map((tok, idx) => {
-    const safe = escapeHtml(tok);
-    return matched[idx] ? `<mark class="ayah-search-mark">${safe}</mark>` : safe;
+  const kuWords = terms.map(t => t.ku).filter(Boolean);
+  if (!kuWords.length) return escapeHtml(kuText);
+  return kuText.split(/\s+/).filter(Boolean).map(tok => {
+    const hit = kuWords.some(qw => kurdishWordMatchesQuery(tok, qw));
+    if (!hit) return escapeHtml(tok);
+    const m = tok.match(/^([«»"'\(\)\[\]\{\}،؛؟\.,:!ـ]*)(.*?)([«»"'\(\)\[\]\{\}،؛؟\.,:!ـ]*)$/);
+    if (m && m[2]) return `${escapeHtml(m[1])}<mark class="ayah-search-mark">${escapeHtml(m[2])}</mark>${escapeHtml(m[3])}`;
+    return `<mark class="ayah-search-mark">${escapeHtml(tok)}</mark>`;
   }).join(' ');
 }
 
@@ -2674,12 +2699,24 @@ async function runSmartAyahSearch(rawQuery) {
   catch (e) { setAyahSearchStatus('⚠️ تکایە دڵنیابەوە لە هێڵی ئینتەرنێت.'); return; }
 
   const rawWords = query.split(/\s+/).filter(Boolean);
-  const qArWords = rawWords.map(w => normalizeArabicBase(w, false)).filter(Boolean);
-  const qKuWords = rawWords.map(w => normalizeKurdishSearch(w)).filter(Boolean);
+  const filteredRaw = rawWords.length > 1
+    ? rawWords.filter(w => !['و', 'یا', 'یان'].includes(normalizeKurdishWord(w)))
+    : rawWords;
+  const activeWords = filteredRaw.length ? filteredRaw : rawWords;
 
-  lastAyahQueryArWords = qArWords;
-  lastAyahQueryKuWords = qKuWords;
-  lastAyahSearchMatches = index.filter(item => ayahMatchesExactQuery(item, qArWords, qKuWords));
+  const terms = activeWords
+    .map(w => ({ ar: normalizeArabicSearch(w, false), ku: normalizeKurdishWord(w) }))
+    .filter(t => t.ar || t.ku);
+
+  lastAyahQueryTerms = terms;
+  const scored = [];
+  for (let i = 0; i < index.length; i++) {
+    const sc = scoreAyahForExactTerms(index[i], terms);
+    if (sc > 0) scored.push({ item: index[i], score: sc });
+  }
+  scored.sort((a, b) => b.score - a.score || a.item.gNum - b.item.gNum);
+
+  lastAyahSearchMatches = scored.map(x => x.item);
   ayahSearchShownCount = 0;
 
   if (!lastAyahSearchMatches.length) {
@@ -2699,8 +2736,8 @@ function renderMoreAyahSearchResults() {
     const safeSurahName = item.sName.replace(/'/g, "\\'");
     card.innerHTML = `
       <div class="ayah-result-head"><span class="ayah-result-surah-badge">📖 ${item.sName}</span><span class="ayah-result-num">ئایەتی ${toArabicNumbers(item.aNum)} • لاپەڕە ${toArabicNumbers(item.page)}</span></div>
-      <div class="ayah-result-arabic">${highlightArabicExact(item.ar, lastAyahQueryArWords)} <span class="ayah-num-mark">﴿${toArabicNumbers(item.aNum)}﴾</span></div>
-      <div class="ayah-result-kurdish">${highlightKurdishExact(item.ku, lastAyahQueryKuWords)}</div>
+      <div class="ayah-result-arabic">${highlightArabicExact(item.ar, lastAyahQueryTerms)} <span class="ayah-num-mark">﴿${toArabicNumbers(item.aNum)}﴾</span></div>
+      <div class="ayah-result-kurdish">${highlightKurdishExact(item.ku, lastAyahQueryTerms)}</div>
       <div class="ayah-result-actions">
         <button type="button" class="ayah-res-btn primary" onclick="jumpToAyahInReader(${item.sId}, '${safeSurahName}', ${item.aNum})">📖 قورئان</button>
         <button type="button" class="ayah-res-btn" onclick="playSearchResultAyahAudio(${item.sId}, ${item.aNum}, ${item.gNum}, this)">🔊 ماهر</button>
