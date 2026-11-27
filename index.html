@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
 <link rel="icon" type="image/jpeg" href="113121.jpg">
-
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title id="pageTitle">NOOR QURAN | نووری قورئان</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
 <!-- FIREBASE AUTH + CLOUD FIRESTORE REAL-TIME DATABASE SDK -->
@@ -5327,6 +5328,11 @@ else { localStorage.removeItem('noor_active_nature_type'); localStorage.removeIt
 
 switchView(localStorage.getItem('noor_active_view') || 'view-home', true);
 loadData();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
 </script>
 
 </body>
