@@ -217,7 +217,16 @@ aside.sidebar {
 .main-content.no-bottom-nav { padding-bottom: 24px !important; }
 .page-view { display: none; width: 100%; }
 .page-view.active { display: block; }
-#view-full-player.page-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 99999; margin: 0; padding: 0; }
+#view-full-player.page-view {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh; height: 100dvh;
+  z-index: -10; margin: 0; padding: 0;
+  display: block; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+#view-full-player.page-view.active {
+  z-index: 99999; opacity: 1; pointer-events: auto;
+}
 
 header.topbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid rgba(15, 23, 42, 0.08); margin-bottom: 14px; }
 .topbar-secret-trigger { font-family: 'Amiri', serif; font-size: 20px; font-weight: 900; color: #0f172a; cursor: pointer; user-select: none; padding-left: 10px; }
@@ -954,6 +963,235 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .bottom-nav-item.active img { opacity: 1; filter: brightness(0) saturate(100%) invert(27%) sepia(92%) saturate(2420%) hue-rotate(215deg) brightness(94%) contrast(96%); }
 .bottom-nav-item.active .bottom-nav-label { opacity: 1; color: #1d4ed8; }
 
+/* ========================================================
+   GUEST 4-SLIDE ONBOARDING + SMOOTH FADE TO HOME
+   ======================================================== */
+#noorOnboardingOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999999;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: linear-gradient(165deg, #020617 0%, #0b1c40 52%, #07122b 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px max(24px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  direction: rtl;
+  opacity: 1;
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#noorOnboardingOverlay.active {
+  display: flex;
+}
+#noorOnboardingOverlay.closing {
+  opacity: 0;
+  pointer-events: none;
+}
+.ob-bg-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -24%;
+  width: 130%;
+  height: 62%;
+  margin-left: -65%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.46) 0%, rgba(37, 99, 235, 0.28) 46%, rgba(15, 23, 42, 0) 76%);
+  filter: blur(42px);
+  pointer-events: none;
+  animation: obGlowFloat 7s ease-in-out infinite;
+}
+.ob-bg-glow.g2 {
+  top: -18%;
+  bottom: auto;
+  width: 90%;
+  height: 44%;
+  margin-left: -45%;
+  background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.28) 0%, rgba(37, 99, 235, 0) 72%);
+  animation-delay: -3.2s;
+}
+@keyframes obGlowFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.78; }
+  50% { transform: translate3d(0, -4vh, 0) scale(1.08); opacity: 1; }
+}
+.ob-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  min-height: min(560px, 84dvh);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.14) 0%, rgba(15, 23, 42, 0.56) 100%);
+  backdrop-filter: blur(26px) saturate(175%);
+  -webkit-backdrop-filter: blur(26px) saturate(175%);
+  border: 1.5px solid rgba(255, 255, 255, 0.26);
+  border-radius: 30px;
+  padding: 20px 20px 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1.5px 1px rgba(255, 255, 255, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  text-align: center;
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#noorOnboardingOverlay.closing .ob-card {
+  opacity: 0;
+  transform: scale(0.96) translateY(8px);
+}
+.ob-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ob-brand-mini {
+  font-family: 'Amiri', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #bfdbfe;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ob-skip-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #cbd5e1;
+  padding: 5px 13px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.ob-slides-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 2px;
+}
+.ob-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  animation: obSlideFade 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ob-slide.active {
+  display: flex;
+}
+@keyframes obSlideFade {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes obHomeFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#view-home.ob-fade-enter {
+  animation: obHomeFadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.ob-icon-orb {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 44px;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.42), rgba(14, 165, 233, 0.2));
+  border: 1.5px solid rgba(191, 219, 254, 0.55);
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.34), inset 0 2px 6px rgba(255, 255, 255, 0.45);
+  margin-bottom: 4px;
+}
+.ob-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.24);
+  border: 1px solid rgba(147, 197, 253, 0.38);
+}
+.ob-title {
+  margin: 0;
+  font-family: 'Amiri', serif;
+  font-size: 26px;
+  line-height: 1.45;
+  color: #ffffff;
+  font-weight: 700;
+}
+.ob-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.95;
+  color: #e2e8f0;
+  font-weight: 500;
+  max-width: 96%;
+}
+.ob-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 4px;
+}
+.ob-chip {
+  padding: 5px 11px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.ob-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding-top: 8px;
+}
+.ob-dots-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.ob-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 99px;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.28);
+  transition: width 0.28s ease, background 0.28s ease;
+}
+.ob-dot.active {
+  width: 28px;
+  background: linear-gradient(90deg, #60a5fa, #ffffff);
+}
+.ob-continue-btn {
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 55%, #1d4ed8 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: transform 0.16s ease;
+}
+.ob-continue-btn:active {
+  transform: scale(0.97);
+}
+
 /* RESPONSIVE MOBILE OPTIMIZATIONS */
 @media(max-width: 900px) {
   .app-layout { flex-direction: column; width: 100%; }
@@ -1016,9 +1254,90 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   .bang-clock-cell { font-size: 11.5px; }
   .auth-mirror-card { padding: 16px 13px; border-radius: 18px; }
   .ayah-result-arabic { font-size: 19px; }
+  .ob-card { padding: 18px 16px 20px; border-radius: 26px; }
+  .ob-icon-orb { width: 84px; height: 84px; font-size: 38px; border-radius: 24px; }
+  .ob-title { font-size: 23px; }
+  .ob-desc { font-size: 13px; }
 }
 </style>
 </head><body>
+
+<!-- GUEST ONBOARDING (4 GLASS SLIDES FOR USERS WITHOUT AN ACCOUNT) -->
+<div id="noorOnboardingOverlay" role="dialog" aria-modal="true" aria-label="بەخێرهاتن بۆ نووری قورئان">
+  <div class="ob-bg-glow" aria-hidden="true"></div>
+  <div class="ob-bg-glow g2" aria-hidden="true"></div>
+
+  <div class="ob-card" id="noorOnboardingCard">
+    <div class="ob-top-bar">
+      <span class="ob-brand-mini">☾ نووری قورئان</span>
+      <button type="button" class="ob-skip-btn" onclick="finishOnboardingSlides()">بازدان ✕</button>
+    </div>
+
+    <div class="ob-slides-stage">
+      <!-- Slide 1 -->
+      <div class="ob-slide active" data-ob-index="0">
+        <div class="ob-icon-orb">☾</div>
+        <span class="ob-pill-tag">✦ بەخێربێیت بۆ نووری قورئان ✦</span>
+        <h2 class="ob-title">ڕووناکییەک بۆ دڵ و ئارامییەک بۆ ڕۆحت</h2>
+        <p class="ob-desc">هەموو ئەوەی بۆ پەیوەندییەکی قووڵتر لەگەڵ قورئانی پیرۆز پێویستتە، لە یەک شوێنی پاک و سادەدا؛ خوێندنەوەیەکی ڕوون و ئاسوودە بە سێ تەفسیری کوردی و گوێگری زیرەک بۆ ڕاستکردنەوەی خوێندنەوەکەت.</p>
+        <div class="ob-chips-row">
+          <span class="ob-chip">📖 سێ تەفسیری کوردی</span>
+          <span class="ob-chip">🎙️ گوێگری زیرەک</span>
+          <span class="ob-chip">🎨 ٥ شێوازی پەڕە</span>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="ob-slide" data-ob-index="1">
+        <div class="ob-icon-orb">🌧️</div>
+        <span class="ob-pill-tag">✦ گوێگرتنێکی بێوێنە ✦</span>
+        <h2 class="ob-title">تێکەڵەی دەنگی قورئان و ئاوازی سروشت</h2>
+        <p class="ob-desc">گوێ لە خۆشترین دەنگی قاریئەکانی جیهان بگرە و بە ئارەزووی خۆت تێکەڵی بکە لەگەڵ دەنگی باران، ئاگر، شەپۆلی دەریا و باڵندە؛ لەگەڵ تایمەری خەوتن بۆ شەوانێکی پڕ لە ئارامی.</p>
+        <div class="ob-chips-row">
+          <span class="ob-chip">🎙️ دەیان قاریئ</span>
+          <span class="ob-chip">🌊 دەنگی سروشت</span>
+          <span class="ob-chip">🌙 تایمەری خەوتن</span>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="ob-slide" data-ob-index="2">
+        <div class="ob-icon-orb">🧠</div>
+        <span class="ob-pill-tag">✦ گەشتی لەبەرکردن و خەتم ✦</span>
+        <h2 class="ob-title">قورئان بە شێوازێکی زیرەک لەبەر بکە</h2>
+        <p class="ob-desc">بە ستۆدیۆی زیرەکی لەبەرکردن (شاردنەوەی وشە، تەسمیعی غەیب و ڕیزکردن) لەبەرکردن بکە بە خووێکی چێژبەخش، و پلانی خەتمی ڕۆژانەت بە ئاسانی ڕێکبخە.</p>
+        <div class="ob-chips-row">
+          <span class="ob-chip">👁️ شاردنەوەی پلەبەند</span>
+          <span class="ob-chip">📅 خشتەی خەتم</span>
+          <span class="ob-chip">☁️ پاشەکەوتی هەژمار</span>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="ob-slide" data-ob-index="3">
+        <div class="ob-icon-orb">🧭</div>
+        <span class="ob-pill-tag">✦ هاوڕێی هەموو کاتەکانت ✦</span>
+        <h2 class="ob-title">بانگ، قیبلە، زیکر و گەڕانی ئایەت</h2>
+        <p class="ob-desc">کاتەکانی بانگی شارەکانی کوردستان، قیبلەنما، زیکرەکانی بەیانیان و ئێواران، گەڕانی خێرا بەدوای هەر وشەیەک لە قورئاندا و دروستکردنی کارتی ستۆری جوان بە یەک کرتە.</p>
+        <div class="ob-chips-row">
+          <span class="ob-chip">🕌 کاتەکانی بانگ</span>
+          <span class="ob-chip">📿 زیکر و تەسبیح</span>
+          <span class="ob-chip">🖼️ کارتی ستۆری</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ob-footer">
+      <div class="ob-dots-row" id="obDotsRow">
+        <button type="button" class="ob-dot active" onclick="goToOnboardingSlide(0)" aria-label="سڵایدی ١"></button>
+        <button type="button" class="ob-dot" onclick="goToOnboardingSlide(1)" aria-label="سڵایدی ٢"></button>
+        <button type="button" class="ob-dot" onclick="goToOnboardingSlide(2)" aria-label="سڵایدی ٣"></button>
+        <button type="button" class="ob-dot" onclick="goToOnboardingSlide(3)" aria-label="سڵایدی ٤"></button>
+      </div>
+      <button type="button" class="ob-continue-btn" id="obContinueBtn" onclick="nextOnboardingSlide()">بەردەوام بوون</button>
+    </div>
+  </div>
+</div>
 
 <!-- AUTOMATIC ADHKAR REMINDER TOAST -->
 <div id="adhkarAutoToast" class="adhkar-auto-toast">
@@ -1317,7 +1636,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
     <!-- VIEW: TALL FULL-SCREEN PLAYER PAGE -->
     <div id="view-full-player" class="page-view">
       <div class="tall-player-wrapper" id="tallPlayerBox">
-        <video id="tallPlayerBgVideo" loop muted playsinline preload="none"></video>
+        <video id="tallPlayerBgVideo" loop playsinline webkit-playsinline preload="none"></video>
         <div class="tall-player-video-mask" id="tallVideoMask"></div>
 
         <!-- MOVING BLUE GLOW (ACTIVE UNTIL USER PICKS AN AMBIENT SOUND) -->
@@ -1384,7 +1703,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
             <span>دەنگی قاری</span>
             <input type="range" id="reciterVolSlider" class="timeline-slider" value="50" min="10" max="100" step="1" oninput="changeReciterVolume(this.value)">
             <span style="margin-left:8px;">سروشت</span>
-            <input type="range" id="ambientVolSlider" class="timeline-slider" value="25" min="0" max="100" step="1" oninput="changeAmbientVolume(this.value)">
+            <input type="range" id="ambientVolSlider" class="timeline-slider" value="35" min="0" max="100" step="1" oninput="changeAmbientVolume(this.value)">
           </div>
 
           <div class="tall-bottom-menu-row">
@@ -2155,8 +2474,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <span class="bottom-nav-label">دەنگەکان</span>
     </a>
   </div>
-</div>
-<script>
+</div><script>
 /* ========================================================
    FIREBASE AUTH + CLOUD FIRESTORE CONFIG (NOOR QURAN)
    ======================================================== */
@@ -2323,7 +2641,7 @@ let currentSurahId = Number(localStorage.getItem('noor_last_surah_id')) || 1;
 let currentSurahName = localStorage.getItem('noor_last_surah') || 'سُورَةُ الفَاتِحَةِ';
 
 let currentReciterVolume = localStorage.getItem('noor_reciter_vol_v3') !== null ? Number(localStorage.getItem('noor_reciter_vol_v3')) : 0.50;
-let currentAmbientVolume = localStorage.getItem('noor_ambient_vol_v2') !== null ? Number(localStorage.getItem('noor_ambient_vol_v2')) : 0.25;
+let currentAmbientVolume = localStorage.getItem('noor_ambient_vol_v3') !== null ? Number(localStorage.getItem('noor_ambient_vol_v3')) : 0.35;
 
 let currentAyahs = [], currentKurdishAyahs = [], currentReadingPage = 1;
 let currentReadingSurahName = '', currentSurahNumber = 1, activeSplashAyahNum = 1;
@@ -2342,11 +2660,14 @@ function makeSafeDocId(str) { return 'doc_' + encodeURIComponent(String(str || '
 
 function applyBalancedVolumes() {
   const reciterVol = Math.min(1, Math.max(0.1, currentReciterVolume));
+  const ambVol = Math.min(1, Math.max(0, currentAmbientVolume));
   audioElement.volume = reciterVol;
   ayahAudioPlayer.volume = reciterVol;
   hifzAudioPlayer.volume = reciterVol;
   if (reciteCorrectAudio) reciteCorrectAudio.volume = Math.max(0.65, reciterVol);
-  ambientAudio.volume = Math.min(1, Math.max(0, currentAmbientVolume));
+  ambientAudio.volume = ambVol;
+  const tallVid = document.getElementById('tallPlayerBgVideo');
+  if (tallVid) tallVid.volume = ambVol;
 }
 
 function playMaherAyahOnPlayer(playerEl, surahNum, ayahNum, globalNum, onDone, onAllFail) {
@@ -2752,15 +3073,22 @@ function startSleepTimer(minutes) {
 }
 
 function fadeOutAndStopAllSleepAudio() {
-  let step = 10; const rVol = audioElement.volume, aVol = ambientAudio.volume;
+  const tallVid = document.getElementById('tallPlayerBgVideo');
+  let step = 10;
+  const rVol = audioElement.volume, aVol = ambientAudio.volume, vVol = tallVid ? tallVid.volume : 0;
   const fadeInt = setInterval(() => {
     step--;
     if (step <= 0) {
       clearInterval(fadeInt);
-      audioElement.pause(); setPlayIcon(false); ambientAudio.pause(); ayahAudioPlayer.pause(); applyBalancedVolumes();
+      audioElement.pause(); setPlayIcon(false);
+      ambientAudio.pause();
+      if (tallVid) tallVid.pause();
+      ayahAudioPlayer.pause();
+      applyBalancedVolumes();
     } else {
       audioElement.volume = Math.max(0, rVol * (step / 10));
       ambientAudio.volume = Math.max(0, aVol * (step / 10));
+      if (tallVid) tallVid.volume = Math.max(0, vVol * (step / 10));
     }
   }, 180);
 }
@@ -3594,8 +3922,7 @@ function initAuthSystem() {
       else stopUserCloudSync();
     });
   }
-}
-function stripLeadingBismillah(text) {
+}function stripLeadingBismillah(text) {
   if (!text) return '';
   const cleaned = text.replace(/^\uFEFF/, '').trim(), words = cleaned.split(/\s+/);
   if (words.length >= 4) {
@@ -3667,14 +3994,8 @@ function managePreviewVideosForView(activeViewId) {
   });
   const tallBox = document.getElementById('tallPlayerBox');
   const tallVid = document.getElementById('tallPlayerBgVideo');
-  if (tallVid) {
-    const hasAmbient = tallBox?.classList.contains('has-ambient-bg') && !!tallVid.getAttribute('src');
-    if (activeViewId === 'view-full-player' && hasAmbient) {
-      tallVid.style.display = 'block';
-      tallVid.play().catch(() => {});
-    } else if (!tallVid.paused) {
-      tallVid.pause();
-    }
+  if (tallVid && tallBox?.classList.contains('has-ambient-bg') && tallVid.dataset.activeSrc) {
+    tallVid.style.display = 'block';
   }
 }
 
@@ -4149,7 +4470,7 @@ function toggleSmartReciteAssistant() { if (smartReciteActive) stopSmartReciteAs
 
 function startSmartReciteAssistant() {
   if (!SpeechRecognitionAPI) return alert('تکایە لەسەر ئەندرۆید بە Google Chrome بیکەرەوە.');
-  stopAyahByAyahFollow(); if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); } if (!ambientAudio.paused) ambientAudio.pause(); closeReaderPopBars();
+  stopAyahByAyahFollow(); if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); } stopAmbientSound(); closeReaderPopBars();
   smartReciteActive = true; recitePausedForAyahAudio = false; reciteWordIdx = 0; reciteCorrectCount = 0; reciteMistakesCount = 0; reciteWordHadErrorAt = -1; reciteLastErrorSpoken = '';
   const h = document.getElementById('reciteHeardText'); if (h) h.textContent = '...'; hideReciteCorrectionCard();
   document.getElementById('reciteAutoSpeakBtn')?.classList.toggle('active', reciteAutoSpeakOnError);
@@ -4594,21 +4915,39 @@ function renderHifzSavedRecords() {
 }
 
 /* ========================================================
-   AMBIENT NATURE VIDEOS + MOVING BLUE GLOW & GLOBAL RECITER BANK
+   AMBIENT NATURE VIDEOS (SINGLE-STREAM OPTIMIZED) + BLUE GLOW
    ======================================================== */
 const AMBIENT_DEFAULT_VIDEOS = { fire: '21345.mp4', river: '65789.mp4', birds: '90879.mp4', rain: '11324.mp4', thunder: '50743.mp4', wind: '55997.mp4' };
 
 function toggleTallSoundsMenu() { closeTallRecitersDrawer(); document.getElementById('tallSleepMenu')?.classList.remove('active'); document.getElementById('tallSoundsMenu')?.classList.toggle('active'); }
 function quickPlayAmbient(type) { const m = AMBIENT_DEFAULT_VIDEOS[type]; if (m) { playAmbientVideo(m, type, false); toggleTallSoundsMenu(); } }
 
+function isAmbientCurrentlyPlaying() {
+  const tallVid = document.getElementById('tallPlayerBgVideo');
+  return (tallVid && !tallVid.paused && !!tallVid.dataset.activeSrc) || !ambientAudio.paused;
+}
+
 function playAmbientVideo(mediaUrl, type, switchToFull = true) {
   const m = mediaUrl || AMBIENT_DEFAULT_VIDEOS[type] || ''; if (!m) return;
+  document.querySelectorAll('.sound-video-preview').forEach(v => { if (!v.paused) v.pause(); });
   localStorage.setItem('noor_active_nature_type', type);
   localStorage.setItem('noor_active_nature_url', m);
   applyTallPlayerTheme(type, m);
-  ambientAudio.src = m;
-  applyBalancedVolumes();
-  ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
+
+  if (m.toLowerCase().endsWith('.mp4')) {
+    ambientAudio.pause();
+    ambientAudio.removeAttribute('src');
+    const video = document.getElementById('tallPlayerBgVideo');
+    if (video) {
+      video.muted = false;
+      applyBalancedVolumes();
+      video.play().then(() => applyBalancedVolumes()).catch(() => {});
+    }
+  } else {
+    ambientAudio.src = m;
+    applyBalancedVolumes();
+    ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
+  }
   if (switchToFull) switchView('view-full-player');
 }
 
@@ -4618,30 +4957,25 @@ function applyTallPlayerTheme(type, mediaUrl) {
   box.classList.add('has-ambient-bg');
   if (m.toLowerCase().endsWith('.mp4')) {
     box.style.backgroundImage = 'none';
-    video.muted = true;
-    video.src = m;
-    video.style.display = 'block';
-    if (document.getElementById('view-full-player')?.classList.contains('active')) {
-      video.load();
-      video.play().catch(() => {});
+    if (video.dataset.activeSrc !== m) {
+      video.src = m;
+      video.dataset.activeSrc = m;
     }
+    video.style.display = 'block';
   } else {
     video.pause();
     video.removeAttribute('src');
+    delete video.dataset.activeSrc;
     video.style.display = 'none';
     box.style.backgroundImage = `url('${m}')`;
   }
 }
 
 function toggleAmbientSound() {
-  if (ambientAudio.paused) {
+  if (!isAmbientCurrentlyPlaying()) {
     const saved = localStorage.getItem('noor_active_nature_type');
     const type = (saved && AMBIENT_DEFAULT_VIDEOS[saved]) ? saved : 'rain';
-    const url = AMBIENT_DEFAULT_VIDEOS[type];
-    if (!ambientAudio.src || !ambientAudio.src.endsWith(url)) ambientAudio.src = url;
-    applyTallPlayerTheme(type, url);
-    applyBalancedVolumes();
-    ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
+    playAmbientVideo(AMBIENT_DEFAULT_VIDEOS[type], type, false);
   } else {
     stopAmbientSound();
   }
@@ -4652,7 +4986,14 @@ function stopAmbientSound() {
   ambientAudio.currentTime = 0;
   ambientAudio.removeAttribute('src');
   const v = document.getElementById('tallPlayerBgVideo');
-  if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.style.display = 'none'; }
+  if (v) {
+    v.pause();
+    v.muted = true;
+    v.removeAttribute('src');
+    delete v.dataset.activeSrc;
+    v.load();
+    v.style.display = 'none';
+  }
   const b = document.getElementById('tallPlayerBox');
   if (b) {
     b.style.backgroundImage = 'none';
@@ -4663,7 +5004,7 @@ function stopAmbientSound() {
 }
 
 function changeReciterVolume(val) { currentReciterVolume = Number(val) / 100; localStorage.setItem('noor_reciter_vol_v3', currentReciterVolume); applyBalancedVolumes(); }
-function changeAmbientVolume(val) { currentAmbientVolume = Number(val) / 100; localStorage.setItem('noor_ambient_vol_v2', currentAmbientVolume); applyBalancedVolumes(); }
+function changeAmbientVolume(val) { currentAmbientVolume = Number(val) / 100; localStorage.setItem('noor_ambient_vol_v3', currentAmbientVolume); applyBalancedVolumes(); }
 
 let adminGlobalRecitersBank = [];
 let adminBankLoaded = false;
@@ -5503,6 +5844,94 @@ function setQuranPageTheme(themeName) {
 }
 function initSavedQuranPageTheme() { setQuranPageTheme(localStorage.getItem('noor_quran_page_theme') || 'theme-blue'); applyMushafFontSize(); }
 
+/* ========================================================
+   GUEST 4-SLIDE ONBOARDING + SMOOTH FADE TO HOME
+   ======================================================== */
+let obCurrentSlide = 0;
+const OB_TOTAL_SLIDES = 4;
+
+function goToOnboardingSlide(index) {
+  obCurrentSlide = Math.max(0, Math.min(OB_TOTAL_SLIDES - 1, index));
+  document.querySelectorAll('#noorOnboardingOverlay .ob-slide').forEach((el, i) => {
+    el.classList.toggle('active', i === obCurrentSlide);
+  });
+  document.querySelectorAll('#obDotsRow .ob-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === obCurrentSlide);
+  });
+}
+
+function nextOnboardingSlide() {
+  if (obCurrentSlide < OB_TOTAL_SLIDES - 1) {
+    goToOnboardingSlide(obCurrentSlide + 1);
+  } else {
+    finishOnboardingSlides();
+  }
+}
+
+function finishOnboardingSlides() {
+  const overlay = document.getElementById('noorOnboardingOverlay');
+  const homeView = document.getElementById('view-home');
+  localStorage.setItem('noor_onboarding_done', 'true');
+
+  if (document.getElementById('readingReaderContainer')?.style.display === 'flex') {
+    backToReadingList();
+  }
+  switchView('view-home');
+
+  if (homeView) {
+    homeView.classList.remove('ob-fade-enter');
+    void homeView.offsetWidth;
+    homeView.classList.add('ob-fade-enter');
+    setTimeout(() => homeView.classList.remove('ob-fade-enter'), 750);
+  }
+
+  if (overlay && overlay.classList.contains('active')) {
+    overlay.classList.add('closing');
+    setTimeout(() => {
+      overlay.classList.remove('active', 'closing');
+      requestAnimationFrame(() => moveBottomNavIndicator(true));
+    }, 660);
+  }
+}
+
+function initGuestOnboarding() {
+  const overlay = document.getElementById('noorOnboardingOverlay');
+  if (!overlay) return;
+
+  const isLoggedIn = !!(activeUser || fbAuth?.currentUser);
+  const alreadySeen = localStorage.getItem('noor_onboarding_done') === 'true';
+
+  if (!isLoggedIn && !alreadySeen) {
+    goToOnboardingSlide(0);
+    overlay.classList.add('active');
+  }
+
+  if (fbAuth) {
+    fbAuth.onAuthStateChanged(u => {
+      if (u && overlay.classList.contains('active')) {
+        overlay.classList.remove('active', 'closing');
+      }
+    });
+  }
+
+  let touchStartX = 0;
+  const card = document.getElementById('noorOnboardingCard');
+  if (card) {
+    card.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0]?.clientX || 0;
+    }, { passive: true });
+    card.addEventListener('touchend', e => {
+      const dx = (e.changedTouches[0]?.clientX || 0) - touchStartX;
+      if (Math.abs(dx) < 48) return;
+      if (dx > 0) nextOnboardingSlide();
+      else if (obCurrentSlide > 0) goToOnboardingSlide(obCurrentSlide - 1);
+    }, { passive: true });
+  }
+}
+
+/* ========================================================
+   APP BOOTSTRAP
+   ======================================================== */
 initSavedCity();
 updatePrayerTimes();
 renderSpiritualGems();
@@ -5517,6 +5946,8 @@ stopAmbientSound();
 
 switchView(localStorage.getItem('noor_active_view') || 'view-home', true);
 loadData();
+initGuestOnboarding();
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
