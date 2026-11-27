@@ -652,6 +652,108 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .tall-player-wrapper { position: relative; width: 100vw; height: 100vh; height: 100dvh; max-width: 100%; margin: 0; overflow: hidden; background-position: center; background-size: cover; background-repeat: no-repeat; background-color: #020617; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 18px 24px; z-index: 1; }
 #tallPlayerBgVideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; display: none; pointer-events: none; }
 .tall-player-video-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(2, 6, 23, 0.44) 0%, rgba(2, 6, 23, 0.1) 45%, rgba(2, 6, 23, 0.64) 100%); z-index: -1; pointer-events: none; }
+
+/* MOVING BLUE GLOW (RISING FROM BOTTOM TO TOP UNTIL AMBIENT SOUND IS CHOSEN) */
+.tall-blue-glow-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.65s ease;
+  background: radial-gradient(ellipse at 50% 108%, rgba(29, 78, 216, 0.56) 0%, rgba(15, 23, 42, 0.24) 55%, transparent 84%);
+}
+.tall-player-wrapper.has-ambient-bg .tall-blue-glow-layer {
+  opacity: 0;
+}
+.tall-player-wrapper.has-ambient-bg .tall-blue-glow-layer *,
+#view-full-player:not(.active) .tall-blue-glow-layer * {
+  animation-play-state: paused !important;
+}
+.blue-glow-horizon {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -14%;
+  height: 46%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.62) 0%, rgba(37, 99, 235, 0.44) 45%, rgba(29, 78, 216, 0) 76%);
+  filter: blur(36px);
+  animation: blueHorizonPulse 5.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.blue-glow-wave {
+  position: absolute;
+  left: 50%;
+  bottom: -42%;
+  border-radius: 50%;
+  filter: blur(44px);
+  will-change: transform, opacity;
+}
+.blue-glow-wave.w1 {
+  width: 132%;
+  height: 52%;
+  margin-left: -66%;
+  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.76) 0%, rgba(37, 99, 235, 0.4) 46%, rgba(14, 165, 233, 0) 74%);
+  animation: blueGlowRise 7.5s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+.blue-glow-wave.w2 {
+  width: 108%;
+  height: 44%;
+  margin-left: -54%;
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.7) 0%, rgba(29, 78, 216, 0.36) 48%, rgba(37, 99, 235, 0) 76%);
+  animation: blueGlowRise 9.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-delay: -3.2s;
+}
+.blue-glow-wave.w3 {
+  width: 90%;
+  height: 38%;
+  margin-left: -45%;
+  background: radial-gradient(ellipse at center, rgba(125, 211, 252, 0.65) 0%, rgba(59, 130, 246, 0.3) 50%, rgba(29, 78, 216, 0) 76%);
+  animation: blueGlowRise 6.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-delay: -5.1s;
+}
+.blue-glow-beam {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: -24%;
+  height: 58%;
+  background: linear-gradient(0deg, rgba(56, 189, 248, 0.46) 0%, rgba(37, 99, 235, 0.24) 50%, rgba(37, 99, 235, 0) 100%);
+  filter: blur(32px);
+  border-radius: 50% 50% 0 0;
+  animation: blueGlowRise 8.4s ease-in-out infinite;
+  animation-delay: -1.6s;
+  will-change: transform, opacity;
+}
+@keyframes blueGlowRise {
+  0% {
+    transform: translate3d(0, 12vh, 0) scale(0.92);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.94;
+  }
+  62% {
+    opacity: 0.74;
+  }
+  100% {
+    transform: translate3d(0, -118vh, 0) scale(1.16);
+    opacity: 0;
+  }
+}
+@keyframes blueHorizonPulse {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(0, -5vh, 0) scale(1.1);
+    opacity: 1;
+  }
+}
+
 .tall-player-top, .tall-player-center, .tall-player-bottom { position: relative; z-index: 3; max-width: 520px; margin-left: auto; margin-right: auto; width: 100%; }
 .tall-player-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; direction: rtl; }
 .tall-reciter-photo-badge { width: 54px; height: 54px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.88); display: grid; place-items: center; color: #ffffff; font-size: 22px; overflow: hidden; flex-shrink: 0; cursor: pointer; }
@@ -717,6 +819,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
 .btn-close { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); margin-bottom: 0 !important; }
 .add-reciter-box { background: rgba(255,255,255,0.05); padding: 13px; border-radius: 14px; margin-bottom: 11px; border: 1px solid rgba(147, 197, 253, 0.28); text-align: right; }
 .add-reciter-box h4 { margin: 0 0 8px; font-size: 13.5px; color: #93c5fd; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.admin-bank-tools { display: flex; align-items: center; gap: 6px; }
+.admin-bank-refresh-btn { width: auto !important; margin: 0 !important; padding: 3px 9px !important; font-size: 11px !important; border-radius: 99px !important; background: rgba(59, 130, 246, 0.28); border: 1px solid rgba(147, 197, 253, 0.55); color: #e0f2fe; }
 .admin-field-hint { display: block; font-size: 11px; color: #cbd5e1; margin-bottom: 5px; line-height: 1.5; }
 .admin-cloud-badge { display: block; padding: 7px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 700; margin-bottom: 11px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(110, 231, 183, 0.55); color: #a7f3d0; line-height: 1.5; }
 .admin-cloud-badge.warn { background: rgba(245, 158, 11, 0.2); border-color: rgba(251, 191, 36, 0.55); color: #fde68a; }
@@ -950,7 +1054,7 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   </div>
 </div>
 
-<!-- HIDDEN CLOUD ADMIN PANEL (CLEAN GLOBAL RECITER BANK + SEARCH) -->
+<!-- HIDDEN CLOUD ADMIN PANEL (CLEAN GLOBAL RECITER BANK + SMART SEARCH) -->
 <div id="secretAdminPanel">
   <h3>☁️ زیادکردنی قاریئ بۆ هەموو مۆبایلەکان</h3>
   <span id="adminCloudStatusBadge" class="admin-cloud-badge warn">⏳ پشکنینی هەژماری ئەدمین...</span>
@@ -958,16 +1062,19 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
   <div class="add-reciter-box">
     <h4>
       <span>🎙️ بانکی جیهانیی قاریئەکان</span>
-      <span id="adminBankCount" class="admin-bank-count">⏳ بارکردن...</span>
+      <span class="admin-bank-tools">
+        <span id="adminBankCount" class="admin-bank-count">⏳ بارکردن...</span>
+        <button type="button" class="admin-bank-refresh-btn" onclick="refreshAdminReciterBank()" title="نوێکردنەوەی لیستی هەموو قاریئەکان">🔄 نوێکردنەوە</button>
+      </span>
     </h4>
-    <input type="text" id="adminBankSearchInput" placeholder="🔍 گەڕان بەناوی قاریئ (پێشەوا، رعد، عبدالباسط، ماهر...)" oninput="filterAdminReciterBank(this.value)" autocomplete="off">
+    <input type="text" id="adminBankSearchInput" placeholder="🔍 گەڕان بەناوی قاریئ (حسن العزام، پێشەوا، رعد، عبدالباسط...)" oninput="filterAdminReciterBank(this.value)" autocomplete="off">
     <div id="adminBankList" class="admin-bank-list">
       <div style="text-align:center; padding:18px 8px; font-size:12px; color:#cbd5e1;">⏳ بارکردنی لیستی هەموو قاریئەکان...</div>
     </div>
 
-    <span class="admin-field-hint">✏️ ناوی قاریئ (دەتوانیت بیکەیتە کوردی یان وەک خۆی بیهێڵیتەوە):</span>
+    <span class="admin-field-hint">✏️ ناوی قاریئ (ئەگەر لە بانکی سەرەوە نەبوو، دەتوانیت ناو و لینکی سێرڤەرەکەی بە دەستی خۆت لێرە بنووسیت):</span>
     <input type="text" id="newReciterName" placeholder="ناوی قاریئ لێرە دەردەکەوێت یان خۆت بینووسە...">
-    <input type="text" id="newReciterServer" placeholder="لینکی سێرڤەری دەنگ (خۆکار پڕ دەبێتەوە)..." style="direction:ltr; text-align:left;">
+    <input type="text" id="newReciterServer" placeholder="لینکی سێرڤەری دەنگ (خۆکار پڕ دەبێتەوە یان لینکی ڕاستەوخۆ دابنێ)..." style="direction:ltr; text-align:left;">
     <span class="admin-field-hint">🖼️ وێنەی قاریئ (ئارەزوومەندانە — دەچێتە داتابەیس):</span>
     <input type="file" id="newReciterPhotoInput" accept="image/*">
     <button type="button" class="btn-save" onclick="addNewReciter()">زیادکردنی قاریئ بۆ هەموو مۆبایلەکان ☁️➕</button>
@@ -1212,6 +1319,15 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <div class="tall-player-wrapper" id="tallPlayerBox">
         <video id="tallPlayerBgVideo" loop muted playsinline preload="none"></video>
         <div class="tall-player-video-mask" id="tallVideoMask"></div>
+
+        <!-- MOVING BLUE GLOW (ACTIVE UNTIL USER PICKS AN AMBIENT SOUND) -->
+        <div class="tall-blue-glow-layer" id="tallBlueGlowLayer" aria-hidden="true">
+          <div class="blue-glow-horizon"></div>
+          <div class="blue-glow-beam"></div>
+          <div class="blue-glow-wave w1"></div>
+          <div class="blue-glow-wave w2"></div>
+          <div class="blue-glow-wave w3"></div>
+        </div>
 
         <div class="tall-player-top">
           <div class="tall-reciter-photo-badge" id="tallTopReciterAvatar" onclick="toggleTallRecitersDrawer()" title="قاریئی ئێستا — کرتە بکە بۆ گۆڕین">🎙️</div>
@@ -2039,7 +2155,8 @@ header.topbar { display: flex; align-items: center; justify-content: space-betwe
       <span class="bottom-nav-label">دەنگەکان</span>
     </a>
   </div>
-</div><script>
+</div>
+<script>
 /* ========================================================
    FIREBASE AUTH + CLOUD FIRESTORE CONFIG (NOOR QURAN)
    ======================================================== */
@@ -2140,6 +2257,46 @@ function normalizeReciterServerUrl(url) {
   if (!s) return '';
   if (!s.endsWith('/')) s += '/';
   return s;
+}
+
+function normalizeReciterSearchText(str) {
+  return String(str || '')
+    .toLowerCase()
+    .replace(/[\u200C\u200D\uFEFF\u0640\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/[ىیێې]/g, 'ي')
+    .replace(/[ةەھۀ]/g, 'ه')
+    .replace(/[ک]/g, 'ك')
+    .replace(/[پ]/g, 'ب')
+    .replace(/[ڕ]/g, 'ر')
+    .replace(/[ڵ]/g, 'ل')
+    .replace(/[ۆؤۇ]/g, 'و')
+    .replace(/[ڤ]/g, 'ف')
+    .replace(/[گ]/g, 'ك')
+    .replace(/[چ]/g, 'ج')
+    .replace(/[^\u0600-\u06FFa-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function stripReciterAlPrefix(word) {
+  const w = String(word || '');
+  return (w.startsWith('ال') && w.length > 3) ? w.slice(2) : w;
+}
+
+function matchesReciterSmartQuery(haystackRaw, queryRaw) {
+  const qNorm = normalizeReciterSearchText(queryRaw);
+  if (!qNorm) return true;
+  const hNorm = normalizeReciterSearchText(haystackRaw);
+  if (hNorm.includes(qNorm)) return true;
+  const hWords = hNorm.split(/\s+/).filter(Boolean);
+  const hStripped = hWords.map(stripReciterAlPrefix);
+  const qParts = qNorm.split(/\s+/).filter(Boolean);
+  return qParts.every(part => {
+    const pStrip = stripReciterAlPrefix(part);
+    if (hNorm.includes(part) || (pStrip.length >= 2 && hNorm.includes(pStrip))) return true;
+    return hStripped.some(hw => hw.includes(pStrip) || (pStrip.length >= 3 && pStrip.includes(hw) && hw.length >= 3));
+  });
 }
 
 function fixKnownReciterServerMismatch(name, server) {
@@ -3164,7 +3321,7 @@ function renderTallRecitersDrawerList(recitersList) {
   container.appendChild(frag);
 }
 
-function filterTallRecitersList(query) { renderTallRecitersDrawerList(customReciters.filter(r => r.name.toLowerCase().includes((query || '').toLowerCase().trim()))); }
+function filterTallRecitersList(query) { renderTallRecitersDrawerList(customReciters.filter(r => matchesReciterSmartQuery(r.name, query))); }
 function openTallRecitersDrawer() {
   document.getElementById('tallSoundsMenu')?.classList.remove('active');
   document.getElementById('tallSleepMenu')?.classList.remove('active');
@@ -3437,7 +3594,8 @@ function initAuthSystem() {
       else stopUserCloudSync();
     });
   }
-}function stripLeadingBismillah(text) {
+}
+function stripLeadingBismillah(text) {
   if (!text) return '';
   const cleaned = text.replace(/^\uFEFF/, '').trim(), words = cleaned.split(/\s+/);
   if (words.length >= 4) {
@@ -3507,10 +3665,16 @@ function managePreviewVideosForView(activeViewId) {
     if (parentView && parentView.id === activeViewId) vid.play().catch(() => {});
     else if (!vid.paused) vid.pause();
   });
+  const tallBox = document.getElementById('tallPlayerBox');
   const tallVid = document.getElementById('tallPlayerBgVideo');
   if (tallVid) {
-    if (activeViewId === 'view-full-player' && tallVid.getAttribute('src')) { tallVid.style.display = 'block'; tallVid.play().catch(() => {}); }
-    else if (!tallVid.paused) tallVid.pause();
+    const hasAmbient = tallBox?.classList.contains('has-ambient-bg') && !!tallVid.getAttribute('src');
+    if (activeViewId === 'view-full-player' && hasAmbient) {
+      tallVid.style.display = 'block';
+      tallVid.play().catch(() => {});
+    } else if (!tallVid.paused) {
+      tallVid.pause();
+    }
   }
 }
 
@@ -4430,7 +4594,7 @@ function renderHifzSavedRecords() {
 }
 
 /* ========================================================
-   AMBIENT NATURE VIDEOS & FULL GLOBAL RECITER BANK (ADMIN)
+   AMBIENT NATURE VIDEOS + MOVING BLUE GLOW & GLOBAL RECITER BANK
    ======================================================== */
 const AMBIENT_DEFAULT_VIDEOS = { fire: '21345.mp4', river: '65789.mp4', birds: '90879.mp4', rain: '11324.mp4', thunder: '50743.mp4', wind: '55997.mp4' };
 
@@ -4439,8 +4603,11 @@ function quickPlayAmbient(type) { const m = AMBIENT_DEFAULT_VIDEOS[type]; if (m)
 
 function playAmbientVideo(mediaUrl, type, switchToFull = true) {
   const m = mediaUrl || AMBIENT_DEFAULT_VIDEOS[type] || ''; if (!m) return;
-  localStorage.setItem('noor_active_nature_type', type); localStorage.setItem('noor_active_nature_url', m);
-  applyTallPlayerTheme(type, m); ambientAudio.src = m; applyBalancedVolumes();
+  localStorage.setItem('noor_active_nature_type', type);
+  localStorage.setItem('noor_active_nature_url', m);
+  applyTallPlayerTheme(type, m);
+  ambientAudio.src = m;
+  applyBalancedVolumes();
   ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
   if (switchToFull) switchView('view-full-player');
 }
@@ -4448,25 +4615,51 @@ function playAmbientVideo(mediaUrl, type, switchToFull = true) {
 function applyTallPlayerTheme(type, mediaUrl) {
   const box = document.getElementById('tallPlayerBox'), video = document.getElementById('tallPlayerBgVideo'), m = mediaUrl || AMBIENT_DEFAULT_VIDEOS[type] || '';
   if (!box || !video || !m) return;
+  box.classList.add('has-ambient-bg');
   if (m.toLowerCase().endsWith('.mp4')) {
-    box.style.backgroundImage = 'none'; video.muted = true; video.src = m; video.style.display = 'block';
-    if (document.getElementById('view-full-player')?.classList.contains('active')) { video.load(); video.play().catch(() => {}); }
-  } else { video.pause(); video.removeAttribute('src'); video.style.display = 'none'; box.style.backgroundImage = `url('${m}')`; }
+    box.style.backgroundImage = 'none';
+    video.muted = true;
+    video.src = m;
+    video.style.display = 'block';
+    if (document.getElementById('view-full-player')?.classList.contains('active')) {
+      video.load();
+      video.play().catch(() => {});
+    }
+  } else {
+    video.pause();
+    video.removeAttribute('src');
+    video.style.display = 'none';
+    box.style.backgroundImage = `url('${m}')`;
+  }
 }
 
 function toggleAmbientSound() {
   if (ambientAudio.paused) {
-    const saved = localStorage.getItem('noor_active_nature_type'), type = (saved && AMBIENT_DEFAULT_VIDEOS[saved]) ? saved : 'fire', url = AMBIENT_DEFAULT_VIDEOS[type];
+    const saved = localStorage.getItem('noor_active_nature_type');
+    const type = (saved && AMBIENT_DEFAULT_VIDEOS[saved]) ? saved : 'rain';
+    const url = AMBIENT_DEFAULT_VIDEOS[type];
     if (!ambientAudio.src || !ambientAudio.src.endsWith(url)) ambientAudio.src = url;
-    applyTallPlayerTheme(type, url); applyBalancedVolumes(); ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
-  } else ambientAudio.pause();
+    applyTallPlayerTheme(type, url);
+    applyBalancedVolumes();
+    ambientAudio.play().then(() => applyBalancedVolumes()).catch(() => {});
+  } else {
+    stopAmbientSound();
+  }
 }
 
 function stopAmbientSound() {
-  ambientAudio.pause(); ambientAudio.currentTime = 0;
-  const v = document.getElementById('tallPlayerBgVideo'); if (v) { v.pause(); v.removeAttribute('src'); v.style.display = 'none'; }
-  const b = document.getElementById('tallPlayerBox'); if (b) b.style.backgroundImage = 'none';
-  localStorage.removeItem('noor_active_nature_type'); localStorage.removeItem('noor_active_nature_url');
+  ambientAudio.pause();
+  ambientAudio.currentTime = 0;
+  ambientAudio.removeAttribute('src');
+  const v = document.getElementById('tallPlayerBgVideo');
+  if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.style.display = 'none'; }
+  const b = document.getElementById('tallPlayerBox');
+  if (b) {
+    b.style.backgroundImage = 'none';
+    b.classList.remove('has-ambient-bg');
+  }
+  localStorage.removeItem('noor_active_nature_type');
+  localStorage.removeItem('noor_active_nature_url');
 }
 
 function changeReciterVolume(val) { currentReciterVolume = Number(val) / 100; localStorage.setItem('noor_reciter_vol_v3', currentReciterVolume); applyBalancedVolumes(); }
@@ -4477,30 +4670,10 @@ let adminBankLoaded = false;
 let adminBankLoadingPromise = null;
 let selectedAdminBankServer = '';
 
-function normalizeReciterSearchText(str) {
-  return String(str || '')
-    .toLowerCase()
-    .replace(/[\u200C\u200D\uFEFF\u0640\u0610-\u061A\u064B-\u065F\u0670]/g, '')
-    .replace(/[أإآٱ]/g, 'ا')
-    .replace(/[ىیێې]/g, 'ي')
-    .replace(/[ةەھۀ]/g, 'ه')
-    .replace(/[ک]/g, 'ك')
-    .replace(/[پ]/g, 'ب')
-    .replace(/[ڕ]/g, 'ر')
-    .replace(/[ڵ]/g, 'ل')
-    .replace(/[ۆؤۇ]/g, 'و')
-    .replace(/[ڤ]/g, 'ف')
-    .replace(/[گ]/g, 'ك')
-    .replace(/[چ]/g, 'ج')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+async function ensureAdminReciterBankLoaded(forceRefresh = false) {
+  if (!forceRefresh && adminBankLoaded && adminGlobalRecitersBank.length > 0) return adminGlobalRecitersBank;
+  if (!forceRefresh && adminBankLoadingPromise) return adminBankLoadingPromise;
 
-async function ensureAdminReciterBankLoaded() {
-  if (adminBankLoaded && adminGlobalRecitersBank.length > 0) return adminGlobalRecitersBank;
-  if (adminBankLoadingPromise) return adminBankLoadingPromise;
-
-  const listEl = document.getElementById('adminBankList');
   const countEl = document.getElementById('adminBankCount');
   if (countEl) countEl.textContent = '⏳ بارکردن...';
 
@@ -4521,13 +4694,15 @@ async function ensureAdminReciterBankLoaded() {
     globalBankPresets.forEach(addEntry);
 
     let apiList = [];
-    try {
-      const cached = localStorage.getItem('noor_mp3quran_bank_v2');
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 50) apiList = parsed;
-      }
-    } catch (e) {}
+    if (!forceRefresh) {
+      try {
+        const cached = localStorage.getItem('noor_mp3quran_bank_v3');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 50) apiList = parsed;
+        }
+      } catch (e) {}
+    }
 
     if (!apiList.length) {
       try {
@@ -4555,7 +4730,7 @@ async function ensureAdminReciterBankLoaded() {
               aliases: ''
             };
           }).filter(Boolean);
-          try { localStorage.setItem('noor_mp3quran_bank_v2', JSON.stringify(apiList)); } catch (e) {}
+          try { localStorage.setItem('noor_mp3quran_bank_v3', JSON.stringify(apiList)); } catch (e) {}
         }
       } catch (err) {
         console.warn('MP3Quran bank fetch fallback:', err?.message || err);
@@ -4586,14 +4761,24 @@ async function ensureAdminReciterBankLoaded() {
   }
 }
 
+function refreshAdminReciterBank() {
+  localStorage.removeItem('noor_mp3quran_bank_v2');
+  localStorage.removeItem('noor_mp3quran_bank_v3');
+  adminBankLoaded = false;
+  adminGlobalRecitersBank = [];
+  const listEl = document.getElementById('adminBankList');
+  if (listEl) listEl.innerHTML = '<div style="text-align:center; padding:18px 8px; font-size:12px; color:#cbd5e1;">🔄 نوێکردنەوەی بانکی جیهانیی قاریئەکان...</div>';
+  ensureAdminReciterBankLoaded(true);
+}
+
 function renderAdminReciterBankList(items) {
   const listEl = document.getElementById('adminBankList'); if (!listEl) return;
   if (!items.length) {
-    listEl.innerHTML = '<div style="text-align:center; padding:16px 8px; font-size:12px; color:#cbd5e1;">هیچ قاریئێک بەم ناوە نەدۆزرایەوە.</div>';
+    listEl.innerHTML = '<div style="text-align:center; padding:14px 10px; font-size:11.5px; color:#fde68a; line-height:1.7;">ئەم قاریئە لە بانکی سێرڤەری MP3Quranـدا نەدۆزرایەوە.<br><span style="color:#cbd5e1;">دەتوانیت ناوی قاریئ و لینکی سێرڤەری MP3ـەکەی ڕاستەوخۆ لە دوو خانەکەی خوارەوە بنووسیت و زیادی بکەیت.</span></div>';
     return;
   }
   const frag = document.createDocumentFragment();
-  items.slice(0, 80).forEach(rec => {
+  items.slice(0, 120).forEach(rec => {
     const row = document.createElement('div');
     const isSel = selectedAdminBankServer && normalizeReciterServerUrl(rec.server) === selectedAdminBankServer;
     row.className = `admin-bank-item ${isSel ? 'selected' : ''}`;
@@ -4603,7 +4788,7 @@ function renderAdminReciterBankList(items) {
         <strong>${escapeHtml(rec.name)}</strong>
         <small>${escapeHtml(rec.moshafName)}</small>
       </div>
-      <span class="admin-bank-item-tag ${isFull ? '' : 'partial'}">${isFull ? '١١٤ سوورەت' : `${toArabicNumbers(rec.surahTotal)} سوورەت`}</span>
+      <span class="admin-bank-item-tag ${isFull ? '' : 'partial'}">${isFull ? '١١٤ سوورەت (تەواو)' : `${toArabicNumbers(rec.surahTotal)} لە ١١٤ سوورەت`}</span>
     `;
     row.addEventListener('click', () => {
       selectedAdminBankServer = normalizeReciterServerUrl(rec.server);
@@ -4626,10 +4811,15 @@ function filterAdminReciterBank(rawQuery) {
     renderAdminReciterBankList(adminGlobalRecitersBank);
     return;
   }
-  const parts = q.split(/\s+/).filter(Boolean);
   const filtered = adminGlobalRecitersBank.filter(rec => {
-    const hay = normalizeReciterSearchText(`${rec.name} ${rec.aliases || ''} ${rec.moshafName || ''}`);
-    return parts.every(p => hay.includes(p));
+    const hay = `${rec.name} ${rec.aliases || ''} ${rec.moshafName || ''}`;
+    return matchesReciterSmartQuery(hay, rawQuery);
+  });
+  filtered.sort((a, b) => {
+    const aStarts = normalizeReciterSearchText(a.name).startsWith(q) ? 1 : 0;
+    const bStarts = normalizeReciterSearchText(b.name).startsWith(q) ? 1 : 0;
+    if (bStarts !== aStarts) return bStarts - aStarts;
+    return (b.surahTotal || 0) - (a.surahTotal || 0);
   });
   renderAdminReciterBankList(filtered);
 }
@@ -4642,7 +4832,7 @@ function handleSecretClick() {
     updateAdminCloudStatusUI();
     document.getElementById('secretAdminPanel').style.display = 'block';
     const s = document.getElementById('adminBankSearchInput'); if (s) s.value = '';
-    ensureAdminReciterBankLoaded();
+    ensureAdminReciterBankLoaded(false);
   }
   else secretClickTimer = setTimeout(() => { secretClickCount = 0; }, 1500);
 }
@@ -5301,8 +5491,8 @@ seekSlider.addEventListener('input', () => { if (audioElement.duration) audioEle
 fullSeekSlider.addEventListener('input', () => { if (audioElement.duration) audioElement.currentTime = (fullSeekSlider.value / 100) * audioElement.duration; });
 function formatTime(secs) { const h = Math.floor(secs / 3600), m = Math.floor((secs % 3600) / 60), s = Math.floor(secs % 60); return h > 0 ? `${padZero(h)}:${padZero(m)}:${padZero(s)}` : `${padZero(m)}:${padZero(s)}`; }
 
-document.getElementById('reciterSearchInput').addEventListener('input', e => displayRecitersList(customReciters.filter(r => normalizeReciterSearchText(r.name).includes(normalizeReciterSearchText(e.target.value)))));
-document.getElementById('readingSearchInput').addEventListener('input', e => { const q = e.target.value.toLowerCase().trim(); renderReadingSurahsList(surahsData.filter(s => (s.name || '').toLowerCase().includes(q) || String(s.id).includes(q))); });
+document.getElementById('reciterSearchInput').addEventListener('input', e => displayRecitersList(customReciters.filter(r => matchesReciterSmartQuery(r.name, e.target.value))));
+document.getElementById('readingSearchInput').addEventListener('input', e => { const q = e.target.value.toLowerCase().trim(); renderReadingSurahsList(surahsData.filter(s => (s.name || '').toLowerCase().includes(q) || matchesReciterSmartQuery(s.name, q) || String(s.id).includes(q))); });
 
 const PAGE_THEME_CLASSES = ['theme-cream', 'theme-blue', 'theme-white', 'theme-green', 'theme-dark'];
 function setQuranPageTheme(themeName) {
@@ -5322,9 +5512,8 @@ initAuthSystem();
 initGlobalCloudSync();
 initQiblaFromSelectedCity();
 
-const savedNatureType = localStorage.getItem('noor_active_nature_type');
-if (savedNatureType && AMBIENT_DEFAULT_VIDEOS[savedNatureType]) applyTallPlayerTheme(savedNatureType, AMBIENT_DEFAULT_VIDEOS[savedNatureType]);
-else { localStorage.removeItem('noor_active_nature_type'); localStorage.removeItem('noor_active_nature_url'); }
+/* Always start Tall Player clean with Moving Blue Glow (no auto-played ambient sound) */
+stopAmbientSound();
 
 switchView(localStorage.getItem('noor_active_view') || 'view-home', true);
 loadData();
