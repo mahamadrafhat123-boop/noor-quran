@@ -3080,6 +3080,7 @@ function fadeOutAndStopAllSleepAudio() {
     step--;
     if (step <= 0) {
       clearInterval(fadeInt);
+      if (typeof quranShouldBePlaying !== 'undefined') quranShouldBePlaying = false;
       audioElement.pause(); setPlayIcon(false);
       ambientAudio.pause();
       if (tallVid) tallVid.pause();
@@ -3236,7 +3237,7 @@ const KU_EXACT_PREFIXES = ['', 'له', 'به', 'بو', 'بی', 'وه', 'نا', '
 const KU_EXACT_SUFFIX_RE = /^(|ه|ی|یک|یکی|یکه|یکدا|یکیش|هکه|هکهی|هکهدا|هکهوه|هکهش|هکان|هکانی|هکاندا|هکانهوه|هکانیش|هکانیان|هکانمان|هکانتان|ان|انی|انه|اندا|انهوه|انیش|دا|ت|م|مان|تان|یان|یش|یشی|یشدا|هوه|یت|ن|یه|یهک|یهکی|یهکه|یهکان|یهکانی|یهکاندا|ین|تر|ترین|یم|یته|یانه|یاندا|مه|تدا|مدا|ماندا|تاندا|ش|شی|شدا|و)$/;
 
 function escapeHtml(str) {
-  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(str || '').replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
 }
 
 function normalizeKurdishSearch(str) {
@@ -3522,7 +3523,7 @@ function renderMoreAyahSearchResults() {
 function openSearchResultStoryCard(gNum) { const item = lastAyahSearchMatches.find(x => x.gNum === gNum); if (item) openStoryCardWithData(item.ar, item.ku, `${item.sName} · ئایەتی ${toArabicNumbers(item.aNum)}`); }
 function jumpToAyahInReader(surahId, surahName, ayahNum) { openSurahReader(surahId, surahName, ayahNum); }
 function playSearchResultAyahAudio(surahId, ayahNum, globalNum, btnEl) {
-  if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); }
+  if (!audioElement.paused) { if (typeof quranShouldBePlaying !== 'undefined') quranShouldBePlaying = false; audioElement.pause(); setPlayIcon(false); }
   const oldTxt = btnEl ? btnEl.textContent : ''; if (btnEl) btnEl.textContent = '🔊 لێدەدرێت...';
   playMaherAyahOnPlayer(ayahAudioPlayer, surahId, ayahNum, globalNum, () => { if (btnEl) btnEl.textContent = oldTxt; }, () => { if (btnEl) btnEl.textContent = oldTxt; });
 }
@@ -4161,7 +4162,7 @@ function stopAyahByAyahFollow() {
 function playCurrentSplashAyahAudio() {
   const ayahObj = currentAyahs.find(a => a.numberInSurah === activeSplashAyahNum);
   if (!ayahObj) return;
-  if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); }
+  if (!audioElement.paused) { quranShouldBePlaying = false; audioElement.pause(); setPlayIcon(false); }
   playMaherAyahOnPlayer(ayahAudioPlayer, currentSurahNumber, ayahObj.numberInSurah, ayahObj.number, () => {
     applyBalancedVolumes();
     if (!isAyahAutoFollow) return;
@@ -4470,7 +4471,7 @@ function toggleSmartReciteAssistant() { if (smartReciteActive) stopSmartReciteAs
 
 function startSmartReciteAssistant() {
   if (!SpeechRecognitionAPI) return alert('تکایە لەسەر ئەندرۆید بە Google Chrome بیکەرەوە.');
-  stopAyahByAyahFollow(); if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); } stopAmbientSound(); closeReaderPopBars();
+  stopAyahByAyahFollow(); if (!audioElement.paused) { quranShouldBePlaying = false; audioElement.pause(); setPlayIcon(false); } stopAmbientSound(); closeReaderPopBars();
   smartReciteActive = true; recitePausedForAyahAudio = false; reciteWordIdx = 0; reciteCorrectCount = 0; reciteMistakesCount = 0; reciteWordHadErrorAt = -1; reciteLastErrorSpoken = '';
   const h = document.getElementById('reciteHeardText'); if (h) h.textContent = '...'; hideReciteCorrectionCard();
   document.getElementById('reciteAutoSpeakBtn')?.classList.toggle('active', reciteAutoSpeakOnError);
@@ -4684,7 +4685,7 @@ function toggleHifzVoiceTest() { if (hifzVoiceActive) stopHifzVoiceTest(); else 
 
 function startHifzVoiceTest() {
   if (!SpeechRecognitionAPI) return alert('وێبگەڕەکەت پشتگیریی مایکرۆفۆن ناکات؛ تکایە بە Chrome بیکەرەوە.');
-  stopHifzPlayback(); if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); }
+  stopHifzPlayback(); if (!audioElement.paused) { quranShouldBePlaying = false; audioElement.pause(); setPlayIcon(false); }
   hifzVoiceActive = true; hifzVoicePausedForAudio = false;
   const btn = document.getElementById('hifzVoiceMicBtn'); if (btn) { btn.classList.remove('primary'); btn.classList.add('listening'); btn.textContent = '⏹️ وەستاندن'; }
   const h = document.getElementById('hifzVoiceHeardTxt'); if (h) h.textContent = '...';
@@ -4837,7 +4838,7 @@ function toggleHifzLoopPlayback() {
 function playHifzQueueItem() {
   if (!hifzIsPlaying || !hifzAudioQueue.length) return;
   const ayahObj = hifzAudioQueue[hifzAudioQueuePos]; if (!ayahObj) return;
-  if (!audioElement.paused) { audioElement.pause(); setPlayIcon(false); }
+  if (!audioElement.paused) { quranShouldBePlaying = false; audioElement.pause(); setPlayIcon(false); }
   const edition = document.getElementById('hifzReciterSelect')?.value || 'ar.mahermuaiqly';
   hifzAudioPlayer.onended = () => {
     applyBalancedVolumes(); if (!hifzIsPlaying) return;
@@ -5774,6 +5775,8 @@ function displayRecitersList(recitersList) {
   container.innerHTML = ''; container.appendChild(frag);
 }
 
+let quranShouldBePlaying = false;
+
 function prepareInitialAudioSource() {
   if (!selectedMoshaf) return;
   const fixedServer = fixKnownReciterServerMismatch(selectedReciterName, selectedMoshaf.server);
@@ -5798,9 +5801,10 @@ function playSurahAudio(id, name, autoPlay = true) {
   localStorage.setItem('noor_last_surah_id', currentSurahId); localStorage.setItem('noor_last_surah', currentSurahName);
   syncPlayerLabels(name, selectedReciterName); if (renderedViewsCache.surahs) renderSurahsList(surahsData);
   getCustomAudio(selectedReciterName, currentSurahId, (customUrl, hasCustom) => {
+    quranShouldBePlaying = !!autoPlay;
     audioElement.pause(); audioElement.src = hasCustom ? customUrl : (fixedServer + pad(currentSurahId) + '.mp3'); audioElement.load();
     audioElement.playbackRate = parseFloat(document.getElementById('playbackSpeed').value || '1'); applyBalancedVolumes();
-    if (autoPlay) audioElement.play().then(() => { setPlayIcon(true); applyBalancedVolumes(); }).catch(() => { setPlayIcon(false); applyBalancedVolumes(); });
+    if (autoPlay) audioElement.play().then(() => { setPlayIcon(true); applyBalancedVolumes(); }).catch(() => { quranShouldBePlaying = false; setPlayIcon(false); applyBalancedVolumes(); });
   });
 }
 
@@ -5808,15 +5812,40 @@ function nextSurah() { const n = currentSurahId < 114 ? currentSurahId + 1 : 1, 
 function prevSurah() { const p = currentSurahId > 1 ? currentSurahId - 1 : 114, f = surahsData.find(s => s.id === p); playSurahAudio(p, f ? f.name : `سوورەت ${p}`, true); }
 function togglePlay() {
   if (audioElement.paused) {
+    quranShouldBePlaying = true;
     if (!audioElement.src || audioElement.src === window.location.href) playSurahAudio(currentSurahId, currentSurahName, true);
     else audioElement.play().then(() => { setPlayIcon(true); applyBalancedVolumes(); }).catch(() => playSurahAudio(currentSurahId, currentSurahName, true));
-  } else { audioElement.pause(); setPlayIcon(false); applyBalancedVolumes(); }
+  } else {
+    quranShouldBePlaying = false;
+    audioElement.pause(); setPlayIcon(false); applyBalancedVolumes();
+  }
 }
 function changeSpeed(select) { localStorage.setItem('noor_playback_speed', select.value); audioElement.playbackRate = parseFloat(select.value); }
 
 audioElement.addEventListener('ended', () => { applyBalancedVolumes(); nextSurah(); });
 audioElement.addEventListener('play', () => { setPlayIcon(true); applyBalancedVolumes(); });
-audioElement.addEventListener('pause', () => { setPlayIcon(false); applyBalancedVolumes(); });
+audioElement.addEventListener('pause', () => {
+  setPlayIcon(false);
+  applyBalancedVolumes();
+  /* Keep Quran playing if mobile OS pauses it during ambient video loop */
+  if (quranShouldBePlaying && !audioElement.ended && isAmbientCurrentlyPlaying()) {
+    setTimeout(() => {
+      if (quranShouldBePlaying && audioElement.paused) {
+        audioElement.play().then(() => setPlayIcon(true)).catch(() => {});
+      }
+    }, 60);
+  }
+});
+
+/* Seamless ambient video loop guard so mobile audio focus never interrupts Quran */
+const tallBgVideoGuard = document.getElementById('tallPlayerBgVideo');
+if (tallBgVideoGuard) {
+  tallBgVideoGuard.addEventListener('timeupdate', () => {
+    if (tallBgVideoGuard.duration && tallBgVideoGuard.currentTime >= tallBgVideoGuard.duration - 0.3) {
+      tallBgVideoGuard.currentTime = 0.05;
+    }
+  });
+}
 
 let lastAudioTimeSave = 0;
 audioElement.addEventListener('timeupdate', () => {
